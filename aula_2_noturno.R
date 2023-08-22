@@ -97,3 +97,40 @@ df <- pib_cid %>%
   filter(pib_total == min(pib_total))
 
 View(df)
+
+## selecionando variáveis
+
+df1 <- df %>%
+  select(sigla_uf, nome_munic, pib_total, pib_per_capita)
+
+View(df1)
+
+
+## visualização
+# gráficos
+
+library(ggplot2)
+
+pib_cid %>%
+  ggplot(aes(y=pib_total, x=impostos)) + geom_point()
+
+# gráficos  mais bonitos
+
+
+plot1 <- pib_cid %>%
+  ggplot(aes(y=pib_total, x=impostos)) + geom_point() +
+  scale_y_continuous(labels = scales::dollar) + 
+  scale_x_continuous(labels = scales::dollar) + theme_light() + 
+  theme(text=element_text(size=16)) +
+  xlab("Impostos municipais") + ylab("Pib dos municípios") +
+  ggtitle("PIB municipal x impostos municipais (2013)")
+
+ggsave(plot1, file="pib_x_impostos_munic_2013.png")
+# getwd() pasta defautl do R
+
+# Histograma
+
+
+pib_cid %>%
+  ggplot(aes(x=pib_per_capita)) + geom_histogram() +
+  theme_light() + theme(text=element_text(size=20)) + ggtitle("PIB per capita municipal")
