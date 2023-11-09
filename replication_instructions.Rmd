@@ -12,26 +12,45 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Trabalho final de curso
 
 O trabalho final de curso envolverá a replicação de um estudo realizado que envolva regressão linear. Os alunos (de graduação) deverão escolher entre um dos artigos propostos (lista abaixo) ou
-sugerir a análise de dados de seu interesse.
+sugerir a análise de dados de seu interesse. Alunos de pós-graduação deverão escolher entre um trabalho original ou replicação de algum estudo que achem interessante.
 
+O trabalho será avaliado considerando os seguintes aspectos (para graduação e pós):
+1. Capacidade de rodar regressão no R.
+2. Capacidade de interpretar os resultado da regressão no R
+3. Capacidade de apresentar visualmente os resultado no R
+4. Discussão sobre causalidade (Se for causal) ou preditiva (Se for modelo preditivo)
+5. Análise crítica dos pressupostos do modelo ajustado
+6. Redação do trabalho
 
-```{r cars}
-summary(cars)
-```
+Para pós-graduação, será também avaliado
+7. Qualidade da utilização do Rmarkdown para geração do documento.
+8. Escrita do artigo acadêmico como um todo.
+9. No caso dos tabalhos de replicação, inclusão de novos dados, variáveis ou análises para além do que consta no artigo original.
 
-## Lista de trabalhos
+## Lista de trabalhos para replicação
 
-Eu escolhi cinco trabalhos, 3 em inglês e 2 em português, dos quais vocês deverão escolher um dele para a replicação.
+Alunos de graduação poderão escolher um dos artigos abaixo para replicação. O texto escolhido deve ser informado para o professor antes da execução do trabalho. **Não façam o trabalho sem falar comigo (Manoel)**.
 
-1. Leblang, D. A. (1996). Property rights, democracy and economic growth. Political Research Quarterly, 49(1), 5-26.
+Eu escolhi quatro trabalhos, 2 em inglês e 2 em português, dos quais vocês deverão escolher apenas um deles para a replicação.
 
-2. Potter, J. D., & Tavits, M. (2015). The impact of campaign finance laws on party competition. British Journal of Political Science, 45(1), 73-95.
+1. Potter, J. D., & Tavits, M. (2015). The impact of campaign finance laws on party competition. British Journal of Political Science, 45(1), 73-95.
 
-3. Goldsmith, B. E., & Horiuchi, Y. (2012). In search of soft power: Does foreign public opinion matter for US foreign policy?. World Politics, 64(3), 555-585.
+2. Braithwaite, A. (2006). The geographic spread of militarized disputes. Journal of Peace Research, 43(5), 507-522.
 
-4. Corrêa, D. S. (2015). Economia, ideologia e eleições na América Latina. Dados, 58, 401-425.
+3. Russo, G. A., Pimentel Junior, J., & Avelino, G. (2023). O crescimento da direita e o voto em Bolsonaro: causalidade reversa?. Opinião Pública, 28, 594-614.
 
-5. Lins, R., Figueiredo Filho, D., & Silva, L. (2016). A redução da maioridade penal diminui a violência? Evidências de um estudo comparado. Opinião Pública, 22, 118-139.
+4. Lins, R., Figueiredo Filho, D., & Silva, L. (2016). A redução da maioridade penal diminui a violência? Evidências de um estudo comparado. Opinião Pública, 22, 118-139.
 
 ## Dados de replicação
-No github do curso, há uma pasta, trabalho final, e dentro dela há uma pasta para cada um dos artigos, numeradas conforme a ordem acima e com nome do autor e ano. Então a pasta do artigo 1 estará no formato  "1Leblang_1996", a pasta do artigo 2 no formato "2Potter_2015" e assim por diante. Lá haverá uma cópia do artigo e os dados necessários para replicação.
+
+No [github do curso](https://github.com/mgaldino/lab-regressao-aula), há uma pasta, trabalho final, e dentro dela há uma pasta para cada um dos artigos, numeradas conforme a ordem acima e com nome do autor e ano. Então a pasta do artigo 1 estará no formato  "1Potter_2015" e assim por diante. Lá haverá uma cópia do artigo e os dados necessários para replicação.
+
+## Uso de inteligência Artificial
+
+O uso de algoritmos de IA é encorajado, desde que seja restrito a revisão de texto, melhoria na clareza, coesão etc., sendo o texto originalmente produzido pelo aluno. Podem utilizar também para ajuda na implementação de código no R ou Rmarkdown, e resolução de problemas. Pode até mesmo ser utilizado para discutir os seus achados, desde que a primeira análise seja sua e você queira uma análise complementar. Porém, a responsabilidade pelo que irá no trabalhgo será 100% sua e se você incorporar sugestões erradas do algoritmo de IA, será descontado de sua nota. Então utilize com cuidado.
+
+Apenas para fins de conhecimento meu, descreve em uma nota de rodapé como utilizou IA (se tiver utilizado). O uso maior ou menor (dentro do escopo acima) não irá impactar na sua avaliação.
+
+## Prazos e formato.
+O trabalho deverá ser entregue no máximo até 07 de janeiro de 2023. Não serão aceitas ampliações de prazo.
+Alunos de pós-graduação devem enviar um arquivo em pdf e um script em Rmarkdown que gera o pdf. Alunos de graduação podem enviar um pdf ou doc, e um script .R, se não fizerem o trabalho em Rmarkdown.
