@@ -1,0 +1,60 @@
+---
+title: "Coodebook Potter 2015"
+author: "Manoel Galdino"
+date: "2023-11-09"
+output: pdf_document
+---
+
+## Codebook e Instruções
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Abaixo apresentamos um codebook das variáveis, para facilitar a replicação do texto.
+```{r package loads 9, echo=FALSE, message=FALSE, warning=FALSE}
+library(sjlabelled)
+library(haven)
+library(here)
+library(tidyverse)
+library(knitr)
+```
+
+
+```{r codebook,  message=FALSE, warning=FALSE, echo=FALSE}
+data_rep_potter15 <- read_dta(here("trabalho final", "Potter_2015", "potter_tavits_data.dta"))
+
+
+data_rep_potter15 <- set_label(data_rep_potter15, label = c("cnty: Nome do País",
+                                                              "year: Ano da Eleição Corrente",
+                                                             "rulelaw: Regra de Lei (Rule fo Law, do Banco Mundial)",
+                                                             "polity: Nível de democracia do Polity IV",
+                                                             "thresh: Limiar de Voto Legal",
+                                                             "postenp: ENP Após a Eleição Corrente",
+                                                             "preenp: ENP Antes da Eleição Corrente",
+                                                             "fundparity4: Métrica apresentada no artigo",
+                                                             "fundparity3: Métrica alternativa, exclui financiamento direto",
+                                                             "directelig: Elegibilidade para Financiamento Direto",
+                                                             "demin: Ano da Primeira Democracia",
+                                                             "demyear: Número de Anos Democráticos",
+                                                             "fed: País é federativo (Sim ou Não)",
+                                                             "pres: País é presidencialista (Sim ou Não)",
+                                                             "avemag: Magnitude Média do Distrito",
+                                                             "smd: Sistema de Maioria Simples (Sim ou Não)",
+                                                             "fract: Nível de Fracionalização Etnolinguística",
+                                                             "donorlimit: Limites de Doações (Sim ou Não)",
+                                                             "eligmedia: Elegibilidade para Mídia Livre (Sim ou Não)",
+                                                             "partyspend: Limites de Gastos de Partidos (Sim ou Não)"))
+
+simple_codebook <- enframe(get_label(data_rep_potter15))
+
+# use more informative column names
+colnames(simple_codebook) <- c("variable_id", "item_text")
+
+# Show the new data frame
+simple_codebook %>%
+kable()
+```
+
+No artigo, os autores fazem uma regressão excluindo "outliers". Faça uma análise para identificar os outliers. E utilize o seguinte código para excluir os mesmos outliers: "campaigns <- dplyr::filter(raw_data, postenp < 9.2)", em que "raw_data" é o banco de dados original, e "campaigns" é o banco novo, com os outliers excluídos.
+
+Por fim, rode modelos conforme discutido nas notas de rodapé 44, 45 e 56, e faça um gráfico replicando a figura 1 do artigo.

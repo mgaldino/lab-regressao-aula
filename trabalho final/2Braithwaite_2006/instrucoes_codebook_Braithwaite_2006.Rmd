@@ -1,0 +1,69 @@
+---
+title: "Coodebook Potter 2015"
+author: "Manoel Galdino"
+date: "2023-11-09"
+output: pdf_document
+---
+
+## Codebook e Instruções
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Abaixo apresentamos um codebook das variáveis, para facilitar a replicação do texto.
+```{r package loads 9, echo=FALSE, message=FALSE, warning=FALSE}
+library(sjlabelled)
+library(haven)
+library(here)
+library(tidyverse)
+library(knitr)
+library(janitor)
+```
+
+
+```{r codebook,  message=FALSE, warning=FALSE, echo=FALSE}
+data_repbraith06 <- read_dta(here("trabalho final", "2Braithwaite_2006", "file48280_braith_final_data.dta")) %>%
+  clean_names()
+
+
+data_repbraith06 <- set_label(data_repbraith06, label = c(
+  "dispnum: Id da disputa miliar",
+  "dyadid: id da díade do par de países",
+  "ccode1: id do país",
+  "ccode2: id do país alternativo",
+  "year: ano",
+  "logcap_ratio: Logaritmo da razão de capacidade militar entre os países em disputa.",
+  "allies: Indicador binário de se os países em disputa têm algum tipo de aliança.",
+  "joint_democ: Indicador binário se ambos os países em disputa são democracias.",
+  "incidents: Número de incidentes na disputa.",
+  "Territory: Indicador binário se a disputa é motivada por questões territoriais",
+  "sdd: Descrição ND",
+  "radius: Raio de localização geográfica da disputa.",
+  "final_hostile: Indicador binário de se a disputa se tornou hostil.",
+  "jointsize: Tamanho combinado dos territórios dos dois países em disputa.",
+  "log_radius_area: Logaritmo da área coberta pelo raio geográfico da disputa.",
+  "log_sdd_area: Logaritmo da área coberta por algum outro parâmetro não descrito no trecho do artigo.",
+  "pop_dense: Densidade populacional na área da disputa.",
+  "water: Indicador binário de se a disputa ocorre em áreas marítimas.",
+  "logdurat: Logaritmo da duração da disputa.",
+  "cwpceyrs: Anos desde o último conflito entre os mesmos países.",
+  "host_mt : Indicador binário de se o país anfitrião possui recursos naturais.",
+  "host_for: Indicador binário de se o país anfitrião possui cobertura florestal.",
+  "host_resource: Indicador binário de se o país anfitrião possui recursos naturais.",
+  "bord_vital: Medida de vitalidade da fronteira entre os países em disputa.",
+  "log_jointsize: Logaritmo do tamanho combinado dos territórios dos dois países em disputa.",
+  "est_model1: Descrição ND"
+))
+
+
+simple_codebook <- enframe(get_label(data_repbraith06))
+
+# use more informative column names
+colnames(simple_codebook) <- c("variable_id", "item_text")
+
+# Show the new data frame
+simple_codebook %>%
+kable()
+```
+
+
