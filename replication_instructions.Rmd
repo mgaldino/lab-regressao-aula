@@ -1,0 +1,37 @@
+---
+title: "Replication"
+author: "Manoel Galdino"
+date: "2023-11-06"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Trabalho final de curso
+
+O trabalho final de curso envolverá a replicação de um estudo realizado que envolva regressão linear. Os alunos (de graduação) deverão escolher entre um dos artigos propostos (lista abaixo) ou
+sugerir a análise de dados de seu interesse.
+
+
+```{r cars}
+summary(cars)
+```
+
+## Lista de trabalhos
+
+Eu escolhi cinco trabalhos, 3 em inglês e 2 em português, dos quais vocês deverão escolher um dele para a replicação.
+
+1. Leblang, D. A. (1996). Property rights, democracy and economic growth. Political Research Quarterly, 49(1), 5-26.
+
+2. Potter, J. D., & Tavits, M. (2015). The impact of campaign finance laws on party competition. British Journal of Political Science, 45(1), 73-95.
+
+3. Goldsmith, B. E., & Horiuchi, Y. (2012). In search of soft power: Does foreign public opinion matter for US foreign policy?. World Politics, 64(3), 555-585.
+
+4. Corrêa, D. S. (2015). Economia, ideologia e eleições na América Latina. Dados, 58, 401-425.
+
+5. Lins, R., Figueiredo Filho, D., & Silva, L. (2016). A redução da maioridade penal diminui a violência? Evidências de um estudo comparado. Opinião Pública, 22, 118-139.
+
+## Dados de replicação
+No github do curso, há uma pasta, trabalho final, e dentro dela há uma pasta para cada um dos artigos, numeradas conforme a ordem acima e com nome do autor e ano. Então a pasta do artigo 1 estará no formato  "1Leblang_1996", a pasta do artigo 2 no formato "2Potter_2015" e assim por diante. Lá haverá uma cópia do artigo e os dados necessários para replicação.
