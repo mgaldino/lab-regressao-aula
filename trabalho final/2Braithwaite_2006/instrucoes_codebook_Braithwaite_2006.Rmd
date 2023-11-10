@@ -1,5 +1,5 @@
 ---
-title: "Coodebook Potter 2015"
+title: "Coodebook Braithwaite 2006"
 author: "Manoel Galdino"
 date: "2023-11-09"
 output: pdf_document
@@ -41,15 +41,15 @@ data_repbraith06 <- set_label(data_repbraith06, label = c(
   "radius: Raio de localização geográfica da disputa.",
   "final_hostile: Indicador binário de se a disputa se tornou hostil.",
   "jointsize: Tamanho combinado dos territórios dos dois países em disputa.",
-  "log_radius_area: Logaritmo da área coberta pelo raio geográfico da disputa.",
+  "log_radius_area: Logaritmo da área coberta pelo raio geográfico da disputa. Variável Dependente.",
   "log_sdd_area: Logaritmo da área coberta por algum outro parâmetro não descrito no trecho do artigo.",
   "pop_dense: Densidade populacional na área da disputa.",
-  "water: Indicador binário de se a disputa ocorre em áreas marítimas.",
+  "water: Indicador de se a disputa ocorre em áreas marítimas.",
   "logdurat: Logaritmo da duração da disputa.",
   "cwpceyrs: Anos desde o último conflito entre os mesmos países.",
-  "host_mt : Indicador binário de se o país anfitrião possui recursos naturais.",
-  "host_for: Indicador binário de se o país anfitrião possui cobertura florestal.",
-  "host_resource: Indicador binário de se o país anfitrião possui recursos naturais.",
+  "host_mt : Indicador que mede a proporção de terreno montanhoso no país afetado",
+  "host_for: Indicador de se o país afetado possui cobertura florestal.",
+  "host_resource: Indicador binário de se o país afetado possui recursos naturais.",
   "bord_vital: Medida de vitalidade da fronteira entre os países em disputa.",
   "log_jointsize: Logaritmo do tamanho combinado dos territórios dos dois países em disputa.",
   "est_model1: Descrição ND"
@@ -66,4 +66,7 @@ simple_codebook %>%
 kable()
 ```
 
+As variáveis no artigo estão diferentes das nomenclatura nos bancos de dados. Isso é comum. Para facilitar sua vida, considere que: water -> ocean; host_mt -> Mountain; host_for -> Forest; host_resource -> Resources; log_jointsize -> Size of States; cwpceyrs -> Peace Years; incidents -> Number of Incidents; logdurat -> Duration and final_hostile -> Hostility Level.
+
+O artigo utiliza erro padrão robusto. Compare o erro padrão usual com erro padrão robusto. Verifique qual tipo de erro padrão robusto foi utilizado, tentando replicar o erro padrão.
 
