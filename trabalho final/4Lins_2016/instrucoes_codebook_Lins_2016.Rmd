@@ -1,0 +1,62 @@
+---
+title: "Coodebook Potter 2015"
+author: "Manoel Galdino"
+date: "2023-11-09"
+output: pdf_document
+---
+
+## Codebook e Instruções
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Abaixo apresentamos um codebook das variáveis, para facilitar a replicação do texto.
+```{r package loads 9, echo=FALSE, message=FALSE, warning=FALSE}
+library(sjlabelled)
+library(here)
+library(tidyverse)
+library(knitr)
+library(janitor)
+library(data.table)
+```
+
+```{r codebook,  message=FALSE, warning=FALSE, echo=FALSE}
+data_lins16 <- fread(here("trabalho final", "4Lins_2016", "maioridade.tab")) %>%
+  clean_names() %>%
+  mutate(acr_cipriani = ifelse(acr_cipriani == 999, NA, acr_cipriani))
+
+
+data_lins16 <- set_label(data_lins16, label = c(
+  "cname: Nome do país.",
+  "ginet_solt: Variável não descrita no artigo. Medida de índice de gini.",
+  "ginmar_solt: Variável não descrita no artigo. Medida de índice de gini.",
+  "desemprego_longo: desemprego de longo prazo.",
+  "idh: Índice de Desenvolvimento Humano.",
+  "homi_number: Número de homicídios.",
+  "homi_number_unodc: Número de homicídios, fonte unodc.",
+  "homi_rate: Taxa de homicídio por 100 mil habitates.",
+  "homi_rate_unodc: Taxa de homicídio por 100 mil habitates, fonte unodc.",
+  "acr_hazel: Idade de responsabilidade penal, fonte Hazel.",
+  "acr_cipriani: Idade de responsabilidade penal, fonte Cipriani.",
+  "acm_hazel: Idade de maioridade penal, fonte Hazel.",
+  "acm_gv: Idade de maioridade penal, fonte Grand Valley State University."
+))
+
+
+simple_codebook <- enframe(get_label(data_lins16))
+
+# use more informative column names
+colnames(simple_codebook) <- c("variable_id", "item_text")
+
+# Show the new data frame
+simple_codebook %>%
+kable()
+```
+
+Algumas informações adicionais relevantes para a replicação. O banco de dados está em formato ".tab", que quer dizer separado por tabulação. Não deve ser um problema importar no R com as funções usuais utilizadas em sala de aula.
+
+No banco de dados há duas variáveis para medir a taxa de homicídio, duas para medir o índice de Gini, duas para medir responsabilidade legal e duas para medir maioridade penal. O artigo só indica quando usou cada uma das duas medidas de responsabilidade legal e maioridade penal, mas não qual usou para as outras variáveis (gini e taxa de homicídio).Para facilitar sua vida, utilize a variável "ginet_solt" para o Gini e "homi_rate_unodc" para taxa de homicídio (a variável dependente) e verifique que os resultado são similares aos do artigo.
+
+
+Por fim, verifique que a variável "acr_cipriani" tem um valor de $999$ para duas observações. Isso é um dado ausente (NA), que foi codificado errado. Corrija essa informação e coloque esses valores como NA.
+
