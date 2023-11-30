@@ -1,4 +1,4 @@
-# aula 3 pós greve
+# aula 3 pós greve 29/11
 
 n <- 1000
 alpha <- 2
