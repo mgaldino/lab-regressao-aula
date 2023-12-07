@@ -1,6 +1,7 @@
 # correção lista 6 noturno
 library(data.table)
 library(tidyverse)
+
 setwd("C:\\Users\\fcslab122\\Downloads\\microdados_enem_2022\\DADOS")
 
 enem <- fread("MICRODADOS_ENEM_2022.csv")
