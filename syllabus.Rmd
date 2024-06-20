@@ -1,0 +1,117 @@
+---
+title: "FLS 6183 - Métodos Quantitativos de PEsquisa II"
+author: "Manoel Galdino"
+date: "2024-20-06"
+output: 
+  pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# FLS 6183 - Métodos Quantitativos de PEsquisa II 
+
+## Objetivos
+
+O objetivo do curso é introduzir os métodos de regressão múltipla de maneira aplicada,
+por meio da utilização da linguagem R, para a análise dos fenômenos sócio-políticos. Ao
+final do curso, o aluno será capaz de entender e interpretar pesquisas quantitativas que
+utilizem métodos de regressão simples, aplicar esses métodos em suas pesquisas e análise
+de dados em geral.
+
+O aluno também deverá ter adquirido familiaridade suficiente com a linguagem R para
+importar banco de dados, processar dados e realizar análises descritivas e de regressão.
+O curso possui também um componente crítico, de forma a permitir aos alunos entender
+os limites das técnicas de pesquisa na ciência política. Objetiva também estimular a capacidade crítica necessária para a seleção de técnicas apropriadas para coleta de dados e pesquisa.
+
+## Justificativa
+A análise empírica quantitativa em ciências sociais envolve, na maior parte do tempo,
+utilização de técnicas de regressão. Embora cada vez mais outras técnicas estejam sendo
+empregadas, regressão continua sendo a principal ferramenta de modelagem estatística
+nas ciênciais sociais e é fundamental que os alunos de mestrado e doutorado possuam
+conhecimento sobre essa técnica.
+
+Ao utilizarmos a linguagem R, estaremos também introduzindo o estudante de pós-graduação em uma das principais linguagens de programação voltada a análise de dados
+que existe hoje, com amplas possibilidades de aplicação no setor acadêmico, governamental e do mercado privado. Por ser uma linguagem open source, existe uma ampla comunidade de praticantes que se ajudam, criando assim espaço para que o aluno possa prosseguir seus estudos da linguagem posteriormente.
+
+
+## Pré-requisitos
+
+O pré-requisito para o curso é Métodos I ou equivalente. Não é necessário familiaridade prévia com o R, mas será necessário complementar o que for apresentado em sala de aula sobre a utilização do R.
+
+
+## Formato das aulas
+Diferentemente de anos anteriores, o curso **não** será dividido com a graduação. Isso permitirá um aprofundamento maior dos tópicos cobertos no curso e discussão de artigos aplicados. No geral, as aulas serão divididas em duas partes: a primeira parte da aula
+será expositiva, com base no tema da aula e supondo-se que os alunos leram a bibliografia
+indicada previamente. Na segunda parte da aula, iremos utilizar o R para implementar
+e testar o que aprendemos na parte teórica. As atividades com o R serão em duplas ou
+trios.
+
+## Bibliografia
+
+Cursos de pós-graduação em ciência política nas melhores universidades têm utilizado o livro do Hansen. Ele será a base principal do curso e uma cópia eletrônica será disponibilizada no Moodle do curso.
+
+Hansen, B. (2022). Econometrics. Princeton University Press.
+
+Como porém há partes do livro que requerem mais matemática do que o pressuposto, iremos complementar a leitura com três outros livros:
+
+Wooldridge, Jeffrey. 2018. Introductory Econometrics: A Modern Approach, 7th Edition.
+
+Shalizi, C. R. (2015). The Truth About Linear Regression. Online Manuscript. http://www.stat.cmu.edu/~cshalizi/TALR.
+
+Gelman, A., Hill, J., & Vehtari, A. (2020). Regression and other stories. Cambridge University Press.
+
+## Leitura adicional
+
+Larsen, E. G., & Fazekas, Z. (2021). Quantitative Politics with R. Link: http://qpolr.com
+
+Moore, William H. & David A. Siegel . 2013. A Mathematics Course for Political & Social Research. Princeton University Press.
+
+Wickham, H., & Grolemund, G. (2016). R for data science: import, tidy, transform, visualize, and model data. O’Reilly Media, Inc..
+
+## Plataforma Digital
+
+A Plataforma Moodle será o principal canal de comunicação entre professor, monitor e
+alunos e de entrega das atividades. Especificamente, o Moodle será utilizado para as
+seguintes funções:
+
+Os avisos ordinários e extraordinários do curso serão postados no Moodle;
+As atividades semanais dos laboratórios em sala de aula serão entregues pelo Moodle
+em arquivos PDF e com os scripts do software R utilizados pelo aluno (preferencialmente
+Rmarkdown). O trabalho final será entregue pelo Moodle em um arquivo PDF e com o script do software R (preferencialmente Rmarkdown).
+
+Será criado também um grupo no Discord, para permitir interação mais ágil entre alunos,
+monitor e professor, por meio do qual os alunos podem incluir dúvidas e questões sobre
+os conteúdos do curso. Esse chat permitirá que outros alunos se beneficiem das dúvidas
+e discussões fomentadas pelos colegas.
+
+## Avaliação
+1. Participação em aula 10%;
+2. Listas de exercícios 50%;
+3. Trabalho final 40%: Os alunos da pós-graduação deverão entregar um trabalho final
+utilizando uma base de dados de interesse individual do discente. Espera-se que o 
+texto cubra a maior parte dos tópicos trabalhados ao longo do curso. As especificações a respeito do trabalho serão combinadas com a turma durante o semestre.
+
+## Agenda preliminar
+Aula 1 - Apresentação da disciplina e revisão de estatística básica
+
+Aula 2: Introdução à simulação com R
+
+Aula 3 - O modelo de regressão
+
+Aula 4 - CEF - Conditional Expectation Function
+
+Aula 5 - Estimação
+
+Aula 6 - Causalidade
+
+Aula 7 - Máxima Verossimilhança
+
+Aula 8 - Checagem do Modelo de Regressão
+
+Aula 9 - Inferência
+
+Aula 11 - Regressão Múltipla
+
+Aula 12 - Modelos Lineares Generalizados
