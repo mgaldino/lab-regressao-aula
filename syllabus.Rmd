@@ -1,5 +1,5 @@
 ---
-title: "FLS 6183 - Métodos Quantitativos de PEsquisa II"
+title: "FLS 6183 - Métodos Quantitativos de Pesquisa II"
 author: "Manoel Galdino"
 date: "2024-20-06"
 output: 
@@ -10,7 +10,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# FLS 6183 - Métodos Quantitativos de PEsquisa II 
+# FLS 6183 - Métodos Quantitativos de Pesquisa II 
 
 ## Objetivos
 
