@@ -212,3 +212,7 @@ dados_peso_alt <- data.frame(peso=peso, altura=altura)
 dados_peso_alt %>%
   ggplot(aes(x=altura, y=peso)) + geom_point() +
   geom_smooth(method="lm")
+
+# prompt no chatgpt que deu resposta errada
+# 
+# No R, gerei uma distribuição de 100k observações de uma uniforme entre 0 e 10 (y <- runif(100000, min=0, max=10). Quero armazenar em um vetor, cujo nome será resultado_medias, 1000 médias de amostras de y, ou seja, cada amostra deve ter 100 elementos e eles não devem se repetir de amostra para amostra. Como você implementaria um código em R para fazer essa tarefa.
