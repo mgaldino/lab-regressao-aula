@@ -1,0 +1,125 @@
+---
+title: "FLS 6183 - Métodos Quantitativos de Pesquisa II"
+author: "Manoel Galdino"
+date: "2025-20-06"
+output: 
+  pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# FLP 0468 - Métodos Quantitativos de Pesquisa na Ciência Política IV 
+
+## Objetivos
+
+O objetivo do curso é introduzir os métodos de regressão múltipla de maneira aplicada,
+por meio da utilização da linguagem R, para a análise dos fenômenos sócio-políticos. Ao
+final do curso, o aluno será capaz de entender e interpretar pesquisas quantitativas que
+utilizem métodos de regressão simples, aplicar esses métodos em suas pesquisas e análise
+de dados em geral.
+
+O aluno também deverá ter adquirido familiaridade suficiente com a linguagem R para
+importar banco de dados, processar dados e realizar análises descritivas e de regressão.
+O curso possui também um componente crítico, de forma a permitir aos alunos entender
+os limites das técnicas de pesquisa na ciência política. Objetiva também estimular a capacidade crítica necessária para a seleção de técnicas apropriadas para coleta de dados e pesquisa.
+
+## Justificativa
+
+A análise empírica quantitativa em ciências sociais envolve, na maior parte do tempo,
+utilização de técnicas de regressão. Embora cada vez mais outras técnicas estejam sendo
+empregadas, regressão continua sendo a principal ferramenta de modelagem estatística
+nas ciênciais sociais e é fundamental que os alunos de mestrado e doutorado possuam
+conhecimento sobre essa técnica.
+
+Ao utilizarmos a linguagem R, estaremos também introduzindo o estudante de pós-graduação em uma das principais linguagens de programação voltada a análise de dados que existe hoje, com amplas possibilidades de aplicação no setor acadêmico, governamental e do mercado privado. Por ser uma linguagem open source, existe uma ampla comunidade de praticantes que se ajudam, criando assim espaço para que o aluno possa prosseguir seus estudos da linguagem posteriormente.
+
+## Professores
+
+O Curso será ministrado pelos professores Manoel Galdino, professor do DCP-USP e Rodrigo Martins, Pós-Doc no DCP-USP.
+
+## Pré-requisitos
+
+O pré-requisito para o curso é Métodos III ou equivalente. Pressupomos apenas familiaridade básica com o R.
+
+
+## Formato das aulas
+
+No geral, as aulas serão divididas em duas partes: a primeira parte da aula será expositiva, com base no tema da aula e supondo-se que os alunos leram a bibliografia indicada previamente. Na segunda parte da aula, iremos utilizar o R para implementar e testar o que aprendemos na parte teórica.
+
+
+
+## Bibliografia
+
+O curso irá seguir minhas notas de aula, transformadas em livro, disponível gratuitamente na web.
+
+Galdino, M. (2025). Livro de Introdução à Regressão para Ciências Sociais [Livro online]. Disponível em: https://mgaldino.github.io/book-regression/ 
+
+
+## Leitura adicional
+
+Imai, K., & Bougher, L. D. (2021). Quantitative social science: An introduction in Stata. Princeton University Press.
+
+Moore, William H. & David A. Siegel . 2013. A Mathematics Course for Political & Social Research. Princeton University Press.
+
+Wickham, H., & Grolemund, G. (2016). R for data science: import, tidy, transform, visualize, and model data. O’Reilly Media, Inc.
+
+https://github.com/iamericfletcher/awesome-r-learning-resources
+
+## Plataforma Digital
+
+A Plataforma Moodle será o principal canal de comunicação entre professor, monitor e
+alunos e de entrega das atividades. Especificamente, o Moodle será utilizado para as
+seguintes funções:
+
+Os avisos ordinários e extraordinários do curso serão postados no Moodle;
+As atividades semanais dos laboratórios em sala de aula serão entregues pelo Moodle
+em arquivos PDF e com os scripts do software R utilizados pelo aluno (preferencialmente
+Rmarkdown). O trabalho final será entregue pelo Moodle em um arquivo PDF e com o script do software R (preferencialmente Rmarkdown).
+
+
+## Avaliação
+1. Participação em aula 10%;
+2. Listas de exercícios 50%;
+3. Trabalho final 40%: Os alunos da pós-graduação deverão entregar um trabalho final
+utilizando uma base de dados de interesse individual do discente. Espera-se que o 
+texto cubra a maior parte dos tópicos trabalhados ao longo do curso. As especificações a respeito do trabalho serão combinadas com a turma durante o semestre.
+
+## Listas de Exercício
+
+Serão passadas listas de exercício (aprox. 6), todas envolvendo implementações práticas no R, que devem ser entregues pelo Moodle, com o script em R.
+
+## Agenda preliminar
+
+Aula 1 - Apresentação da disciplina e revisão de estatística básica
+
+Aula 2 - Introdução à simulação com R
+
+Aula 3 - Causalidade - Potential Outcomes
+
+Aula 4 - O modelo de regressão
+
+Aula 5 - Estimação
+
+Aula 6 - Máxima Verossimilhança
+
+Aula 7 - Checagem do Modelo de Regressão
+
+Aula 8 - Inferência
+
+Aula 9 - Regressão Múltipla - básico
+
+Aula 10 - Regressão Múltipla - variáveis binárias independentes
+
+Aula 11 - Regressão Múltipla - Termo de Interação
+
+Aula 12 - Regressão Múltipla - Análise espacial e temporal
+
+Aula 13 - Regressão e causalidade
+
+Aula 14 - Modelos Lineares Generalizados
+
+Aula 15 - Modelos Lineares Generalizados
+
+Aula 16 - Revisão
