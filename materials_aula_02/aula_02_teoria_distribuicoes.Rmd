@@ -1,0 +1,1120 @@
+---
+title: "Resumindo distribuições"
+subtitle: "Esperança · momentos · variância · MSE · covariância · correlação"
+author: "FLS 6183 · Métodos Quantitativos de Pesquisa II"
+institute: "Aronow & Miller (2019), cap. 2, §§2.1--2.2.2"
+date: "26/08/2026"
+output:
+  beamer_presentation:
+    latex_engine: xelatex
+    keep_tex: true
+    slide_level: 2
+    incremental: false
+    pandoc_args:
+      - "--variable=aspectratio:169"
+header-includes:
+  - \usepackage{booktabs,tabularx,array}
+  - \usepackage{tikz}
+  - \usepackage{fontspec}
+  - \setsansfont{Helvetica Neue}
+  - \usefonttheme{professionalfonts}
+  - \definecolor{accent}{HTML}{2F80ED}
+  - \definecolor{ink}{HTML}{111111}
+  - \definecolor{muted}{HTML}{505761}
+  - \definecolor{panel}{HTML}{F3F4F6}
+  - \definecolor{panelblue}{HTML}{D6EEF9}
+  - \setbeamercolor{normal text}{fg=ink,bg=white}
+  - \setbeamercolor{structure}{fg=accent}
+  - \setbeamercolor{frametitle}{fg=ink,bg=white}
+  - \setbeamerfont{frametitle}{series=\bfseries,size=\Large}
+  - \setbeamerfont{title}{series=\bfseries,size=\huge}
+  - \setbeamerfont{subtitle}{size=\large}
+  - \setbeamertemplate{navigation symbols}{}
+  - \setbeamersize{text margin left=0.65cm,text margin right=0.65cm}
+  - \setbeamertemplate{frametitle}{\vspace{0.16cm}\insertframetitle\par\vspace{-0.10cm}\color{ink}\rule{\textwidth}{0.55pt}}
+  - \setbeamertemplate{footline}{\leavevmode\begin{beamercolorbox}[wd=\paperwidth,ht=2.7ex,dp=1.2ex,leftskip=.65cm,rightskip=.65cm]{normal text}\scriptsize\color{muted}FLS 6183 · Métodos Quantitativos de Pesquisa II\hfill\bfseries\insertframenumber/\inserttotalframenumber\end{beamercolorbox}}
+  - \setbeamertemplate{title page}{\vspace*{0.8cm}{\usebeamerfont{title}\color{ink}\inserttitle\par}\vspace{0.25cm}{\usebeamerfont{subtitle}\color{muted}\insertsubtitle\par}\vspace{0.55cm}{\color{accent}\rule{5.0cm}{2.2pt}}\par\vspace{0.45cm}{\small\color{muted}\insertinstitute\par}\vfill{\small\bfseries\color{muted}\insertauthor\hfill\insertdate\par}}
+  - \newcommand{\panelbox}[1]{\colorbox{panel}{\parbox[c][2.35cm][c]{0.93\linewidth}{\hspace{0.18cm}\parbox{0.90\linewidth}{#1}}}}
+  - \newcommand{\bluebox}[1]{\colorbox{panelblue}{\parbox[c][2.35cm][c]{0.93\linewidth}{\hspace{0.18cm}\parbox{0.90\linewidth}{#1}}}}
+  - \newcommand{\speakernote}[1]{}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+source(
+  here::here(
+    "materials_aula_02",
+    "scripts",
+    "01_gerar_figuras_momentos.R"
+  ),
+  encoding = "UTF-8"
+)
+
+diretorio_figuras_momentos <- here::here(
+  "materials_aula_02",
+  "figures"
+)
+
+momentos_exemplos <- readr::read_csv(
+  file.path(
+    diretorio_figuras_momentos,
+    "tabela_1_momentos_distribuicoes.csv"
+  ),
+  locale = readr::locale(encoding = "UTF-8"),
+  show_col_types = FALSE
+) |>
+  dplyr::select(
+    distribuicao,
+    media,
+    variancia,
+    assimetria,
+    curtose,
+    leitura_visual
+  )
+```
+
+## Ao final, você deve saber calcular -- e interpretar
+
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.48\textwidth}
+\textcolor{accent}{\Large\bfseries 01}\quad {\Large\bfseries Centro}
+
+Explicar esperança como característica da distribuição, não como observação típica.
+
+\vspace{0.35cm}\hrule\vspace{0.35cm}
+\textcolor{accent}{\Large\bfseries 03}\quad {\Large\bfseries Associação}
+
+Interpretar covariância e correlação como resumos de co-movimento linear.
+\end{column}
+\hfill
+\begin{column}{0.48\textwidth}
+\textcolor{accent}{\Large\bfseries 02}\quad {\Large\bfseries Dispersão}
+
+Distinguir momento, variância, desvio-padrão, MSE e suas unidades.
+
+\vspace{0.35cm}\hrule\vspace{0.35cm}
+\textcolor{accent}{\Large\bfseries 04}\quad {\Large\bfseries Limites}
+
+Reconhecer por que correlação zero não significa independência nem causalidade.
+\end{column}
+\end{columns}
+
+\speakernote{Abra com os quatro resultados de aprendizagem e use-os como mapa da aula. [Sources] Aronow \& Miller (2019), cap. 2, seções 2.1--2.2.2; syllabus\_2026\_updated.Rmd.}
+
+## Um resumo não é a distribuição -- nem a amostra
+
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.49\textwidth}
+\panelbox{{\Large\bfseries Objeto populacional}
+
+\vspace{0.25cm}\textcolor{accent}{\large$F_X\longrightarrow \mathrm{E}[X],\,\mathrm{V}[X],\,\rho[X,Y]$}
+
+\vspace{0.25cm}\small\color{muted}Resumimos uma distribuição complexa por características substantivas, sem supor forma paramétrica.}
+\end{column}
+\hfill
+\begin{column}{0.49\textwidth}
+\panelbox{{\Large\bfseries Objeto observado}
+
+\vspace{0.25cm}\textcolor{accent}{\Large$x_1,\ldots,x_n \longrightarrow \bar{x},\;s^2,\;r$}
+
+\vspace{0.25cm}\small\color{muted}Amostras fornecem estatísticas que ajudam a aprender sobre características populacionais.}
+\end{column}
+\end{columns}
+
+\vspace{0.50cm}\centering\bfseries Hoje: definimos primeiro o alvo.
+
+\speakernote{Diferencie parâmetro populacional de estatística amostral. A notação sem chapéu neste trecho descreve a distribuição. [Sources] Aronow \& Miller (2019), seção 2.1.}
+
+## Esperança é uma média ponderada
+
+\small O operador $\mathrm{E}[\cdot]$ recebe uma variável aleatória; os pesos vêm da distribuição.
+
+\vspace{0.2cm}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.49\textwidth}
+\panelbox{{\Large\bfseries $X$ discreta}
+
+\vspace{0.22cm}\centering\textcolor{accent}{\LARGE$\displaystyle \mathrm{E}[X]=\sum_x x f_X(x)$}
+
+\vspace{0.25cm}\raggedright\color{muted}Cada valor é ponderado por sua probabilidade.}
+\end{column}
+\hfill
+\begin{column}{0.49\textwidth}
+\panelbox{{\Large\bfseries $X$ contínua}
+
+\vspace{0.22cm}\centering\textcolor{accent}{\LARGE$\displaystyle \mathrm{E}[X]=\int_{-\infty}^{\infty}x f_X(x)\,dx$}
+
+\vspace{0.25cm}\raggedright\color{muted}$f_X(x)$ é densidade; probabilidade é área.}
+\end{column}
+\end{columns}
+
+\vspace{0.35cm}\centering\Large\bfseries Unidades de $\mathrm{E}[X]$ = unidades de $X$
+
+\speakernote{Detalhe massa versus densidade e a condição de existência: soma ou integral de |x| ponderado deve convergir. [Sources] Aronow \& Miller (2019), seção 2.1.1.}
+
+## A esperança pode não ocorrer
+
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.54\textwidth}
+\centering
+\begin{tikzpicture}[x=0.72cm,y=2.15cm]
+  \draw[->,muted] (0,0) -- (6.7,0) node[right] {resultado};
+  \draw[->,muted] (0,0) -- (0,1.35) node[above] {$\Pr$};
+  \foreach \x in {1,...,6}{
+    \fill[accent] (\x-0.35,0) rectangle (\x+0.20,1);
+    \node[below] at (\x-0.075,0) {\small \x};
+    \node[above] at (\x-0.075,1) {\scriptsize $1/6$};
+  }
+\end{tikzpicture}
+
+\scriptsize\itshape Figura 1. Distribuição de um dado justo; a média é 3,5.
+\end{column}
+\begin{column}{0.44\textwidth}
+\panelbox{\textcolor{accent}{\LARGE\bfseries $\mathrm{E}[X]=3{,}5$}
+
+Nenhuma face mostra 3,5: o centro não precisa ser observável.}
+
+\vspace{0.2cm}
+\bluebox{\textcolor{accent}{\LARGE\bfseries $\mathrm{E}[D]=p$}
+
+Para $D\in\{0,1\}$, a esperança é $\Pr(D=1)$.}
+\end{column}
+\end{columns}
+
+\vspace{0.12cm}\begin{beamercolorbox}[rounded=true,sep=0.12cm]{block body}\bfseries\color{ink}Pergunta rápida: se $\mathrm{E}[D]=0{,}63$, o que significa 0,63?\end{beamercolorbox}
+
+\speakernote{A resposta é uma proporção ou probabilidade populacional, não que cada observação vale 0,63. [Sources] Aronow \& Miller (2019), seção 2.1.1.}
+
+## Linearidade não exige independência
+
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.49\textwidth}
+\panelbox{{\Large\bfseries Função de uma variável}
+
+\vspace{0.35cm}\centering\textcolor{accent}{\LARGE$\displaystyle \mathrm{E}[g(X)]=\sum_x g(x)f_X(x)$}}
+
+\vspace{0.25cm}
+\textbf{Por quê?}
+\begin{align*}
+\mathrm{E}[aX+bY+c]
+&=\mathrm{E}[aX]+\mathrm{E}[bY]+\mathrm{E}[c]\\
+&=a\mathrm{E}[X]+b\mathrm{E}[Y]+c.
+\end{align*}
+\end{column}
+\hfill
+\begin{column}{0.49\textwidth}
+\bluebox{{\Large\bfseries Combinação linear}
+
+\vspace{0.35cm}\centering\Large$\mathrm{E}[aX+bY+c]=a\mathrm{E}[X]+b\mathrm{E}[Y]+c$}
+
+\vspace{0.25cm}
+\panelbox{{\Large\bfseries Armadilha}
+
+$\mathrm{E}[XY]=\mathrm{E}[X]\mathrm{E}[Y]$ não vem da linearidade. Independência é suficiente, não necessária.}
+\end{column}
+\end{columns}
+
+\speakernote{Faça a derivação linha a linha. O operador distribui sobre somas mesmo quando X e Y são dependentes. [Sources] Aronow \& Miller (2019), seção 2.1.1.}
+
+## Momentos resumem a distribuição por meio de potências
+
+O índice $j$ é a \textbf{ordem}: elevamos os valores à potência $j$ e calculamos sua esperança.
+
+\vspace{0.16cm}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.47\textwidth}
+{\large\bfseries Se $X$ é discreta}
+
+\vspace{0.08cm}
+\[
+\mu'_j=\mathrm{E}[X^j]=\sum_x x^j f_X(x).
+\]
+\end{column}
+\begin{column}{0.47\textwidth}
+{\large\bfseries Se $X$ é contínua}
+
+\vspace{0.08cm}
+\[
+\mu'_j=\mathrm{E}[X^j]=\int x^j f_X(x)\,dx.
+\]
+\end{column}
+\end{columns}
+
+\vspace{0.20cm}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.23\textwidth}
+\textcolor{accent}{\Large\bfseries 1º momento}
+
+\vspace{0.10cm}
+\[
+\mu'_1=\mathrm{E}[X]=\mu
+\]
+
+\small Localiza o centro.
+\end{column}
+\begin{column}{0.23\textwidth}
+\textcolor{accent}{\Large\bfseries 2º momento}
+
+\vspace{0.10cm}
+\[
+\mu'_2=\mathrm{E}[X^2]
+\]
+
+\small Ainda \textbf{não} é a variância.
+\end{column}
+\begin{column}{0.23\textwidth}
+\textcolor{accent}{\Large\bfseries 3º momento}
+
+\vspace{0.10cm}
+\[
+\mu'_3=\mathrm{E}[X^3]
+\]
+
+\small Média dos cubos.
+\end{column}
+\begin{column}{0.23\textwidth}
+\textcolor{accent}{\Large\bfseries 4º momento}
+
+\vspace{0.10cm}
+\[
+\mu'_4=\mathrm{E}[X^4]
+\]
+
+\small Média das quartas potências.
+\end{column}
+\end{columns}
+
+\vspace{0.22cm}
+\begin{beamercolorbox}[rounded=true,sep=0.12cm,center]{block body}
+\bfseries Podemos tomar potências de $X$, de $X-\mu$ ou de $Z=\frac{X-\mu}{\sigma}$: surgem os momentos brutos, centrais e padronizados.
+\end{beamercolorbox}
+
+\speakernote{Comece pela operação comum: elevar à potência j e tomar a esperança. Mostre a soma no caso discreto e a integral no contínuo. O segundo momento bruto não é a variância, pois os valores ainda são medidos em relação a zero. Antecipe as três versões sem derivá-las ainda. [Sources] Aronow \& Miller (2019), seção 2.1.2; definição de momentos brutos.}
+
+## Bruto, central e padronizado não são a mesma coisa
+
+Em todos os casos, calculamos o momento de ordem $j$; muda a variável elevada à potência.
+
+\vspace{0.24cm}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.30\textwidth}
+\textcolor{accent}{\Large\bfseries Bruto}
+
+\vspace{0.15cm}
+\[
+\mu'_j=\mathrm{E}[X^j]
+\]
+
+\small Nada foi removido: depende da origem e tem unidades $u^j$.
+
+\vspace{0.18cm}
+\bfseries $\mu'_1=\mu$; $\mu'_2\neq\sigma^2$ em geral.
+\end{column}
+\begin{column}{0.30\textwidth}
+\textcolor{accent}{\Large\bfseries Central}
+
+\vspace{0.15cm}
+\[
+\mu_j=\mathrm{E}[(X-\mu)^j]
+\]
+
+\small Subtrair $\mu$ remove o centro, mas conserva as unidades $u^j$.
+
+\vspace{0.18cm}
+\bfseries $\mu_1=0$; $\mu_2=\sigma^2$.
+\end{column}
+\begin{column}{0.30\textwidth}
+\textcolor{accent}{\Large\bfseries Padronizado}
+
+\vspace{0.15cm}
+\[
+m_j=\mathrm{E}[Z^j]
+\]
+\vspace{-0.12cm}
+\[
+Z=\frac{X-\mu}{\sigma}
+\]
+
+\small Dividir por $\sigma$ remove também a escala e as unidades.
+
+\vspace{0.18cm}
+\bfseries $m_1=0$; $m_2=1$.
+\end{column}
+\end{columns}
+
+\vspace{0.35cm}
+\begin{beamercolorbox}[rounded=true,sep=0.13cm,center]{block body}
+\bfseries Momentos resumem centro, dispersão e aspectos da forma. Uma lista finita não reconstitui toda a distribuição.
+\end{beamercolorbox}
+
+\speakernote{Compare as três colunas na mesma ordem j. O momento bruto usa X; o central usa X menos mu; o padronizado usa Z. Destaque que a variância é o segundo momento central e que os momentos padronizados são adimensionais. O próximo slide deriva a relação entre m j e mu j. [Sources] Aronow \& Miller (2019), seção 2.1.2; definições usuais de momentos brutos, centrais e padronizados.}
+
+## Padronizar produz $m_j=\mu_j/\sigma^j$
+
+Defina $\mu=\mathrm{E}[X]$, $\sigma=\sqrt{\mathrm{V}[X]}$ e suponha $\sigma>0$.
+
+\vspace{0.18cm}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.29\textwidth}
+\textcolor{accent}{\Large\bfseries 1}\hspace{0.12cm}{\large\bfseries Centralize}
+
+\vspace{0.12cm}
+\[
+\mu_j=\mathrm{E}[(X-\mu)^j].
+\]
+
+\small Remove a localização, mas $\mu_j$ ainda tem unidades $u^j$.
+\end{column}
+\begin{column}{0.29\textwidth}
+\textcolor{accent}{\Large\bfseries 2}\hspace{0.12cm}{\large\bfseries Padronize}
+
+\vspace{0.12cm}
+\[
+Z=\frac{X-\mu}{\sigma}.
+\]
+
+\small Agora $\mathrm{E}[Z]=0$, $\mathrm{V}[Z]=1$ e $Z$ não tem unidade.
+\end{column}
+\begin{column}{0.36\textwidth}
+\textcolor{accent}{\Large\bfseries 3}\hspace{0.12cm}{\large\bfseries Tome o momento de $Z$}
+
+\vspace{-0.06cm}
+\begin{align*}
+m_j
+&=\mathrm{E}[Z^j]\\
+&=\mathrm{E}\!\left[\left(\frac{X-\mu}{\sigma}\right)^j\right]\\
+&=\frac{\mathrm{E}[(X-\mu)^j]}{\sigma^j}
+=\frac{\mu_j}{\sigma^j}.
+\end{align*}
+\end{column}
+\end{columns}
+
+\vspace{0.18cm}
+\begin{beamercolorbox}[rounded=true,sep=0.14cm,center]{block body}
+\bfseries O denominador é $\sigma^j$ porque toda a razão é elevada a $j$. A divisão cancela as unidades $u^j$.
+\end{beamercolorbox}
+
+\speakernote{Derive a razão, em vez de apresentá-la como nova fórmula. Centralizar produz o momento central. Padronizar define Z. Ao elevar Z à potência j, sigma também é elevado a j; como sigma é constante, sai da esperança. O resultado é adimensional. [Sources] Aronow \& Miller (2019), seção 2.1.2; definição de momentos centrais e padronizados.}
+
+## Depois de remover centro e escala, os momentos registram a forma
+
+\centering
+\large
+\[
+m_j=\mathrm{E}[Z^j]=\frac{\mu_j}{\sigma^j},
+\qquad Z=\frac{X-\mu}{\sigma}.
+\]
+
+\vspace{0.10cm}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.30\textwidth}
+\textcolor{accent}{\Large\bfseries $j=2$}
+
+\vspace{0.08cm}{\large\bfseries Escala fixada}
+
+\vspace{0.12cm}
+\[
+m_2=\frac{\mu_2}{\sigma^2}=1.
+\]
+
+\small A padronização já fixa a dispersão de $Z$.
+\end{column}
+\begin{column}{0.30\textwidth}
+\textcolor{accent}{\Large\bfseries $j=3$}
+
+\vspace{0.08cm}{\large\bfseries Assimetria}
+
+\vspace{0.12cm}
+\[
+\gamma_1=m_3=\frac{\mu_3}{\sigma^3}.
+\]
+
+\small A potência ímpar preserva o sinal: indica o lado da cauda mais longa.
+\end{column}
+\begin{column}{0.30\textwidth}
+\textcolor{accent}{\Large\bfseries $j=4$}
+
+\vspace{0.08cm}{\large\bfseries Curtose}
+
+\vspace{0.12cm}
+\[
+\beta_2=m_4=\frac{\mu_4}{\sigma^4}.
+\]
+
+\small A quarta potência enfatiza valores distantes; registra caudas e concentração.
+\end{column}
+\end{columns}
+
+\vspace{0.24cm}
+\begin{beamercolorbox}[rounded=true,sep=0.13cm,center]{block body}
+\bfseries Depois de igualar centro e escala, $m_3$ e $m_4$ ainda distinguem formas. Um conjunto finito de momentos não identifica sozinho toda a distribuição.
+\end{beamercolorbox}
+
+\speakernote{O segundo momento padronizado é sempre um e, portanto, não diferencia distribuições já padronizadas. O terceiro retém o sinal dos desvios e mede assimetria. O quarto enfatiza desvios grandes, mas curtose não deve ser reduzida apenas a peso das caudas: envolve também a concentração da distribuição. Um número finito de momentos não determina uma distribuição em geral. [Sources] Aronow \& Miller (2019), seção 2.1.2; identidades usuais de momentos centrais e padronizados.}
+
+## Uniforme: mesma probabilidade em todo o intervalo
+
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.31\textwidth}
+\normalsize
+\[Z\sim U(-\sqrt{3},\sqrt{3})\]
+
+\vspace{-0.15cm}
+\begin{align*}
+\mathrm{E}[Z] &= 0,\\
+\mu_2 &= \frac{(\sqrt3)^2}{3}=1,\\
+\gamma_1 &= 0,\\
+\beta_2 &= \frac{(\sqrt3)^4}{5}=\frac95=1{,}8.
+\end{align*}
+
+\small Simétrica e limitada: não há valores além de $\pm\sqrt3$.
+\end{column}
+\hfill
+\begin{column}{0.63\textwidth}
+\centering
+```{r figura-uniforme-momentos, out.width='100%'}
+knitr::include_graphics(
+  file.path(diretorio_figuras_momentos, "figura_2_uniforme_momentos.png")
+)
+```
+\vspace{-0.18cm}\parbox{0.94\linewidth}{\centering\scriptsize\itshape Figura 2. Histograma simulado; linha azul: densidade uniforme.}
+\end{column}
+\end{columns}
+
+\speakernote{A escolha dos limites mais ou menos raiz de 3 faz a variância ser exatamente 1. Por simetria, todos os momentos centrais ímpares existentes são zero. O histograma usa 30 mil sorteios reproduzíveis; a linha e os marcadores são teóricos. [Sources] Identidades de momentos da distribuição uniforme; Aronow \& Miller (2019), seção 2.1.2.}
+
+## Normal: mesmo centro e variância, outra forma
+
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.31\textwidth}
+\large
+\[Z\sim\mathcal{N}(0,1)\]
+
+\vspace{-0.10cm}
+\begin{align*}
+\mathrm{E}[Z] &= 0,\\
+\mu_2 &= 1,\\
+\gamma_1 &= 0,\\
+\beta_2 &= 3.
+\end{align*}
+
+\small Também é simétrica, mas não é limitada: as caudas continuam além de $\pm2$.
+\end{column}
+\hfill
+\begin{column}{0.63\textwidth}
+\centering
+```{r figura-normal-momentos, out.width='100%'}
+knitr::include_graphics(
+  file.path(diretorio_figuras_momentos, "figura_3_normal_momentos.png")
+)
+```
+\vspace{-0.18cm}\parbox{0.94\linewidth}{\centering\scriptsize\itshape Figura 3. Histograma de 30.000 sorteios; linha azul: densidade normal teórica.}
+\end{column}
+\end{columns}
+
+\speakernote{Uniforme e normal têm aqui média zero, variância um e assimetria zero. O quarto momento distingue a distribuição limitada da normal com caudas. Para a normal padrão, E[Z elevado a 4] é 3. O histograma usa 30 mil sorteios reproduzíveis; a linha e os marcadores são teóricos. [Sources] Identidades de momentos da distribuição normal; Aronow \& Miller (2019), seção 2.1.2.}
+
+## Poisson: padronizar não elimina a assimetria
+
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.34\textwidth}
+\normalsize
+\[X\sim\operatorname{Pois}(3),\qquad Z=\frac{X-3}{\sqrt3}\]
+
+\vspace{-0.12cm}
+\begin{align*}
+\mathrm{E}[Z] &= 0,\\
+\mu_2 &= 1,\\
+\gamma_1 &= \frac{1}{\sqrt3}\approx0{,}58,\\
+\beta_2 &= 3+\frac13\approx3{,}33.
+\end{align*}
+
+\small A variável é discreta e conserva uma cauda mais longa à direita.
+\end{column}
+\hfill
+\begin{column}{0.60\textwidth}
+\centering
+```{r figura-poisson-momentos, out.width='100%'}
+knitr::include_graphics(
+  file.path(diretorio_figuras_momentos, "figura_4_poisson_momentos.png")
+)
+```
+\vspace{-0.18cm}\parbox{0.94\linewidth}{\centering\scriptsize\itshape Figura 4. Poisson(3) padronizada; laranja: $|z|>2$.}
+\end{column}
+\end{columns}
+
+\speakernote{Para X Poisson lambda, a média e a variância valem lambda, o terceiro momento central vale lambda e o quarto vale lambda mais três lambda ao quadrado. Depois de padronizar, obtemos assimetria 1 sobre raiz de lambda e curtose 3 mais 1 sobre lambda. [Sources] Identidades de momentos centrais da distribuição de Poisson.}
+
+## Os primeiros dois momentos não bastam para descrever a forma
+
+```{r tabela-momentos-distribuicoes, results='asis'}
+momentos_tabela <- momentos_exemplos |>
+  dplyr::mutate(
+    media = format(round(media, 2), decimal.mark = ",", nsmall = 2),
+    variancia = format(round(variancia, 2), decimal.mark = ",", nsmall = 2),
+    assimetria = format(
+      round(assimetria, 2),
+      decimal.mark = ",",
+      nsmall = 2
+    ),
+    curtose = format(round(curtose, 2), decimal.mark = ",", nsmall = 2)
+  ) |>
+  dplyr::select(
+    distribuicao,
+    media,
+    variancia,
+    assimetria,
+    curtose,
+    leitura_visual
+  )
+
+knitr::kable(
+  momentos_tabela,
+  format = "latex",
+  booktabs = TRUE,
+  col.names = c(
+    "Distribuição", "$\\mathrm{E}[Z]$", "$\\mathrm{V}[Z]$",
+    "$\\gamma_1$", "$\\beta_2$", "O que vemos"
+  ),
+  escape = FALSE
+)
+```
+
+\vspace{0.16cm}
+\begin{beamercolorbox}[rounded=true,sep=0.15cm,center]{block body}
+\bfseries As três têm média 0 e variância 1. O terceiro e o quarto momentos registram diferenças que os dois primeiros escondem.
+\end{beamercolorbox}
+
+\vspace{0.12cm}\scriptsize\itshape Tabela 1. Momentos padronizados e forma visual de três distribuições.
+
+\speakernote{Faça a comparação linha a linha. Beta 2 é curtose, não excesso de curtose; por isso, a normal vale 3. O ponto não é que quatro momentos determinem a distribuição, mas que cada ordem acrescenta uma dimensão do resumo. [Sources] Identidades de momentos das distribuições uniforme, normal e Poisson.}
+
+## Da definição à fórmula computacional da variância
+
+\vspace{-0.15cm}\centering\textcolor{accent}{\LARGE$\mathrm{V}[X]=\mathrm{E}\!\left[(X-\mathrm{E}[X])^2\right]$}
+
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.32\textwidth}
+\textcolor{accent}{\Large\bfseries 1}\quad\textbf{Expanda}
+\[
+\mathrm{E}[X^2-2X\mathrm{E}[X]+\mathrm{E}[X]^2]
+\]
+\end{column}
+\begin{column}{0.34\textwidth}
+\textcolor{accent}{\Large\bfseries 2}\quad\textbf{Use linearidade}
+\[
+\mathrm{E}[X^2]-2\mathrm{E}[X]\mathrm{E}[X]+\mathrm{E}[X]^2
+\]
+\end{column}
+\begin{column}{0.32\textwidth}
+\textcolor{accent}{\Large\bfseries 3}\quad\textbf{Simplifique}
+\[
+\mathrm{E}[X^2]-\mathrm{E}[X]^2
+\]
+\end{column}
+\end{columns}
+
+\vspace{0.15cm}
+\begin{beamercolorbox}[rounded=true,sep=0.18cm,center]{block body}
+\LARGE\bfseries $\mathrm{V}[X]=\mathrm{E}[X^2]-\mathrm{E}[X]^2$
+\end{beamercolorbox}
+
+\vspace{0.12cm}\small\bfseries Passo-chave: $\mathrm{E}[X]$ é um número e sai da esperança. Não confunda $\mathrm{E}[X^2]$ com $\mathrm{E}[X]^2$.
+
+\speakernote{O título agora anuncia a finalidade da derivação: obter uma fórmula computacional alternativa. No passo 2, enfatize que mu igual a E[X] é uma constante, de modo que E[X vezes mu] é mu vezes E[X]. [Sources] Aronow \& Miller (2019), seção 2.1.2.}
+
+## Após transformar $X$, acompanhe também a unidade
+
+\small Seja $Z=aX+c$. A constante $a$ também pode representar uma conversão de unidade; $Z$ é medido em $u_Z$. Para MSE e RMSE, transforme igualmente o alvo: $z_0=ax_0+c$.
+
+\vspace{0.10cm}
+\scriptsize\itshape Tabela 2. Valor e unidade das medidas depois da transformação $Z=aX+c$.
+
+\vspace{0.08cm}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{>{\bfseries}l X >{\centering\arraybackslash}p{0.20\textwidth}}
+\toprule
+Medida de $Z$ & Fórmula depois da transformação & Unidade depois da transformação \\
+\midrule
+$\mathrm{E}[Z]$ & $a\mathrm{E}[X]+c$ & $u_Z$ \\
+$\mathrm{V}[Z]$ & $a^2\mathrm{V}[X]$ & $u_Z^2$ \\
+$\sigma[Z]$ & $|a|\sigma[X]$ & $u_Z$ \\
+$\mathrm{MSE}_Z(z_0)$ & $a^2\mathrm{MSE}_X(x_0)$ & $u_Z^2$ \\
+$\mathrm{RMSE}_Z(z_0)$ & $|a|\mathrm{RMSE}_X(x_0)$ & $u_Z$ \\
+\bottomrule
+\end{tabularx}
+
+\vspace{0.15cm}
+\begin{beamercolorbox}[rounded=true,sep=0.13cm,center]{block body}
+\bfseries Se $X$ está em reais e $Z=100X$ está em centavos, média, DP e RMSE ficam em centavos; variância e MSE, em centavos ao quadrado.
+\end{beamercolorbox}
+
+\speakernote{Leia a tabela por linha, dizendo a unidade depois de cada transformação. Se a unidade não muda, a é adimensional e u Z coincide com u X. Se a converte reais em centavos, a carrega a conversão de unidade. O alvo do MSE deve ser transformado junto. [Sources] Aronow \& Miller (2019), seção 2.1.2.}
+
+## Desigualdade de Chebyshev: garantia sem supor a forma
+
+\begin{beamercolorbox}[rounded=true,sep=0.13cm]{block body}
+Para qualquer número real $k>0$, a probabilidade de $X$ estar a pelo menos $k$ desvios-padrão de sua média é, no máximo, $1/k^2$.
+\end{beamercolorbox}
+
+\vspace{0.10cm}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.53\textwidth}
+\textcolor{accent}{\Large\bfseries Em símbolos}
+
+\vspace{0.08cm}
+\[
+\Pr\{|X-\mathrm{E}[X]|\geq k\sigma[X]\}
+\leq\frac{1}{k^2}.
+\]
+
+\small Equivalentemente, a probabilidade de ficar \textbf{dentro} de $k$ desvios-padrão é
+
+\vspace{-0.08cm}
+\[
+\Pr\{|X-\mathrm{E}[X]|<k\sigma[X]\}
+\geq1-\frac{1}{k^2}.
+\]
+
+\small Aqui, $k>0$ é o número escolhido de desvios-padrão e $\sigma[X]$ é o DP de $X$.
+\end{column}
+\hfill
+\begin{column}{0.43\textwidth}
+\textcolor{accent}{\Large\bfseries Exemplo: $k=2$}
+
+\vspace{0.08cm}
+\[
+1-\frac{1}{2^2}=0{,}75.
+\]
+
+{\small\bfseries Pelo menos 75\% fica dentro de $2\sigma$.\par}
+
+\vspace{0.08cm}
+\small Se $X$ é Normal, a probabilidade dentro dos mesmos $2\sigma$ é
+\[
+\Phi(2)-\Phi(-2)\approx0{,}9545,
+\]
+isto é, aproximadamente 95,45\%.
+\end{column}
+\end{columns}
+
+\vspace{0.04cm}
+\begin{beamercolorbox}[rounded=true,sep=0.07cm,center]{block body}
+\small\bfseries Chebyshev promete menos porque vale para qualquer distribuição com variância finita.
+\end{beamercolorbox}
+
+\speakernote{Comece pela frase em palavras e só depois mostre a notação. k é um número real positivo escolhido e mede a distância em desvios-padrão. No exemplo k igual a 2, Chebyshev garante pelo menos 75 por cento dentro de dois desvios-padrão. Para a Normal, a probabilidade exata é Phi de 2 menos Phi de menos 2, aproximadamente 95,45 por cento; a diferença mostra o preço da generalidade de Chebyshev. [Sources] Aronow \& Miller (2019), seção 2.1.2; desigualdade de Chebyshev; distribuição Normal padrão; LinkedIn Learning, Probability Foundations for Data Science, “Chebyshev's inequality”, exemplo indicado pelo docente.}
+
+## Chebyshev dá um IC se conhecemos a variância correta
+
+Suponha que $\widehat\theta$ seja não viesado para $\theta$ e que $v=\mathrm{V}[\widehat\theta]$ seja conhecido. Escolha uma margem $t>0$, nas unidades de $\widehat\theta$, que torne o limite igual a $\alpha$.
+
+\begin{align*}
+\Pr\{|\widehat\theta-\theta|\geq t\}
+&\leq \frac{v}{t^2}=\alpha
+&&\Longrightarrow&
+t&=\sqrt{\frac{v}{\alpha}},\\[0.15cm]
+\Pr\!\left\{\theta\in
+\left[\widehat\theta-\sqrt{\frac{v}{\alpha}},
+      \widehat\theta+\sqrt{\frac{v}{\alpha}}\right]\right\}
+&\geq1-\alpha.
+\end{align*}
+
+\begin{beamercolorbox}[rounded=true,sep=0.14cm,center]{block body}
+Para uma média i.i.d. com variância populacional $\sigma^2$ conhecida: margem de 95\% $=\sqrt{20}\,\sigma/\sqrt n\approx4{,}47\,\sigma/\sqrt n$.
+\end{beamercolorbox}
+
+\vspace{0.12cm}\centering\small Sob normalidade, a margem exata com $\sigma$ conhecida seria $1{,}96\,\sigma/\sqrt n$.
+
+\speakernote{Este é um intervalo de confiança de cobertura pelo menos 1 menos alfa somente porque o estimador está centrado no alvo e sua variância verdadeira é conhecida. Se a variância é apenas estimada, substituir v por v chapéu não preserva automaticamente a garantia finita. [Sources] Aplicação direta da desigualdade de Chebyshev a um estimador não viesado.}
+
+## “Pior cenário” em quê? Forma não é estrutura de dependência
+
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.48\textwidth}
+\textcolor{accent}{\Large\bfseries Por que não usar sempre?}
+
+\begin{itemize}
+\item com o mesmo erro-padrão, $4{,}47>1{,}96$: o intervalo é muito mais largo;
+\item normalmente não conhecemos $\mathrm{V}[\widehat\theta]$;
+\item trocar a variância verdadeira por uma estimativa elimina a garantia automática;
+\item hipóteses adicionais permitem intervalos mais informativos.
+\end{itemize}
+\end{column}
+\hfill
+\begin{column}{0.48\textwidth}
+\bluebox{\raggedright{\Large\bfseries O que é o “pior caso”?}
+
+\small Todas as distribuições com o mesmo centro e a mesma $\mathrm{V}[\widehat\theta]$.
+
+\vspace{0.14cm}\bfseries Não cobre errar $\mathrm{V}[\widehat\theta]$ por ignorar heterocedasticidade, clusters ou dependência temporal.}
+\end{column}
+\end{columns}
+
+\vspace{0.20cm}
+\begin{beamercolorbox}[rounded=true,sep=0.14cm]{block body}
+\bfseries Pode ser maior? Sim, mas não necessariamente. Com o mesmo SE, Chebyshev é mais largo. Com SEs diferentes, a ordem é ambígua:
+$1{,}96\,SE_{rob}>4{,}47\,SE_{iid}$ se $SE_{rob}/SE_{iid}>2{,}28$.
+\end{beamercolorbox}
+
+\speakernote{Com o mesmo erro padrão verdadeiro, o multiplicador de Chebyshev torna seu intervalo mais largo que um intervalo normal. Mas um erro padrão cluster robusto pode ser muito maior que o erro padrão i.i.d.; por isso, a ordem entre intervalos que usam variâncias diferentes é indeterminada. Erros padrão HC ou cluster não são sempre maiores: dependem dos resíduos, alavancagem e estrutura de dependência. Chebyshev aplicado à variância correta do mesmo estimador continuaria mais conservador. [Sources] Desigualdade de Chebyshev; fórmulas usuais de intervalos assintóticos normal e erros padrão robustos.}
+
+## MSE mede distância quadrática a um alvo
+
+\scriptsize Queremos avaliar quão bem uma variável aleatória $X$ aproxima um valor fixo $c$.
+
+\vspace{0.22cm}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.49\textwidth}
+\panelbox{{\Large\bfseries Erro quadrático médio}
+
+\vspace{0.35cm}\centering\textcolor{accent}{\LARGE$\mathrm{MSE}(c)=\mathrm{E}[(X-c)^2]$}
+
+\vspace{0.32cm}\bfseries Unidades: $u^2$}
+\end{column}
+\hfill
+\begin{column}{0.49\textwidth}
+\bluebox{{\Large\bfseries RMSE}
+
+\vspace{0.20cm}\centering\Large$\mathrm{RMSE}(c)=\sqrt{\mathrm{E}[(X-c)^2]}$
+
+\vspace{0.18cm}\small\bfseries Raiz do MSE · unidades: $u$}
+\end{column}
+\end{columns}
+
+\vspace{0.34cm}\centering\large\bfseries $\mathrm{MSE}(0)=\mathrm{E}[X^2]$ \quad·\quad $\mathrm{MSE}(\mathrm{E}[X])=\mathrm{V}[X]$
+
+\speakernote{MSE exige declarar o alvo c. RMSE volta à escala da variável, mas não muda o critério de ordenação. [Sources] Aronow \& Miller (2019), seção 2.1.2.}
+
+## Decomposição do MSE: centralize e expanda
+
+Escreva $\mu=\mathrm{E}[X]$. Queremos separar a flutuação de $X$ ao redor de $\mu$ da distância entre $\mu$ e o alvo $c$.
+
+\vspace{0.25cm}
+\textcolor{accent}{\Large\bfseries 1}\quad\textbf{Some e subtraia $\mu$}
+
+\[
+X-c=(X-\mu)+(\mu-c).
+\]
+
+\vspace{0.16cm}
+\textcolor{accent}{\Large\bfseries 2}\quad\textbf{Eleve ao quadrado}
+
+\[
+(X-c)^2=(X-\mu)^2
++2(X-\mu)(\mu-c)
++(\mu-c)^2.
+\]
+
+\vspace{0.18cm}\centering\bfseries O termo do meio conecta flutuação e deslocamento. A esperança mostrará por que ele desaparece.
+
+\speakernote{Não salte diretamente para a fórmula final. O primeiro passo é uma identidade algébrica; o segundo usa o quadrado de uma soma. Mu e c são constantes. [Sources] Aronow \& Miller (2019), seção 2.1.2.}
+
+## MSE: tome expectativas nos passos 3 e 4
+
+\textcolor{accent}{\Large\bfseries 3}\quad\textbf{Aplique $\mathrm{E}[\,\cdot\,]$ termo a termo}
+
+\[
+\mathrm{E}[(X-c)^2]
+=\mathrm{E}[(X-\mu)^2]
++2(\mu-c)\mathrm{E}[X-\mu]
++(\mu-c)^2.
+\]
+
+\vspace{0.12cm}
+\textcolor{accent}{\Large\bfseries 4}\quad\textbf{Use $\mathrm{E}[X-\mu]=0$}
+
+\begin{beamercolorbox}[rounded=true,sep=0.17cm,center]{block body}
+\LARGE\bfseries
+$\mathrm{MSE}(c)=\mathrm{V}[X]+(\mathrm{E}[X]-c)^2$
+\end{beamercolorbox}
+
+\vspace{0.22cm}\centering
+\textcolor{accent}{\bfseries Flutuação $\mathrm{V}[X]$}
+\qquad+\qquad
+\textcolor{accent}{\bfseries deslocamento ao quadrado $(\mathrm{E}[X]-c)^2$}
+
+\speakernote{A linearidade permite separar os três termos. Como mu é a esperança de X, a esperança de X menos mu é zero; portanto, o termo cruzado desaparece. Esta é a estrutura que reaparecerá como decomposição viés variância para estimadores. [Sources] Aronow \& Miller (2019), seção 2.1.2.}
+
+## Aplicação: o MSE de um estimador
+
+\large Suponha um estimador de $\theta$, $\hat\theta$. Qual é o MSE do meu estimador?
+
+\vspace{0.30cm}
+\small Use a fórmula anterior:
+
+\begin{beamercolorbox}[rounded=true,sep=0.15cm,center]{block body}
+\Large
+$\mathrm{MSE}(c)=\mathrm{V}[X]+\big(\mathrm{E}[X]-c\big)^2$
+\end{beamercolorbox}
+
+\vspace{0.28cm}
+Agora substitua $X=\hat\theta$ e $c=\theta$:
+
+\[
+\mathrm{MSE}(\hat\theta)
+=\mathrm{V}[\hat\theta]
++\big(\mathrm{E}[\hat\theta]-\theta\big)^2.
+\]
+
+\vspace{0.20cm}
+\begin{beamercolorbox}[rounded=true,sep=0.14cm,center]{block body}
+\Large\bfseries
+$\mathrm{MSE}(\hat\theta)
+=\mathrm{V}[\hat\theta]
++\mathrm{Viés}(\hat\theta)^2$
+\end{beamercolorbox}
+
+\speakernote{Comece pela pergunta. O estimador theta chapéu ocupa o lugar de X, e o parâmetro verdadeiro theta ocupa o lugar do alvo c. Substituir esses dois objetos na fórmula anterior produz imediatamente a decomposição do MSE em variância e viés ao quadrado. [Sources] Aronow \& Miller (2019), seção 2.1.2.}
+
+## Onde o MSE é mínimo?
+
+\large Parta novamente da decomposição geral:
+
+\[
+\mathrm{MSE}(c)
+=\underbrace{\mathrm{V}[X]}_{\text{não depende de }c}
++\underbrace{\big(\mathrm{E}[X]-c\big)^2}_{\geq 0}.
+\]
+
+\vspace{0.22cm}
+\begin{itemize}
+\item A variância permanece constante quando mudamos $c$.
+\item O segundo termo atinge seu menor valor, zero, quando $c=\mathrm{E}[X]$.
+\end{itemize}
+
+\vspace{0.18cm}
+\begin{beamercolorbox}[rounded=true,sep=0.17cm,center]{block body}
+\LARGE\bfseries
+$c^*=\mathrm{E}[X]$
+
+\vspace{0.16cm}
+\large $\mathrm{MSE}(c^*)=\mathrm{V}[X]$
+\end{beamercolorbox}
+
+\vspace{0.14cm}
+\begin{beamercolorbox}[rounded=true,sep=0.10cm,center]{block body}
+\small\textbf{Em termos do estimador:} mantida a variância, o MSE é mínimo quando o viés é zero.
+\end{beamercolorbox}
+
+\speakernote{Este resultado não depende de X ser binária nem de uma distribuição específica. A variância não muda com c, e o quadrado nunca é negativo. Logo, o MSE é minimizado quando o alvo constante c coincide com a esperança de X; nesse ponto, sobra apenas a variância. Para um estimador com variância dada, isso corresponde a esperança do estimador igual ao parâmetro verdadeiro, ou viés zero. [Sources] Aronow \& Miller (2019), seção 2.1.2.}
+
+## Covariância resume co-movimento linear
+
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.58\textwidth}
+\begin{beamercolorbox}[rounded=true,sep=0.18cm,center]{block body}
+\Large\bfseries $\mathrm{Cov}[X,Y]=\mathrm{E}[(X-\mathrm{E}[X])(Y-\mathrm{E}[Y])]$
+\end{beamercolorbox}
+
+\vspace{0.28cm}
+\begin{itemize}
+\item produto positivo: os dois desvios têm o mesmo sinal;
+\item produto negativo: os desvios têm sinais opostos;
+\item a covariância é a média desses produtos.
+\end{itemize}
+\end{column}
+\hfill
+\begin{column}{0.38\textwidth}
+\bluebox{{\Large\bfseries Unidades}
+
+Se $X$ é medido em dólares e $Y$ em pontos de alinhamento,
+
+\vspace{0.2cm}\centering\large\bfseries $\mathrm{Cov}[X,Y]$ usa dólares $\times$ pontos.}
+
+\vspace{0.24cm}\small
+\textbf{Logo, a magnitude depende das duas escalas.} O sinal é comparável; o valor bruto, em geral, não.
+\end{column}
+\end{columns}
+
+\speakernote{A definição é um produto médio de desvios. A escala afeta a magnitude e a unidade é o produto das unidades originais; por isso, não compare covariâncias brutas entre pares medidos em escalas distintas. [Sources] Aronow \& Miller (2019), seção 2.2.1.}
+
+## Exercício: derive a forma útil da covariância
+
+Defina $\mu_X=\mathrm{E}[X]$ e $\mu_Y=\mathrm{E}[Y]$. Parta de
+
+\begin{beamercolorbox}[rounded=true,sep=0.18cm,center]{block body}
+\Large\bfseries
+$\mathrm{Cov}[X,Y]=\mathrm{E}[(X-\mu_X)(Y-\mu_Y)]$.
+\end{beamercolorbox}
+
+\vspace{0.30cm}
+\textcolor{accent}{\Large\bfseries Objetivo}
+
+\[
+\mathrm{Cov}[X,Y]
+=\mathrm{E}[XY]-\mathrm{E}[X]\mathrm{E}[Y].
+\]
+
+\vspace{0.20cm}
+\bluebox{\raggedright{\Large\bfseries Dica}
+
+Expanda o produto. Aplique linearidade. Retire $\mu_X$ e $\mu_Y$ da esperança. Quais termos se cancelam?}
+
+\speakernote{Use este slide como exercício, sem mostrar a solução imediatamente. O aluno precisa reconhecer a mesma operação usada na derivação da variância: expandir e mover constantes para fora da esperança. [Sources] Aronow \& Miller (2019), seção 2.2.1.}
+
+## Solução: três termos colapsam em um
+
+\textcolor{accent}{\Large\bfseries 1}\quad\textbf{Expanda o produto}
+
+\[
+(X-\mu_X)(Y-\mu_Y)
+=XY-\mu_YX-\mu_XY+\mu_X\mu_Y.
+\]
+
+\textcolor{accent}{\Large\bfseries 2}\quad\textbf{Aplique a esperança}
+
+\[
+\mathrm{E}[XY]-\mu_Y\mathrm{E}[X]
+-\mu_X\mathrm{E}[Y]+\mu_X\mu_Y.
+\]
+
+\textcolor{accent}{\Large\bfseries 3}\quad\textbf{Substitua $\mathrm{E}[X]=\mu_X$ e $\mathrm{E}[Y]=\mu_Y$}
+
+\begin{beamercolorbox}[rounded=true,sep=0.17cm,center]{block body}
+\Large\bfseries
+$\mathrm{Cov}[X,Y]=\mathrm{E}[XY]-\mu_X\mu_Y
+=\mathrm{E}[XY]-\mathrm{E}[X]\mathrm{E}[Y]$.
+\end{beamercolorbox}
+
+\speakernote{Depois da substituição, aparecem menos mu X mu Y, menos outro mu X mu Y e mais um mu X mu Y; sobra apenas um termo negativo. [Sources] Aronow \& Miller (2019), seção 2.2.1.}
+
+## Variância de uma soma contém covariância
+
+\centering\textcolor{accent}{\LARGE$\mathrm{V}[X+Y]=\mathrm{V}[X]+2\mathrm{Cov}[X,Y]+\mathrm{V}[Y]$}
+
+\vspace{0.30cm}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.48\textwidth}
+\panelbox{{\Large\bfseries Simetria}
+
+$\mathrm{Cov}[X,Y]=\mathrm{Cov}[Y,X]$
+
+\vspace{0.18cm}{\Large\bfseries Mudança de escala}
+
+$\mathrm{Cov}[aX+c,bY+d]=ab\,\mathrm{Cov}[X,Y]$}
+\end{column}
+\hfill
+\begin{column}{0.48\textwidth}
+\bluebox{{\Large\bfseries Constante}
+
+$\mathrm{Cov}[X,c]=0$
+
+\vspace{0.18cm}{\Large\bfseries Se a covariância é zero}
+
+$\mathrm{V}[X+Y]=\mathrm{V}[X]+\mathrm{V}[Y]$}
+\end{column}
+\end{columns}
+
+\vspace{0.32cm}\centering\bfseries Erro comum: a última igualdade exige covariância zero.
+
+\speakernote{Ligue a fórmula a (x+y)^2=x^2+2xy+y^2. Variância não é linear. [Sources] Aronow \& Miller (2019), seção 2.2.1.}
+
+## Correlação remove unidades; inclinação não
+
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.55\textwidth}
+\begin{beamercolorbox}[rounded=true,sep=0.18cm,center]{block body}
+\LARGE\bfseries $\rho[X,Y]=\dfrac{\mathrm{Cov}[X,Y]}{\sigma[X]\sigma[Y]}$
+\end{beamercolorbox}
+
+\vspace{0.16cm}\small A correlação está definida quando $\sigma[X]>0$ e $\sigma[Y]>0$.
+
+\vspace{0.14cm}\large
+\textcolor{accent}{\bfseries Adimensional} e limitada a $[-1,1]$.
+
+\vspace{0.10cm}\small O sinal indica direção; o módulo resume intensidade linear, não importância substantiva.
+\end{column}
+\hfill
+\begin{column}{0.41\textwidth}
+\bluebox{{\Large\bfseries Transformações}
+
+\small Se $a,b\neq0$ e ambas as correlações estão definidas,
+
+\vspace{0.10cm}\centering$\rho[aX+c,bY+d]$
+
+$=\operatorname{sgn}(ab)\rho[X,Y]$
+
+\vspace{0.10cm}\raggedright\scriptsize Somar constantes não muda $\rho$; uma escala negativa muda o sinal.}
+\end{column}
+\end{columns}
+
+\vspace{0.10cm}
+\begin{beamercolorbox}[rounded=true,sep=0.12cm]{block body}
+\large\bfseries Na regressão linear simples com intercepto,
+$\beta_1=\mathrm{Cov}[X,Y]/\mathrm{V}[X]=\rho[X,Y]\,\sigma[Y]/\sigma[X]$.
+
+\vspace{0.07cm}\small\bfseries Desafio: se $Y^*=100Y$, derive por que $\rho[X,Y^*]=\rho[X,Y]$, mas $\beta_1^*=100\beta_1$.
+\end{beamercolorbox}
+
+\speakernote{A transformação exige escalas não nulas e correlações definidas, isto é, desvios-padrão positivos antes e depois da transformação. O desafio liga correlação à regressão: reescalar Y multiplica covariância, desvio-padrão e inclinação por 100, mas o fator cancela na correlação. [Sources] Aronow \& Miller (2019), seção 2.2.2; identidade da inclinação da projeção linear simples.}
+
+## Independência implica covariância zero
+
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.49\textwidth}
+\centering
+\begin{beamercolorbox}[rounded=true,sep=0.16cm]{block body}
+\Large\bfseries $X\perp Y \Longrightarrow \mathrm{Cov}[X,Y]=0$
+\end{beamercolorbox}
+
+\vspace{0.18cm}\large Se $\sigma[X]>0$ e $\sigma[Y]>0$, a correlação está definida e também vale $\rho[X,Y]=0$.
+
+\vspace{0.30cm}\Large\bfseries Mas a volta é falsa:
+
+\vspace{0.12cm}\textcolor{accent}{\LARGE$\rho[X,Y]=0$ não implica $X\perp Y$}
+\end{column}
+\hfill
+\begin{column}{0.47\textwidth}
+\centering
+\begin{tikzpicture}[x=1.12cm,y=0.75cm]
+  \draw[->,muted] (-2.4,0) -- (2.5,0) node[right] {$X$};
+  \draw[->,muted] (0,-0.2) -- (0,4.7) node[above] {$Y$};
+  \foreach \x/\y in {-2/4,-1.5/2.25,-1/1,-.5/.25,0/0,.5/.25,1/1,1.5/2.25,2/4}{\fill[accent] (\x,\y) circle (2.1pt);}
+\end{tikzpicture}
+
+\scriptsize\itshape Figura 6. $X$ simétrico em torno de zero e $Y=X^2$: dependência determinística, correlação zero.
+\end{column}
+\end{columns}
+
+\vspace{0.30cm}\centering\bfseries Correlação zero elimina apenas a inclinação linear média.
+
+\speakernote{Explique a simetria: valores +x e -x produzem o mesmo y; os produtos com desvios se cancelam. [Sources] Aronow \& Miller (2019), seção 2.2.2.}
+
+## A teoria organiza a pergunta do lab
+
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.23\textwidth}
+\panelbox{\raggedright\textcolor{accent}{\Large\bfseries 01}
+
+{\large\bfseries Brasil pré/pós-2009}
+
+\scriptsize Descrever distribuições.}
+\end{column}
+\begin{column}{0.23\textwidth}
+\bluebox{\raggedright\textcolor{accent}{\Large\bfseries 02}
+
+{\large\bfseries Comércio e votos}
+
+\scriptsize Medir associação China--alinhamento.}
+\end{column}
+\begin{column}{0.23\textwidth}
+\panelbox{\raggedright\textcolor{accent}{\Large\bfseries 03}
+
+{\large\bfseries Donor pool}
+
+\scriptsize Comparar com o conjunto de referência.}
+\end{column}
+\begin{column}{0.23\textwidth}
+\bluebox{\raggedright\textcolor{accent}{\Large\bfseries 04}
+
+{\large\bfseries Extensão em painel}
+
+\scriptsize Indicador: China é o principal destino.}
+\end{column}
+\end{columns}
+
+\vspace{0.35cm}\centering\Large\bfseries No lab: primeiro descrevemos, depois quantificamos associação e comparamos distribuições.
+
+\speakernote{Não use linguagem causal. O corte temporal é pré/pós-2009. A extensão em painel não é o primeiro passo. [Sources] syllabus\_2026\_updated.Rmd; desenho de lab confirmado pelo docente em 25/08/2026.}

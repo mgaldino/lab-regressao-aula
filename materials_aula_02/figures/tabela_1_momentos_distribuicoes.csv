@@ -1,0 +1,4 @@
+distribuicao,media,variancia,assimetria,curtose,leitura_visual
+Uniforme padronizada,0,1,0,1.8,simétrica e limitada
+Normal padrão,0,1,0,3,simétrica com caudas
+Poisson(3) padronizada,0,1,0.5773502691896258,3.3333333333333335,assimétrica à direita
