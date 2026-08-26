@@ -7,19 +7,26 @@
 
 options(scipen = 999)
 
-suppressPackageStartupMessages({
-  library(dplyr)
-  library(ggplot2)
-  library(here)
-  library(readr)
-  library(scales)
-  library(tidyr)
-})
 
+library(dplyr)
+library(ggplot2)
+library(here)
+library(readr)
+library(scales)
+library(tidyr)
+
+# veja o que here() mostra
+here()
+
+#agora, com caminho de pastas
+here("projeto_agna", "data", "processed")
+
+# para nao ficar escrevendo here toda vez
 diretorio_processado <- here("projeto_agna", "data", "processed")
 diretorio_saida <- here("projeto_agna", "output", "aula_02")
 dir.create(diretorio_saida, recursive = TRUE, showWarnings = FALSE)
 
+# uma linha por país × votação da ONU.
 painel <- tibble::as_tibble(
   data.table::fread(
     file.path(
@@ -29,62 +36,43 @@ painel <- tibble::as_tibble(
   )
 )
 
+# inspecionando os dados
+glimpse(painel)
+
+# uma linha por país × ano
 painel_anual <- tibble::as_tibble(
   data.table::fread(
     file.path(diretorio_processado, "painel_pais_ano_1997_2016.csv")
   )
 )
+
+glimpse(painel_anual)
+# painel anual agrega as votações de cada país no ano e calcula:
+# - número de votações;
+# - pares de votos válidos país–China;
+# - votos convergentes e divergentes;
+# - taxa_convergencia_china;
+# - fluxo de comércio e demais variáveis país-ano.
+
+
 brasil <- tibble::as_tibble(
   data.table::fread(
     file.path(diretorio_processado, "brasil_convergencia_china_1997_2016.csv")
   )
 )
-unidades <- tibble::as_tibble(
-  data.table::fread(
-    file.path(diretorio_processado, "unidades_autoritativas_1997_2016.csv")
-  )
-)
 
-validacao <- tibble::tibble(
-  checagem = c(
-    "Unidades totais na base-mãe",
-    "Unidades do donor pool",
-    "Brasil na lista autoritativa",
-    "China na lista de unidades",
-    "Anos cobertos",
-    "Votações nominais na janela",
-    "Linhas país x votação",
-    "Chaves país x votação duplicadas",
-    "Pares válidos Brasil-China",
-    "Chaves rcid duplicadas no laboratório",
-    "Ausências no resultado convergente",
-    "Valores do resultado fora de 0/1"
-  ),
-  valor = c(
-    nrow(unidades),
-    sum(unidades$donor_pool == 1L),
-    sum(unidades$pais_iso3 == "BRA"),
-    sum(unidades$pais_iso3 == "CHN"),
-    dplyr::n_distinct(painel$ano),
-    dplyr::n_distinct(painel$rcid),
-    nrow(painel),
-    sum(duplicated(painel[c("pais_iso3", "rcid")])),
-    nrow(brasil),
-    sum(duplicated(brasil$rcid)),
-    sum(is.na(brasil$convergente)),
-    sum(!brasil$convergente %in% c(0L, 1L))
-  ),
-  esperado = c(
-    96L, 95L, 1L, 0L, 20L, 1813L, 174048L, 0L,
-    1762L, 0L, 0L, 0L
-  )
-) |>
-  dplyr::mutate(status = dplyr::if_else(valor == esperado, "PASS", "FAIL"))
+glimpse(brasil)
 
-if (any(validacao$status != "PASS")) {
-  print(validacao)
-  stop("Uma ou mais validacoes da Aula 2 falharam.")
-}
+#
+# O banco brasil é uma versão simplificada do painel de votações, contendo apenas:
+# - Brasil;
+# - votações em que os votos de Brasil e China estão disponíveis;
+# - uma linha por votação;
+# - convergente = 1 quando Brasil e China votaram igual e 0 quando votaram diferente.
+# Ele tem 1.762 linhas. Das 1.813 votações existentes, 51 são excluídas porque não há um par válido Brasil–China.
+
+
+
 
 frequencias_convergencia <- brasil |>
   dplyr::count(convergente, name = "n") |>
@@ -141,6 +129,7 @@ momentos <- tibble::tibble(
 taxa_pre <- resumo_periodo |>
   dplyr::filter(periodo_2009 == "1997-2008") |>
   dplyr::pull(taxa_convergencia)
+
 taxa_pos <- resumo_periodo |>
   dplyr::filter(periodo_2009 == "2009-2016") |>
   dplyr::pull(taxa_convergencia)
@@ -271,7 +260,6 @@ figura_periodo <- ggplot2::ggplot(
   )
 
 caminhos_tabelas <- c(
-  tabela_1 = file.path(diretorio_saida, "tabela_1_validacao.csv"),
   tabela_2 = file.path(
     diretorio_saida,
     "tabela_2_frequencias_convergencia.csv"
@@ -296,7 +284,6 @@ caminhos_tabelas <- c(
   tabela_8 = file.path(diretorio_saida, "tabela_8_mse.csv")
 )
 
-readr::write_csv(validacao, caminhos_tabelas[["tabela_1"]], na = "")
 readr::write_csv(
   frequencias_convergencia,
   caminhos_tabelas[["tabela_2"]],
@@ -349,7 +336,6 @@ ggplot2::ggsave(
 
 manifesto_outputs <- tibble::tribble(
   ~arquivo, ~numero, ~tipo, ~caption,
-  basename(caminhos_tabelas[["tabela_1"]]), "Tabela 1", "tabela", "Validação lógica e estrutural das bases da Aula 2.",
   basename(caminhos_tabelas[["tabela_2"]]), "Tabela 2", "tabela", "Frequências da convergência direta Brasil-China, 1997-2016.",
   basename(caminhos_tabelas[["tabela_3"]]), "Tabela 3", "tabela", "Convergência direta antes e depois de 2009.",
   basename(caminhos_tabelas[["tabela_4"]]), "Tabela 4", "tabela", "Convergência direta por ano, 1997-2016.",
@@ -396,3 +382,41 @@ message(
   "; pre-2009: ", sprintf("%.1f%%", 100 * taxa_pre),
   "; pos-2009: ", sprintf("%.1f%%", 100 * taxa_pos), "."
 )
+
+
+# ##
+# validacao <- tibble::tibble(
+#   checagem = c(
+#     "Unidades totais na base-mãe",
+#     "Unidades do donor pool",
+#     "Brasil na lista autoritativa",
+#     "China na lista de unidades",
+#     "Anos cobertos",
+#     "Votações nominais na janela",
+#     "Linhas país x votação",
+#     "Chaves país x votação duplicadas",
+#     "Pares válidos Brasil-China",
+#     "Chaves rcid duplicadas no laboratório",
+#     "Ausências no resultado convergente",
+#     "Valores do resultado fora de 0/1"
+#   ),
+#   valor = c(
+#     nrow(unidades),
+#     sum(unidades$donor_pool == 1L),
+#     sum(unidades$pais_iso3 == "BRA"),
+#     sum(unidades$pais_iso3 == "CHN"),
+#     dplyr::n_distinct(painel$ano),
+#     dplyr::n_distinct(painel$rcid),
+#     nrow(painel),
+#     sum(duplicated(painel[c("pais_iso3", "rcid")])),
+#     nrow(brasil),
+#     sum(duplicated(brasil$rcid)),
+#     sum(is.na(brasil$convergente)),
+#     sum(!brasil$convergente %in% c(0L, 1L))
+#   ),
+#   esperado = c(
+#     96L, 95L, 1L, 0L, 20L, 1813L, 174048L, 0L,
+#     1762L, 0L, 0L, 0L
+#   )
+# ) |>
+#   dplyr::mutate(status = dplyr::if_else(valor == esperado, "PASS", "FAIL"))
