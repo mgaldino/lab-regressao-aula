@@ -32,6 +32,11 @@ vignettes/*.pdf
 *_cache/
 /cache/
 
+# Scratch and compiler intermediates for the Aula 2 project
+projeto_agna/tmp/
+projeto_agna/**/*.log
+projeto_agna/output/pdf/*.tex
+
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md

@@ -1,0 +1,10 @@
+Aula 2 - convergência direta Brasil-China, 1997-2016
+Escopo: estatísticas descritivas; nenhuma interpretação causal.
+Pares validos: 1762
+Convergentes: 1412
+Divergentes: 350
+Convergência geral: 0.801362
+Pré-2009: 0.786111
+Pós-2009: 0.825513
+Diferença descritiva em pontos percentuais: 3.940209
+Correlação convergente-pos_2009: 0.048103

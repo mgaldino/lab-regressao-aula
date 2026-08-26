@@ -1,0 +1,21 @@
+base,variavel,tipo,unidade,descricao,uso
+todas,pais_iso3,texto,pais,Codigo ISO3 da unidade,chave
+todas,ano,inteiro,ano,Ano da votacao ou do agregado,tempo
+painel_pais_votacao,rcid,inteiro,votacao nominal,Identificador unico da votacao no unvotes,chave
+painel_pais_votacao,data,data,dia,Data da votacao nominal,auditoria
+painel_pais_votacao,periodo_2009,categorica,periodo,1997-2008 ou 2009-2016,descricao pre-pos
+painel_pais_votacao,pos_2009,binaria,votacao,1 para anos de 2009 a 2016,associacao descritiva
+painel_pais_votacao,simbolo_resolucao,texto,votacao,Simbolo da resolucao no objeto un_roll_calls,auditoria
+painel_pais_votacao,tema,texto,votacao,Temas agregados do objeto un_roll_call_issues,descricao
+painel_pais_votacao,voto_pais,categorica,pais-votacao,"yes, no ou abstain; ausente quando nao ha registro valido",resultado observado
+painel_pais_votacao,voto_china,categorica,votacao,Voto da China usado como referencia,referencia
+painel_pais_votacao,par_valido,binaria,pais-votacao,1 quando os votos do pais e da China sao observados,denominador
+painel_pais_votacao,convergente_china,binaria,pais-votacao,1 quando os votos validos do pais e da China sao iguais,resultado descritivo
+painel_pais_votacao,china_principal_destino_paper,binaria,pais-ano,Indicador treatment preservado do synth_data; extensao futura do desenho do paper,nao usado na Aula 2
+painel_pais_votacao,donor_nunca_china_principal,binaria,pais,1 para os 95 donors com treatment sempre zero em 1997-2016,comparacao futura
+painel_pais_votacao,perc_trade_with_china,continua,pais-ano,Campo preservado do synth_data; escala transformada deve ser documentada antes de interpretacao,progressao associacional futura
+painel_pais_votacao,perc_trade_with_us,continua,pais-ano,Campo preservado do synth_data; escala transformada deve ser documentada antes de interpretacao,progressao associacional futura
+painel_pais_ano,n_pares_validos,inteiro,pais-ano,Numero de votacoes com ambos os votos observados,denominador anual
+painel_pais_ano,taxa_convergencia_china,continua,pais-ano,Media de convergente_china entre pares validos,resultado associacional futuro
+brasil_lab,voto_brasil,categorica,votacao,Voto valido do Brasil,descricao
+brasil_lab,convergente,binaria,votacao,1 quando Brasil e China votam da mesma forma,resultado da Aula 2

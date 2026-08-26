@@ -1,0 +1,13 @@
+checagem,valor,esperado,status
+Unidades totais na base-m<c3><a3>e,96,96,PASS
+Unidades do donor pool,95,95,PASS
+Brasil na lista autoritativa,1,1,PASS
+China na lista de unidades,0,0,PASS
+Anos cobertos,20,20,PASS
+Vota<c3><a7><c3><b5>es nominais na janela,1813,1813,PASS
+Linhas pa<c3><ad>s x vota<c3><a7><c3><a3>o,174048,174048,PASS
+Chaves pa<c3><ad>s x vota<c3><a7><c3><a3>o duplicadas,0,0,PASS
+Pares v<c3><a1>lidos Brasil-China,1762,1762,PASS
+Chaves rcid duplicadas no laborat<c3><b3>rio,0,0,PASS
+Aus<c3><aa>ncias no resultado convergente,0,0,PASS
+Valores do resultado fora de 0/1,0,0,PASS

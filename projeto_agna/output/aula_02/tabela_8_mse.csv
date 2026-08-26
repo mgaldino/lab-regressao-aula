@@ -1,0 +1,4 @@
+preditor_constante,valor_predito,mse
+Media observada,0.8013620885357549,0.15918089159336773
+Sempre prever convergencia,1,0.19863791146424462
+Sempre prever divergencia,0,0.8013620885357554

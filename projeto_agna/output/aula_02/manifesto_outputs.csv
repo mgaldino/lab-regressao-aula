@@ -1,0 +1,11 @@
+arquivo,numero,tipo,caption
+tabela_1_validacao.csv,Tabela 1,tabela,Valida<c3><a7><c3><a3>o l<c3><b3>gica e estrutural das bases da Aula 2.
+tabela_2_frequencias_convergencia.csv,Tabela 2,tabela,"Frequ<c3><aa>ncias da converg<c3><aa>ncia direta Brasil-China, 1997-2016."
+tabela_3_resumo_pre_pos_2009.csv,Tabela 3,tabela,Converg<c3><aa>ncia direta antes e depois de 2009.
+tabela_4_convergencia_anual.csv,Tabela 4,tabela,"Converg<c3><aa>ncia direta por ano, 1997-2016."
+tabela_5_momentos.csv,Tabela 5,tabela,"M<c3><a9>dia, vari<c3><a2>ncia e desvio-padr<c3><a3>o das vari<c3><a1>veis bin<c3><a1>rias."
+tabela_6_covariancia_correlacao.csv,Tabela 6,tabela,"Covari<c3><a2>ncia, correla<c3><a7><c3><a3>o e diferen<c3><a7>a descritiva entre per<c3><ad>odos."
+tabela_7_frequencias_votos_brasil_china.csv,Tabela 7,tabela,Combina<c3><a7><c3><b5>es observadas dos votos de Brasil e China.
+tabela_8_mse.csv,Tabela 8,tabela,Erro quadr<c3><a1>tico m<c3><a9>dio de tr<c3><aa>s preditores constantes.
+figura_1_convergencia_anual.png,Figura 1,figura,"Converg<c3><aa>ncia direta Brasil-China por ano, 1997-2016."
+figura_2_convergencia_pre_pos_2009.png,Figura 2,figura,Converg<c3><aa>ncia direta antes e depois de 2009.

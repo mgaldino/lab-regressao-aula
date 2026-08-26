@@ -1,0 +1,8 @@
+tipo,arquivo,sha256,bytes,linhas,colunas,janela,unidade_autoritativa,observacao
+fonte,data/raw/unvotes/unvotes_0.3.0.tar.gz,5c826e9ab6d6aa6bb52fe936050783e2ce5ba879166ba0444fe2f6e530dfdeed,790265,,,1997-2016,pacote R preservado,China e referencia de voto; nao e unidade do donor pool
+fonte,data/raw/donor_pool/synth_data.rds,c71d3257d125888808119eb9ef20118b78fa1b3bde341742de5a28a503becbc4,147076,1920,19,1997-2016,pais-ano: 96 unidades totais,96 unidades totais = Brasil + 95 donors; nao ha 96 donors + Brasil
+derivado,data/processed/painel_pais_votacao_1997_2016.csv.gz,7cddbbc8853108c41a2f53b598bd264bfc27d85abfcf2cf246671f4f9519661c,1945098,174048,40,1997-2016,pais-votacao: 96 unidades x 1.813 votacoes,base-mae completa; convergencia ausente quando um voto nao e observado
+derivado,data/processed/painel_pais_ano_1997_2016.csv,7e1ce8ac8caa37d6d6b6b39604d8fdf7b08275386acc106bf05e322fb50e2b4e,594443,1920,33,1997-2016,pais-ano,agregado anual para progressoes associacionais futuras
+derivado,data/processed/brasil_convergencia_china_1997_2016.csv,6ccdceffde03684449dfb99cd593e65e0470dfafa770f7e408044c55fb2c2cc2,155251,1762,12,1997-2016,votacao nominal do Brasil com par valido,base exclusiva do laboratorio descritivo da Aula 2
+derivado,data/processed/unidades_autoritativas_1997_2016.csv,5b43853bb1c03ddc8a5302585a511e9fea67e82168080b3cda87fe75687223c7,2805,96,5,1997-2016,pais: Brasil e 95 donors,lista extraida diretamente de synth_data.rds
+derivado,data/processed/dicionario_variaveis.csv,942fcc4cda778d375c2bbdf9607c4b2ec51035a5ff4bc63c93321e46ec38a9bd,2302,20,6,1997-2016,variavel,campos de comercio e treatment nao sao usados na Aula 2

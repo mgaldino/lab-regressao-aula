@@ -1,0 +1,432 @@
+---
+title: "Laboratório — Aula 2"
+subtitle: "Distribuições, momentos e associação descritiva nos votos Brasil–China"
+author: "FLS 6183 — Métodos Quantitativos de Pesquisa II"
+date: "26 de agosto de 2026"
+lang: pt-BR
+output:
+  beamer_presentation:
+    latex_engine: xelatex
+    theme: Madrid
+    colortheme: default
+    fonttheme: professionalfonts
+    incremental: false
+    keep_tex: true
+classoption:
+  - aspectratio=169
+  - 10pt
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{xcolor}
+  - \definecolor{AzulAula}{HTML}{1D4ED8}
+  - \definecolor{AzulEscuro}{HTML}{0F172A}
+  - \definecolor{CinzaTexto}{HTML}{334155}
+  - \setbeamercolor{structure}{fg=AzulAula}
+  - \setbeamercolor{title}{fg=white,bg=AzulEscuro}
+  - \setbeamercolor{frametitle}{fg=white,bg=AzulEscuro}
+  - \setbeamercolor{normal text}{fg=CinzaTexto,bg=white}
+  - \setbeamercolor{block title}{fg=white,bg=AzulAula}
+  - \setbeamercolor{block body}{fg=AzulEscuro,bg=blue!5}
+  - \setbeamertemplate{navigation symbols}{}
+  - \setbeamertemplate{caption}[numbered]
+  - \setbeamertemplate{footline}[frame number]
+  - \setlength{\abovecaptionskip}{2pt}
+  - \setlength{\belowcaptionskip}{0pt}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center",
+  out.width = "88%"
+)
+
+options(scipen = 999)
+
+library(dplyr)
+library(here)
+library(knitr)
+library(readr)
+library(scales)
+
+source(
+  here::here(
+    "projeto_agna",
+    "scripts",
+    "02_analise_descritiva_aula2.R"
+  ),
+  encoding = "UTF-8"
+)
+```
+
+# O que vamos aprender hoje
+
+Ao final do laboratório, você será capaz de:
+
+1. identificar a **unidade de análise** e o denominador;
+2. checar dimensões, ausências, duplicatas e regras lógicas;
+3. calcular frequências, média, variância e desvio-padrão;
+4. interpretar covariância e correlação;
+5. comparar dois períodos **sem confundir descrição com causalidade**.
+
+\vfill
+
+> Produto: um PDF curto, uma figura, tabelas e o código R separado.
+
+# A pergunta do dia
+
+\begin{block}{Pergunta substantiva}
+Como se distribui a convergência direta dos votos de Brasil e China na Assembleia Geral da ONU entre 1997 e 2016, antes e depois de 2009?
+\end{block}
+
+\vspace{0.4cm}
+
+Hoje descreveremos:
+
+- quantas vezes os votos coincidem;
+- como a taxa muda entre 1997–2008 e 2009–2016;
+- quanta variação anual fica escondida pela média de cada período.
+
+\vspace{0.3cm}
+
+\alert{Não estimaremos efeito de 2009, do comércio ou da China.}
+
+# Antes da estatística: qual é a unidade?
+
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{Base-mãe}
+Uma linha é um par:
+
+\centering
+\textbf{país $\times$ votação nominal}
+\end{block}
+
+\begin{itemize}
+\item 96 unidades totais;
+\item Brasil + 95 países do \textit{donor pool};
+\item 1.813 votações em 1997–2016;
+\item 174.048 linhas na grade completa.
+\end{itemize}
+
+\column{0.48\textwidth}
+\begin{block}{Base de hoje}
+Filtramos o Brasil e mantemos somente votações com os dois votos observados:
+
+\centering
+\textbf{uma votação nominal}
+\end{block}
+
+\begin{itemize}
+\item 1.762 pares Brasil–China válidos;
+\item \texttt{rcid} identifica a votação;
+\item China é a referência, não a 97ª unidade.
+\end{itemize}
+\end{columns}
+
+# Como construímos o resultado
+
+Para cada votação nominal $i$:
+
+\[
+\text{convergente}_i =
+\begin{cases}
+1, & \text{se Brasil e China deram o mesmo voto;}\\
+0, & \text{se deram votos diferentes.}
+\end{cases}
+\]
+
+Votos válidos: `yes`, `no` ou `abstain`.
+
+\begin{alertblock}{Interpretação precisa}
+Igualdade direta dos registros não é sinônimo de proximidade ideal, apoio diplomático, influência ou mecanismo causal.
+\end{alertblock}
+
+# O fluxo de trabalho de 80 minutos
+
+\begin{enumerate}
+\item Importar e selecionar variáveis — 10 min
+\item Validar estrutura e regras lógicas — 15 min
+\item Construir frequências — 10 min
+\item Calcular média, variância e desvio-padrão — 15 min
+\item Comparar pré/pós-2009 — 15 min
+\item Interpretar covariância, correlação e limites — 10 min
+\item Organizar a entrega — 5 min
+\end{enumerate}
+
+\vfill
+
+Cada etapa produz uma evidência verificável no relatório final.
+
+# Importar e selecionar
+
+```{r importar-codigo, echo=TRUE, eval=FALSE}
+dados <- readr::read_csv(
+  here::here(
+    "projeto_agna", "data", "processed",
+    "brasil_convergencia_china_1997_2016.csv"
+  ),
+  show_col_types = FALSE
+)
+
+dados <- dados |>
+  dplyr::select(
+    rcid, data, ano, periodo_2009, pos_2009,
+    tema, voto_brasil, voto_china, convergente
+  )
+```
+
+\small
+Use caminhos relativos ao projeto e `dplyr::select()` explicitamente.
+
+# Validar antes de resumir
+
+Quatro perguntas evitam conclusões sobre a base errada:
+
+1. **Dimensões:** quantas linhas e colunas existem?
+2. **Ausências:** em quais variáveis e quantos casos?
+3. **Duplicatas:** `rcid` aparece mais de uma vez?
+4. **Regras lógicas:** anos em 1997–2016 e `convergente` apenas 0/1?
+
+```{r validar-codigo, echo=TRUE, eval=FALSE}
+dim(dados)
+sum(duplicated(dados$rcid))
+sum(!dados$ano %in% 1997:2016)
+sum(!dados$convergente %in% c(0, 1))
+```
+
+# O que a validação encontrou
+
+```{r tabela-validacao-slides, results='asis'}
+validacao_slides <- validacao |>
+  dplyr::filter(
+    checagem %in% c(
+      "Unidades totais na base-mãe",
+      "Unidades do donor pool",
+      "Votações nominais na janela",
+      "Linhas país x votação",
+      "Pares válidos Brasil-China",
+      "Chaves rcid duplicadas no laboratório",
+      "Ausências no resultado convergente",
+      "Valores do resultado fora de 0/1"
+    )
+  ) |>
+  dplyr::select(checagem, valor, esperado, status)
+
+knitr::kable(
+  validacao_slides,
+  format = "latex",
+  booktabs = TRUE,
+  caption = "Validação estrutural e lógica das bases da Aula 2.",
+  col.names = c("Checagem", "Valor", "Esperado", "Status")
+)
+```
+
+\small
+Todas as checagens retornaram **PASS**. O denominador de hoje é 1.762, não 1.813.
+
+# Frequências: contar antes de modelar
+
+```{r tabela-frequencias-slides, results='asis'}
+freq_slides <- frequencias_convergencia |>
+  dplyr::mutate(
+    percentual = scales::percent(
+      percentual / 100,
+      accuracy = 0.1,
+      decimal.mark = ","
+    )
+  ) |>
+  dplyr::select(resultado, n, percentual)
+
+knitr::kable(
+  freq_slides,
+  format = "latex",
+  booktabs = TRUE,
+  caption = "Frequências da convergência direta Brasil–China, 1997–2016.",
+  col.names = c("Resultado", "Votações", "Percentual")
+)
+```
+
+\begin{block}{Leitura}
+Brasil e China deram o mesmo voto em 1.412 de 1.762 pares válidos: \textbf{80,1\%}.
+\end{block}
+
+# Por que a média de 0/1 é uma proporção?
+
+\[
+\bar X = \frac{1}{N}\sum_{i=1}^{N}X_i
+\]
+
+Se $X_i \in \{0,1\}$, então $\sum_i X_i$ conta quantos casos valem 1:
+
+\[
+\bar X = \frac{\text{número de convergências}}{\text{número de pares válidos}}
+= \frac{1.412}{1.762}=0{,}801.
+\]
+
+\begin{block}{Atalho útil}
+Para uma variável binária, média = proporção de casos iguais a 1.
+\end{block}
+
+# Variância e desvio-padrão
+
+\begin{columns}[T,onlytextwidth]
+\column{0.52\textwidth}
+Variância amostral usada por \texttt{var()}:
+
+\[
+s^2 = \frac{1}{N-1}\sum_{i=1}^{N}(X_i-\bar X)^2
+\]
+
+Segundo momento central empírico:
+
+\[
+m_2 = \frac{1}{N}\sum_{i=1}^{N}(X_i-\bar X)^2
+\]
+
+\column{0.44\textwidth}
+\begin{block}{Resultados}
+Média: \textbf{0,8014}
+
+Variância $(N-1)$: \textbf{0,1593}
+
+Desvio-padrão: \textbf{0,3991}
+
+Variância $(N)$: \textbf{0,1592}
+\end{block}
+
+Para uma variável binária, $m_2=p(1-p)$.
+\end{columns}
+
+# Comparar os períodos
+
+```{r tabela-periodo-slides, results='asis'}
+periodo_slides <- resumo_periodo |>
+  dplyr::mutate(
+    taxa_convergencia = scales::percent(
+      taxa_convergencia,
+      accuracy = 0.1,
+      decimal.mark = ","
+    )
+  ) |>
+  dplyr::select(
+    periodo_2009,
+    n_pares_validos,
+    n_convergentes,
+    n_divergentes,
+    taxa_convergencia
+  )
+
+knitr::kable(
+  periodo_slides,
+  format = "latex",
+  booktabs = TRUE,
+  caption = "Convergência direta antes e depois de 2009.",
+  col.names = c(
+    "Período", "Pares válidos", "Convergentes",
+    "Divergentes", "Convergência"
+  )
+)
+```
+
+\begin{block}{Diferença descritiva}
+Com as proporções não arredondadas: \textbf{3,9 pontos percentuais}.
+\end{block}
+
+# As duas médias em uma figura
+
+```{r figura-periodo-slides, out.width='70%', fig.cap='Convergência direta dos votos de Brasil e China antes e depois de 2009.'}
+knitr::include_graphics(caminho_figura_2)
+```
+
+\small
+A figura resume os períodos, mas não controla composição temática, agenda anual ou outras mudanças no tempo.
+
+# Covariância e correlação
+
+Defina `pos_2009 = 1` para 2009–2016 e 0 para 1997–2008.
+
+\[
+\operatorname{Cov}(X,Z)=
+\frac{1}{N-1}\sum_{i=1}^{N}(X_i-\bar X)(Z_i-\bar Z)
+\]
+
+\[
+r_{XZ}=\frac{\operatorname{Cov}(X,Z)}{s_Xs_Z}
+\]
+
+\begin{columns}[T,onlytextwidth]
+\column{0.47\textwidth}
+\begin{block}{Covariância}
+0,0094
+
+Depende das unidades de $X$ e $Z$.
+\end{block}
+\column{0.47\textwidth}
+\begin{block}{Correlação}
+0,048
+
+É padronizada e muito pequena.
+\end{block}
+\end{columns}
+
+# A série anual mostra o que as barras escondem
+
+```{r figura-anual-slides, out.width='66%', fig.cap='Convergência direta dos votos de Brasil e China por ano, 1997–2016.'}
+knitr::include_graphics(caminho_figura_1)
+```
+
+\small
+“Pós-2009” não descreve uma trajetória monotônica. Agregar por período muda a pergunta respondida.
+
+# Escrever a conclusão sem exagerar
+
+\begin{block}{Formulação adequada}
+Entre 1997 e 2016, Brasil e China convergiram em 1.412 dos 1.762 pares válidos (80,1\%). A taxa foi 78,6\% em 1997–2008 e 82,6\% em 2009–2016, diferença descritiva de 3,9 pontos percentuais. A correlação entre o indicador de período e a convergência foi 0,048.
+\end{block}
+
+\begin{alertblock}{O que ainda não sabemos}
+A composição das votações e outras condições também mudaram. Os números não atribuem a diferença a 2009, ao comércio ou a um mecanismo específico.
+\end{alertblock}
+
+# Entregável da dupla
+
+Entregue um PDF de 2–4 páginas com:
+
+1. unidade de análise e denominador;
+2. **Tabela 1:** frequências de `convergente`;
+3. **Tabela 2:** média, variância e desvio-padrão;
+4. **Figura 1:** comparação pré/pós-2009;
+5. covariância e correlação com `pos_2009`;
+6. conclusão de 120–160 palavras com unidades e limites.
+
+\vfill
+
+Anexe o código R separado e use `dplyr::select()` ao selecionar colunas.
+
+# Como o projeto avança depois da Aula 2
+
+\begin{enumerate}
+\item \textbf{Cross-sections por ano:} comércio com China e alinhamento de voto.
+\item \textbf{Painel de vários países:} associação ao longo do tempo nas 96 unidades.
+\item \textbf{Comparadores:} Brasil e países do donor pool em que China não virou principal destino.
+\item \textbf{Extensão futura do paper:} indicador China = principal destino como tratamento do desenho.
+\end{enumerate}
+
+\vfill
+
+Hoje usamos apenas os votos do Brasil e fazemos uma descrição pré/pós-2009.
+
+# Três perguntas para fechar
+
+1. Por que 1.762 — e não 1.813 — é o denominador correto de `convergente`?
+2. Por que a média de uma variável 0/1 é uma proporção?
+3. O que a diferença de 3,9 pontos percentuais permite afirmar — e o que não permite?
+
+\vfill
+
+\begin{center}
+\Large Unidade, denominador e linguagem disciplinam a interpretação.
+\end{center}
