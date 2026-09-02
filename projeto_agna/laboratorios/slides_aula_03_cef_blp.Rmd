@@ -1,0 +1,1085 @@
+---
+title: "Aula 3: esperança condicional e previsão"
+subtitle: "CEF, melhores preditores e melhores preditores lineares"
+author: "FLS 6183 - Métodos Quantitativos de Pesquisa II"
+date: "2 de setembro de 2026"
+lang: pt-BR
+output:
+  beamer_presentation:
+    latex_engine: xelatex
+    theme: Madrid
+    colortheme: default
+    fonttheme: professionalfonts
+    incremental: false
+classoption:
+  - aspectratio=169
+  - 10pt
+header-includes:
+  - \usepackage{amsmath}
+  - \usepackage{amssymb}
+  - \usepackage{booktabs}
+  - \usepackage{xcolor}
+  - \definecolor{AzulAula}{HTML}{1D4ED8}
+  - \definecolor{AzulEscuro}{HTML}{0F172A}
+  - \definecolor{CinzaTexto}{HTML}{334155}
+  - \definecolor{VerdeAula}{HTML}{047857}
+  - \setbeamercolor{structure}{fg=AzulAula}
+  - \setbeamercolor{title}{fg=white,bg=AzulEscuro}
+  - \setbeamercolor{frametitle}{fg=white,bg=AzulEscuro}
+  - \setbeamercolor{normal text}{fg=CinzaTexto,bg=white}
+  - \setbeamercolor{block title}{fg=white,bg=AzulAula}
+  - \setbeamercolor{block body}{fg=AzulEscuro,bg=blue!5}
+  - \setbeamercolor{alertblock title}{fg=white,bg=red!75!black}
+  - \setbeamercolor{alertblock body}{fg=AzulEscuro,bg=red!5}
+  - \setbeamertemplate{navigation symbols}{}
+  - \setbeamertemplate{caption}[numbered]
+  - \setbeamertemplate{footline}[frame number]
+  - \setbeamerfont{caption}{size=\scriptsize}
+  - \setlength{\abovecaptionskip}{2pt}
+  - \setlength{\belowcaptionskip}{0pt}
+  - \renewcommand{\tablename}{Tabela}
+  - \renewcommand{\figurename}{Figura}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center",
+  dev = "png",
+  dpi = 180,
+  fig.path = paste0(
+    here::here("projeto_agna", "output", "aula_03"),
+    "/"
+  ),
+  out.width = "82%"
+)
+
+options(scipen = 999)
+
+library(data.table)
+library(dplyr)
+library(ggplot2)
+library(here)
+library(knitr)
+library(scales)
+
+dir.create(
+  here::here("projeto_agna", "output", "aula_03"),
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+dados_agna <- data.table::fread(
+  here::here(
+    "projeto_agna", "data", "processed",
+    "painel_pais_votacao_1997_2016.csv.gz"
+  )
+)
+
+dados_brasil <- dados_agna |>
+  dplyr::filter(
+    pais_iso3 == "BRA",
+    par_valido == 1
+  ) |>
+  dplyr::select(
+    rcid, ano, periodo_2009, pos_2009, tema,
+    convergente_china
+  )
+
+stopifnot(
+  nrow(dados_brasil) == 1762,
+  all(dados_brasil$convergente_china %in% c(0, 1))
+)
+
+resumo_periodo <- dados_brasil |>
+  dplyr::group_by(periodo_2009, pos_2009) |>
+  dplyr::summarise(
+    n = dplyr::n(),
+    convergentes = sum(convergente_china),
+    media_condicional = mean(convergente_china),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(pos_2009)
+
+n_total <- nrow(dados_brasil)
+media_geral <- mean(dados_brasil$convergente_china)
+prob_pos <- mean(dados_brasil$pos_2009)
+media_pre <- resumo_periodo$media_condicional[resumo_periodo$pos_2009 == 0]
+media_pos <- resumo_periodo$media_condicional[resumo_periodo$pos_2009 == 1]
+
+variancia_total <- media_geral * (1 - media_geral)
+variancia_dentro <- sum(
+  (resumo_periodo$n / n_total) *
+    resumo_periodo$media_condicional *
+    (1 - resumo_periodo$media_condicional)
+)
+variancia_entre <- variancia_total - variancia_dentro
+
+resumo_ano <- dados_brasil |>
+  dplyr::group_by(ano) |>
+  dplyr::summarise(
+    n = dplyr::n(),
+    media_condicional = mean(convergente_china),
+    .groups = "drop"
+  )
+
+x_ano <- dados_brasil$ano
+y_ano <- dados_brasil$convergente_china
+beta_ano <- mean(
+  (x_ano - mean(x_ano)) * (y_ano - mean(y_ano))
+) / mean((x_ano - mean(x_ano))^2)
+alpha_ano <- mean(y_ano) - beta_ano * mean(x_ano)
+```
+
+# Mapa conceitual: da média à previsão
+
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{Pergunta}
+Como a esperança de $Y$ muda quando conhecemos $X$?
+\end{block}
+
+\begin{block}{Conexão com a Aula 2}
+Já sabemos resumir $Y$ por esperança, variância, EQM, covariância e correlação.
+\end{block}
+
+\column{0.48\textwidth}
+\begin{block}{Por que importa?}
+Condicionar permite descrever heterogeneidade e construir previsões melhores.
+\end{block}
+
+\begin{block}{Ao final}
+Você saberá calcular e interpretar a função de esperança condicional (CEF), o preditor ótimo e o melhor preditor linear (BLP), sem confundi-los com causalidade.
+\end{block}
+\end{columns}
+
+# Um problema concreto do projeto AGNA
+
+Para cada votação nominal válida $i$ do Brasil:
+
+\[
+Y_i =
+\begin{cases}
+1, & \text{se Brasil e China votaram da mesma forma;}\\
+0, & \text{caso contrário.}
+\end{cases}
+\]
+
+Podemos usar como informação:
+
+- $X_i$: período, com 0 para 1997-2008 e 1 para 2009-2016;
+- $T_i$: tema da votação.
+
+\begin{block}{Pergunta de hoje}
+O que período e tema nos dizem sobre o valor esperado e a previsão de $Y_i$?
+\end{block}
+
+# Quatro perguntas que não são equivalentes
+
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{Descrição}
+Qual é a convergência média observada?
+\end{block}
+\begin{block}{Associação}
+A convergência média difere entre valores de $X$?
+\end{block}
+
+\column{0.48\textwidth}
+\begin{block}{Previsão}
+Que valor de $Y$ devemos prever depois de observar $X$?
+\end{block}
+\begin{alertblock}{Identificação causal}
+Qual seria $Y$ sob valores alternativos de uma intervenção?
+\end{alertblock}
+\end{columns}
+
+\vfill
+
+CEF e BLP respondem a perguntas de \textbf{associação e previsão}; não identificam efeitos causais por si sós.
+
+# Condicionar muda a distribuição relevante
+
+Sem observar $X$, usamos a distribuição marginal de $Y$.
+
+Ao observar $X=x$, descartamos casos incompatíveis com $x$ e usamos a distribuição condicional:
+
+\[
+\Pr(Y=y\mid X=x)
+\quad \text{no caso discreto.}
+\]
+
+\begin{block}{Intuição}
+Não perguntamos mais ``onde está o centro de $Y$?''. Perguntamos ``onde está o centro de $Y$ entre os casos com $X=x$?''
+\end{block}
+
+# Esperança condicional: definição em palavras
+
+\begin{block}{Definição}
+A esperança condicional de $Y$ dado $X=x$ é o centro da distribuição de $Y$ entre realizações em que $X$ assume o valor $x$.
+\end{block}
+
+Se $X$ é binária, existem dois centros:
+
+\[
+E[Y\mid X=0]
+\qquad \text{e} \qquad
+E[Y\mid X=1].
+\]
+
+# Definição formal no caso discreto
+
+Para $x$ no suporte de $X$:
+
+\[
+E[Y\mid X=x]
+=
+\sum_{y\in\operatorname{Supp}(Y)}
+y\,\Pr(Y=y\mid X=x).
+\]
+
+Onde:
+
+- $X$ e $Y$ representam as variáveis aleatórias;
+- $x$ e $y$ representam valores particulares que essas variáveis podem assumir;
+- $\Pr(Y=y\mid X=x)$ é a probabilidade condicional de $Y=y$.
+
+\small
+No caso contínuo, a soma é substituída por uma integral sobre $y$.
+
+# Média condicional ao período pré-2009
+
+Entre 1997 e 2008, há 1.080 pares válidos: 849 convergentes e 231 divergentes.
+
+\[
+\begin{aligned}
+E[Y\mid X=0]
+&= 0\Pr(Y=0\mid X=0)+1\Pr(Y=1\mid X=0)\\
+&=0\left(\frac{231}{1080}\right)
+  +1\left(\frac{849}{1080}\right)\\
+&=0{,}7861.
+\end{aligned}
+\]
+
+\begin{block}{Interpretação}
+Na distribuição empírica observada, a convergência média pré-2009 é 78,6\%.
+\end{block}
+
+# Média condicional ao período pós-2009
+
+Entre 2009 e 2016, há 682 pares válidos: 563 convergentes e 119 divergentes.
+
+\[
+\begin{aligned}
+E[Y\mid X=1]
+&= 0\Pr(Y=0\mid X=1)+1\Pr(Y=1\mid X=1)\\
+&=0\left(\frac{119}{682}\right)
+  +1\left(\frac{563}{682}\right)\\
+&=0{,}8255.
+\end{aligned}
+\]
+
+\begin{block}{Interpretação}
+Na distribuição empírica observada, a convergência média pós-2009 é 82,6\%.
+\end{block}
+
+# A CEF é uma função
+
+O suporte de $X$, $\operatorname{Supp}(X)$, é o conjunto de valores que $X$ pode assumir. Defina:
+
+\[
+m:\operatorname{Supp}(X)\longrightarrow\mathbb{R},
+\qquad
+m(x)=E[Y\mid X=x].
+\]
+
+Para o indicador de período:
+
+\[
+m(x)=
+\begin{cases}
+0{,}7861, & x=0;\\
+0{,}8255, & x=1.
+\end{cases}
+\]
+
+\begin{block}{Função e valor da função}
+$m$ é a função. Já $m(x)$ é o número obtido quando avaliamos essa função em um valor fixo $x$.
+\end{block}
+
+# Avaliar a CEF em $X$ produz uma variável aleatória
+
+Em vez de fixar a entrada em $x$, podemos avaliar a função na própria variável aleatória $X$:
+
+\[
+m(X)=
+\begin{cases}
+m(0)=0{,}7861, & \text{se }X=0;\\
+m(1)=0{,}8255, & \text{se }X=1.
+\end{cases}
+\]
+
+\begin{block}{Convenção de notação}
+Escrevemos $E[Y\mid X]=m(X)$. O objeto é uma variável aleatória porque seu valor depende do valor aleatório assumido por $X$.
+\end{block}
+
+Portanto, não é apenas omitir ``$X=x$'' do condicionante: mudamos de um valor fixo, $m(x)$, para uma função avaliada na variável aleatória, $m(X)$.
+
+# As médias condicionais observadas no AGNA
+
+```{r tabela-medias-periodo, results='asis'}
+tabela_periodo <- resumo_periodo |>
+  dplyr::transmute(
+    Período = periodo_2009,
+    `Pares válidos` = n,
+    Convergentes = convergentes,
+    `Média condicional` = scales::percent(
+      media_condicional,
+      accuracy = 0.1,
+      decimal.mark = ","
+    )
+  )
+
+knitr::kable(
+  tabela_periodo,
+  format = "latex",
+  booktabs = TRUE,
+  caption = paste(
+    "Média condicional observada da convergência Brasil-China",
+    "por período, 1997-2016."
+  ),
+  align = c("l", "r", "r", "r")
+)
+```
+
+\begin{block}{Diferença associacional}
+$m(1)-m(0)=0{,}8255-0{,}7861=0{,}0394$, ou 3,9 pontos percentuais.
+\end{block}
+
+# O que a CEF permite interpretar
+
+\begin{block}{Proposição a demonstrar}
+Sob perda quadrática, a CEF é o melhor preditor de $Y$ entre todas as funções de $X$. A prova virá adiante.
+\end{block}
+
+Ela também organiza comparações:
+
+\[
+m(1)-m(0)=E[Y\mid X=1]-E[Y\mid X=0].
+\]
+
+\begin{alertblock}{Erro a evitar}
+A diferença condicional não é automaticamente o efeito causal de entrar no período pós-2009. Temas votados, agenda e outras condições também mudaram.
+\end{alertblock}
+
+# Esperança iterada: recompor o centro geral
+
+Podemos recuperar a esperança marginal (ou esperança não condicional) a partir da CEF:
+
+\[
+E[Y]=E\!\left[E[Y\mid X]\right].
+\]
+
+\begin{block}{Intuição}
+Primeiro encontramos o centro de $Y$ dentro de cada valor de $X$. Depois calculamos a esperança dessa nova variável, $m(X)$, segundo a distribuição de $X$.
+\end{block}
+
+Não é necessário que $X$ cause $Y$. Essa igualdade é a Lei da Esperança Iterada, uma propriedade da esperança.
+
+# Esperança iterada: derivação, passo 1
+
+No caso discreto, começamos pela definição marginal:
+
+\[
+\begin{aligned}
+E[Y]
+&=\sum_y y\,\Pr(Y=y)\\
+&=\sum_y y\sum_x \Pr(X=x,Y=y)\\
+&=\sum_x\sum_y y\,\Pr(X=x,Y=y).
+\end{aligned}
+\]
+
+\begin{block}{Passo usado}
+Somar as probabilidades conjuntas sobre todos os valores de $x$ produz $\Pr(Y=y)$.
+\end{block}
+
+# Por que podemos trocar a ordem das somas?
+
+No exemplo do AGNA, $X$ e $Y$ são binárias. Portanto, as duas somas têm um número finito de termos:
+
+\[
+\sum_y\sum_x y\,\Pr(X=x,Y=y)
+=
+\sum_x\sum_y y\,\Pr(X=x,Y=y).
+\]
+
+\begin{block}{Ideia}
+Somamos exatamente os mesmos termos; apenas mudamos a ordem em que eles são agrupados.
+\end{block}
+
+\small
+Mais geralmente, se $E[|Y|]<\infty$, a convergência absoluta permite trocar a ordem das somas.
+
+# Esperança iterada: derivação, passo 2
+
+Use $\Pr(X=x,Y=y)=\Pr(Y=y\mid X=x)\Pr(X=x)$:
+
+\[
+\begin{aligned}
+E[Y]
+&=\sum_x\sum_y y\,\Pr(Y=y\mid X=x)\Pr(X=x)\\
+&=\sum_x
+\underbrace{\left[\sum_y y\,\Pr(Y=y\mid X=x)\right]}_{E[Y\mid X=x]}
+\Pr(X=x)\\
+&=E\!\left[E[Y\mid X]\right].
+\end{aligned}
+\]
+
+O termo entre colchetes é a CEF avaliada em $x$.
+
+# Checagem numérica da esperança iterada
+
+No AGNA, $\Pr(X=0)=1080/1762$ e $\Pr(X=1)=682/1762$.
+
+\[
+\begin{aligned}
+E[E[Y\mid X]]
+&=0{,}7861\left(\frac{1080}{1762}\right)
++0{,}8255\left(\frac{682}{1762}\right)\\
+&=0{,}8014\\
+&=\frac{1412}{1762}=E[Y].
+\end{aligned}
+\]
+
+\begin{block}{Leitura}
+A convergência geral de 80,1\% combina os centros dos dois períodos segundo a frequência observada de cada período.
+\end{block}
+
+# O desvio em torno da CEF tem centro condicional zero
+
+Defina o desvio da CEF:
+
+\[
+\varepsilon=Y-E[Y\mid X].
+\]
+
+Então:
+
+\[
+\begin{aligned}
+E[\varepsilon\mid X]
+&=E[Y-E[Y\mid X]\mid X]\\
+&=E[Y\mid X]-E[Y\mid X]\\
+&=0.
+\end{aligned}
+\]
+
+Consequências: $E[\varepsilon]=0$ e $\operatorname{Cov}(g(X),\varepsilon)=0$ para qualquer função $g$ de $X$.
+
+# Pausa 1: o que muda ao incluir tema?
+
+Suponha que trocamos $X$ pelo par $(T,X)$, tema e período.
+
+\begin{enumerate}
+\item Em que condição $E[Y\mid T,X]$ reduzirá o EQM em relação a $E[Y\mid X]$?
+\item Uma diferença grande entre temas pode coexistir com uma diferença pequena entre períodos?
+\item Como poucos votos em uma célula tema-período afetam a confiança que você teria na média observada?
+\end{enumerate}
+
+\begin{block}{Dica}
+Pense no quanto os centros das células variam e no número de observações que sustenta cada centro.
+\end{block}
+
+# Prever exige definir uma função de perda
+
+Um preditor $g(X)$ usa o valor observado de $X$ para produzir uma previsão de $Y$.
+
+Sob perda quadrática, avaliamos:
+
+\[
+\operatorname{EQM}(g)
+=
+E\!\left[(Y-g(X))^2\right].
+\]
+
+Onde:
+
+- $g$ é a regra de previsão;
+- $Y-g(X)$ é o erro de previsão;
+- o quadrado penaliza erros maiores mais intensamente.
+
+# Sem informação de $X$, a melhor constante é $E[Y]$
+
+Considere previsões constantes $g(X)=c$.
+
+\[
+\begin{aligned}
+E[(Y-c)^2]
+&=E[(Y-E[Y]+E[Y]-c)^2]\\
+&=\operatorname{V}(Y)+(E[Y]-c)^2.
+\end{aligned}
+\]
+
+Como $\operatorname{V}(Y)$ não depende de $c$, o menor EQM ocorre em:
+
+\[
+c=E[Y].
+\]
+
+No AGNA, a melhor previsão constante é 0,8014.
+
+# A CEF é o melhor preditor sob EQM
+
+\begin{block}{Resultado}
+Entre todas as funções possíveis de $X$, $m(X)=E[Y\mid X]$ minimiza $E[(Y-g(X))^2]$.
+\end{block}
+
+O resultado não exige:
+
+- que a CEF seja linear;
+- que $X$ seja contínua;
+- que $X$ cause $Y$;
+- que os desvios tenham variância constante.
+
+Ele exige que a esperança dos quadrados envolvidos seja finita.
+
+# Prova do preditor ótimo: passo 1
+
+Para qualquer candidato $g(X)$, escreva:
+
+\[
+Y-g(X)
+=
+\underbrace{Y-m(X)}_{\varepsilon}
++
+\underbrace{m(X)-g(X)}_{W}.
+\]
+
+Ao elevar ao quadrado:
+
+\[
+(Y-g(X))^2
+=
+\varepsilon^2+2\varepsilon W+W^2.
+\]
+
+Como $W$ depende somente de $X$, podemos tratá-lo como fixo ao condicionar em $X$.
+
+# Prova do preditor ótimo: passo 2
+
+O termo cruzado desaparece:
+
+\[
+E[\varepsilon W]
+=E[E[\varepsilon W\mid X]]
+=E[W E[\varepsilon\mid X]]=0.
+\]
+
+Logo:
+
+\[
+\operatorname{EQM}(g)
+=
+\underbrace{E[(Y-m(X))^2]}_{\text{erro irredutível dado }X}
++
+\underbrace{E[(m(X)-g(X))^2]}_{\text{custo de não usar a CEF}}.
+\]
+
+O segundo termo é não negativo e vale zero quando $g(X)=m(X)$.
+
+# Quanto o período melhora a previsão no AGNA?
+
+```{r tabela-eqm, results='asis'}
+tabela_eqm <- data.frame(
+  Preditor = c(
+    "Constante 0,5",
+    "Sempre 1",
+    "Média geral E[Y]",
+    "CEF por período E[Y|X]"
+  ),
+  Previsão = c(
+    "0,5000",
+    "1,0000",
+    "0,8014",
+    "0,7861 ou 0,8255"
+  ),
+  EQM = c(
+    "0,250000",
+    "0,198638",
+    "0,159181",
+    "0,158813"
+  )
+)
+
+knitr::kable(
+  tabela_eqm,
+  format = "latex",
+  booktabs = TRUE,
+  caption = "EQM de quatro previsores na distribuição empírica Brasil-China.",
+  align = c("l", "c", "r")
+)
+```
+
+\small
+Na distribuição empírica observada, a CEF reduz o EQM em apenas $0{,}000368$ ante a média geral. Esse ganho coincide com $\operatorname{V}(E[Y\mid X])$ na decomposição da variância apresentada no anexo.
+
+Ser ótimo não significa produzir grande ganho preditivo.
+
+# Predição ótima não revela um mecanismo
+
+\begin{alertblock}{O teorema é preditivo}
+Se soubermos a distribuição conjunta de $(X,Y)$, a CEF minimiza o EQM ao prever $Y$ com $X$.
+\end{alertblock}
+
+O teorema não responde:
+
+- por que a distribuição conjunta tem essa forma;
+- o que ocorreria se intervíssemos em $X$;
+- se a associação sobreviveria em outra população ou período;
+- como estimar a CEF populacional com amostra finita.
+
+\vfill
+
+Essas são perguntas de mecanismo, identificação, transporte e inferência.
+
+# O BLP restringe a regra de previsão
+
+A CEF pode assumir qualquer forma. Começamos restringindo a busca a regras com dois coeficientes ainda desconhecidos:
+
+\[
+g(X)=\alpha+\beta X,
+\]
+
+onde $\alpha$ é o intercepto e $\beta$ é a inclinação. O BLP escolhe esses dois números para resolver:
+
+\[
+\min_{(\alpha,\beta)\in\mathbb{R}^2}
+E[(Y-\alpha-\beta X)^2].
+\]
+
+\begin{block}{Troca envolvida}
+Ganhamos uma descrição por dois números; podemos perder padrões não lineares da CEF.
+\end{block}
+
+# Derivação do BLP: passo 1, condições de primeira ordem
+
+Defina $Q(\alpha,\beta)=E[(Y-\alpha-\beta X)^2]$ e $u=Y-\alpha-\beta X$.
+
+\[
+\frac{\partial Q}{\partial \alpha}
+=-2E[u]=0,
+\qquad
+\frac{\partial Q}{\partial \beta}
+=-2E[Xu]=0.
+\]
+
+Portanto, os coeficientes escolhidos satisfazem:
+
+\[
+E[Y-\alpha-\beta X]=0,
+\qquad
+E[X(Y-\alpha-\beta X)]=0.
+\]
+
+\small
+As duas condições dizem que o desvio do BLP tem esperança zero e é ortogonal a $X$.
+
+# Derivação do BLP: passo 2, resolver o intercepto
+
+Use a primeira condição:
+
+\[
+\begin{aligned}
+0
+&=E[Y-\alpha-\beta X]\\
+&=E[Y]-\alpha-\beta E[X].
+\end{aligned}
+\]
+
+Logo:
+
+\[
+\boxed{\alpha=E[Y]-\beta E[X].}
+\]
+
+\begin{block}{Implicação geométrica}
+A reta é $g(x)=\alpha+\beta x$. Ao avaliá-la em $x=E[X]$:
+\[
+g(E[X])=\alpha+\beta E[X]=E[Y].
+\]
+Logo, o BLP passa pelo ponto $(E[X],E[Y])$.
+\end{block}
+
+\small
+Isso não exige avaliar a reta em $x=0$. O intercepto é $g(0)=\alpha$; somente quando $E[X]=0$ temos $\alpha=E[Y]$.
+
+# Derivação do BLP: passo 3, resolver a inclinação
+
+Substitua $\alpha=E[Y]-\beta E[X]$ na segunda condição:
+
+\[
+\begin{aligned}
+0
+&=E[X(Y-\alpha-\beta X)]\\
+&=E[XY]-E[X]E[Y]-\beta\{E[X^2]-E[X]^2\}\\
+&=\operatorname{Cov}(X,Y)-\beta\operatorname{V}(X).
+\end{aligned}
+\]
+
+Se $\operatorname{V}(X)>0$:
+
+\[
+\boxed{\beta=\frac{\operatorname{Cov}(X,Y)}{\operatorname{V}(X)}.}
+\]
+
+# Como interpretar os dois coeficientes do BLP
+
+\[
+g(X)=\alpha+\beta X,
+\qquad
+\beta=\frac{\operatorname{Cov}(X,Y)}{\operatorname{V}(X)},
+\qquad
+\alpha=E[Y]-\beta E[X].
+\]
+
+\begin{block}{Inclinação $\beta$}
+Mudança na previsão linear quando $X$ aumenta uma unidade. Depende das unidades de $X$ e $Y$.
+\end{block}
+
+\begin{block}{Intercepto $\alpha$}
+Previsão linear quando $X=0$. Só tem interpretação substantiva direta se zero for um valor relevante.
+\end{block}
+
+\small
+Nenhum dos dois coeficientes recebe interpretação causal sem um argumento adicional de identificação.
+
+# Se a CEF é linear, ela coincide com o BLP
+
+Suponha que a CEF já tenha a forma:
+
+\[
+E[Y\mid X]=c+dX.
+\]
+
+Essa função pertence ao conjunto de candidatos lineares e já minimiza o EQM entre \textbf{todas} as funções de $X$.
+
+Logo, também minimiza o EQM no conjunto menor de funções lineares:
+
+\[
+\alpha=c,
+\qquad
+\beta=d,
+\qquad
+\mathrm{BLP}(X)=E[Y\mid X].
+\]
+
+\begin{alertblock}{A recíproca exige cuidado}
+O BLP sempre é linear; sua existência não implica que a CEF seja linear.
+\end{alertblock}
+
+# Exemplo calculado: BLP com indicador de período
+
+Com $X\in\{0,1\}$:
+
+\[
+\begin{aligned}
+\beta
+&=E[Y\mid X=1]-E[Y\mid X=0]\\
+&=0{,}8255-0{,}7861=0{,}0394,\\[2mm]
+\alpha
+&=E[Y\mid X=0]=0{,}7861.
+\end{aligned}
+\]
+
+Assim:
+
+\[
+g(X)=0{,}7861+0{,}0394X.
+\]
+
+Para $X=0$, a previsão é 0,7861; para $X=1$, é 0,8255.
+
+# Com $X$ binária, a reta já é saturada
+
+Uma reta tem dois parâmetros e precisa reproduzir apenas dois pontos:
+
+\[
+\begin{aligned}
+g(0)&=\alpha=E[Y\mid X=0],\\
+g(1)&=\alpha+\beta=E[Y\mid X=1].
+\end{aligned}
+\]
+
+Portanto:
+
+\[
+g(X)=E[Y\mid X]
+\qquad \text{quando } X\in\{0,1\}.
+\]
+
+\begin{block}{Generalização para $X$ discreta}
+Se $X$ assume $K$ valores, um intercepto e $K-1$ indicadoras saturam o preditor linear:
+\[
+g_{\mathrm{sat}}(X)=\alpha+\sum_{k=2}^{K}\delta_k\,\mathbf{1}\{X=x_k\}.
+\]
+Esse BLP coincide com a CEF. Com $K>2$, apenas a reta $\alpha+\beta X$ geralmente não coincide.
+\end{block}
+
+# Indicadoras de ano saturam o BLP
+
+```{r figura-1-cef-anual-blp, fig.width=8.6, fig.height=3.75, fig.cap='CEF anual, equivalente ao BLP saturado em indicadoras de ano, e BLP linear simples da convergência Brasil-China, 1997-2016.'}
+resumo_figura <- resumo_ano |>
+  dplyr::mutate(
+    blp = alpha_ano + beta_ano * ano
+  )
+
+ggplot(
+  resumo_figura,
+  aes(x = ano, y = media_condicional)
+) +
+  geom_line(
+    aes(color = "CEF anual = BLP saturado"),
+    linewidth = 0.65
+  ) +
+  geom_point(
+    aes(color = "CEF anual = BLP saturado"),
+    size = 1.8
+  ) +
+  geom_line(
+    aes(y = blp, color = "BLP linear em ano"),
+    linewidth = 0.9
+  ) +
+  scale_color_manual(
+    values = c(
+      "CEF anual = BLP saturado" = "#1D4ED8",
+      "BLP linear em ano" = "#B91C1C"
+    )
+  ) +
+  scale_x_continuous(
+    breaks = seq(1997, 2016, by = 3)
+  ) +
+  scale_y_continuous(
+    labels = scales::label_percent(
+      accuracy = 1,
+      decimal.mark = ","
+    ),
+    limits = c(0.65, 0.92)
+  ) +
+  labs(
+    x = "Ano da votação",
+    y = "Convergência média",
+    color = NULL
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    legend.position = "top",
+    panel.grid.minor = element_blank()
+  )
+```
+
+\scriptsize
+Uma indicadora para cada ano, omitindo uma categoria de referência, reproduz exatamente a CEF anual em azul. A reta vermelha usa apenas o termo numérico ano e pode perder padrões não lineares. A figura é descritiva e pondera anos pelo número de votos válidos.
+
+# Desvios da CEF e do BLP têm forças diferentes
+
+Para a CEF, $\varepsilon_{\mathrm{CEF}}=Y-E[Y\mid X]$ satisfaz:
+
+\[
+E[\varepsilon_{\mathrm{CEF}}\mid X]=0.
+\]
+
+Para o BLP linear simples, $\varepsilon_{\mathrm{BLP}}=Y-(\alpha+\beta X)$ satisfaz:
+
+\[
+E[\varepsilon_{\mathrm{BLP}}]=0,
+\qquad
+\operatorname{Cov}(X,\varepsilon_{\mathrm{BLP}})=0.
+\]
+
+\begin{alertblock}{Diferença central}
+Em um BLP não saturado, o desvio pode ter esperança condicional diferente de zero para alguns valores de $X$. Com indicadoras saturadas para $X$ discreta, o BLP coincide com a CEF e essa diferença desaparece.
+\end{alertblock}
+
+# Independência produz CEF e BLP constantes
+
+Se $X$ e $Y$ são independentes, então $\Pr(Y=y\mid X=x)=\Pr(Y=y)$.
+
+Logo:
+
+\[
+E[Y\mid X]=E[Y],
+\qquad
+\operatorname{V}(Y\mid X)=\operatorname{V}(Y).
+\]
+
+Além disso, $\operatorname{Cov}(X,Y)=0$, então:
+
+\[
+\beta=0,
+\qquad
+\alpha=E[Y].
+\]
+
+\begin{alertblock}{A volta não é automática}
+Covariância zero ou BLP horizontal não implica independência; relações não lineares podem permanecer.
+\end{alertblock}
+
+# De volta às quatro perguntas do projeto
+
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{Podemos fazer hoje}
+Descrever médias por tema e período; comparar CEFs; construir previsões simples; comparar EQMs; resumir linearmente com BLP.
+\end{block}
+
+\column{0.48\textwidth}
+\begin{alertblock}{Ainda não podemos fazer}
+Atribuir mudanças a 2009; interpretar associação como efeito do comércio; antecipar MQO; estimar regressões em corte transversal ou painel.
+\end{alertblock}
+\end{columns}
+
+\vfill
+
+O laboratório produzirá uma análise de associação e previsão, não uma afirmação causal.
+
+# Desafio para a turma de pós-graduação
+
+1. Se a CEF é não linear, por que mudar a distribuição de $X$ pode mudar o BLP mesmo sem mudar a CEF?
+
+2. Uma variável pode reduzir muito o EQM e ainda ser inútil para identificação causal? Construa um exemplo.
+
+3. Ao cruzar tema e período, que tensão surge entre flexibilidade da CEF e número de observações por célula?
+
+4. Se o BLP tem inclinação zero, que tipos de associação entre $X$ e $Y$ ainda podem existir?
+
+# Síntese: três ideias para levar adiante
+
+\begin{enumerate}
+\item A CEF $E[Y\mid X=x]$ descreve como o centro de $Y$ varia com $x$.
+\item Sob EQM, a CEF é o melhor preditor; o BLP é o melhor entre preditores lineares.
+\item Descrição, associação e previsão não substituem identificação causal.
+\end{enumerate}
+
+\vfill
+
+\begin{center}
+\Large Condicionar organiza informação; não cria um contrafactual.
+\end{center}
+
+\vfill
+
+\scriptsize
+Leitura-base: Aronow, Peter M., e Benjamin T. Miller. \textit{Foundations of Agnostic Statistics} (2019), seções 2.2.3-2.2.5. Dados: recorte AGNA de votações da Assembleia Geral da ONU, 1997-2016.
+
+# Anexo: de onde vem o termo cruzado?
+
+Defina $m(X)=E[Y\mid X]$ e some e subtraia $m(X)$:
+
+\[
+Y-E[Y]
+=
+\underbrace{Y-m(X)}_{\text{desvio dentro}}
++
+\underbrace{m(X)-E[Y]}_{\text{desvio entre}}.
+\]
+
+Ao calcular a variância, elevamos essa soma ao quadrado. Inicialmente aparecem três termos:
+
+\small
+
+\[
+\begin{aligned}
+\operatorname{V}(Y)
+&=\underbrace{E[(Y-m(X))^2]}_{\text{termo dentro}}\\
+&\quad+\underbrace{2E[(Y-m(X))(m(X)-E[Y])]}_{\text{termo cruzado}}\\
+&\quad+\underbrace{E[(m(X)-E[Y])^2]}_{\text{termo entre}}.
+\end{aligned}
+\]
+
+O próximo passo mostra por que o termo do meio desaparece.
+
+# Anexo: por que o termo cruzado é zero?
+
+O termo cruzado é duas vezes a esperança de um produto. Basta mostrar que essa esperança é zero:
+
+\small
+
+\[
+\underbrace{
+E\!\left[(Y-m(X))(m(X)-E[Y])\right]
+}_{E[AB]}
+=
+\underbrace{
+E\!\left[E\!\left[(Y-m(X))(m(X)-E[Y])\mid X\right]\right]
+}_{E[E[AB\mid X]]}.
+\]
+
+Como $m(X)-E[Y]$ é função de $X$, podemos retirá-lo da esperança condicional:
+
+\[
+E[E[AB\mid X]]
+=
+E\!\left[(m(X)-E[Y])
+\underbrace{E[Y-m(X)\mid X]}_{m(X)-m(X)=0}
+\right]
+=0.
+\]
+
+# Anexo: decomposição da variância no AGNA
+
+Como o termo cruzado é zero, restam apenas as parcelas dentro e entre:
+
+\[
+\operatorname{V}(Y)
+=
+\underbrace{E[\operatorname{V}(Y\mid X)]}_{\text{dentro}}
++
+\underbrace{\operatorname{V}(E[Y\mid X])}_{\text{entre}}.
+\]
+
+Como $Y$ é binária, $\operatorname{V}(Y\mid X=x)=m(x)[1-m(x)]$.
+
+\[
+\begin{aligned}
+E[\operatorname{V}(Y\mid X)]
+&=\underbrace{0{,}6129}_{\Pr(X=0)}(0{,}7861)(0{,}2139)\\
+&\quad+\underbrace{0{,}3871}_{\Pr(X=1)}(0{,}8255)(0{,}1745)\\
+&=0{,}158813.
+\end{aligned}
+\]
+
+\[
+\operatorname{V}(E[Y\mid X])=0{,}000368,
+\qquad
+\operatorname{V}(Y)=0{,}159181.
+\]
+
+\small
+$0{,}158813+0{,}000368=0{,}159181$. O período separa pouca da variabilidade total voto a voto.
+
+# Anexo: a parcela entre grupos é o ganho preditivo
+
+Sob perda quadrática:
+
+\[
+\begin{aligned}
+\operatorname{EQM}(E[Y])
+&=\operatorname{V}(Y),\\
+\operatorname{EQM}(E[Y\mid X])
+&=E[\operatorname{V}(Y\mid X)].
+\end{aligned}
+\]
+
+Logo:
+
+\[
+\operatorname{EQM}(E[Y])-
+\operatorname{EQM}(E[Y\mid X])
+=\operatorname{V}(E[Y\mid X]).
+\]
+
+\begin{block}{No AGNA}
+$0{,}159181-0{,}158813=0{,}000368$: conhecer o período reduz o EQM em apenas 0,23\%. A decomposição quantifica quanto da variação de $Y$ é previsível a partir de $X$.
+\end{block}
