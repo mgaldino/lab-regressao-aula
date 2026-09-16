@@ -1,0 +1,960 @@
+---
+title: "Aula 4: inferência causal"
+subtitle: "Resultados potenciais, mecanismos de seleção e experimentos aleatórios"
+author: "FLS 6183 - Métodos Quantitativos de Pesquisa II"
+date: "16 de setembro de 2026"
+lang: pt-BR
+output:
+  beamer_presentation:
+    latex_engine: xelatex
+    theme: Madrid
+    colortheme: default
+    fonttheme: professionalfonts
+    incremental: false
+classoption:
+  - aspectratio=169
+  - 10pt
+header-includes:
+  - \usepackage{amsmath}
+  - \usepackage{amssymb}
+  - \usepackage{booktabs}
+  - \usepackage{array}
+  - \usepackage{xcolor}
+  - \usepackage{graphicx}
+  - \definecolor{AzulAula}{HTML}{1D4ED8}
+  - \definecolor{AzulEscuro}{HTML}{0F172A}
+  - \definecolor{CinzaTexto}{HTML}{334155}
+  - \definecolor{VerdeAula}{HTML}{047857}
+  - \definecolor{LaranjaAula}{HTML}{B45309}
+  - \definecolor{VermelhoAula}{HTML}{B91C1C}
+  - \setbeamercolor{structure}{fg=AzulAula}
+  - \setbeamercolor{title}{fg=white,bg=AzulEscuro}
+  - \setbeamercolor{frametitle}{fg=white,bg=AzulEscuro}
+  - \setbeamercolor{normal text}{fg=CinzaTexto,bg=white}
+  - \setbeamercolor{block title}{fg=white,bg=AzulAula}
+  - \setbeamercolor{block body}{fg=AzulEscuro,bg=blue!5}
+  - \setbeamercolor{alertblock title}{fg=white,bg=red!75!black}
+  - \setbeamercolor{alertblock body}{fg=AzulEscuro,bg=red!5}
+  - \setbeamertemplate{navigation symbols}{}
+  - \setbeamertemplate{caption}[numbered]
+  - \setbeamertemplate{footline}[frame number]
+  - \setbeamerfont{caption}{size=\scriptsize}
+  - \setlength{\abovecaptionskip}{2pt}
+  - \setlength{\belowcaptionskip}{0pt}
+  - \renewcommand{\tablename}{Tabela}
+  - \renewcommand{\figurename}{Figura}
+---
+
+# Correlações que convidam uma interpretação causal
+
+\begin{enumerate}
+\item Pessoas que jogam \textbf{tênis} vivem mais.
+\vspace{0.7em}
+\item Casais que mantêm \textbf{sobrenomes separados} se divorciam mais e antes.
+\vspace{0.7em}
+\item Eleitores \textbf{contatados por campanhas} apoiam mais o candidato.
+\end{enumerate}
+
+\vfill
+
+\begin{alertblock}{A tentação}
+Cada correlação permite contar uma história plausível sobre causa e efeito. A história, sozinha, não mostra o que aconteceria se mudássemos a escolha ou a intervenção.
+\end{alertblock}
+
+# Tênis e longevidade
+
+\begin{columns}[T,onlytextwidth]
+\column{0.58\textwidth}
+\includegraphics[width=\linewidth]{../assets/aula_04/abc_tennis_headline.png}
+
+\vspace{0.2em}
+
+{\tiny Fonte do print: \href{https://www.abc.net.au/news/health/2018-12-08/tennis-tops-list-of-sports-for-increasing-life-expectancy/10459480}{ABC News}, 07/12/2018.}
+
+\column{0.38\textwidth}
+{\fontsize{30}{34}\selectfont\color{AzulAula}\textbf{9,7 anos}}
+
+\small
+Diferença estimada de expectativa de vida entre praticantes de tênis e pessoas sedentárias.
+
+\vspace{0.55em}
+
+\textbf{História causal:} exercício, decisões rápidas e contato social prolongariam a vida.
+
+\vspace{0.55em}
+
+\textbf{Seleção:} saúde anterior, renda, acesso, rotina e sociabilidade também influenciam quem joga.
+\end{columns}
+
+\vfill
+
+\begin{alertblock}{Pergunta causal}
+O tênis prolonga a vida ou pessoas com trajetórias diferentes escolhem jogar tênis?
+\end{alertblock}
+
+\begin{flushleft}
+\tiny Estudo: Schnohr et al. (2018), Copenhagen City Heart Study. Associação observacional ajustada.
+\end{flushleft}
+
+# Sobrenome compartilhado e divórcio
+
+\begin{columns}[T,onlytextwidth]
+\column{0.58\textwidth}
+\includegraphics[width=\linewidth]{../assets/aula_04/polymarket_sobrenome_tweet.png}
+
+\vspace{0.2em}
+
+{\tiny Fonte do print: \href{https://x.com/Polymarket/status/2099882730271961547}{Polymarket no X}, 15/09/2026.}
+
+\column{0.38\textwidth}
+{\fontsize{26}{30}\selectfont\color{AzulAula}\textbf{+50\%}}
+
+\small
+O post afirma mais divórcios e separações cerca de \textbf{30\% mais cedo} entre casais com sobrenomes diferentes.
+
+\vspace{0.55em}
+
+\textbf{Seleção:} valores, religiosidade, expectativas e compromisso influenciam a escolha do sobrenome e o casamento.
+\end{columns}
+
+\vfill
+
+\begin{alertblock}{Pergunta causal}
+Incentivar casais a compartilhar um sobrenome reduziria divórcios?
+\end{alertblock}
+
+\begin{flushleft}
+\tiny Análise original: Stone (2026), Institute for Family Studies. O autor descreve forte viés de seleção e não atribui sobrenomes aleatoriamente.
+\end{flushleft}
+
+# Contato de campanha e apoio eleitoral
+
+\begin{block}{Comparação observacional}
+Eleitores contatados por uma campanha podem demonstrar mais apoio ao candidato do que eleitores não contatados.
+\end{block}
+
+\vspace{0.8em}
+
+Campanhas escolhem onde concentrar tempo e recursos. Elas podem procurar:
+
+\begin{itemize}
+\item apoiadores potenciais;
+\item pessoas mais fáceis de localizar;
+\item eleitores com maior probabilidade de votar.
+\end{itemize}
+
+\begin{alertblock}{Problema}
+A diferença pode refletir persuasão e também o direcionamento estratégico da campanha.
+\end{alertblock}
+
+\vfill
+
+\begin{flushleft}
+\tiny Fonte: Arceneaux (2007), que usa um experimento aleatório para separar o efeito do contato do direcionamento da campanha.
+\end{flushleft}
+
+# A mesma estrutura nos três exemplos
+
+\begin{table}
+\centering
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{4.0cm}>{\raggedright\arraybackslash}p{4.2cm}}
+\toprule
+Comparação & História causal & Como os grupos podem diferir \\
+\midrule
+Tênis & O esporte prolonga a vida & Saúde, renda, rotina e sociabilidade \\
+Sobrenome & O nome fortalece o casamento & Valores, compromisso e expectativas \\
+Campanha & O contato persuade & Alvo escolhido pela própria campanha \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vfill
+
+As explicações alternativas começam antes da comparação dos resultados.
+
+# Correlação não implica causalidade
+
+\begin{center}
+\includegraphics[width=0.67\linewidth]{../assets/aula_04/xkcd_correlation.png}
+
+\vspace{0.8em}
+
+{\large A associação pode ser real. Ela ainda não revela o mecanismo que a produziu.}
+\end{center}
+
+\vfill
+
+\begin{flushleft}
+\tiny Fonte: Randall Munroe, \href{https://xkcd.com/552/}{xkcd nº 552, ``Correlation''} (2009). Licença CC BY-NC 2.5.
+\end{flushleft}
+
+# Como os grupos foram formados?
+
+\begin{center}
+{\fontsize{27}{32}\selectfont\color{AzulEscuro}\textbf{Como cada pessoa, organização ou caso foi parar em um dos grupos?}}
+\end{center}
+
+\vfill
+
+\begin{block}{Mecanismo de seleção}
+Conjunto de decisões, regras e circunstâncias que determina quem recebe uma intervenção e quem permanece na alternativa de comparação.
+\end{block}
+
+\vfill
+
+Essa pergunta vem antes da comparação das médias.
+
+# Uma variável, vários nomes
+
+\begin{table}
+\centering
+\begin{tabular}{>{\raggedright\arraybackslash}p{5.1cm}>{\raggedright\arraybackslash}p{5.1cm}}
+\toprule
+Lado de $X$ ou $D$ & Lado de $Y$ \\
+\midrule
+Variável independente & Variável dependente \\
+Variável de tratamento & Variável resposta \\
+Variável explicativa & Variável explicada \\
+Variável preditora & Variável predita \\
+Regressor & Regressando \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{alertblock}{Vocabulário desta aula}
+Usaremos \textbf{variável de tratamento} para $D_i$ e \textbf{variável resposta} para $Y_i$.
+\end{alertblock}
+
+\begin{flushleft}
+\tiny Fonte: adaptado da tabela ``Terminology'' dos \href{https://github.com/mgaldino/regression-summer-ipsa}{slides de regressão de Manoel Galdino}.
+\end{flushleft}
+
+# Tratamento, controle e resposta
+
+Para estudar uma intervenção binária, adotaremos a linguagem da medicina:
+
+\begin{itemize}
+\item \textbf{tratamento}: alternativa de interesse;
+\item \textbf{controle}: alternativa relevante ao tratamento;
+\item $D_i=1$: a unidade $i$ recebe o tratamento;
+\item $D_i=0$: a unidade $i$ permanece no controle;
+\item $Y_i$: valor da variável resposta para a unidade $i$.
+\end{itemize}
+
+# Mecanismos de seleção
+
+\begin{columns}[T,onlytextwidth]
+\column{0.47\textwidth}
+\textbf{Autoseleção}
+
+A própria unidade escolhe entre tratamento e controle.
+
+Exemplos: praticar um esporte, candidatar-se à reeleição, aderir a um programa.
+
+\column{0.47\textwidth}
+\textbf{Seleção por outros atores}
+
+Outra pessoa ou instituição decide a atribuição.
+
+Exemplos: médico, campanha, partido, burocracia ou regra de elegibilidade.
+\end{columns}
+
+# Agência e consequências esperadas
+
+Pessoas e organizações não precisam conhecer a linguagem da inferência causal.
+
+Elas formam crenças sobre as consequências de cada escolha e agem com base nessas crenças, sob informação e restrições.
+
+\vfill
+
+\begin{block}{Implicação}
+Quando a escolha depende das consequências esperadas, os grupos podem ser diferentes justamente nas quantidades que gostaríamos de comparar.
+\end{block}
+
+\vfill
+
+O formalismo de resultados potenciais torna essa dificuldade explícita.
+
+# Dois resultados potenciais para cada unidade
+
+Para uma unidade $i$:
+
+\[
+\boxed{Y_i(1)=\text{resultado de }i\text{ se recebesse o tratamento}}
+\]
+
+\[
+\boxed{Y_i(0)=\text{resultado da mesma unidade se permanecesse no controle}}
+\]
+
+\begin{block}{Exemplo eleitoral}
+$Y_i(1)$ é o apoio da eleitora $i$ se fosse contatada. $Y_i(0)$ é o apoio da mesma eleitora se não fosse contatada.
+\end{block}
+
+# Resultado potencial não significa grupo observado
+
+\begin{table}
+\centering
+\begin{tabular}{c>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}p{4.4cm}}
+\toprule
+Grupo observado & $Y_i(1)$ & $Y_i(0)$ \\
+\midrule
+$D_i=1$ & Resultado observado sob tratamento & Resultado que teria sob controle \\
+\addlinespace
+$D_i=0$ & Resultado que teria sob tratamento & Resultado observado sob controle \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vfill
+
+\begin{alertblock}{Distinção essencial}
+$Y_i(1)$ existe como resultado potencial também para quem observamos em $D_i=0$. $Y_i(0)$ existe como resultado potencial também para quem observamos em $D_i=1$.
+\end{alertblock}
+
+# Quatro médias diferentes
+
+\small
+
+\begin{table}
+\centering
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.7cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{3.5cm}}
+\toprule
+Quantidade & Leitura & Status \\
+\midrule
+$E[Y_i(1)\mid D_i=1]$ & Tratados sob tratamento & Observada por meio de $Y_i$ \\
+\addlinespace
+$E[Y_i(0)\mid D_i=1]$ & Tratados se estivessem no controle & Contrafactual \\
+\addlinespace
+$E[Y_i(1)\mid D_i=0]$ & Controles se fossem tratados & Contrafactual \\
+\addlinespace
+$E[Y_i(0)\mid D_i=0]$ & Controles sob controle & Observada por meio de $Y_i$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\normalsize
+
+Os dois termos contrafactuais fazem perguntas sobre pessoas que estão no grupo oposto.
+
+# O resultado observado
+
+Depois que o mecanismo atribui $D_i$, observamos apenas o resultado correspondente:
+
+\[
+Y_i=
+\begin{cases}
+Y_i(1), & D_i=1,\\
+Y_i(0), & D_i=0.
+\end{cases}
+\]
+
+Equação de seleção do resultado observado:
+
+\[
+\boxed{Y_i=D_iY_i(1)+(1-D_i)Y_i(0)}
+\]
+
+\begin{block}{A atribuição faz duas coisas}
+Ela define qual alternativa a unidade recebe e qual dos dois resultados potenciais se torna observável.
+\end{block}
+
+# Problema fundamental da inferência causal
+
+\begin{table}
+\centering
+\begin{tabular}{ccccc}
+\toprule
+$i$ & $D_i$ & $Y_i(0)$ & $Y_i(1)$ & $Y_i$ \\
+\midrule
+1 & 1 & ? & 8 & 8 \\
+2 & 0 & 6 & ? & 6 \\
+3 & 1 & ? & 5 & 5 \\
+4 & 0 & 3 & ? & 3 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{alertblock}{O contrafactual ausente}
+Para a mesma unidade e o mesmo momento, observamos $Y_i(1)$ ou $Y_i(0)$. Nunca observamos ambos. Aumentar o número de unidades não revela o potencial ausente de cada uma.
+\end{alertblock}
+
+\vfill
+
+\tiny Holland (1986) chamou essa impossibilidade de problema fundamental da inferência causal.
+
+# Efeitos causais de características imutáveis
+
+\begin{alertblock}{Regra de Holland}
+``No causation without manipulation.'' Para Imai, a regra exige reformular perguntas sobre gênero, raça, idade ou outros atributos que não podem ser atribuídos diretamente.
+\end{alertblock}
+
+\small
+
+\begin{enumerate}
+\item \textbf{Característica percebida}: variar o atributo que a pessoa responsável pela decisão percebe.
+\item \textbf{Reinterpretação}: estudar uma situação manipulável associada ao atributo.
+\item \textbf{Redefinição}: decompor o atributo em componentes que podem variar.
+\item \textbf{Intervenção no grupo}: alterar uma condição e medir quanto da diferença entre grupos permanece.
+\end{enumerate}
+
+\normalsize
+
+\begin{block}{Ligação com o tema da resolução}
+``Direitos humanos'' não é uma característica imutável, mas também pode designar um pacote de rótulo, texto, problema, atores e contexto. A pergunta causal precisa escolher qual componente varia.
+\end{block}
+
+\tiny
+Fonte: adaptado de Imai (2021, slide 8) e Holland (1986).
+\normalsize
+
+# Tema não define automaticamente um tratamento
+
+Suponha:
+
+\[
+D_i=1\text{ para direitos humanos},
+\qquad
+D_i=0\text{ para desarmamento}.
+\]
+
+Escrever $Y_i(1)$ e $Y_i(0)$ ainda não esclarece o que fazemos com a resolução $i$.
+
+\begin{table}
+\centering
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.0cm}>{\raggedright\arraybackslash}p{6.3cm}}
+\toprule
+Leitura do ``tema'' & Comparação resultante \\
+\midrule
+Rótulo percebido & A mesma resolução apresentada com etiquetas temáticas diferentes \\
+Enquadramento textual & A mesma proposta escrita em versões de direitos humanos e de segurança \\
+Categoria substantiva & Resoluções diferentes; problema, texto, atores, momento e unidade podem mudar juntos \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Cada leitura define resultados potenciais e efeitos causais diferentes.
+
+# Uma intervenção define o estimando
+
+Uma pergunta mais precisa poderia ser:
+
+\begin{block}{Intervenção hipotética}
+Qual é o efeito de apresentar a mesma proposta com um enquadramento de direitos humanos, em vez de um enquadramento de segurança, mantendo fixo seu conteúdo substantivo, sobre a probabilidade de o Brasil votar ``sim''?
+\end{block}
+
+\[
+ATE_{\text{enquadramento}}
+=E\!\left[Y_i(\text{direitos humanos})
+-Y_i(\text{segurança})\right].
+\]
+
+\begin{alertblock}{Estimando causal}
+É a quantidade definida pela unidade, pelas duas versões da intervenção, pela variável resposta, pela população e pelo momento da comparação.
+\end{alertblock}
+
+Uma pergunta bem definida ainda precisa de um desenho que identifique esse estimando. O banco AGNA atual não contém essa intervenção.
+
+# Efeito causal individual
+
+O efeito causal para a unidade $i$ é:
+
+\[
+\boxed{\tau_i=Y_i(1)-Y_i(0)}
+\]
+
+Exemplo hipotético:
+
+\[
+Y_i(1)=8,\qquad Y_i(0)=6
+\quad\Longrightarrow\quad
+\tau_i=2.
+\]
+
+\begin{block}{O contraste correto}
+Mantemos a unidade fixa e mudamos apenas seu estado de tratamento. Comparar duas pessoas diferentes não produz diretamente $\tau_i$.
+\end{block}
+
+# Efeito médio do tratamento
+
+O efeito médio do tratamento na população é:
+
+\[
+\boxed{
+\operatorname{ATE}=E[\tau_i]
+=E[Y_i(1)-Y_i(0)]
+=E[Y_i(1)]-E[Y_i(0)]
+}
+\]
+
+\begin{block}{Alvo causal}
+O ATE responde quanto o resultado mudaria, em média, se toda a população passasse do controle para o tratamento.
+\end{block}
+
+O ATE continua envolvendo dois resultados potenciais por unidade, embora seja uma média.
+
+# Efeito médio entre quem recebeu o tratamento
+
+\[
+\boxed{
+\operatorname{ATT}
+=E[\tau_i\mid D_i=1]
+=E[Y_i(1)\mid D_i=1]-E[Y_i(0)\mid D_i=1]
+}
+\]
+
+\begin{block}{População diferente}
+O ATT calcula o efeito médio apenas entre as unidades que o mecanismo colocou no tratamento.
+\end{block}
+
+Se o mecanismo seleciona quem mais se beneficia, $ATT$ e $ATE$ podem diferir.
+
+# A tabela-oráculo da Médica Perfeita
+
+\small
+
+\begin{table}
+\centering
+\begin{tabular}{rrrrrr}
+\toprule
+$i$ & 1 & 2 & 3 & 4 & 5 \\
+\midrule
+$Y_i(1)$ & 7 & 5 & 5 & 7 & 4 \\
+$Y_i(0)$ & 1 & 6 & 1 & 8 & 2 \\
+$\tau_i$ & 6 & -1 & 4 & -1 & 2 \\
+\midrule
+$i$ & 6 & 7 & 8 & 9 & 10 \\
+\midrule
+$Y_i(1)$ & 10 & 1 & 5 & 3 & 9 \\
+$Y_i(0)$ & 1 & 10 & 6 & 7 & 8 \\
+$\tau_i$ & 9 & -9 & -1 & -4 & 1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\normalsize
+
+\[
+ATE=\frac{6-1+4-1+2+9-9-1-4+1}{10}=0{,}6\text{ ano.}
+\]
+
+\vfill
+
+\begin{flushleft}
+\tiny Fonte dos valores: Cunningham, \textit{Causal Inference: The Remix}, capítulo 4. Valores inteiramente hipotéticos.
+\end{flushleft}
+
+# A Médica Perfeita escolhe para cada paciente
+
+Ela conhece os dois resultados potenciais e atribui o ventilador quando ele prolonga a vida:
+
+\[
+D_i=\mathbf{1}\{Y_i(1)>Y_i(0)\}
+=\mathbf{1}\{\tau_i>0\}.
+\]
+
+\begin{table}
+\centering
+\begin{tabular}{lcc}
+\toprule
+Grupo & Pacientes & Regra \\
+\midrule
+Ventilador $(D=1)$ & 1, 3, 5, 6, 10 & $\tau_i>0$ \\
+Sem ventilador $(D=0)$ & 2, 4, 7, 8, 9 & $\tau_i\leq 0$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{alertblock}{Seleção orientada pelo benefício}
+A médica produz o melhor resultado para cada paciente e, ao mesmo tempo, cria grupos muito diferentes.
+\end{alertblock}
+
+# A associação muda o sinal do efeito
+
+Na tabela completa, conhecemos o efeito causal médio:
+
+\[
+ATE=+0{,}6\text{ ano.}
+\]
+
+Nos dados observados, comparar os grupos produz:
+
+\[
+\mathrm{SDO}
+=E[Y_i\mid D_i=1]-E[Y_i\mid D_i=0]
+=7{,}0-7{,}4=-0{,}4\text{ ano.}
+\]
+
+\begin{alertblock}{O aparente paradoxo}
+O ventilador prolonga a vida em média, mas pacientes no ventilador vivem menos que pacientes fora dele.
+\end{alertblock}
+
+# Diferença Simples de Médias (SDO)
+
+Defina:
+
+\[
+\mathrm{SDO}
+=E[Y_i\mid D_i=1]-E[Y_i\mid D_i=0].
+\]
+
+Pela equação do resultado observado:
+
+\[
+\mathrm{SDO}
+=E[Y_i(1)\mid D_i=1]
+-E[Y_i(0)\mid D_i=0].
+\]
+
+\begin{block}{O contraste observado}
+Comparamos pessoas diferentes sob estados diferentes. Esse contraste ainda não mantém a unidade fixa.
+\end{block}
+
+\tiny SDO preserva a sigla de Cunningham para \textit{Simple Difference in Outcomes}; em português, usaremos \textit{Diferença Simples de Médias}.
+
+# O contrafactual revela as duas parcelas
+
+Some e subtraia o resultado que os tratados teriam sob controle:
+
+\[
+\begin{aligned}
+\mathrm{SDO}
+&=E[Y_i(1)\mid D_i=1]
+-{\color{AzulAula}E[Y_i(0)\mid D_i=1]}\\
+&\quad+{\color{AzulAula}E[Y_i(0)\mid D_i=1]}
+-E[Y_i(0)\mid D_i=0].
+\end{aligned}
+\]
+
+\begin{block}{Por que esse termo?}
+$E[Y_i(0)\mid D_i=1]$ mantém fixo o grupo tratado e pergunta o que aconteceria com ele na alternativa de controle.
+\end{block}
+
+# Efeito causal e viés de seleção
+
+\[
+\boxed{
+\begin{aligned}
+\mathrm{SDO}
+&=\underbrace{E[Y_i(1)-Y_i(0)\mid D_i=1]}_{ATT}\\
+&\quad+\underbrace{
+E[Y_i(0)\mid D_i=1]-E[Y_i(0)\mid D_i=0]
+}_{\text{viés de seleção}}
+\end{aligned}
+}
+\]
+
+\begin{alertblock}{Interpretação}
+A SDO mistura o efeito entre tratados com uma diferença que já existiria entre os grupos sob controle.
+\end{alertblock}
+
+# Decomposição da Médica Perfeita
+
+Entre os pacientes que receberam ventilador:
+
+\[
+ATT=4{,}4\text{ anos.}
+\]
+
+Se ninguém recebesse ventilador, os dois grupos ainda seriam diferentes:
+
+\[
+E[Y_i(0)\mid D_i=1]-E[Y_i(0)\mid D_i=0]
+=2{,}6-7{,}4=-4{,}8.
+\]
+
+Portanto:
+
+\[
+\boxed{-0{,}4=4{,}4-4{,}8.}
+\]
+
+# O mecanismo de seleção nos três exemplos
+
+\begin{table}
+\centering
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}p{4.0cm}}
+\toprule
+Exemplo & Quem seleciona & Informação relacionada aos resultados \\
+\midrule
+Tênis & A própria pessoa e suas circunstâncias & Saúde, renda, preferências e expectativa de benefício \\
+Sobrenome & O casal, sob normas e regras & Valores, compromisso e expectativa sobre o casamento \\
+Campanha & Organização partidária & Apoio prévio, propensão a votar e chance de persuasão \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vfill
+
+Em cada caso, o processo que forma os grupos pode estar relacionado a $Y_i(0)$, a $Y_i(1)$ ou ao ganho $\tau_i$.
+
+# O Médico Ruim ignora os resultados potenciais
+
+Cunningham contrasta a Médica Perfeita com um Médico Ruim.
+
+\begin{columns}[T,onlytextwidth]
+\column{0.47\textwidth}
+\textbf{Médica Perfeita}
+
+Escolhe a melhor opção para cada paciente usando $Y_i(1)$ e $Y_i(0)$.
+
+Produz seleção orientada pelos ganhos.
+
+\column{0.47\textwidth}
+\textbf{Médico Ruim}
+
+Atribui o ventilador sem usar $Y_i(1)$, $Y_i(0)$ ou $\tau_i$.
+
+Produz uma atribuição independente dos resultados potenciais.
+\end{columns}
+
+\vfill
+
+\begin{alertblock}{A ironia}
+O melhor mecanismo para cada paciente pode produzir dados ruins para comparação. Um mecanismo indiferente aos resultados potenciais produz grupos comparáveis em média.
+\end{alertblock}
+
+# Experimento aleatório como mecanismo de seleção
+
+Em um experimento, a pesquisadora controla como as unidades chegam ao tratamento e ao controle.
+
+\begin{block}{Atribuição aleatória}
+O sorteio determina $D_i$ sem consultar características, expectativas ou resultados potenciais das unidades.
+\end{block}
+
+\[
+(Y_i(0),Y_i(1))\ \perp\!\!\!\perp\ D_i.
+\]
+
+\begin{alertblock}{O ponto relevante}
+O experimento não elimina o mecanismo de seleção. Ele substitui o mecanismo anterior por um mecanismo conhecido e independente dos resultados potenciais.
+\end{alertblock}
+
+# Independência dos resultados potenciais
+
+Se $(Y_i(0),Y_i(1))\perp\!\!\!\perp D_i$, então:
+
+\[
+E[Y_i(0)\mid D_i=1]
+=E[Y_i(0)\mid D_i=0]
+=E[Y_i(0)],
+\]
+
+\[
+E[Y_i(1)\mid D_i=1]
+=E[Y_i(1)\mid D_i=0]
+=E[Y_i(1)].
+\]
+
+\begin{block}{Leitura}
+Tratados e controles têm, em expectativa, os mesmos resultados potenciais. Trocar os rótulos dos grupos não altera essas médias esperadas.
+\end{block}
+
+# O viés de seleção se cancela
+
+Sob atribuição aleatória:
+
+\[
+\begin{aligned}
+\text{viés de seleção}
+&=E[Y_i(0)\mid D_i=1]-E[Y_i(0)\mid D_i=0]\\
+&=E[Y_i(0)]-E[Y_i(0)]\\
+&=0.
+\end{aligned}
+\]
+
+Além disso, a atribuição independente implica, em expectativa:
+
+\[
+ATT=ATE.
+\]
+
+# Quando a SDO identifica o ATE
+
+Com independência dos resultados potenciais:
+
+\[
+\begin{aligned}
+\mathrm{SDO}
+&=E[Y_i\mid D_i=1]-E[Y_i\mid D_i=0]\\
+&=ATT+0\\
+&=ATE.
+\end{aligned}
+\]
+
+\begin{alertblock}{Qualificação}
+A igualdade vale em expectativa sobre o mecanismo de atribuição. Um sorteio específico pode produzir grupos desequilibrados e uma estimativa distante do ATE.
+\end{alertblock}
+
+# Sorteios diferentes, estimativas diferentes
+
+\begin{center}
+\centering
+\includegraphics[width=0.79\linewidth]{../output/aula_04/distribuicao_diferencas_aleatorias.pdf}
+\end{center}
+
+\small A média das 252 SDOs é 0,6 ano, exatamente o ATE da população fictícia.
+
+# Aplicação ao projeto AGNA
+
+\begin{table}
+\centering
+\begin{tabular}{lrrr}
+\toprule
+Período & Resoluções & Convergentes & Proporção \\
+\midrule
+1997--2008 & 1.080 & 849 & 78,6\% \\
+2009--2016 & 682 & 563 & 82,6\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\[
+82{,}6\%-78{,}6\%=3{,}94\text{ pontos percentuais.}
+\]
+
+\begin{alertblock}{Diagnóstico}
+O período separa observações no tempo, mas não define uma intervenção. A agenda de resoluções e o contexto internacional também mudam. Sem $D_i$, resultados potenciais e mecanismo de seleção claros, a SDO permanece descritiva.
+\end{alertblock}
+
+# Três perguntas para qualquer afirmação causal
+
+\begin{enumerate}
+\item Qual intervenção define $D_i=1$ e qual alternativa define $D_i=0$?
+\vspace{0.8em}
+\item Como as unidades chegaram a cada grupo?
+\vspace{0.8em}
+\item Esse mecanismo depende de $Y_i(0)$, de $Y_i(1)$ ou do ganho $\tau_i$?
+\end{enumerate}
+
+\vfill
+
+\begin{block}{Regra de leitura}
+Antes de interpretar uma correlação, reconstrua o mecanismo de seleção.
+\end{block}
+
+# Síntese
+
+\begin{enumerate}
+\item Efeito causal compara dois resultados potenciais da mesma unidade.
+\item A codificação de $D_i$ só define um efeito quando suas versões correspondem a uma intervenção clara.
+\item Observamos apenas o potencial correspondente ao estado recebido.
+\item A SDO mistura efeito causal e seleção.
+\item Agência e decisões institucionais costumam relacionar $D_i$ aos resultados potenciais.
+\item A atribuição aleatória rompe essa relação em expectativa.
+\end{enumerate}
+
+\vfill
+
+\begin{alertblock}{Ideia central}
+Inferência causal começa pela pergunta sobre o mecanismo que formou os grupos.
+\end{alertblock}
+
+# Referências da aula
+
+\small
+
+Arceneaux, Kevin. 2007. ``I'm Asking for Your Support: The Effects of Personally Delivered Campaign Messages on Voting Decisions and Opinion Formation.'' \textit{Quarterly Journal of Political Science} 2: 43--65.
+
+Aronow, Peter M.; Miller, Benjamin T. 2019. \textit{Foundations of Agnostic Statistics}. Capítulo 7.
+
+Cunningham, Scott. \textit{Causal Inference: The Remix}. Capítulo 4, ``Potential Outcomes and Randomization.'' Versão online consultada em 16/09/2026.
+
+Imai, Kosuke. 2021. \textit{Potential Outcomes}. Slides de aula, Harvard University, slide 8.
+
+Holland, Paul W. 1986. ``Statistics and Causal Inference.'' \textit{Journal of the American Statistical Association} 81(396): 945--960.
+
+Munroe, Randall. 2009. ``Correlation.'' \textit{xkcd}, nº 552. Licença CC BY-NC 2.5.
+
+Stone, Lyman. 2026. ``Can Sharing a Last Name Save Your Marriage? It Depends.'' \textit{Institute for Family Studies}, 16 de abril.
+
+Schnohr, Peter et al. 2018. ``Various Leisure-Time Physical Activities Associated With Widely Divergent Life Expectancies: The Copenhagen City Heart Study.'' \textit{Mayo Clinic Proceedings} 93(12): 1775--1785.
+
+\normalsize
+
+# Apêndice: decomposição centrada no ATE
+
+Se $\pi=\Pr(D_i=1)$ e $ATU=E[\tau_i\mid D_i=0]$, então:
+
+\[
+\boxed{
+\begin{aligned}
+\mathrm{SDO}
+&=ATE\\
+&\quad+\underbrace{E[Y_i(0)\mid D_i=1]-E[Y_i(0)\mid D_i=0]}_{\text{viés de seleção}}\\
+&\quad+\underbrace{(1-\pi)(ATT-ATU)}_{\text{viés de heterogeneidade}}
+\end{aligned}
+}
+\]
+
+\begin{block}{Uso}
+A versão com ATT torna o viés de seleção mais transparente. Esta versão mostra também como seleção sobre ganhos afasta a SDO do ATE.
+\end{block}
+
+# Apêndice: ATE, ATT e ATU
+
+Pela lei da esperança iterada:
+
+\[
+ATE=\pi\,ATT+(1-\pi)\,ATU.
+\]
+
+\begin{itemize}
+\item $ATE$: efeito médio em toda a população.
+\item $ATT$: efeito médio entre quem recebeu o tratamento.
+\item $ATU$: efeito médio entre quem permaneceu no controle.
+\end{itemize}
+
+\begin{alertblock}{Heterogeneidade e seleção}
+Efeitos heterogêneos não geram o terceiro termo sozinhos. O termo aparece quando o mecanismo distribui unidades com ganhos médios diferentes entre tratamento e controle.
+\end{alertblock}
+
+# Apêndice: independência condicional
+
+Em dados observacionais, uma estratégia pode defender independência após fixar covariáveis pré-tratamento $X_i$:
+
+\[
+(Y_i(0),Y_i(1))\ \perp\!\!\!\perp\ D_i\mid X_i.
+\]
+
+Ela também precisa de comparação possível:
+
+\[
+0<\Pr(D_i=1\mid X_i=x)<1.
+\]
+
+\begin{block}{Interpretação}
+Dentro de valores comuns de $X_i$, o mecanismo de seleção não pode conter informação adicional sobre os resultados potenciais.
+\end{block}
+
+\begin{alertblock}{Limite}
+Incluir muitas covariáveis em uma regressão não demonstra independência condicional.
+\end{alertblock}
+
+# Apêndice: consistência e interferência
+
+O modelo binário também exige que cada estado do tratamento tenha conteúdo substantivo claro.
+
+\begin{itemize}
+\item \textbf{Consistência}: o tratamento observado corresponde ao resultado potencial definido para aquele tratamento.
+\item \textbf{Sem versões ocultas}: formas diferentes de $D=1$ não podem produzir resultados distintos sem aparecer na definição.
+\item \textbf{Sem interferência}: o resultado potencial da unidade $i$ não depende do tratamento recebido por outra unidade $j$.
+\end{itemize}
+
+\begin{block}{Exemplo}
+``Praticar esporte'' reúne atividades, intensidades e contextos sociais diferentes. Um tratamento vago produz resultados potenciais vagos.
+\end{block}
+
+# Apêndice: variáveis posteriores ao tratamento
+
+Uma variável medida depois de $D_i$ pode ser consequência do próprio tratamento.
+
+\begin{itemize}
+\item Ajustar por um \textbf{mediador} pode bloquear parte do efeito total.
+\item Ajustar por um \textbf{colisor} pode criar uma associação que não existia.
+\item Capacidade preditiva não define se uma variável é um controle causal válido.
+\end{itemize}
+
+\begin{alertblock}{Regra prática}
+Reconstrua a ordem temporal e o mecanismo causal antes de escolher controles.
+\end{alertblock}
