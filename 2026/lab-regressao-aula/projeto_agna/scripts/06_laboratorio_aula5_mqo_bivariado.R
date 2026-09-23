@@ -1,6 +1,6 @@
 # Laboratório da Aula 5: MQO bivariado e interpretação.
 #
-# Pergunta desta etapa do projeto AGNA:
+# Pergunta desta etapa do projeto aplicado com votações da AGNU:
 # qual é a associação linear entre o ano da votação e a convergência média
 # anual dos votos de Brasil e China na AGNU?
 #
@@ -157,7 +157,7 @@ grafico_basico <- ggplot(
     caption = paste0(
       "Cada ponto representa um ano. Denominador: resoluções com votos ",
       "válidos de Brasil e China em cada ano.\n",
-      "Fonte: base didática AGNA."
+      "Fonte: base didática de votações da AGNU."
     )
   )
 
@@ -297,7 +297,8 @@ grafico_com_rotulos <- grafico_com_reta +
     caption = paste0(
       "Unidade: ano (20 observações); denominador: resoluções com votos ",
       "válidos dos dois países em cada ano.\n",
-      "Fonte: base didática AGNA. Associação descritiva; sem interpretação causal."
+      "Fonte: base didática de votações da AGNU. Associação descritiva; ",
+      "sem interpretação causal."
     )
   )
 
