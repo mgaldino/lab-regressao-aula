@@ -1,6 +1,6 @@
 # Plano: Aula 5 — ajustes de conteúdo e cortes para caber em 2 horas
 
-**Status**: DRAFT
+**Status**: COMPLETED (com alterações: slides "Quando o plug-in funciona" e "População e amostra" mantidos por decisão do usuário; títulos reescritos em forma nominal curta; resultado final com 37 páginas)
 **Data**: 2026-09-23
 **Arquivo**: `projeto_agna/laboratorios/slides_aula_05_mqo_bivariado.Rmd` (54 páginas hoje)
 

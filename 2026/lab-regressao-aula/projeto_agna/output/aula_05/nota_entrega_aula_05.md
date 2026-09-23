@@ -57,3 +57,17 @@ Após o parecer pedagógico e a discussão em sala planejada sobre o princípio 
 - A chamada de `lm()` nos slides usa os mesmos nomes de objetos e variáveis do roteiro do laboratório. A atividade final de interpretação passou a explicitar as unidades, e um slide indica três momentos para discutir as saídas práticas.
 
 A atualização foi compilada com R Markdown e XeLaTeX. Foram conferidos o texto extraído do PDF, a paginação e a legibilidade das páginas alteradas. Os valores de 1997 (79,3%), 2016 (69,6%) e da inclinação (+0,39 ponto percentual por ano) foram confrontados com a base da aula. O roteiro do laboratório não foi modificado nesta atualização.
+
+## Cortes e revisão de conteúdo de 23 de setembro de 2026
+
+A versão anterior, com 54 páginas, foi preservada na tag Git `aula05-v1` (`git show aula05-v1:./projeto_agna/output/pdf/slides_aula_05_mqo_bivariado.pdf`). A versão atual tem 37 páginas.
+
+- Todas as menções a causalidade, identificação e contrafactual foram removidas dos slides. O tema fica para a fala do professor.
+- O antigo "Mapa conceitual" virou o slide "Roteiro", logo após a capa, com problema, ponte com a Aula 3, roteiro em cinco blocos e objetivo da aula.
+- O slide do MQO como estimador plug-in do BLP passou a mostrar também $\operatorname{V}(X)\mapsto n^{-1}\sum_i(X_i-\bar X)^2$ e absorveu a pergunta sobre o fator $1/n$.
+- Os títulos foram reescritos como expressões nominais curtas.
+- Slides cortados: estimação vs. identificação; três elementos; pausa sobre a fórmula; reta alternativa em texto (a figura mostra as duas SQR); centralização em $X=2$; pausa de recentralização em 2009 (mantida no roteiro do laboratório); inclinação e causalidade; propriedades dos resíduos; cinco erros.
+- Fusões: reta com valor ajustado e resíduo; SQR, quadrado e argmin; função objetivo com as duas condições de primeira ordem; inclinação com intercepto no exemplo; tabela de resíduos com a checagem das equações normais; valores ajustados com extrapolação.
+- Mantidos por decisão do professor: condições de regularidade do plug-in e comparação população vs. amostra.
+
+Compilação XeLaTeX sem erro. Inspeção visual das 37 páginas, com ajuste dos slides 19 e 22, que encostavam no rodapé. Conferidos no texto extraído os números 76,7%, 0,7672, 0,0039, 0,39 p.p., 79,3%, 69,6% e SQR 4,20. O roteiro do laboratório não foi modificado.

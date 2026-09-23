@@ -162,9 +162,37 @@ dados_com_ajuste <- dados_anuais |>
   )
 ```
 
-# Plug-in
+# Roteiro
 
-\begin{block}{Princípio plug-in, em palavras}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{Problema}
+Qual reta resume melhor a associação linear entre $X$ e $Y$ em uma amostra?
+\end{block}
+
+\begin{block}{Ponte com a Aula 3}
+O BLP minimiza o EQM na população. O MQO aplica o mesmo critério à amostra,
+e o princípio plug-in liga os dois.
+\end{block}
+
+\column{0.48\textwidth}
+\begin{enumerate}
+\item Princípio plug-in
+\item Derivação do MQO bivariado
+\item Exemplo com quatro pares
+\item Interpretação dos coeficientes
+\item Aplicação ao projeto AGNA
+\end{enumerate}
+
+\begin{block}{Ao final}
+Você saberá derivar e calcular a reta de MQO e interpretar seus coeficientes
+nas unidades dos dados.
+\end{block}
+\end{columns}
+
+# Princípio plug-in
+
+\begin{block}{Em palavras}
 Escreva a fórmula de uma quantidade da população. Aplique a mesma regra aos dados observados e use o resultado como estimador.
 \end{block}
 
@@ -183,7 +211,7 @@ $\bar Y=(1+3+2+6)/4=3$.
 Aplicar a fórmula à amostra garante que o estimador não tenha viés?
 \end{alertblock}
 
-# A variância plug-in é viesada em amostras finitas
+# Variância plug-in
 
 Na população, denote a variância de $Y$ por $\sigma^2$:
 
@@ -209,9 +237,9 @@ Se as observações forem independentes e identicamente distribuídas, com vari�
 $E[\widehat V_{\mathrm{PI}}]=\frac{n-1}{n}\sigma^2$: o viés é negativo.
 \end{alertblock}
 
-# Um estimador viesado ainda pode ser consistente
+# Viés e consistência
 
-\begin{block}{Duas perguntas diferentes}
+\begin{block}{Duas propriedades}
 \textbf{Viés em amostras finitas:} $E[\widehat V_{\mathrm{PI}}]\neq\sigma^2$
 quando $n$ é finito e $\sigma^2>0$.
 Com $n=4$, a esperança é $3\sigma^2/4$.
@@ -232,7 +260,7 @@ $\overline{Y^2}-\bar Y^2\xrightarrow{p}E[Y^2]-E[Y]^2$.
 A correção $s^2=\frac{n}{n-1}\widehat V_{\mathrm{PI}}
 =\frac{1}{n-1}\sum_i(Y_i-\bar Y)^2$ elimina o viés em amostras finitas.
 
-# Quando o princípio plug-in oferece boas estimativas?
+# Quando o plug-in funciona
 
 \begin{enumerate}
 \item Os dados precisam aproximar a distribuição de interesse; o livro parte de
@@ -253,7 +281,7 @@ bem-comportada no entorno da distribuição populacional.
 Sem amostragem adequada ou com uma regra instável, aplicar a fórmula à amostra
 não garante aproximação da quantidade populacional.
 
-# Definição formal do princípio plug-in
+# Definição formal do plug-in
 
 Seja $\theta=T(F)$ uma característica da distribuição populacional $F$.
 Para observações $X_1,\ldots,X_n$ independentes e identicamente distribuídas,
@@ -274,7 +302,7 @@ $\theta$ na população.
 \scriptsize
 Fonte: Aronow e Miller (2019, seções 3.2.3 e 3.3--3.3.1, pp. 105--107 e 116--120).
 
-# Que reta resumiria estes 20 anos?
+# Convergência Brasil--China na AGNU
 
 ```{r figura-0-pontos-agna, fig.width=8.7, fig.height=3.1, fig.cap='Convergência média dos votos de Brasil e China na Assembleia Geral das Nações Unidas (AGNU), 1997–2016. Cada ponto representa um ano; denominador de cada taxa: 61 a 112 resoluções válidas naquele ano. Fonte: base didática AGNA do curso.'}
 ggplot(dados_anuais, aes(x = ano, y = taxa_media_convergencia)) +
@@ -299,29 +327,7 @@ ggplot(dados_anuais, aes(x = ano, y = taxa_media_convergencia)) +
 Em 1997, a taxa observada foi 79,3\%; em 2016, 69,6\%.
 O que aconteceria se uma reta usasse \textbf{todos} os pontos, e não apenas os extremos?
 
-# Mapa conceitual: do BLP ao MQO amostral
-
-\begin{columns}[T,onlytextwidth]
-\column{0.48\textwidth}
-\begin{block}{Problema}
-Qual reta resume melhor a associação linear observada entre $X$ e $Y$?
-\end{block}
-
-\begin{block}{Ponte com a Aula 3}
-O BLP minimiza o EQM na população; o MQO aplica o mesmo critério à amostra.
-\end{block}
-
-\column{0.48\textwidth}
-\begin{alertblock}{Dois problemas}
-Estimar uma reta não identifica, por si só, um efeito causal.
-\end{alertblock}
-
-\begin{block}{Ao final}
-Você saberá calcular a reta, interpretar seus coeficientes e delimitar o que ela não responde.
-\end{block}
-\end{columns}
-
-# O projeto AGNA fornece uma pergunta bivariada
+# Pergunta do projeto AGNA
 
 \begin{block}{Pergunta substantiva}
 Qual é a associação linear entre o ano da votação e a convergência média anual dos votos de Brasil e China na AGNU?
@@ -332,52 +338,9 @@ Qual é a associação linear entre o ano da votação e a convergência média 
 - Preditor $X_i$: anos decorridos desde 1997 no ano $i$.
 - Amostra: $n=20$ anos, de 1997 a 2016, construídos com 1.762 resoluções válidas.
 
-\begin{alertblock}{Leitura permitida}
-A inclinação descreverá associação temporal média, não efeito do tempo, de 2009, do comércio ou da China.
-\end{alertblock}
+# Exemplo: quatro pares
 
-# Estimação e identificação respondem a perguntas diferentes
-
-\begin{columns}[T,onlytextwidth]
-\column{0.48\textwidth}
-\begin{block}{Estimação por MQO}
-Qual reta minimiza os erros quadráticos nesta amostra?
-\end{block}
-
-Resultado: números $\widehat\alpha$ e $\widehat\beta$ calculados a partir dos dados.
-
-\column{0.48\textwidth}
-\begin{alertblock}{Identificação causal}
-Que contraste observado corresponde a um contraste entre resultados potenciais?
-\end{alertblock}
-
-Resultado: um argumento sobre desenho, atribuição e confundimento.
-\end{columns}
-
-\vfill
-
-Uma solução algébrica para o primeiro problema não resolve o segundo.
-
-# Três elementos vêm antes da reta
-
-\begin{block}{Unidade de análise}
-O objeto ao qual cada linha da amostra se refere; o índice $i\in\{1,\ldots,n\}$ identifica a unidade.
-\end{block}
-
-\begin{block}{Variável resposta $Y_i$}
-O resultado que desejamos descrever ou ajustar para a unidade $i$.
-\end{block}
-
-\begin{block}{Preditor $X_i$}
-A informação usada para construir a reta associacional para a unidade $i$.
-\end{block}
-
-\small
-No exemplo didático, a unidade é uma observação, $X_i$ varia de 0 a 3 e $Y_i$ varia de 1 a 6. No AGNA, cada unidade será um ano.
-
-# Quatro pares para acompanhar a construção da reta
-
-São os mesmos quatro valores de $Y$ usados na recapitulação do plug-in,
+São os mesmos quatro valores de $Y$ usados no slide do princípio plug-in,
 agora acompanhados por um preditor $X$:
 
 \begingroup\Large
@@ -395,31 +358,16 @@ Você esperaria uma reta crescente ou decrescente? Uma reta precisa passar
 por todos os quatro pontos para resumir bem a associação?
 \end{block}
 
-# Uma reta atribui um valor ajustado a cada $X_i$
+# Valor ajustado e resíduo
 
-\begin{block}{Definição em palavras}
-A reta de regressão amostral é uma regra linear que associa a cada valor observado de $X$ um valor ajustado de $Y$.
-\end{block}
-
-Formalmente:
+A reta de regressão amostral associa a cada $X_i$ observado um valor ajustado:
 
 \[
 \widehat Y_i=\widehat\alpha+\widehat\beta X_i,
 \]
 
-onde:
-
-- $\widehat Y_i$ é o valor ajustado para a unidade $i$;
-- $\widehat\alpha$ é o intercepto estimado;
-- $\widehat\beta$ é a inclinação estimada.
-
-\begin{alertblock}{Limite}
-Uma reta resume apenas o componente linear da associação observada.
-\end{alertblock}
-
-# Valor observado, valor ajustado e resíduo não são sinônimos
-
-Para cada unidade $i$:
+em que $\widehat\alpha$ é o intercepto estimado e $\widehat\beta$ é a inclinação estimada.
+Cada observação se decompõe em
 
 \[
 \underbrace{Y_i}_{\text{observado}}
@@ -431,15 +379,11 @@ Para cada unidade $i$:
 \widehat e_i=Y_i-\widehat Y_i.
 \]
 
-\begin{block}{Intuição geométrica}
+\begin{block}{Geometria}
 O resíduo é a distância vertical, com sinal, entre o ponto observado e a reta ajustada.
 \end{block}
 
-\begin{alertblock}{Erro comum}
-O resíduo $\widehat e_i$ é calculado depois de ajustar a reta à amostra; não é o mesmo objeto que um erro populacional não observado.
-\end{alertblock}
-
-# Os resíduos são distâncias verticais até a reta
+# Resíduos no exemplo
 
 ```{r figura-1-residuos, fig.width=8.5, fig.height=3.75, fig.cap='Resíduos em torno da reta de MQO no exemplo didático. Unidade: observação; denominador: quatro observações. Fonte: elaboração própria.'}
 ggplot(exemplo, aes(x = x, y = y)) +
@@ -481,9 +425,9 @@ ggplot(exemplo, aes(x = x, y = y)) +
   )
 ```
 
-# O critério precisa resumir todos os resíduos
+# Critério de mínimos quadrados
 
-A soma dos quadrados dos resíduos é:
+A soma dos quadrados dos resíduos de uma reta candidata $a+bX$ é:
 
 \[
 \operatorname{SQR}(a,b)
@@ -491,117 +435,47 @@ A soma dos quadrados dos resíduos é:
 \sum_{i=1}^{n}(Y_i-a-bX_i)^2.
 \]
 
-O erro quadrático médio amostral é:
-
-\[
-\operatorname{EQM}(a,b)
-=
-\frac{1}{n}\sum_{i=1}^{n}(Y_i-a-bX_i)^2.
-\]
-
-\begin{block}{Mesma reta minimizadora}
-Como $n$ é uma constante positiva, minimizar SQR ou EQM produz os mesmos coeficientes.
-\end{block}
-
-# Por que elevar os resíduos ao quadrado?
-
-\begin{enumerate}
-\item Resíduos positivos e negativos não se cancelam.
-\item Erros verticais maiores recebem penalidade maior.
-\item A função objetivo é quadrática e, quando $X$ varia, tem mínimo único.
-\end{enumerate}
-
-\begin{block}{Exemplo}
-Resíduos $-2$ e $+2$ somam zero, mas representam erro: seus quadrados somam $4+4=8$.
-\end{block}
-
-\begin{alertblock}{Limite}
-O quadrado é uma escolha de perda; ele torna observações com resíduos grandes especialmente influentes no critério.
-\end{alertblock}
-
-# O estimador escolhe a reta com menor erro quadrático
-
-\begin{block}{Definição formal}
+\begin{block}{Estimador de MQO}
 \[
 (\widehat\alpha,\widehat\beta)
 =
 \arg\min_{(a,b)\in\mathbb R^2}
-\sum_{i=1}^{n}(Y_i-a-bX_i)^2.
+\operatorname{SQR}(a,b).
 \]
 \end{block}
 
-Onde:
+- $\arg\min$ devolve o par $(a,b)$ que minimiza a SQR.
+- Minimizar o EQM amostral, $\operatorname{SQR}(a,b)/n$, produz os mesmos coeficientes.
+- Elevar ao quadrado impede que resíduos positivos e negativos se cancelem e penaliza mais os resíduos grandes.
+- Se todos os $X_i$ forem iguais, o critério não produz uma inclinação única.
 
-- $a$ e $b$ são coeficientes candidatos;
-- $\mathbb R^2$ é o conjunto de todos os pares reais $(a,b)$;
-- $\arg\min$ devolve o par que minimiza a SQR;
-- $\widehat\alpha$ e $\widehat\beta$ são os valores escolhidos pelo MQO.
+# Condições de primeira ordem
 
-Se todos os $X_i$ forem iguais, o critério não produzirá uma inclinação única.
-
-# A derivação começa pela função objetivo
-
-Defina:
+Escreva $Q(a,b)=\sum_{i=1}^{n}(Y_i-a-bX_i)^2$. Pela regra da cadeia:
 
 \[
-Q(a,b)=\sum_{i=1}^{n}(Y_i-a-bX_i)^2.
-\]
-
-Para encontrar um mínimo interior, calculamos uma condição de primeira ordem para cada coeficiente:
-
-\[
-\frac{\partial Q(a,b)}{\partial a}=0,
+\frac{\partial Q(a,b)}{\partial a}=-2\sum_{i=1}^{n}(Y_i-a-bX_i),
 \qquad
-\frac{\partial Q(a,b)}{\partial b}=0.
+\frac{\partial Q(a,b)}{\partial b}=-2\sum_{i=1}^{n}X_i(Y_i-a-bX_i).
 \]
+
+No mínimo $(\widehat\alpha,\widehat\beta)$, as duas derivadas se anulam.
+Obtemos as \textbf{equações normais}:
+
+\[
+\boxed{\sum_{i=1}^{n}(Y_i-\widehat\alpha-\widehat\beta X_i)=0,}
+\qquad
+\boxed{\sum_{i=1}^{n}X_i(Y_i-\widehat\alpha-\widehat\beta X_i)=0.}
+\]
+
+O termo entre parênteses é o resíduo $\widehat e_i$. Logo,
+$\sum_i\widehat e_i=0$ e $\sum_i X_i\widehat e_i=0$.
 
 \begin{block}{Intuição}
 No ponto mínimo, um pequeno movimento isolado no intercepto ou na inclinação não reduz a SQR.
 \end{block}
 
-# Intercepto: os resíduos somam zero
-
-Pela regra da cadeia:
-
-\[
-\begin{aligned}
-\frac{\partial Q(a,b)}{\partial a}
-&=\sum_{i=1}^{n}2(Y_i-a-bX_i)(-1)\\
-&=-2\sum_{i=1}^{n}(Y_i-a-bX_i).
-\end{aligned}
-\]
-
-Na solução $(\widehat\alpha,\widehat\beta)$:
-
-\[
-\boxed{\sum_{i=1}^{n}
-(Y_i-\widehat\alpha-\widehat\beta X_i)=0.}
-\]
-
-O termo entre parênteses é o resíduo $\widehat e_i$.
-
-# Inclinação: o produto com $X$ soma zero
-
-Também pela regra da cadeia:
-
-\[
-\begin{aligned}
-\frac{\partial Q(a,b)}{\partial b}
-&=\sum_{i=1}^{n}2(Y_i-a-bX_i)(-X_i)\\
-&=-2\sum_{i=1}^{n}X_i(Y_i-a-bX_i).
-\end{aligned}
-\]
-
-Na solução:
-
-\[
-\boxed{\sum_{i=1}^{n}X_i
-(Y_i-\widehat\alpha-\widehat\beta X_i)=0.}
-\]
-
-Logo, $\sum_i X_i\widehat e_i=0$.
-
-# Pausa: o que dizem as duas condições?
+# Equações normais
 
 No ajuste com intercepto, as duas condições são:
 
@@ -619,7 +493,7 @@ um resíduo em $X=0$ ou o mesmo resíduo em $X=3$?
 \end{enumerate}
 \end{alertblock}
 
-# A equação normal determina o intercepto
+# Intercepto
 
 Comece por $\sum_i\widehat e_i=0$:
 
@@ -639,7 +513,7 @@ $\bar X=n^{-1}\sum_iX_i$ e $\bar Y=n^{-1}\sum_iY_i$:
 \boxed{\widehat\alpha=\bar Y-\widehat\beta\bar X.}
 \]
 
-# Centralizar revela a fórmula da inclinação
+# Inclinação
 
 Substitua $\widehat\alpha=\bar Y-\widehat\beta\bar X$ na segunda equação normal:
 
@@ -659,7 +533,7 @@ Como $\sum_i(Y_i-\bar Y)=0$ e $\sum_i(X_i-\bar X)=0$, podemos escrever:
 -\widehat\beta\sum_i(X_i-\bar X)^2.
 \]
 
-# Inclinação = covariação / variação de $X$
+# Fórmulas do MQO
 
 Se $\sum_i(X_i-\bar X)^2>0$:
 
@@ -680,26 +554,7 @@ Se $\sum_i(X_i-\bar X)^2>0$:
 O numerador mede como $X$ e $Y$ se movem juntos; o denominador mede quanto $X$ varia. A razão converte covariação em mudança de $Y$ por unidade de $X$.
 \end{block}
 
-\begin{alertblock}{Limite}
-Sem variação em $X$, o denominador é zero e não há inclinação única.
-\end{alertblock}
-
-# Pausa: leia a fórmula antes das contas
-
-Volte aos quatro pares $(X_i,Y_i)$ do início da aula.
-
-\begin{enumerate}
-\item Você espera uma inclinação positiva ou negativa? Confira o sinal do
-numerador antes de dividir.
-\item A covariância e a variância plug-in têm ambas um fator $1/n$.
-Por que esse fator não aparece na fórmula de $\widehat\beta$?
-\end{enumerate}
-
-\begin{block}{Pista}
-O denominador é uma soma de quadrados, portanto é positivo quando $X$ varia.
-\end{block}
-
-# O MQO é o análogo amostral do BLP
+# MQO como estimador plug-in do BLP
 
 Na população, o BLP da Aula 3 é:
 
@@ -709,7 +564,7 @@ Na população, o BLP da Aula 3 é:
 \alpha=E[Y]-\beta E[X].
 \]
 
-Na amostra, substituímos momentos populacionais por momentos amostrais:
+Na amostra, substituímos cada momento populacional pelo momento amostral correspondente:
 
 \[
 E[X]\mapsto\bar X,
@@ -717,15 +572,19 @@ E[X]\mapsto\bar X,
 E[Y]\mapsto\bar Y,
 \quad
 \operatorname{Cov}(X,Y)\mapsto
-\frac{1}{n}\sum_i(X_i-\bar X)(Y_i-\bar Y).
+\frac{1}{n}\sum_i(X_i-\bar X)(Y_i-\bar Y),
+\quad
+\operatorname{V}(X)\mapsto
+\frac{1}{n}\sum_i(X_i-\bar X)^2.
 \]
 
-\begin{block}{Retomada do princípio plug-in}
-Aplicar o princípio à fórmula populacional do BLP produz os coeficientes do MQO amostral.
-No projeto AGNA, a reta resume a associação linear entre os 20 anos observados.
-\end{block}
+Essa substituição produz exatamente os coeficientes do MQO.
 
-# População e amostra não devem ser confundidas
+\begin{alertblock}{Pergunta}
+A covariância e a variância plug-in têm ambas o fator $1/n$. Por que ele não aparece em $\widehat\beta$?
+\end{alertblock}
+
+# População e amostra
 
 \begin{columns}[T,onlytextwidth]
 \column{0.48\textwidth}
@@ -756,7 +615,7 @@ Resíduo: $\widehat e_i=Y_i-\widehat Y_i$.
 \scriptsize
 O chapéu marca uma quantidade calculada na amostra. Fonte: Aronow e Miller (2019, seção 4.1) e Hansen (2022, seções 3.3--3.4).
 
-# Exemplo completo: quatro pares observados
+# Exemplo: desvios e produtos
 
 ```{r tabela-2-contas-iniciais, results='asis'}
 tabela_exemplo_1 <- exemplo |>
@@ -793,16 +652,14 @@ knitr::kable(
 \small
 $\bar X=(0+1+2+3)/4=1{,}5$ e $\bar Y=(1+3+2+6)/4=3{,}0$.
 
-# Exemplo: calcular a inclinação
+# Exemplo: coeficientes
 
 Da Tabela 1:
 
 \[
 \sum_i(X_i-\bar X)(Y_i-\bar Y)
-=3+0-0{,}5+4{,}5=7.
-\]
-
-\[
+=3+0-0{,}5+4{,}5=7,
+\qquad
 \sum_i(X_i-\bar X)^2
 =2{,}25+0{,}25+0{,}25+2{,}25=5.
 \]
@@ -810,26 +667,10 @@ Da Tabela 1:
 Portanto:
 
 \[
-\boxed{\widehat\beta=\frac{7}{5}=1{,}4.}
-\]
-
-Uma unidade adicional de $X$ está associada, na reta, a 1,4 unidade adicional de $Y$.
-
-# Exemplo: calcular o intercepto e escrever a reta
-
-Use $\widehat\alpha=\bar Y-\widehat\beta\bar X$:
-
-\[
-\begin{aligned}
-\widehat\alpha
-&=3{,}0-(1{,}4)(1{,}5)\\
-&=3{,}0-2{,}1=0{,}9.
-\end{aligned}
-\]
-
-A reta estimada é:
-
-\[
+\widehat\beta=\frac{7}{5}=1{,}4,
+\qquad
+\widehat\alpha=\bar Y-\widehat\beta\bar X=3{,}0-(1{,}4)(1{,}5)=0{,}9,
+\qquad
 \boxed{\widehat Y_i=0{,}9+1{,}4X_i.}
 \]
 
@@ -837,7 +678,7 @@ A reta estimada é:
 Quando $X=\bar X=1{,}5$, a reta passa por $\widehat Y=0{,}9+1{,}4(1{,}5)=3=\bar Y$.
 \end{block}
 
-# Exemplo: ajustes, resíduos e SQR
+# Exemplo: valores ajustados e resíduos
 
 ```{r tabela-3-ajuste-residuos, results='asis'}
 tabela_exemplo_2 <- exemplo |>
@@ -874,68 +715,31 @@ knitr::kable(
 $\operatorname{SQR}=0{,}01+0{,}49+2{,}89+0{,}81=4{,}20$ e
 $\operatorname{EQM}=4{,}20/4=1{,}05$.
 
-# As equações normais aparecem nas contas do exemplo
-
-Com intercepto, o MQO garante mecanicamente:
+Equações normais no exemplo:
 
 \[
-\sum_i\widehat e_i=0,
+\sum_i\widehat e_i=0{,}1+0{,}7-1{,}7+0{,}9=0,
 \qquad
-\sum_iX_i\widehat e_i=0.
+\sum_iX_i\widehat e_i=0(0{,}1)+1(0{,}7)+2(-1{,}7)+3(0{,}9)=0.
 \]
 
-No exemplo:
+# Exemplo: MQO e uma reta alternativa
 
-\[
-0{,}1+0{,}7-1{,}7+0{,}9=0,
-\]
-
-\[
-0(0{,}1)+1(0{,}7)+2(-1{,}7)+3(0{,}9)=0.
-\]
-
-\begin{alertblock}{Cuidado}
-Essas igualdades são propriedades algébricas do ajuste na própria amostra; não demonstram causalidade nem qualidade fora da amostra.
-\end{alertblock}
-
-# Outra reta produz erro quadrático maior
-
-Considere a reta candidata $\widetilde Y_i=1+X_i$.
-
-Seus valores ajustados são $(1,2,3,4)$ e os resíduos são $(0,1,-1,2)$.
-
-\[
-\operatorname{SQR}_{\text{alternativa}}
-=0^2+1^2+(-1)^2+2^2=6.
-\]
-
-Para o MQO:
-
-\[
-\operatorname{SQR}_{\text{MQO}}=4{,}20<6.
-\]
-
-\begin{block}{Leitura}
-A reta alternativa parece plausível, mas a soma de suas distâncias verticais ao quadrado é 42,9\% maior.
-\end{block}
-
-# O gráfico permite comparar as duas somas de quadrados
-
-```{r figura-2-comparacao-retas, fig.width=8.8, fig.height=3.65, fig.cap='Comparação entre a reta de MQO e uma reta alternativa. Unidade: observação; denominador: quatro observações em cada painel. Fonte: elaboração própria.'}
+```{r figura-2-comparacao-retas, fig.width=8.8, fig.height=3.4, fig.cap='Comparação entre a reta de MQO e a reta alternativa $1+X$. Unidade: observação; denominador: quatro observações em cada painel. Fonte: elaboração própria.'}
 dados_comparacao <- dplyr::bind_rows(
   exemplo |>
     dplyr::transmute(
       x,
       y,
       ajuste = y_ajustado,
-      modelo = "MQO: SQR = 4,20"
+      modelo = "MQO, 0,9 + 1,4X: SQR = 4,20"
     ),
   exemplo |>
     dplyr::transmute(
       x,
       y,
       ajuste = y_alternativo,
-      modelo = "Alternativa: SQR = 6,00"
+      modelo = "Alternativa, 1 + X: SQR = 6,00"
     )
 )
 
@@ -961,10 +765,13 @@ ggplot(dados_comparacao, aes(x = x, y = y)) +
   )
 ```
 
-# A inclinação deve ser lida nas unidades originais
+\small
+A reta alternativa parece plausível, mas sua SQR é 42,9\% maior que a do MQO.
+
+# Interpretação da inclinação
 
 \begin{block}{Regra de interpretação}
-Quando $X$ aumenta uma unidade, o valor ajustado de $Y$ muda $\widehat\beta$ unidades, em média segundo a reta amostral.
+Quando $X$ aumenta uma unidade, o valor ajustado $\widehat Y$ muda $\widehat\beta$ unidades de $Y$.
 \end{block}
 
 No exemplo:
@@ -974,11 +781,10 @@ No exemplo:
 \ \frac{\text{unidade de }Y}{\text{unidade de }X}.
 \]
 
-\begin{alertblock}{Erro comum}
-Uma inclinação positiva descreve associação linear positiva. Ela não diz que aumentar $X$ causaria aumento de $Y$.
-\end{alertblock}
+Duas observações cujos valores de $X$ diferem em uma unidade têm valores ajustados
+que diferem em 1,4 unidade de $Y$.
 
-# O intercepto só é substantivo quando $X=0$ faz sentido
+# Interpretação do intercepto
 
 \[
 \widehat\alpha=\widehat Y\text{ quando }X=0.
@@ -998,7 +804,7 @@ e $\widehat\alpha_A$ descreveria a reta no ano zero.
 O ano zero está muito fora dos dados de 1997--2016; o intercepto seria matematicamente válido, mas substantivamente pouco útil.
 \end{alertblock}
 
-# Centralizar muda o intercepto, não a inclinação
+# Centralização
 
 Escolha um ponto de referência $c$ e defina:
 
@@ -1020,29 +826,7 @@ Como $X_i=X_i^c+c$:
 A nova inclinação continua $\widehat\beta$; o novo intercepto é o valor ajustado no ponto original $X=c$.
 \end{block}
 
-# Exemplo de centralização: tornar $X=2$ a referência
-
-A reta original é:
-
-\[
-\widehat Y=0{,}9+1{,}4X.
-\]
-
-Defina $X^c=X-2$, portanto $X=X^c+2$:
-
-\[
-\begin{aligned}
-\widehat Y
-&=0{,}9+1{,}4(X^c+2)\\
-&=3{,}7+1{,}4X^c.
-\end{aligned}
-\]
-
-\begin{block}{Leitura}
-O novo intercepto, 3,7, é o valor ajustado quando o $X$ original vale 2. A reta e todos os valores ajustados permanecem idênticos.
-\end{block}
-
-# No AGNA, 1997 é uma referência substantiva
+# Centralização no AGNA
 
 Defina:
 
@@ -1061,60 +845,26 @@ Então:
 O intercepto passa a ser a convergência média anual ajustada para 1997, o início da janela observada.
 \end{block}
 
-O número de anos transcorridos muda a origem da escala, não a informação nem a inclinação.
+Com $A_i$ ou com $X_i$, a inclinação e os valores ajustados são os mesmos; muda apenas o intercepto.
 
-# Pausa: por que recentralizar não muda a reta?
+# Interpolação e extrapolação
 
-No AGNA, substitua $X_i=A_i-1997$ por:
-
-\[
-X_i^{2009}=A_i-2009.
-\]
-
-Discuta:
-
-1. Por que a inclinação permanece igual?
-2. Por que o intercepto muda?
-3. O que o novo intercepto representa?
-4. Por que nenhuma parametrização identifica um efeito causal de 2009?
-
-\begin{block}{Dica}
-A centralização apenas muda o ponto em que o preditor vale zero; ela não muda pontos, resíduos, SQR ou valores ajustados.
-\end{block}
-
-# Valores ajustados descrevem a reta dentro da amostra
-
-Para qualquer $X_i$ observado:
-
-\[
-\widehat Y_i=\widehat\alpha+\widehat\beta X_i.
-\]
-
-\begin{block}{Uso descritivo}
-Comparar $\widehat Y_i$ entre valores de $X$ resume a direção e a magnitude da associação linear observada.
-\end{block}
-
-\begin{alertblock}{Dois limites}
-O valor ajustado pode não coincidir com a CEF se a associação for não linear; e não é automaticamente uma previsão válida para uma nova amostra.
-\end{alertblock}
-
-# Extrapolar exige informação que os dados não fornecem
+Para qualquer $X_i$ observado, $\widehat Y_i=\widehat\alpha+\widehat\beta X_i$
+resume a associação linear naquele ponto.
 
 \begin{block}{Interpolação}
 Avaliar a reta entre valores de $X$ cobertos pela amostra.
 \end{block}
 
 \begin{alertblock}{Extrapolação}
-Avaliar a reta fora do suporte observado de $X$.
+Avaliar a reta fora do suporte observado de $X$. Uma reta estimada entre 1997 e 2016
+pode ser calculada para 2050, mas os dados não mostram que a associação linear persiste até lá.
 \end{alertblock}
 
-Uma reta estimada entre 1997 e 2016 pode ser calculada para 2050, mas os dados não mostram que a associação linear persiste até lá.
+\small
+Mesmo dentro do suporte, o valor ajustado pode se afastar da CEF se a associação for não linear.
 
-\begin{block}{Pergunta de verificação}
-O valor de $X$ que estou interpretando aparece nos dados ou depende de uma extensão não testada da reta?
-\end{block}
-
-# A associação anual no AGNA é pequena e positiva
+# AGNA: taxa anual e reta de MQO
 
 ```{r figura-3-agna, fig.width=8.7, fig.height=3.75, fig.cap='Convergência média anual e reta de MQO, 1997–2016. Unidade da regressão: ano (20 pontos); denominador de cada taxa: 61 a 112 resoluções válidas naquele ano, 1.762 no total. Eixo vertical: 0%–100%. Fonte: base didática AGNA do curso.'}
 ggplot(
@@ -1160,7 +910,7 @@ ggplot(
   )
 ```
 
-# Os coeficientes do AGNA têm leitura associacional
+# AGNA: coeficientes
 
 Com $X=\text{ano}-1997$, o ajuste nos 20 anos é:
 
@@ -1185,7 +935,7 @@ Cada ano adicional está associado a
 \small
 Cada ano recebe o mesmo peso porque a unidade da regressão é o ano.
 
-# Volte aos extremos: a reta usa os vinte pontos
+# De volta aos extremos
 
 \begin{columns}[T,onlytextwidth]
 \column{0.47\textwidth}
@@ -1209,28 +959,7 @@ Os 18 anos intermediários também entram nas somas de covariação e variação
 Os dois extremos, sozinhos, não determinam a inclinação do MQO.
 \end{alertblock}
 
-# A inclinação positiva não identifica efeito causal
-
-O ajuste mostra:
-
-\[
-\widehat\beta>0.
-\]
-
-Isso permite dizer que a reta amostral tem direção positiva.
-
-Não permite dizer que:
-
-- a passagem do tempo causou convergência;
-- 2009 causou uma mudança;
-- comércio ou poder explicam a inclinação;
-- a China causou os votos do Brasil.
-
-\begin{alertblock}{Lição da Aula 4}
-Sem exposição bem definida, resultados potenciais e hipótese de identificação, a regressão permanece descritiva e associacional.
-\end{alertblock}
-
-# `lm()` executa o cálculo, não escolhe a interpretação
+# MQO no R
 
 Em R, a chamada bivariada é:
 
@@ -1245,15 +974,15 @@ fitted(modelo_mqo)
 residuals(modelo_mqo)
 ```
 
-\begin{block}{O que o programa faz}
-Encontra os coeficientes que minimizam a SQR e devolve valores ajustados e resíduos.
+\begin{block}{O que \texttt{lm()} devolve}
+Os coeficientes que minimizam a SQR, os valores ajustados e os resíduos.
 \end{block}
 
-\begin{alertblock}{O que o programa não faz}
-\texttt{lm()} não cria identificação causal e, nesta aula, não usaremos valores-p, testes, intervalos de confiança ou \texttt{summary(modelo\_mqo)}.
+\begin{alertblock}{Escopo desta aula}
+Não usaremos valores-p, testes, intervalos de confiança nem \texttt{summary(modelo\_mqo)}.
 \end{alertblock}
 
-# No laboratório, acompanhe três momentos
+# Laboratório
 
 \begin{enumerate}
 \item \textbf{Antes da reta:} leia \texttt{dados\_anuais} e \texttt{grafico\_basico}.
@@ -1265,33 +994,10 @@ para relacionar pontos, valores ajustados e resíduos.
 \end{enumerate}
 
 \begin{block}{Pergunta comum aos três momentos}
-O que a saída descreve na amostra? Que conclusão causal ela não permite?
+O que a saída descreve na amostra?
 \end{block}
 
-# Propriedades dos resíduos são mecânicas, não diagnósticas
-
-Quando o modelo inclui intercepto:
-
-\[
-\sum_i\widehat e_i=0,
-\qquad
-\sum_iX_i\widehat e_i=0,
-\qquad
-\sum_i\widehat Y_i=\sum_iY_i.
-\]
-
-Também:
-
-\[
-(\bar X,\bar Y)
-\quad\text{pertence à reta ajustada.}
-\]
-
-\begin{alertblock}{Escopo}
-Hoje usamos essas igualdades somente para verificar a construção da reta. Diagnóstico de resíduos e observações influentes pertence à Aula 8.
-\end{alertblock}
-
-# Pausa: recupere a lógica sem usar software
+# Exercício
 
 No AGNA, $A_i$ é o ano, $X_i=A_i-1997$ mede anos desde 1997,
 e $Y_i$ é a taxa de convergência em proporção. A reta arredondada é:
@@ -1304,43 +1010,18 @@ e $Y_i$ é a taxa de convergência em proporção. A reta arredondada é:
 \item Qual é a taxa ajustada em 2000, quando $X=3$?
 \item Se, hipoteticamente, a taxa observada nesse ano fosse $0{,}80$, qual seria o resíduo?
 \item Quais são as unidades da inclinação e o que representa o intercepto?
-\item Que argumento adicional seria necessário para chamar a inclinação de efeito causal?
 \end{enumerate}
 
-\begin{block}{Objetivo}
-Separar cálculo, interpretação em unidades, suporte de $X$ e identificação.
-\end{block}
-
-# Cinco erros que o MQO não corrige
-
-\begin{enumerate}
-\item Confundir a unidade resolução com a unidade ano.
-\item Interpretar $\widehat\beta$ sem mencionar unidades de $X$ e $Y$.
-\item Dar sentido substantivo a $\widehat\alpha$ quando $X=0$ é irrelevante.
-\item Extrapolar a reta para valores de $X$ não observados.
-\item Chamar associação linear de efeito causal sem desenho de identificação.
-\end{enumerate}
-
-\begin{alertblock}{E mais um limite de escopo}
-Hoje não ensinamos regressão múltipla, inferência, erros-padrão robustos, propriedades amostrais do estimador nem diagnóstico.
-\end{alertblock}
-
-# Síntese: quatro ideias para levar adiante
+# Síntese
 
 \begin{enumerate}
 \item O MQO aplica a regra populacional do BLP aos momentos amostrais e escolhe a reta que minimiza a SQR, ou o EQM.
 \item A inclinação é covariação dividida pela variação de $X$; a reta passa por $(\bar X,\bar Y)$.
 \item Centralizar $X$ torna o intercepto interpretável sem mudar inclinação, ajustes ou resíduos.
-\item Uma reta bem estimada continua sendo associacional sem um argumento separado de identificação.
+\item Leia $\widehat\beta$ nas unidades de $X$ e $Y$ e avalie a reta apenas dentro do suporte observado de $X$.
 \end{enumerate}
 
-\vfill
-
-\begin{center}
-\Large MQO resolve uma minimização; não inventa um contrafactual.
-\end{center}
-
-# Referências e fronteira da aula
+# Referências
 
 \begin{block}{Leituras principais}
 Aronow, Peter M., e Benjamin T. Miller. \textit{Foundations of Agnostic Statistics} (2019), seções 3.2.3, 3.3--3.3.1 e 4.1.
