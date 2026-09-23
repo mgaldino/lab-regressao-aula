@@ -1,0 +1,12 @@
+Antes de concluir o envio, confira:
+
+1. O PDF contém as respostas aos exercícios 1 a 9.
+2. A autoria está identificada conforme a modalidade anunciada.
+3. A fonte .Rmd ou .qmd e os scripts .R necessários estão anexados.
+4. O trabalho foi executado em uma sessão nova do R.
+5. As tabelas e figuras têm número, legenda, unidade e fonte.
+6. Os caminhos são relativos; as bases originais continuam intactas.
+
+Não envie apenas imagens, um link para um arquivo privado ou o modelo vazio.
+Não é necessário reenviar as bases de dados fornecidas.
+Confira o estado do envio e finalize a submissão conforme indicado pelo Moodle.

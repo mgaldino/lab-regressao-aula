@@ -1,0 +1,42 @@
+{
+  ".DS_Store": {
+    "bytes": 6148,
+    "sha256": "84168712b21d1501fe1751ba930019ef6c6f6f2b79c42b5dd56186e1a1e92b3e"
+  },
+  "LEIA-ME_PROFESSOR.md": {
+    "bytes": 4962,
+    "sha256": "bb4a60d5ae2ecdeafe1f9d765731721976307cd772550fa933e0b7993b602d4e"
+  },
+  "apoio_tutor/guia_tutor_acesso_gemini.pdf": {
+    "bytes": 95844,
+    "sha256": "2f91637200b84d0ff6f8282194b29cf21c0b3cfeecb0dd79135da8d48194016a"
+  },
+  "publicar/lista_01_kit_alunos.zip": {
+    "bytes": 228511,
+    "sha256": "9218d56f90e4bffdb17cc29317498b56ca3dca4d6cd2d079f2011c33a621c7a4"
+  },
+  "publicar/lista_01_revisada_2026.pdf": {
+    "bytes": 75119,
+    "sha256": "5142f13ba09a89ca1836c45969b7e3a13b77006d5e13b1393a53d81e102603ee"
+  },
+  "publicar/orientacoes_lista_01.pdf": {
+    "bytes": 92407,
+    "sha256": "2550ed00c4e75f81e6b12df39d48afc544a05cf1e5461c9b5d12bac0e004a6ae"
+  },
+  "textos_moodle/aviso_divulgacao.txt": {
+    "bytes": 529,
+    "sha256": "1521a0d979e270040f7e67f72c834491651201e6ff5d1565f77482735e120f56"
+  },
+  "textos_moodle/descricao_atividade.html": {
+    "bytes": 2646,
+    "sha256": "3aa0c4d9ea7db25a3c4a7324cf3c80322558ca1c3af2f0b31e6dca5afae90cd8"
+  },
+  "textos_moodle/descricao_atividade.md": {
+    "bytes": 2296,
+    "sha256": "fa43a39e584296fb65cb79331dd061da37588b712905810f7a110c15fc24d468"
+  },
+  "textos_moodle/instrucoes_envio.txt": {
+    "bytes": 632,
+    "sha256": "af26bdcf400cf57dbbfaa206c392584ae48b1d8e2b854afbe1c43185d5de0b16"
+  }
+}

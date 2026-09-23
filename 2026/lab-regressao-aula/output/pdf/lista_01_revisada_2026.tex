@@ -1,0 +1,581 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+  brazilian,
+  11pt,
+  a4paper]{article}
+\usepackage{xcolor}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\ifLuaTeX
+\usepackage[bidi=basic,shorthands=off,]{babel}
+\else
+\usepackage[bidi=default,shorthands=off,]{babel}
+\fi
+\ifLuaTeX
+  \usepackage{selnolig} % disable illegal ligatures
+\fi
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{amsmath,amssymb,booktabs}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small FLS 6183 | Lista 1}
+\fancyhead[R]{\small Aulas 1 a 3}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+\setlength{\parskip}{5pt}
+\renewcommand{\tablename}{Tabela}
+\renewcommand{\figurename}{Figura}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Lista 1: dos dados à previsão},
+  pdfauthor={FLS 6183 - Métodos Quantitativos de Pesquisa II},
+  pdflang={pt-BR},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Lista 1: dos dados à previsão}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Probabilidade, distribuições, esperança condicional e BLP}
+\author{FLS 6183 - Métodos Quantitativos de Pesquisa II}
+\date{Conteúdo até a Aula 3 \textbar{} Revisão de 5 de setembro de 2026}
+
+\begin{document}
+\maketitle
+
+\section{O que você vai investigar}\label{o-que-vocuxea-vai-investigar}
+
+\textbf{Um resumo descreve bem os dados? Mais informação melhora a
+previsão?} Você começará com a população dos municípios brasileiros e,
+depois, retomará as votações de Brasil e China na Assembleia Geral das
+Nações Unidas (AGNU). O percurso vai da importação e da descrição à
+comparação de previsores.
+
+Ao terminar, você deverá conseguir validar uma base, interpretar
+momentos, distinguir probabilidades marginais e condicionais, simular
+uma variável binária e comparar a função de esperança condicional (CEF)
+com o melhor preditor linear (BLP).
+
+\subsection{Organização e entrega}\label{organizauxe7uxe3o-e-entrega}
+
+\begin{itemize}
+\tightlist
+\item
+  Resolva os \textbf{exercícios 1 a 9}.
+\item
+  Trabalhe em três sessões: importação e descrição (1 a 4),
+  probabilidade e previsão (5 e 6), BLP, exemplo não linear e síntese
+  aplicada (7 a 9). As estimativas de tempo em cada bloco servem apenas
+  para organizar o estudo.
+\item
+  Entregue pelo Moodle o PDF, a fonte \texttt{.Rmd} ou \texttt{.qmd} e
+  um script \texttt{.R} com os cálculos. O documento deve carregar os
+  resultados do script. Informe os integrantes conforme a modalidade de
+  entrega anunciada no Moodle.
+\item
+  Apresente código, resultados selecionados e interpretação. Evite
+  imprimir bases completas. Numere todas as figuras e tabelas e inclua
+  legenda, unidade de medida e fonte.
+\item
+  Execute o trabalho em uma sessão nova do R antes de entregar. Use
+  caminhos relativos e mantenha os arquivos de entrada intactos.
+\item
+  Consulte o Moodle para prazo e modalidade de entrega. Esta revisão não
+  estabelece uma nova data.
+\end{itemize}
+
+\subsection{Arquivos e apoio}\label{arquivos-e-apoio}
+
+Na pasta \texttt{dados/} do pacote estão dois arquivos:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{populacao\_municipios\_2020.csv};
+\item
+  \texttt{brasil\_convergencia\_china\_1997\_2016.csv}.
+\end{itemize}
+
+O primeiro contém estimativas do IBGE para 1º de julho de 2020; o
+segundo é o recorte didático usado nas Aulas 2 e 3. Use as cópias
+fornecidas, sem baixar novamente as bases.
+
+Tenha à mão os slides e os scripts das Aulas 2 e 3. Use explicitamente
+\texttt{dplyr::select()} ao selecionar colunas. Caso recorra ao
+\href{https://mgaldino.pythonanywhere.com/}{tutor}, registre a sua
+tentativa, o diagnóstico e a verificação da solução. Você deve conseguir
+explicar os comandos e as conclusões que entregar.
+
+\textbf{Critério de qualidade:} cada resposta deve mostrar o que foi
+calculado, em quais observações se baseia e o que o resultado permite
+concluir.
+
+\newpage
+
+\section{1. Importar é também
+verificar}\label{importar-uxe9-tambuxe9m-verificar}
+
+\emph{Sessão 1, exercícios 1 a 4: aproximadamente 90 a 120 minutos.}
+
+Importe \texttt{dados/populacao\_municipios\_2020.csv} para
+\texttt{pop2020}.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Registre a primeira tentativa, mesmo se o comando rodar e produzir um
+  resultado inesperado. Examine dimensões, nomes, tipos e algumas
+  linhas. Se houver problema, formule uma hipótese, teste-a e explique a
+  correção.
+\item
+  Valide os seguintes critérios: 5.570 linhas, três variáveis
+  (\texttt{uf}, \texttt{nome\_munic}, \texttt{populacao}), 27 UFs,
+  ausência de valores faltantes, população numérica e positiva e
+  unicidade do par UF-nome do município. Verifique também a preservação
+  de acentos e apóstrofos e eventuais problemas registrados pelo
+  importador.
+\item
+  Explique a unidade de análise e a data de referência. Por que não
+  basta verificar se há 5.570 linhas? Por que nomes de municípios,
+  sozinhos, não são uma chave segura para a base nacional?
+\item
+  Crie uma cópia de trabalho: selecione as três colunas com
+  \texttt{dplyr::select()}, renomeie \texttt{nome\_munic} para
+  \texttt{municipio} e use \texttt{tolower()} para converter seus nomes
+  em minúsculas. Preserve o objeto importado.
+\end{enumerate}
+
+\textbf{Produto:} diagnóstico breve e uma tabela numerada de
+verificações, com critério, resultado observado e conclusão.
+
+\section{2. Qual município estamos
+descrevendo?}\label{qual-municuxedpio-estamos-descrevendo}
+
+Crie um objeto com os municípios de São Paulo, mantendo a base nacional.
+Neste exercício, defina \(Z\) como a população de um município paulista
+escolhido com chances iguais. Se houver \(n\) municípios, chame de
+\(z_i\) a população do município na linha \(i\) e de \(\bar z\) a média
+desses valores. No R, você pode usar
+\texttt{z\ \textless{}-\ sp\$populacao} para representar os valores
+observados.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Quantos municípios há? Identifique o de menor população e os com mais
+  de um milhão de habitantes. Apresente nomes e populações em uma
+  tabela.
+\item
+  Calcule média, mediana, desvio-padrão e variância da população
+  municipal. Informe a unidade de cada medida. Explique a diferença
+  entre a população média de um município e a população total do estado.
+\item
+  Recalcule a média com a soma das populações dividida pelo número de
+  municípios. A qual experimento aleatório essa média corresponde:
+  escolher um município com chances iguais ou escolher um morador com
+  chances iguais? Justifique sem efetuar uma nova ponderação.
+\item
+  Para os valores observados \(z_1,\ldots,z_n\) definidos acima, compare
+  \(v_n=n^{-1}\sum_i(z_i-\bar z)^2\) com \texttt{var(z)}. Qual
+  denominador o R usa? Verifique a relação entre os dois resultados. Use
+  \(v_n\) quando tratar esta base como uma distribuição empírica com
+  pesos iguais.
+\end{enumerate}
+
+\textbf{Pausa de interpretação:} uma estatística correta pode responder
+à pergunta errada se a unidade de análise ou a ponderação estiverem
+erradas.
+
+\newpage
+
+\section{3. Centro, dispersão e
+forma}\label{centro-dispersuxe3o-e-forma}
+
+Continue usando os municípios de São Paulo.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Produza uma figura com três painéis: distribuição da população de
+  todos os municípios; distribuição dos municípios com menos de 50 mil
+  habitantes; distribuição de \texttt{log(populacao)} para todos os
+  municípios. Use histogramas ou densidades. Identifique as unidades e a
+  população incluída em cada painel; não trate densidade como contagem.
+\item
+  Quantos municípios têm menos de 50 mil habitantes? Qual é sua
+  proporção entre os municípios paulistas? Compare as distribuições e
+  explique a diferença entre excluir municípios e transformar a escala.
+\item
+  Qual medida, média ou mediana, descreve melhor um município típico
+  neste caso? Justifique com a figura e os números. A outra medida deixa
+  de ser útil? Dê um exemplo de pergunta para a qual ela seria útil.
+\item
+  Defina \(W=Z/1000\), a população em milhares de habitantes. Antes de
+  calcular, preveja como mudarão a média, o desvio-padrão e a variância.
+  Verifique suas previsões no R e explicite as unidades resultantes.
+\end{enumerate}
+
+\textbf{Atenção à escala:} o logaritmo natural exige valores positivos e
+muda as distâncias entre valores. Ele não altera quantos municípios
+existem.
+
+\section{4. Médias condicionais e média
+nacional}\label{muxe9dias-condicionais-e-muxe9dia-nacional}
+
+Retome todos os municípios brasileiros. Agora \(Z\) representa a
+população de um município escolhido com chances iguais e \(U\)
+representa sua UF.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Use \texttt{group\_by()} e \texttt{summarise()} para obter o número de
+  municípios, a população total e a população média municipal em cada
+  UF. Ordene a tabela pela média e identifique as UFs nos dois extremos.
+\item
+  Interprete \(E[Z\mid U=u]\). Uma UF com maior média municipal tem
+  necessariamente maior população total? Sustente sua resposta com as
+  colunas da tabela, sem confundir estado com município.
+\item
+  Reconstrua a média nacional usando as médias por UF ponderadas pela
+  proporção de municípios de cada UF. Compare com a média nacional
+  direta e com a média simples das 27 médias. Explique qual delas
+  corresponde a escolher um município brasileiro com chances iguais.
+\end{enumerate}
+
+\textbf{Conexão com a Aula 3:} o item c é uma aplicação da Lei da
+Esperança Iterada. As médias condicionais precisam ser combinadas com os
+pesos da distribuição da variável em que condicionamos.
+
+\newpage
+
+\section{5. Dos votos às probabilidades e à
+simulação}\label{dos-votos-uxe0s-probabilidades-e-uxe0-simulauxe7uxe3o}
+
+\emph{Sessão 2, exercícios 5 e 6: aproximadamente 90 a 120 minutos.}
+
+Importe a base da AGNU com \texttt{data.table::fread()}, como no
+laboratório. Uma linha representa uma votação nominal com os votos de
+Brasil e China observados. Defina \(Y=\texttt{convergente}\), que vale 1
+se os votos coincidem e 0 caso contrário; e \(X=\texttt{pos\_2009}\),
+que vale 0 em 1997--2008 e 1 em 2009--2016.
+
+\textbf{Convenção para os exercícios 5 a 9:} trate as 1.762 linhas
+válidas como uma distribuição empírica em que cada votação recebe o
+mesmo peso, \(1/1.762\). Assim, probabilidades, esperanças e erros
+quadráticos médios são calculados como médias sobre essas linhas. Não é
+necessário sortear uma linha nem simular as votações reais; a simulação
+pedida no item 5e é uma atividade separada. As medidas referem-se a
+essas observações, não a uma população futura desconhecida.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Verifique a unicidade de \texttt{rcid}, ausentes nas variáveis usadas,
+  anos entre 1997 e 2016, consistência entre \texttt{data} e
+  \texttt{ano}, entre ano e período e valores 0/1 de \(X\) e \(Y\).
+  Confira também se \(Y\) corresponde à igualdade dos dois votos. O
+  ponto de conferência é \textbf{1.762 linhas válidas}. Não elimine
+  linhas silenciosamente para atingir esse número. A coluna
+  \texttt{voto\_importante} não será usada; seus valores ausentes não
+  justificam excluir votações.
+\item
+  Construa uma tabela \(2\times2\) de contagens de \((X,Y)\) e, em
+  seguida, a distribuição conjunta dividindo todas as células pelo total
+  geral. Obtenha as duas distribuições marginais somando as células
+  adequadas.
+\item
+  Calcule \(\Pr(Y=1\mid X=0)\), \(\Pr(Y=1\mid X=1)\) e
+  \(\Pr(X=1\mid Y=1)\). Escreva em palavras a pergunta respondida por
+  cada quantidade. Indique o denominador usado em cada caso.
+\item
+  Calcule \(p=E[Y]\), \(E[Y^2]\), \(\operatorname{V}(Y)\) e o
+  desvio-padrão diretamente dos dados. Verifique \(E[Y^2]=E[Y]\) e
+  \(\operatorname{V}(Y)=p(1-p)\). Use denominador \(n\) para a
+  variância.
+\item
+  \textbf{Antes de simular}, preveja o centro de uma sequência de
+  valores 0/1 com probabilidade \(p\) de valer 1. Fixe
+  \texttt{set.seed(6183)} e gere 10.000 valores com
+  \texttt{rbinom(10000,\ size\ =\ 1,\ prob\ =\ p)}. Compare a frequência
+  de 1 e a variância empírica dos primeiros 100, primeiros 1.000 e todos
+  os valores com \(p\) e \(p(1-p)\). Por que não precisam ser exatamente
+  iguais?
+\end{enumerate}
+
+\textbf{Duas distinções:} aumentar a sequência não garante aproximação
+monotônica em cada realização. A simulação cria sorteios independentes
+por construção; isso não demonstra independência entre as votações
+reais.
+
+\newpage
+
+\section{6. Qual informação melhora a
+previsão?}\label{qual-informauxe7uxe3o-melhora-a-previsuxe3o}
+
+Defina \(m(x)=E[Y\mid X=x]\). O número \(m(0)\) é a média de \(Y\) no
+primeiro período; \(m(X)\) atribui a cada linha a média do seu período.
+Para uma regra \(g\), o erro quadrático médio é \[
+\operatorname{EQM}(g)=\frac{1}{n}\sum_{i=1}^{n}(Y_i-g(X_i))^2.
+\]
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Apresente uma tabela por período com número de votações, convergências
+  e \(m(x)\). Calcule a diferença entre períodos em \textbf{pontos
+  percentuais}. Explique a distinção entre a função \(m\), o número
+  \(m(1)\) e a variável aleatória \(m(X)\).
+\item
+  Reconstrua \(E[Y]\) com \(m(0)\Pr(X=0)+m(1)\Pr(X=1)\). Por que a média
+  simples das duas médias condicionais geralmente falha?
+\item
+  \textbf{Antes de executar}, ordene do menor para o maior EQM os
+  previsores: constante 0,5; constante 1; média geral; média do período.
+  Calcule os quatro EQMs nas mesmas 1.762 linhas e confira sua previsão.
+  Use \texttt{left\_join()} para devolver a média de cada período às
+  linhas; confira que a junção preservou o número de linhas e não gerou
+  ausentes.
+\item
+  Defina \(e_i=Y_i-m(X_i)\). Verifique a média de \(e_i\) em cada
+  período e no conjunto. Explique por que esses desvios têm média
+  condicional zero.
+\item
+  Complete o argumento usando a Lei da Esperança Iterada (dica:
+  condicione primeiro em \(X\); quais fatores passam a ser constantes?):
+  \(E[(Y-m(X))(m(X)-g(X))]=0\). Explique por que isso implica \[
+  \operatorname{EQM}(g)=\operatorname{EQM}(m)
+  +E[(m(X)-g(X))^2].
+  \] Em palavras, o que torna a CEF o melhor preditor sob perda
+  quadrática?
+\end{enumerate}
+
+\textbf{Produto:} uma tabela de EQMs e um parágrafo distinguindo ser o
+melhor preditor de produzir uma grande melhora. Quantifique a redução
+absoluta do EQM ao passar da média geral à média por período.
+
+\textbf{Limite da análise:} as médias foram construídas e avaliadas nos
+mesmos dados. Um EQM menor aqui não garante melhor previsão de novas
+votações e não identifica um efeito causal de 2009.
+
+\newpage
+
+\section{7. O que ganhamos e perdemos com uma
+reta?}\label{o-que-ganhamos-e-perdemos-com-uma-reta}
+
+\emph{Sessão 3, exercícios 7 a 9: aproximadamente 120 a 150 minutos.}
+
+O melhor preditor linear (BLP) usa \(g(X)=\alpha+\beta X\), com \[
+\beta=\frac{\operatorname{Cov}(X,Y)}{\operatorname{V}(X)},
+\qquad \alpha=E[Y]-\beta E[X],
+\] quando \(\operatorname{V}(X)>0\). \(\alpha\) é o intercepto e
+\(\beta\) é a mudança na previsão quando \(X\) aumenta uma unidade.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Trabalhe com os valores observados \(x_i\) e \(y_i\) de \(X\) e \(Y\).
+  Primeiro, escreva as fórmulas que \texttt{cov(x,\ y)} e
+  \texttt{var(x)} usam, defina \(\bar x\) e \(\bar y\) e indique o
+  denominador de cada fórmula. Depois, calcule a covariância e a
+  correlação e explique, em palavras, o que cada medida resume. Por fim,
+  explique por que podemos escrever o quociente
+  \texttt{cov(x,\ y)\ /\ var(x)} sem mostrar o tamanho \(n\) da base:
+  embora cada fórmula dependa de \(n\) e use o denominador \(n-1\), esse
+  fator é o mesmo e se cancela no quociente acima.
+\item
+  Calcule \(\alpha\) e \(\beta\) pelas fórmulas, \textbf{sem usar
+  \texttt{lm()}}. Obtenha \(g(0)\) e \(g(1)\) e compare com \(m(0)\) e
+  \(m(1)\). Mostre que \(\beta=m(1)-m(0)\) e interprete a inclinação em
+  pontos percentuais.
+\item
+  Verifique que a reta passa por \((E[X],E[Y])\). Explique por que, com
+  \(X\) binária, dois coeficientes bastam para reproduzir os dois
+  centros condicionais. Compare o EQM do BLP com o da CEF por período.
+\end{enumerate}
+
+\textbf{Pausa:} a seção seguinte usa uma distribuição conhecida para
+separar covariância, independência, CEF e BLP. Não pede estimação de
+MQO, erros-padrão, testes de hipótese ou interpretação causal.
+
+\newpage
+
+\section{8. Covariância zero não implica
+independência}\label{covariuxe2ncia-zero-nuxe3o-implica-independuxeancia}
+
+Considere o experimento aleatório em que a variável aleatória \(A\)
+assume \(-1\), \(0\) e \(1\), cada um com probabilidade \(1/3\). Defina
+a variável aleatória \(B=A^2\). Todas as probabilidades e esperanças
+desta questão referem-se a essa distribuição exata; não é necessário
+simular.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Faça uma tabela com os valores possíveis de \((A,B)\) e suas
+  probabilidades. Calcule \(E[B\mid A=a]\) para cada \(a\in\{-1,0,1\}\),
+  escreva a função \(m(a)=E[B\mid A=a]\) e calcule o EQM de \(m(A)\).
+  Por que esse preditor acerta todos os valores neste exemplo?
+\item
+  Calcule \(E[A]\), \(E[B]\) e \(\operatorname{Cov}(A,B)\). Mostre cada
+  etapa da soma e explique por que a covariância é zero.
+\item
+  Calcule o BLP \(g(A)=\alpha+\beta A\) usando
+  \(\beta=\operatorname{Cov}(A,B)/\operatorname{V}(A)\) e
+  \(\alpha=E[B]-\beta E[A]\). Encontre \(g(-1)\), \(g(0)\) e \(g(1)\);
+  depois, calcule seu EQM e compare-o com o EQM da CEF. O que essa
+  comparação ensina sobre uma reta quando a relação entre as variáveis
+  não é linear?
+\item
+  \(A\) e \(B\) são independentes? Calcule \(\Pr(B=0\mid A=0)\) e
+  \(\Pr(B=0)\) e use a comparação para justificar sua resposta. Não
+  conclua independência apenas porque a covariância é zero.
+\item
+  Ainda no exemplo, defina \(u=B-(\alpha+\beta A)\). Compare \(E[u]\) e
+  \(\operatorname{Cov}(A,u)\) com \(E[u\mid A=a]\). Explique por que as
+  propriedades dos desvios do BLP são mais fracas que as da CEF.
+\end{enumerate}
+
+\textbf{Pausa:} covariância zero descreve ausência de associação linear,
+não independência. A CEF pode capturar uma relação que o BLP não
+captura.
+
+\newpage
+
+\section{9. Tema e período: mais detalhe, quais
+limites?}\label{tema-e-peruxedodo-mais-detalhe-quais-limites}
+
+Retome a AGNU. Agora \(T\) é a coluna \texttt{tema}. Trate cada texto
+completo dessa coluna como uma categoria, inclusive combinações
+separadas por ponto e vírgula. Assim, cada votação pertence a exatamente
+uma categoria nesta análise. Mantenha a categoria sem codificação
+temática.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Calcule a CEF empírica \(E[Y\mid T,X]\) e o número de votações para
+  cada célula tema-período. Confira que a soma das contagens é 1.762.
+  Identifique a menor célula e explique a fragilidade de uma média
+  baseada em poucas observações.
+\item
+  Construa uma figura comparando as duas médias de cada tema, usando
+  somente temas com pelo menos 30 votações \textbf{em cada um dos dois
+  períodos}. Escolha pontos pareados ou diferenças em pontos
+  percentuais. Informe o filtro na legenda e use eixos que deixem clara
+  a comparação.
+\item
+  Devolva \textbf{todas} as médias tema-período às 1.762 linhas e
+  calcule o EQM. O filtro do gráfico não deve restringir esta avaliação.
+  Compare com os EQMs da média geral e da CEF por período. Explique por
+  que subdividir grupos não aumenta o EQM quando as médias são
+  calculadas e avaliadas nas mesmas linhas.
+\item
+  Se uma votação com dois temas passar a ocupar duas linhas, uma em cada
+  tema, o que acontece com a unidade de análise e com a soma das
+  contagens? Explique por que esse procedimento não pode ser usado
+  silenciosamente na comparação de EQMs do item c.
+\item
+  Escolha um tema exibido e escreva \textbf{100 a 150 palavras}
+  respondendo: como a convergência varia entre períodos? Inclua as duas
+  médias, a diferença em pontos percentuais, os dois denominadores, o
+  ganho preditivo geral de incluir tema e duas limitações: a avaliação
+  nos mesmos dados e a ausência de identificação causal.
+\end{enumerate}
+
+\textbf{Antes de entregar:} releia o parágrafo sem olhar o código. Ele
+informa qual comparação foi feita, em quais observações e com quais
+limites?
+
+\subsection{Conferência final do
+trabalho}\label{conferuxeancia-final-do-trabalho}
+
+\begin{itemize}
+\tightlist
+\item
+  Os arquivos originais continuam intactos e os caminhos são relativos.
+\item
+  As verificações de dados aparecem antes dos resultados.
+\item
+  Todas as tabelas e figuras têm número, legenda e fonte.
+\item
+  Probabilidades, proporções e pontos percentuais estão distinguidos.
+\item
+  O script completo roda em uma sessão nova e gera os resultados do PDF.
+\end{itemize}
+
+\subsection{Materiais de referência}\label{materiais-de-referuxeancia}
+
+Aronow e Miller (2019), \emph{Foundations of Agnostic Statistics},
+capítulo 1 e seções 2.1--2.2.5; slides e laboratórios das Aulas 2 e 3.
+Dados municipais: IBGE, estimativas para 1º de julho de 2020, arquivo
+didático preservado. Votações: base didática AGNA, construída a partir
+de \texttt{unvotes} 0.3.0, recorte Brasil-China, 1997--2016.
+
+\end{document}

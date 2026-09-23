@@ -1,0 +1,26 @@
+{
+  "data": "2026-09-05",
+  "checagens": {
+    "guia_3_paginas": true,
+    "guia_texto_completo": true,
+    "guia_sem_recorte_fisico": true,
+    "legendas_numeradas": true,
+    "hashes_finais": true,
+    "zip_alunos_integro": true,
+    "9_arquivos_alunos": true,
+    "sem_material_docente": true,
+    "enunciado_identico": true,
+    "dados_preservados": true,
+    "sem_solucao_importacao": true,
+    "zip_professor_integro": true,
+    "zip_professor_contem_roteiro": true,
+    "modelo_compilado_pasta_isolada": true
+  },
+  "todos_passaram": true,
+  "limites": [
+    "Moodle USP não acessado; nenhum upload ou aviso publicado.",
+    "Modelo testado com R 4.4.2 no macOS, ambiente já instalado; não houve teste Windows/Linux nem nova instalação.",
+    "Compilação do modelo sem soluções testa infraestrutura, não resolução dos exercícios."
+  ],
+  "codigo_turma": "Não informado; apoio tutor mantido separado."
+}

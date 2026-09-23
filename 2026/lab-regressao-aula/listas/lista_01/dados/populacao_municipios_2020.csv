@@ -1,0 +1,5571 @@
+"uf";"nome_munic";"populacao"
+"RO";"Alta Floresta D'Oeste";22728
+"RO";"Ariquemes";109523
+"RO";"Cabixi";5188
+"RO";"Cacoal";85893
+"RO";"Cerejeiras";16204
+"RO";"Colorado do Oeste";15544
+"RO";"Corumbiara";7220
+"RO";"Costa Marques";18798
+"RO";"Espigão D'Oeste";32695
+"RO";"Guajará-Mirim";46556
+"RO";"Jaru";51620
+"RO";"Ji-Paraná";130009
+"RO";"Machadinho D'Oeste";40867
+"RO";"Nova Brasilândia D'Oeste";20489
+"RO";"Ouro Preto do Oeste";35737
+"RO";"Pimenta Bueno";36881
+"RO";"Porto Velho";539354
+"RO";"Presidente Médici";18571
+"RO";"Rio Crespo";3804
+"RO";"Rolim de Moura";55407
+"RO";"Santa Luzia D'Oeste";6216
+"RO";"Vilhena";102211
+"RO";"São Miguel do Guaporé";23077
+"RO";"Nova Mamoré";31392
+"RO";"Alvorada D'Oeste";14106
+"RO";"Alto Alegre dos Parecis";13255
+"RO";"Alto Paraíso";21847
+"RO";"Buritis";40356
+"RO";"Novo Horizonte do Oeste";8329
+"RO";"Cacaulândia";6269
+"RO";"Campo Novo de Rondônia";14266
+"RO";"Candeias do Jamari";27388
+"RO";"Castanheiras";2987
+"RO";"Chupinguaia";11472
+"RO";"Cujubim";26183
+"RO";"Governador Jorge Teixeira";7445
+"RO";"Itapuã do Oeste";10641
+"RO";"Ministro Andreazza";9559
+"RO";"Mirante da Serra";10818
+"RO";"Monte Negro";16007
+"RO";"Nova União";6895
+"RO";"Parecis";6198
+"RO";"Pimenteiras do Oeste";2148
+"RO";"Primavera de Rondônia";2776
+"RO";"São Felipe D'Oeste";5066
+"RO";"São Francisco do Guaporé";20681
+"RO";"Seringueiras";11851
+"RO";"Teixeirópolis";4233
+"RO";"Theobroma";10395
+"RO";"Urupá";11272
+"RO";"Vale do Anari";11377
+"RO";"Vale do Paraíso";6656
+"AC";"Acrelândia";15490
+"AC";"Assis Brasil";7534
+"AC";"Brasiléia";26702
+"AC";"Bujari";10420
+"AC";"Capixaba";12008
+"AC";"Cruzeiro do Sul";89072
+"AC";"Epitaciolândia";18696
+"AC";"Feijó";34884
+"AC";"Jordão";8473
+"AC";"Mâncio Lima";19311
+"AC";"Manoel Urbano";9581
+"AC";"Marechal Thaumaturgo";19299
+"AC";"Plácido de Castro";19955
+"AC";"Porto Walter";12241
+"AC";"Rio Branco";413418
+"AC";"Rodrigues Alves";19351
+"AC";"Santa Rosa do Purus";6717
+"AC";"Senador Guiomard";23236
+"AC";"Sena Madureira";46511
+"AC";"Tarauacá";43151
+"AC";"Xapuri";19596
+"AC";"Porto Acre";18824
+"AM";"Alvarães";16220
+"AM";"Amaturá";11736
+"AM";"Anamã";13956
+"AM";"Anori";21477
+"AM";"Apuí";22359
+"AM";"Atalaia do Norte";20398
+"AM";"Autazes";40290
+"AM";"Barcelos";27638
+"AM";"Barreirinha";32483
+"AM";"Benjamin Constant";43935
+"AM";"Beruri";20093
+"AM";"Boa Vista do Ramos";19626
+"AM";"Boca do Acre";34635
+"AM";"Borba";41748
+"AM";"Caapiranga";13283
+"AM";"Canutama";15807
+"AM";"Carauari";28508
+"AM";"Careiro";38348
+"AM";"Careiro da Várzea";30846
+"AM";"Coari";85910
+"AM";"Codajás";29168
+"AM";"Eirunepé";35700
+"AM";"Envira";20393
+"AM";"Fonte Boa";17005
+"AM";"Guajará";16937
+"AM";"Humaitá";56144
+"AM";"Ipixuna";30436
+"AM";"Iranduba";49011
+"AM";"Itacoatiara";102701
+"AM";"Itamarati";7814
+"AM";"Itapiranga";9230
+"AM";"Japurá";2251
+"AM";"Juruá";15106
+"AM";"Jutaí";13886
+"AM";"Lábrea";46882
+"AM";"Manacapuru";98502
+"AM";"Manaquiri";33049
+"AM";"Manaus";2219580
+"AM";"Manicoré";56583
+"AM";"Maraã";18261
+"AM";"Maués";65040
+"AM";"Nhamundá";21443
+"AM";"Nova Olinda do Norte";38026
+"AM";"Novo Airão";19928
+"AM";"Novo Aripuanã";26046
+"AM";"Parintins";115363
+"AM";"Pauini";19522
+"AM";"Presidente Figueiredo";37193
+"AM";"Rio Preto da Eva";34106
+"AM";"Santa Isabel do Rio Negro";25865
+"AM";"Santo Antônio do Içá";21243
+"AM";"São Gabriel da Cachoeira";46303
+"AM";"São Paulo de Olivença";40073
+"AM";"São Sebastião do Uatumã";14352
+"AM";"Silves";9230
+"AM";"Tabatinga";67182
+"AM";"Tapauá";17015
+"AM";"Tefé";59547
+"AM";"Tonantins";18897
+"AM";"Uarini";13690
+"AM";"Urucará";16130
+"AM";"Urucurituba";23585
+"RR";"Amajari";13185
+"RR";"Alto Alegre";15380
+"RR";"Boa Vista";419652
+"RR";"Bonfim";12557
+"RR";"Cantá";18799
+"RR";"Caracaraí";22283
+"RR";"Caroebe";10383
+"RR";"Iracema";12296
+"RR";"Mucajaí";18172
+"RR";"Normandia";11532
+"RR";"Pacaraima";18913
+"RR";"Rorainópolis";30782
+"RR";"São João da Baliza";8348
+"RR";"São Luiz";8110
+"RR";"Uiramutã";10789
+"PA";"Abaetetuba";159080
+"PA";"Abel Figueiredo";7486
+"PA";"Acará";55669
+"PA";"Afuá";39567
+"PA";"Água Azul do Norte";27615
+"PA";"Alenquer";57092
+"PA";"Almeirim";34076
+"PA";"Altamira";115969
+"PA";"Anajás";29688
+"PA";"Ananindeua";535547
+"PA";"Anapu";28607
+"PA";"Augusto Corrêa";46471
+"PA";"Aurora do Pará";31773
+"PA";"Aveiro";16404
+"PA";"Bagre";31325
+"PA";"Baião";48459
+"PA";"Bannach";3262
+"PA";"Barcarena";127027
+"PA";"Belém";1499641
+"PA";"Belterra";17839
+"PA";"Benevides";63768
+"PA";"Bom Jesus do Tocantins";17118
+"PA";"Bonito";16530
+"PA";"Bragança";128914
+"PA";"Brasil Novo";14983
+"PA";"Brejo Grande do Araguaia";7368
+"PA";"Breu Branco";67332
+"PA";"Breves";103497
+"PA";"Bujaru";29427
+"PA";"Cachoeira do Piriá";34609
+"PA";"Cachoeira do Arari";24064
+"PA";"Cametá";139364
+"PA";"Canaã dos Carajás";38103
+"PA";"Capanema";69431
+"PA";"Capitão Poço";54425
+"PA";"Castanhal";203251
+"PA";"Chaves";23948
+"PA";"Colares";12131
+"PA";"Conceição do Araguaia";47991
+"PA";"Concórdia do Pará";33781
+"PA";"Cumaru do Norte";13761
+"PA";"Curionópolis";17846
+"PA";"Curralinho";34994
+"PA";"Curuá";14587
+"PA";"Curuçá";40584
+"PA";"Dom Eliseu";60469
+"PA";"Eldorado do Carajás";33940
+"PA";"Faro";7070
+"PA";"Floresta do Araguaia";20525
+"PA";"Garrafão do Norte";26111
+"PA";"Goianésia do Pará";41081
+"PA";"Gurupá";33755
+"PA";"Igarapé-Açu";39023
+"PA";"Igarapé-Miri";63036
+"PA";"Inhangapi";11861
+"PA";"Ipixuna do Pará";65625
+"PA";"Irituia";32595
+"PA";"Itaituba";101395
+"PA";"Itupiranga";53355
+"PA";"Jacareacanga";7590
+"PA";"Jacundá";59842
+"PA";"Juruti";58960
+"PA";"Limoeiro do Ajuru";29282
+"PA";"Mãe do Rio";30235
+"PA";"Magalhães Barata";8573
+"PA";"Marabá";283542
+"PA";"Maracanã";29516
+"PA";"Marapanim";28450
+"PA";"Marituba";133685
+"PA";"Medicilândia";31975
+"PA";"Melgaço";27890
+"PA";"Mocajuba";31530
+"PA";"Moju";83182
+"PA";"Mojuí dos Campos";16184
+"PA";"Monte Alegre";58162
+"PA";"Muaná";40906
+"PA";"Nova Esperança do Piriá";21444
+"PA";"Nova Ipixuna";16854
+"PA";"Nova Timboteua";15506
+"PA";"Novo Progresso";25766
+"PA";"Novo Repartimento";77214
+"PA";"Óbidos";52306
+"PA";"Oeiras do Pará";32850
+"PA";"Oriximiná";74016
+"PA";"Ourém";17961
+"PA";"Ourilândia do Norte";33335
+"PA";"Pacajá";48414
+"PA";"Palestina do Pará";7582
+"PA";"Paragominas";114503
+"PA";"Parauapebas";213576
+"PA";"Pau D'Arco";5410
+"PA";"Peixe-Boi";8081
+"PA";"Piçarra";12979
+"PA";"Placas";31659
+"PA";"Ponta de Pedras";31549
+"PA";"Portel";62945
+"PA";"Porto de Moz";41801
+"PA";"Prainha";29846
+"PA";"Primavera";10857
+"PA";"Quatipuru";13702
+"PA";"Redenção";85563
+"PA";"Rio Maria";18201
+"PA";"Rondon do Pará";52803
+"PA";"Rurópolis";51500
+"PA";"Salinópolis";40922
+"PA";"Salvaterra";24075
+"PA";"Santa Bárbara do Pará";21449
+"PA";"Santa Cruz do Arari";10314
+"PA";"Santa Izabel do Pará";71837
+"PA";"Santa Luzia do Pará";19843
+"PA";"Santa Maria das Barreiras";21850
+"PA";"Santa Maria do Pará";24995
+"PA";"Santana do Araguaia";74419
+"PA";"Santarém";306480
+"PA";"Santarém Novo";6753
+"PA";"Santo Antônio do Tauá";31918
+"PA";"São Caetano de Odivelas";18129
+"PA";"São Domingos do Araguaia";25753
+"PA";"São Domingos do Capim";32139
+"PA";"São Félix do Xingu";132138
+"PA";"São Francisco do Pará";15930
+"PA";"São Geraldo do Araguaia";24705
+"PA";"São João da Ponta";6217
+"PA";"São João de Pirabas";23244
+"PA";"São João do Araguaia";14051
+"PA";"São Miguel do Guamá";59632
+"PA";"São Sebastião da Boa Vista";26974
+"PA";"Sapucaia";6009
+"PA";"Senador José Porfírio";11480
+"PA";"Soure";25565
+"PA";"Tailândia";108969
+"PA";"Terra Alta";11847
+"PA";"Terra Santa";18917
+"PA";"Tomé-Açu";64030
+"PA";"Tracuateua";31257
+"PA";"Trairão";19168
+"PA";"Tucumã";40136
+"PA";"Tucuruí";115144
+"PA";"Ulianópolis";60761
+"PA";"Uruará";45435
+"PA";"Vigia";54172
+"PA";"Viseu";61751
+"PA";"Vitória do Xingu";15279
+"PA";"Xinguara";45086
+"AP";"Serra do Navio";5488
+"AP";"Amapá";9187
+"AP";"Pedra Branca do Amapari";17067
+"AP";"Calçoene";11306
+"AP";"Cutias";6101
+"AP";"Ferreira Gomes";7967
+"AP";"Itaubal";5617
+"AP";"Laranjal do Jari";51362
+"AP";"Macapá";512902
+"AP";"Mazagão";22053
+"AP";"Oiapoque";27906
+"AP";"Porto Grande";22452
+"AP";"Pracuúba";5246
+"AP";"Santana";123096
+"AP";"Tartarugalzinho";17769
+"AP";"Vitória do Jari";16254
+"TO";"Abreulândia";2594
+"TO";"Aguiarnópolis";6892
+"TO";"Aliança do Tocantins";5346
+"TO";"Almas";6979
+"TO";"Alvorada";8396
+"TO";"Ananás";9492
+"TO";"Angico";3454
+"TO";"Aparecida do Rio Negro";4848
+"TO";"Aragominas";5731
+"TO";"Araguacema";7155
+"TO";"Araguaçu";8467
+"TO";"Araguaína";183381
+"TO";"Araguanã";5793
+"TO";"Araguatins";36170
+"TO";"Arapoema";6616
+"TO";"Arraias";10534
+"TO";"Augustinópolis";18643
+"TO";"Aurora do Tocantins";3783
+"TO";"Axixá do Tocantins";9787
+"TO";"Babaçulândia";10666
+"TO";"Bandeirantes do Tocantins";3592
+"TO";"Barra do Ouro";4632
+"TO";"Barrolândia";5651
+"TO";"Bernardo Sayão";4448
+"TO";"Bom Jesus do Tocantins";5008
+"TO";"Brasilândia do Tocantins";2211
+"TO";"Brejinho de Nazaré";5519
+"TO";"Buriti do Tocantins";11497
+"TO";"Cachoeirinha";2284
+"TO";"Campos Lindos";10312
+"TO";"Cariri do Tocantins";4441
+"TO";"Carmolândia";2603
+"TO";"Carrasco Bonito";4130
+"TO";"Caseara";5442
+"TO";"Centenário";2936
+"TO";"Chapada de Areia";1410
+"TO";"Chapada da Natividade";3331
+"TO";"Colinas do Tocantins";35851
+"TO";"Combinado";4861
+"TO";"Conceição do Tocantins";4087
+"TO";"Couto Magalhães";5639
+"TO";"Cristalândia";7278
+"TO";"Crixás do Tocantins";1735
+"TO";"Darcinópolis";6174
+"TO";"Dianópolis";22424
+"TO";"Divinópolis do Tocantins";6943
+"TO";"Dois Irmãos do Tocantins";7185
+"TO";"Dueré";4686
+"TO";"Esperantina";11139
+"TO";"Fátima";3830
+"TO";"Figueirópolis";5243
+"TO";"Filadélfia";8874
+"TO";"Formoso do Araguaia";18399
+"TO";"Tabocão";2602
+"TO";"Goianorte";5130
+"TO";"Goiatins";13095
+"TO";"Guaraí";26165
+"TO";"Gurupi";87545
+"TO";"Ipueiras";2052
+"TO";"Itacajá";7452
+"TO";"Itaguatins";5832
+"TO";"Itapiratins";3795
+"TO";"Itaporã do Tocantins";2420
+"TO";"Jaú do Tocantins";3878
+"TO";"Juarina";2184
+"TO";"Lagoa da Confusão";13676
+"TO";"Lagoa do Tocantins";4393
+"TO";"Lajeado";3167
+"TO";"Lavandeira";1954
+"TO";"Lizarda";3733
+"TO";"Luzinópolis";3154
+"TO";"Marianópolis do Tocantins";5254
+"TO";"Mateiros";2729
+"TO";"Maurilândia do Tocantins";3448
+"TO";"Miracema do Tocantins";17936
+"TO";"Miranorte";13493
+"TO";"Monte do Carmo";8066
+"TO";"Monte Santo do Tocantins";2295
+"TO";"Palmeiras do Tocantins";6745
+"TO";"Muricilândia";3587
+"TO";"Natividade";9250
+"TO";"Nazaré";3834
+"TO";"Nova Olinda";11917
+"TO";"Nova Rosalândia";4304
+"TO";"Novo Acordo";4397
+"TO";"Novo Alegre";2332
+"TO";"Novo Jardim";2745
+"TO";"Oliveira de Fátima";1118
+"TO";"Palmeirante";6131
+"TO";"Palmeirópolis";7676
+"TO";"Paraíso do Tocantins";51891
+"TO";"Paranã";10437
+"TO";"Pau D'Arco";4867
+"TO";"Pedro Afonso";13773
+"TO";"Peixe";11873
+"TO";"Pequizeiro";5512
+"TO";"Colméia";8141
+"TO";"Pindorama do Tocantins";4430
+"TO";"Piraquê";3033
+"TO";"Pium";7743
+"TO";"Ponte Alta do Bom Jesus";4591
+"TO";"Ponte Alta do Tocantins";8116
+"TO";"Porto Alegre do Tocantins";3170
+"TO";"Porto Nacional";53316
+"TO";"Praia Norte";8498
+"TO";"Presidente Kennedy";3676
+"TO";"Pugmil";2717
+"TO";"Recursolândia";4342
+"TO";"Riachinho";4684
+"TO";"Rio da Conceição";2171
+"TO";"Rio dos Bois";2856
+"TO";"Rio Sono";6488
+"TO";"Sampaio";4794
+"TO";"Sandolândia";3373
+"TO";"Santa Fé do Araguaia";7595
+"TO";"Santa Maria do Tocantins";3486
+"TO";"Santa Rita do Tocantins";2386
+"TO";"Santa Rosa do Tocantins";4846
+"TO";"Santa Tereza do Tocantins";2897
+"TO";"Santa Terezinha do Tocantins";2530
+"TO";"São Bento do Tocantins";5391
+"TO";"São Félix do Tocantins";1598
+"TO";"São Miguel do Tocantins";12294
+"TO";"São Salvador do Tocantins";3094
+"TO";"São Sebastião do Tocantins";4852
+"TO";"São Valério";3904
+"TO";"Silvanópolis";5428
+"TO";"Sítio Novo do Tocantins";8997
+"TO";"Sucupira";1986
+"TO";"Taguatinga";16825
+"TO";"Taipas do Tocantins";2166
+"TO";"Talismã";2812
+"TO";"Palmas";306296
+"TO";"Tocantínia";7617
+"TO";"Tocantinópolis";22845
+"TO";"Tupirama";1922
+"TO";"Tupiratins";2729
+"TO";"Wanderlândia";11734
+"TO";"Xambioá";11520
+"MA";"Açailândia";113121
+"MA";"Afonso Cunha";6578
+"MA";"Água Doce do Maranhão";12652
+"MA";"Alcântara";22112
+"MA";"Aldeias Altas";26757
+"MA";"Altamira do Maranhão";8189
+"MA";"Alto Alegre do Maranhão";27858
+"MA";"Alto Alegre do Pindaré";31943
+"MA";"Alto Parnaíba";11212
+"MA";"Amapá do Maranhão";7005
+"MA";"Amarante do Maranhão";41729
+"MA";"Anajatuba";26988
+"MA";"Anapurus";15894
+"MA";"Apicum-Açu";17413
+"MA";"Araguanã";15551
+"MA";"Araioses";46771
+"MA";"Arame";32764
+"MA";"Arari";29932
+"MA";"Axixá";12183
+"MA";"Bacabal";104790
+"MA";"Bacabeira";17252
+"MA";"Bacuri";18654
+"MA";"Bacurituba";5670
+"MA";"Balsas";95929
+"MA";"Barão de Grajaú";18924
+"MA";"Barra do Corda";88492
+"MA";"Barreirinhas";63217
+"MA";"Belágua";7528
+"MA";"Bela Vista do Maranhão";11279
+"MA";"Benedito Leite";5638
+"MA";"Bequimão";21299
+"MA";"Bernardo do Mearim";6073
+"MA";"Boa Vista do Gurupi";8382
+"MA";"Bom Jardim";41822
+"MA";"Bom Jesus das Selvas";34567
+"MA";"Bom Lugar";16438
+"MA";"Brejo";36651
+"MA";"Brejo de Areia";9014
+"MA";"Buriti";28798
+"MA";"Buriti Bravo";23939
+"MA";"Buriticupu";72983
+"MA";"Buritirana";15467
+"MA";"Cachoeira Grande";9478
+"MA";"Cajapió";11216
+"MA";"Cajari";19451
+"MA";"Campestre do Maranhão";14453
+"MA";"Cândido Mendes";20278
+"MA";"Cantanhede";22117
+"MA";"Capinzal do Norte";10935
+"MA";"Carolina";24165
+"MA";"Carutapera";23952
+"MA";"Caxias";165525
+"MA";"Cedral";10693
+"MA";"Central do Maranhão";8740
+"MA";"Centro do Guilherme";13670
+"MA";"Centro Novo do Maranhão";21840
+"MA";"Chapadinha";80195
+"MA";"Cidelândia";14777
+"MA";"Codó";123116
+"MA";"Coelho Neto";49621
+"MA";"Colinas";41312
+"MA";"Conceição do Lago-Açu";16400
+"MA";"Coroatá";65544
+"MA";"Cururupu";32626
+"MA";"Davinópolis";12916
+"MA";"Dom Pedro";23372
+"MA";"Duque Bacelar";11401
+"MA";"Esperantinópolis";17104
+"MA";"Estreito";42527
+"MA";"Feira Nova do Maranhão";8484
+"MA";"Fernando Falcão";10460
+"MA";"Formosa da Serra Negra";19258
+"MA";"Fortaleza dos Nogueiras";12647
+"MA";"Fortuna";15567
+"MA";"Godofredo Viana";11963
+"MA";"Gonçalves Dias";17944
+"MA";"Governador Archer";10886
+"MA";"Governador Edison Lobão";18520
+"MA";"Governador Eugênio Barros";16882
+"MA";"Governador Luiz Rocha";7841
+"MA";"Governador Newton Bello";10151
+"MA";"Governador Nunes Freire";25539
+"MA";"Graça Aranha";6261
+"MA";"Grajaú";70065
+"MA";"Guimarães";11997
+"MA";"Humberto de Campos";28932
+"MA";"Icatu";27269
+"MA";"Igarapé do Meio";14324
+"MA";"Igarapé Grande";11387
+"MA";"Imperatriz";259337
+"MA";"Itaipava do Grajaú";16005
+"MA";"Itapecuru Mirim";68723
+"MA";"Itinga do Maranhão";26068
+"MA";"Jatobá";10310
+"MA";"Jenipapo dos Vieiras";17040
+"MA";"João Lisboa";23740
+"MA";"Joselândia";16198
+"MA";"Junco do Maranhão";4392
+"MA";"Lago da Pedra";50616
+"MA";"Lago do Junco";10869
+"MA";"Lago Verde";16314
+"MA";"Lagoa do Mato";11265
+"MA";"Lago dos Rodrigues";8857
+"MA";"Lagoa Grande do Maranhão";11464
+"MA";"Lajeado Novo";7602
+"MA";"Lima Campos";11918
+"MA";"Loreto";12214
+"MA";"Luís Domingues";6984
+"MA";"Magalhães de Almeida";20029
+"MA";"Maracaçumé";21586
+"MA";"Marajá do Sena";7775
+"MA";"Maranhãozinho";16511
+"MA";"Mata Roma";16977
+"MA";"Matinha";23482
+"MA";"Matões";33943
+"MA";"Matões do Norte";17033
+"MA";"Milagres do Maranhão";8483
+"MA";"Mirador";21031
+"MA";"Miranda do Norte";28754
+"MA";"Mirinzal";15011
+"MA";"Monção";33664
+"MA";"Montes Altos";9111
+"MA";"Morros";19572
+"MA";"Nina Rodrigues";14642
+"MA";"Nova Colinas";5427
+"MA";"Nova Iorque";4682
+"MA";"Nova Olinda do Maranhão";21080
+"MA";"Olho d'Água das Cunhãs";19561
+"MA";"Olinda Nova do Maranhão";14836
+"MA";"Paço do Lumiar";123747
+"MA";"Palmeirândia";19781
+"MA";"Paraibano";21479
+"MA";"Parnarama";35008
+"MA";"Passagem Franca";19137
+"MA";"Pastos Bons";19583
+"MA";"Paulino Neves";16166
+"MA";"Paulo Ramos";21066
+"MA";"Pedreiras";39191
+"MA";"Pedro do Rosário";25354
+"MA";"Penalva";38731
+"MA";"Peri Mirim";14345
+"MA";"Peritoró";23364
+"MA";"Pindaré-Mirim";33065
+"MA";"Pinheiro";83777
+"MA";"Pio XII";21379
+"MA";"Pirapemas";18720
+"MA";"Poção de Pedras";17595
+"MA";"Porto Franco";24092
+"MA";"Porto Rico do Maranhão";5955
+"MA";"Presidente Dutra";48036
+"MA";"Presidente Juscelino";12838
+"MA";"Presidente Médici";7070
+"MA";"Presidente Sarney";19069
+"MA";"Presidente Vargas";11261
+"MA";"Primeira Cruz";15431
+"MA";"Raposa";31177
+"MA";"Riachão";20334
+"MA";"Ribamar Fiquene";7825
+"MA";"Rosário";42994
+"MA";"Sambaíba";5679
+"MA";"Santa Filomena do Maranhão";7826
+"MA";"Santa Helena";42483
+"MA";"Santa Inês";89489
+"MA";"Santa Luzia";72887
+"MA";"Santa Luzia do Paruá";25371
+"MA";"Santa Quitéria do Maranhão";25764
+"MA";"Santa Rita";38298
+"MA";"Santana do Maranhão";13547
+"MA";"Santo Amaro do Maranhão";16034
+"MA";"Santo Antônio dos Lopes";14522
+"MA";"São Benedito do Rio Preto";18717
+"MA";"São Bento";45604
+"MA";"São Bernardo";28667
+"MA";"São Domingos do Azeitão";7420
+"MA";"São Domingos do Maranhão";34384
+"MA";"São Félix de Balsas";4562
+"MA";"São Francisco do Brejão";11941
+"MA";"São Francisco do Maranhão";12218
+"MA";"São João Batista";20701
+"MA";"São João do Carú";15787
+"MA";"São João do Paraíso";11193
+"MA";"São João do Soter";18645
+"MA";"São João dos Patos";25996
+"MA";"São José de Ribamar";179028
+"MA";"São José dos Basílios";7640
+"MA";"São Luís";1108975
+"MA";"São Luís Gonzaga do Maranhão";18727
+"MA";"São Mateus do Maranhão";41579
+"MA";"São Pedro da Água Branca";12735
+"MA";"São Pedro dos Crentes";4684
+"MA";"São Raimundo das Mangabeiras";18980
+"MA";"São Raimundo do Doca Bezerra";5131
+"MA";"São Roberto";6789
+"MA";"São Vicente Ferrer";22350
+"MA";"Satubinha";14096
+"MA";"Senador Alexandre Costa";11214
+"MA";"Senador La Rocque";14050
+"MA";"Serrano do Maranhão";10299
+"MA";"Sítio Novo";18160
+"MA";"Sucupira do Norte";10634
+"MA";"Sucupira do Riachão";5676
+"MA";"Tasso Fragoso";8582
+"MA";"Timbiras";29183
+"MA";"Timon";170222
+"MA";"Trizidela do Vale";22112
+"MA";"Tufilândia";5854
+"MA";"Tuntum";42040
+"MA";"Turiaçu";35709
+"MA";"Turilândia";25868
+"MA";"Tutóia";59398
+"MA";"Urbano Santos";33459
+"MA";"Vargem Grande";57168
+"MA";"Viana";52649
+"MA";"Vila Nova dos Martírios";13598
+"MA";"Vitória do Mearim";32861
+"MA";"Vitorino Freire";31522
+"MA";"Zé Doca";51956
+"PI";"Acauã";7102
+"PI";"Agricolândia";5131
+"PI";"Água Branca";17470
+"PI";"Alagoinha do Piauí";7665
+"PI";"Alegrete do Piauí";4918
+"PI";"Alto Longá";14339
+"PI";"Altos";40605
+"PI";"Alvorada do Gurguéia";5445
+"PI";"Amarante";17604
+"PI";"Angical do Piauí";6783
+"PI";"Anísio de Abreu";9938
+"PI";"Antônio Almeida";3170
+"PI";"Aroazes";5827
+"PI";"Aroeiras do Itaim";2551
+"PI";"Arraial";4720
+"PI";"Assunção do Piauí";7863
+"PI";"Avelino Lopes";11326
+"PI";"Baixa Grande do Ribeiro";11671
+"PI";"Barra D'Alcântara";3952
+"PI";"Barras";47185
+"PI";"Barreiras do Piauí";3352
+"PI";"Barro Duro";7027
+"PI";"Batalha";26905
+"PI";"Bela Vista do Piauí";4030
+"PI";"Belém do Piauí";3587
+"PI";"Beneditinos";10473
+"PI";"Bertolínia";5507
+"PI";"Betânia do Piauí";6210
+"PI";"Boa Hora";6815
+"PI";"Bocaina";4505
+"PI";"Bom Jesus";25387
+"PI";"Bom Princípio do Piauí";5651
+"PI";"Bonfim do Piauí";5685
+"PI";"Boqueirão do Piauí";6426
+"PI";"Brasileira";8347
+"PI";"Brejo do Piauí";3848
+"PI";"Buriti dos Lopes";19807
+"PI";"Buriti dos Montes";8264
+"PI";"Cabeceiras do Piauí";10630
+"PI";"Cajazeiras do Piauí";3573
+"PI";"Cajueiro da Praia";7674
+"PI";"Caldeirão Grande do Piauí";5781
+"PI";"Campinas do Piauí";5620
+"PI";"Campo Alegre do Fidalgo";5069
+"PI";"Campo Grande do Piauí";5965
+"PI";"Campo Largo do Piauí";7311
+"PI";"Campo Maior";46893
+"PI";"Canavieira";3944
+"PI";"Canto do Buriti";21258
+"PI";"Capitão de Campos";11445
+"PI";"Capitão Gervásio Oliveira";4114
+"PI";"Caracol";10964
+"PI";"Caraúbas do Piauí";5890
+"PI";"Caridade do Piauí";5085
+"PI";"Castelo do Piauí";19715
+"PI";"Caxingó";5451
+"PI";"Cocal";27845
+"PI";"Cocal de Telha";4899
+"PI";"Cocal dos Alves";6168
+"PI";"Coivaras";4032
+"PI";"Colônia do Gurguéia";6516
+"PI";"Colônia do Piauí";7661
+"PI";"Conceição do Canindé";4807
+"PI";"Coronel José Dias";4685
+"PI";"Corrente";26709
+"PI";"Cristalândia do Piauí";8323
+"PI";"Cristino Castro";10444
+"PI";"Curimatá";11426
+"PI";"Currais";4968
+"PI";"Curralinhos";4459
+"PI";"Curral Novo do Piauí";5367
+"PI";"Demerval Lobão";13840
+"PI";"Dirceu Arcoverde";7029
+"PI";"Dom Expedito Lopes";6922
+"PI";"Domingos Mourão";4354
+"PI";"Dom Inocêncio";9565
+"PI";"Elesbão Veloso";14575
+"PI";"Eliseu Martins";4930
+"PI";"Esperantina";39848
+"PI";"Fartura do Piauí";5319
+"PI";"Flores do Piauí";4462
+"PI";"Floresta do Piauí";2560
+"PI";"Floriano";60025
+"PI";"Francinópolis";5347
+"PI";"Francisco Ayres";4323
+"PI";"Francisco Macedo";3200
+"PI";"Francisco Santos";9372
+"PI";"Fronteiras";11659
+"PI";"Geminiano";5460
+"PI";"Gilbués";10694
+"PI";"Guadalupe";10497
+"PI";"Guaribas";4568
+"PI";"Hugo Napoleão";3879
+"PI";"Ilha Grande";9457
+"PI";"Inhuma";15319
+"PI";"Ipiranga do Piauí";9838
+"PI";"Isaías Coelho";8566
+"PI";"Itainópolis";11551
+"PI";"Itaueira";11028
+"PI";"Jacobina do Piauí";5729
+"PI";"Jaicós";19170
+"PI";"Jardim do Mulato";4513
+"PI";"Jatobá do Piauí";4875
+"PI";"Jerumenha";4447
+"PI";"João Costa";3005
+"PI";"Joaquim Pires";14376
+"PI";"Joca Marques";5466
+"PI";"José de Freitas";39336
+"PI";"Juazeiro do Piauí";5485
+"PI";"Júlio Borges";5640
+"PI";"Jurema";4777
+"PI";"Lagoinha do Piauí";2858
+"PI";"Lagoa Alegre";8577
+"PI";"Lagoa do Barro do Piauí";4656
+"PI";"Lagoa de São Francisco";6777
+"PI";"Lagoa do Piauí";4075
+"PI";"Lagoa do Sítio";5198
+"PI";"Landri Sales";5283
+"PI";"Luís Correia";30438
+"PI";"Luzilândia";25504
+"PI";"Madeiro";8342
+"PI";"Manoel Emídio";5351
+"PI";"Marcolândia";8543
+"PI";"Marcos Parente";4547
+"PI";"Massapê do Piauí";6449
+"PI";"Matias Olímpio";10958
+"PI";"Miguel Alves";33833
+"PI";"Miguel Leão";1242
+"PI";"Milton Brandão";6608
+"PI";"Monsenhor Gil";10564
+"PI";"Monsenhor Hipólito";7767
+"PI";"Monte Alegre do Piauí";10615
+"PI";"Morro Cabeça no Tempo";4530
+"PI";"Morro do Chapéu do Piauí";6811
+"PI";"Murici dos Portelas";9209
+"PI";"Nazaré do Piauí";7322
+"PI";"Nazária";8602
+"PI";"Nossa Senhora de Nazaré";4891
+"PI";"Nossa Senhora dos Remédios";8723
+"PI";"Novo Oriente do Piauí";6556
+"PI";"Novo Santo Antônio";3003
+"PI";"Oeiras";37085
+"PI";"Olho D'Água do Piauí";2468
+"PI";"Padre Marcos";6873
+"PI";"Paes Landim";4126
+"PI";"Pajeú do Piauí";3404
+"PI";"Palmeira do Piauí";5036
+"PI";"Palmeirais";14587
+"PI";"Paquetá";3937
+"PI";"Parnaguá";10819
+"PI";"Parnaíba";153482
+"PI";"Passagem Franca do Piauí";4323
+"PI";"Patos do Piauí";6406
+"PI";"Pau D'Arco do Piauí";4065
+"PI";"Paulistana";20554
+"PI";"Pavussu";3669
+"PI";"Pedro II";38778
+"PI";"Pedro Laurentino";2544
+"PI";"Nova Santa Rita";4383
+"PI";"Picos";78431
+"PI";"Pimenteiras";12139
+"PI";"Pio IX";18459
+"PI";"Piracuruca";28874
+"PI";"Piripiri";63787
+"PI";"Porto";12608
+"PI";"Porto Alegre do Piauí";2720
+"PI";"Prata do Piauí";3150
+"PI";"Queimada Nova";9017
+"PI";"Redenção do Gurguéia";8796
+"PI";"Regeneração";17979
+"PI";"Riacho Frio";4309
+"PI";"Ribeira do Piauí";4488
+"PI";"Ribeiro Gonçalves";7376
+"PI";"Rio Grande do Piauí";6433
+"PI";"Santa Cruz do Piauí";6247
+"PI";"Santa Cruz dos Milagres";4033
+"PI";"Santa Filomena";6254
+"PI";"Santa Luz";5882
+"PI";"Santana do Piauí";4642
+"PI";"Santa Rosa do Piauí";5255
+"PI";"Santo Antônio de Lisboa";6441
+"PI";"Santo Antônio dos Milagres";2166
+"PI";"Santo Inácio do Piauí";3803
+"PI";"São Braz do Piauí";4451
+"PI";"São Félix do Piauí";2932
+"PI";"São Francisco de Assis do Piauí";5779
+"PI";"São Francisco do Piauí";6420
+"PI";"São Gonçalo do Gurguéia";3057
+"PI";"São Gonçalo do Piauí";5030
+"PI";"São João da Canabrava";4614
+"PI";"São João da Fronteira";6064
+"PI";"São João da Serra";6122
+"PI";"São João da Varjota";4848
+"PI";"São João do Arraial";8038
+"PI";"São João do Piauí";20662
+"PI";"São José do Divino";5354
+"PI";"São José do Peixe";3741
+"PI";"São José do Piauí";6700
+"PI";"São Julião";6371
+"PI";"São Lourenço do Piauí";4577
+"PI";"São Luis do Piauí";2646
+"PI";"São Miguel da Baixa Grande";2454
+"PI";"São Miguel do Fidalgo";3038
+"PI";"São Miguel do Tapuio";17639
+"PI";"São Pedro do Piauí";14324
+"PI";"São Raimundo Nonato";34877
+"PI";"Sebastião Barros";3451
+"PI";"Sebastião Leal";4303
+"PI";"Sigefredo Pacheco";10058
+"PI";"Simões";14649
+"PI";"Simplício Mendes";12746
+"PI";"Socorro do Piauí";4563
+"PI";"Sussuapara";6767
+"PI";"Tamboril do Piauí";2929
+"PI";"Tanque do Piauí";2773
+"PI";"Teresina";868075
+"PI";"União";44569
+"PI";"Uruçuí";21655
+"PI";"Valença do Piauí";20929
+"PI";"Várzea Branca";4938
+"PI";"Várzea Grande";4386
+"PI";"Vera Mendes";3080
+"PI";"Vila Nova do Piauí";2952
+"PI";"Wall Ferraz";4471
+"CE";"Abaiara";11853
+"CE";"Acarape";15036
+"CE";"Acaraú";63104
+"CE";"Acopiara";54481
+"CE";"Aiuaba";17493
+"CE";"Alcântaras";11781
+"CE";"Altaneira";7650
+"CE";"Alto Santo";17196
+"CE";"Amontada";43829
+"CE";"Antonina do Norte";7378
+"CE";"Apuiarés";14672
+"CE";"Aquiraz";80935
+"CE";"Aracati";74975
+"CE";"Aracoiaba";26535
+"CE";"Ararendá";10959
+"CE";"Araripe";21654
+"CE";"Aratuba";11802
+"CE";"Arneiroz";7844
+"CE";"Assaré";23478
+"CE";"Aurora";24610
+"CE";"Baixio";6303
+"CE";"Banabuiú";18256
+"CE";"Barbalha";61228
+"CE";"Barreira";22573
+"CE";"Barro";22758
+"CE";"Barroquinha";15044
+"CE";"Baturité";35941
+"CE";"Beberibe";53949
+"CE";"Bela Cruz";32722
+"CE";"Boa Viagem";54577
+"CE";"Brejo Santo";49842
+"CE";"Camocim";63907
+"CE";"Campos Sales";27470
+"CE";"Canindé";77244
+"CE";"Capistrano";17786
+"CE";"Caridade";22782
+"CE";"Cariré";18459
+"CE";"Caririaçu";26987
+"CE";"Cariús";18699
+"CE";"Carnaubal";17685
+"CE";"Cascavel";72232
+"CE";"Catarina";20871
+"CE";"Catunda";10376
+"CE";"Caucaia";365212
+"CE";"Cedro";25585
+"CE";"Chaval";13091
+"CE";"Choró";13565
+"CE";"Chorozinho";20274
+"CE";"Coreaú";23239
+"CE";"Crateús";75159
+"CE";"Crato";133031
+"CE";"Croatá";18133
+"CE";"Cruz";24977
+"CE";"Deputado Irapuan Pinheiro";9662
+"CE";"Ereré";7225
+"CE";"Eusébio";54337
+"CE";"Farias Brito";19389
+"CE";"Forquilha";24452
+"CE";"Fortaleza";2686612
+"CE";"Fortim";16631
+"CE";"Frecheirinha";14134
+"CE";"General Sampaio";7694
+"CE";"Graça";14407
+"CE";"Granja";54962
+"CE";"Granjeiro";4814
+"CE";"Groaíras";11144
+"CE";"Guaiúba";26290
+"CE";"Guaraciaba do Norte";40784
+"CE";"Guaramiranga";5132
+"CE";"Hidrolândia";20053
+"CE";"Horizonte";68529
+"CE";"Ibaretama";13369
+"CE";"Ibiapina";25082
+"CE";"Ibicuitinga";12629
+"CE";"Icapuí";20060
+"CE";"Icó";68162
+"CE";"Iguatu";103074
+"CE";"Independência";26187
+"CE";"Ipaporanga";11596
+"CE";"Ipaumirim";12485
+"CE";"Ipu";42058
+"CE";"Ipueiras";38114
+"CE";"Iracema";14326
+"CE";"Irauçuba";24305
+"CE";"Itaiçaba";7866
+"CE";"Itaitinga";38325
+"CE";"Itapajé";53067
+"CE";"Itapipoca";130539
+"CE";"Itapiúna";20520
+"CE";"Itarema";42215
+"CE";"Itatira";21836
+"CE";"Jaguaretama";18147
+"CE";"Jaguaribara";11492
+"CE";"Jaguaribe";34636
+"CE";"Jaguaruana";33834
+"CE";"Jardim";27181
+"CE";"Jati";8130
+"CE";"Jijoca de Jericoacoara";20087
+"CE";"Juazeiro do Norte";276264
+"CE";"Jucás";24892
+"CE";"Lavras da Mangabeira";31492
+"CE";"Limoeiro do Norte";59890
+"CE";"Madalena";19864
+"CE";"Maracanaú";229458
+"CE";"Maranguape";130346
+"CE";"Marco";27595
+"CE";"Martinópole";11321
+"CE";"Massapê";39044
+"CE";"Mauriti";48168
+"CE";"Meruoca";15185
+"CE";"Milagres";27462
+"CE";"Milhã";13142
+"CE";"Miraíma";13894
+"CE";"Missão Velha";35480
+"CE";"Mombaça";43858
+"CE";"Monsenhor Tabosa";17249
+"CE";"Morada Nova";61738
+"CE";"Moraújo";8779
+"CE";"Morrinhos";22685
+"CE";"Mucambo";14549
+"CE";"Mulungu";10941
+"CE";"Nova Olinda";15684
+"CE";"Nova Russas";32408
+"CE";"Novo Oriente";28673
+"CE";"Ocara";25833
+"CE";"Orós";21384
+"CE";"Pacajus";73188
+"CE";"Pacatuba";84554
+"CE";"Pacoti";12288
+"CE";"Pacujá";6549
+"CE";"Palhano";9422
+"CE";"Palmácia";13439
+"CE";"Paracuru";35304
+"CE";"Paraipaba";32992
+"CE";"Parambu";31455
+"CE";"Paramoti";12252
+"CE";"Pedra Branca";43309
+"CE";"Penaforte";9143
+"CE";"Pentecoste";37900
+"CE";"Pereiro";16331
+"CE";"Pindoretama";20769
+"CE";"Piquet Carneiro";17086
+"CE";"Pires Ferreira";11001
+"CE";"Poranga";12347
+"CE";"Porteiras";14958
+"CE";"Potengi";11106
+"CE";"Potiretama";6437
+"CE";"Quiterianópolis";21166
+"CE";"Quixadá";88321
+"CE";"Quixelô";16147
+"CE";"Quixeramobim";81778
+"CE";"Quixeré";22293
+"CE";"Redenção";29146
+"CE";"Reriutaba";18385
+"CE";"Russas";78882
+"CE";"Saboeiro";15788
+"CE";"Salitre";16635
+"CE";"Santana do Acaraú";32654
+"CE";"Santana do Cariri";17712
+"CE";"Santa Quitéria";43711
+"CE";"São Benedito";48131
+"CE";"São Gonçalo do Amarante";48869
+"CE";"São João do Jaguaribe";7601
+"CE";"São Luís do Curu";13044
+"CE";"Senador Pompeu";25456
+"CE";"Senador Sá";7691
+"CE";"Sobral";210711
+"CE";"Solonópole";18357
+"CE";"Tabuleiro do Norte";30807
+"CE";"Tamboril";26225
+"CE";"Tarrafas";8573
+"CE";"Tauá";59062
+"CE";"Tejuçuoca";19371
+"CE";"Tianguá";76537
+"CE";"Trairi";56291
+"CE";"Tururu";16431
+"CE";"Ubajara";35047
+"CE";"Umari";7736
+"CE";"Umirim";19903
+"CE";"Uruburetama";22040
+"CE";"Uruoca";13915
+"CE";"Varjota";18471
+"CE";"Várzea Alegre";40903
+"CE";"Viçosa do Ceará";61410
+"RN";"Acari";11121
+"RN";"Açu";58384
+"RN";"Afonso Bezerra";11029
+"RN";"Água Nova";3272
+"RN";"Alexandria";13553
+"RN";"Almino Afonso";4710
+"RN";"Alto do Rodrigues";14728
+"RN";"Angicos";11705
+"RN";"Antônio Martins";7154
+"RN";"Apodi";35874
+"RN";"Areia Branca";27967
+"RN";"Arês";14417
+"RN";"Campo Grande";9670
+"RN";"Baía Formosa";9322
+"RN";"Baraúna";28747
+"RN";"Barcelona";3994
+"RN";"Bento Fernandes";5525
+"RN";"Bodó";2197
+"RN";"Bom Jesus";10267
+"RN";"Brejinho";12787
+"RN";"Caiçara do Norte";6561
+"RN";"Caiçara do Rio do Vento";3715
+"RN";"Caicó";68343
+"RN";"Campo Redondo";11291
+"RN";"Canguaretama";34548
+"RN";"Caraúbas";20541
+"RN";"Carnaúba dos Dantas";8239
+"RN";"Carnaubais";10867
+"RN";"Ceará-Mirim";73886
+"RN";"Cerro Corá";11181
+"RN";"Coronel Ezequiel";5504
+"RN";"Coronel João Pessoa";4915
+"RN";"Cruzeta";7983
+"RN";"Currais Novos";44905
+"RN";"Doutor Severiano";7072
+"RN";"Parnamirim";267036
+"RN";"Encanto";5668
+"RN";"Equador";6054
+"RN";"Espírito Santo";10484
+"RN";"Extremoz";28936
+"RN";"Felipe Guerra";5997
+"RN";"Fernando Pedroza";3067
+"RN";"Florânia";9786
+"RN";"Francisco Dantas";2813
+"RN";"Frutuoso Gomes";4041
+"RN";"Galinhos";2845
+"RN";"Goianinha";26669
+"RN";"Governador Dix-Sept Rosado";13076
+"RN";"Grossos";10463
+"RN";"Guamaré";15963
+"RN";"Ielmo Marinho";13901
+"RN";"Ipanguaçu";15626
+"RN";"Ipueira";2253
+"RN";"Itajá";7595
+"RN";"Itaú";5897
+"RN";"Jaçanã";9238
+"RN";"Jandaíra";6893
+"RN";"Janduís";5248
+"RN";"Januário Cicco";10275
+"RN";"Japi";4995
+"RN";"Jardim de Angicos";2606
+"RN";"Jardim de Piranhas";14942
+"RN";"Jardim do Seridó";12396
+"RN";"João Câmara";35160
+"RN";"João Dias";2654
+"RN";"José da Penha";5946
+"RN";"Jucurutu";18315
+"RN";"Jundiá";3922
+"RN";"Lagoa d'Anta";6811
+"RN";"Lagoa de Pedras";7584
+"RN";"Lagoa de Velhos";2732
+"RN";"Lagoa Nova";15749
+"RN";"Lagoa Salgada";8297
+"RN";"Lajes";11344
+"RN";"Lajes Pintadas";4763
+"RN";"Lucrécia";4025
+"RN";"Luís Gomes";10146
+"RN";"Macaíba";81821
+"RN";"Macau";32039
+"RN";"Major Sales";4062
+"RN";"Marcelino Vieira";8336
+"RN";"Martins";8758
+"RN";"Maxaranguape";12544
+"RN";"Messias Targino";4634
+"RN";"Montanhas";11208
+"RN";"Monte Alegre";22576
+"RN";"Monte das Gameleiras";2084
+"RN";"Mossoró";300618
+"RN";"Natal";890480
+"RN";"Nísia Floresta";27938
+"RN";"Nova Cruz";37450
+"RN";"Olho-d'Água do Borges";4244
+"RN";"Ouro Branco";4813
+"RN";"Paraná";4276
+"RN";"Paraú";3750
+"RN";"Parazinho";5272
+"RN";"Parelhas";21545
+"RN";"Rio do Fogo";10905
+"RN";"Passa e Fica";13474
+"RN";"Passagem";3102
+"RN";"Patu";12809
+"RN";"Santa Maria";5621
+"RN";"Pau dos Ferros";30600
+"RN";"Pedra Grande";3199
+"RN";"Pedra Preta";2438
+"RN";"Pedro Avelino";6653
+"RN";"Pedro Velho";14844
+"RN";"Pendências";15272
+"RN";"Pilões";3869
+"RN";"Poço Branco";15531
+"RN";"Portalegre";7906
+"RN";"Porto do Mangue";6522
+"RN";"Serra Caiada";10522
+"RN";"Pureza";9724
+"RN";"Rafael Fernandes";5128
+"RN";"Rafael Godeiro";3208
+"RN";"Riacho da Cruz";3614
+"RN";"Riacho de Santana";4199
+"RN";"Riachuelo";8220
+"RN";"Rodolfo Fernandes";4462
+"RN";"Tibau";4140
+"RN";"Ruy Barbosa";3592
+"RN";"Santa Cruz";39988
+"RN";"Santana do Matos";11956
+"RN";"Santana do Seridó";2689
+"RN";"Santo Antônio";24280
+"RN";"São Bento do Norte";2717
+"RN";"São Bento do Trairí";4495
+"RN";"São Fernando";3595
+"RN";"São Francisco do Oeste";4255
+"RN";"São Gonçalo do Amarante";103672
+"RN";"São João do Sabugi";6207
+"RN";"São José de Mipibu";44236
+"RN";"São José do Campestre";12879
+"RN";"São José do Seridó";4665
+"RN";"São Miguel";23655
+"RN";"São Miguel do Gostoso";10362
+"RN";"São Paulo do Potengi";17720
+"RN";"São Pedro";5930
+"RN";"São Rafael";8192
+"RN";"São Tomé";11053
+"RN";"São Vicente";6450
+"RN";"Senador Elói de Souza";6127
+"RN";"Senador Georgino Avelino";4484
+"RN";"Serra de São Bento";5751
+"RN";"Serra do Mel";12083
+"RN";"Serra Negra do Norte";8092
+"RN";"Serrinha";6178
+"RN";"Serrinha dos Pintos";4816
+"RN";"Severiano Melo";2088
+"RN";"Sítio Novo";5561
+"RN";"Taboleiro Grande";2586
+"RN";"Taipu";12297
+"RN";"Tangará";15869
+"RN";"Tenente Ananias";10855
+"RN";"Tenente Laurentino Cruz";6019
+"RN";"Tibau do Sul";14440
+"RN";"Timbaúba dos Batistas";2421
+"RN";"Touros";33503
+"RN";"Triunfo Potiguar";3216
+"RN";"Umarizal";10520
+"RN";"Upanema";14800
+"RN";"Várzea";5515
+"RN";"Venha-Ver";4205
+"RN";"Vera Cruz";12637
+"RN";"Viçosa";1725
+"RN";"Vila Flor";3194
+"PB";"Água Branca";10306
+"PB";"Aguiar";5630
+"PB";"Alagoa Grande";28439
+"PB";"Alagoa Nova";20921
+"PB";"Alagoinha";14560
+"PB";"Alcantil";5509
+"PB";"Algodão de Jandaíra";2577
+"PB";"Alhandra";19727
+"PB";"São João do Rio do Peixe";18026
+"PB";"Amparo";2251
+"PB";"Aparecida";8416
+"PB";"Araçagi";16921
+"PB";"Arara";13542
+"PB";"Araruna";20463
+"PB";"Areia";22656
+"PB";"Areia de Baraúnas";2116
+"PB";"Areial";7027
+"PB";"Aroeiras";19116
+"PB";"Assunção";4029
+"PB";"Baía da Traição";9096
+"PB";"Bananeiras";21269
+"PB";"Baraúna";4964
+"PB";"Barra de Santana";8349
+"PB";"Barra de Santa Rosa";15497
+"PB";"Barra de São Miguel";6065
+"PB";"Bayeux";97203
+"PB";"Belém";17705
+"PB";"Belém do Brejo do Cruz";7349
+"PB";"Bernardino Batista";3536
+"PB";"Boa Ventura";5307
+"PB";"Boa Vista";7136
+"PB";"Bom Jesus";2575
+"PB";"Bom Sucesso";4956
+"PB";"Bonito de Santa Fé";12022
+"PB";"Boqueirão";17870
+"PB";"Igaracy";6105
+"PB";"Borborema";5287
+"PB";"Brejo do Cruz";14206
+"PB";"Brejo dos Santos";6464
+"PB";"Caaporã";21955
+"PB";"Cabaceiras";5661
+"PB";"Cabedelo";68767
+"PB";"Cachoeira dos Índios";10305
+"PB";"Cacimba de Areia";3695
+"PB";"Cacimba de Dentro";17178
+"PB";"Cacimbas";7199
+"PB";"Caiçara";7191
+"PB";"Cajazeiras";62289
+"PB";"Cajazeirinhas";3205
+"PB";"Caldas Brandão";6046
+"PB";"Camalaú";6031
+"PB";"Campina Grande";411807
+"PB";"Capim";6620
+"PB";"Caraúbas";4185
+"PB";"Carrapateira";2687
+"PB";"Casserengue";7499
+"PB";"Catingueira";4935
+"PB";"Catolé do Rocha";30684
+"PB";"Caturité";4875
+"PB";"Conceição";19007
+"PB";"Condado";6658
+"PB";"Conde";25010
+"PB";"Congo";4787
+"PB";"Coremas";15441
+"PB";"Coxixola";1935
+"PB";"Cruz do Espírito Santo";17461
+"PB";"Cubati";7832
+"PB";"Cuité";20334
+"PB";"Cuitegi";6775
+"PB";"Cuité de Mamanguape";6356
+"PB";"Curral de Cima";5218
+"PB";"Curral Velho";2512
+"PB";"Damião";5370
+"PB";"Desterro";8315
+"PB";"Vista Serrana";3824
+"PB";"Diamante";6528
+"PB";"Dona Inês";10413
+"PB";"Duas Estradas";3582
+"PB";"Emas";3539
+"PB";"Esperança";33199
+"PB";"Fagundes";11215
+"PB";"Frei Martinho";2989
+"PB";"Gado Bravo";8303
+"PB";"Guarabira";59115
+"PB";"Gurinhém";14127
+"PB";"Gurjão";3453
+"PB";"Ibiara";5903
+"PB";"Imaculada";11848
+"PB";"Ingá";18144
+"PB";"Itabaiana";24419
+"PB";"Itaporanga";24828
+"PB";"Itapororoca";18823
+"PB";"Itatuba";11016
+"PB";"Jacaraú";14450
+"PB";"Jericó";7745
+"PB";"João Pessoa";817511
+"PB";"Juarez Távora";7976
+"PB";"Juazeirinho";18298
+"PB";"Junco do Seridó";7195
+"PB";"Juripiranga";10793
+"PB";"Juru";9849
+"PB";"Lagoa";4653
+"PB";"Lagoa de Dentro";7737
+"PB";"Lagoa Seca";27617
+"PB";"Lastro";2718
+"PB";"Livramento";7265
+"PB";"Logradouro";4369
+"PB";"Lucena";13214
+"PB";"Mãe d'Água";3999
+"PB";"Malta";5752
+"PB";"Mamanguape";45136
+"PB";"Manaíra";10972
+"PB";"Marcação";8653
+"PB";"Mari";21866
+"PB";"Marizópolis";6654
+"PB";"Massaranduba";13998
+"PB";"Mataraca";8539
+"PB";"Matinhas";4515
+"PB";"Mato Grosso";2926
+"PB";"Maturéia";6630
+"PB";"Mogeiro";13261
+"PB";"Montadas";5738
+"PB";"Monte Horebe";4842
+"PB";"Monteiro";33433
+"PB";"Mulungu";9932
+"PB";"Natuba";10451
+"PB";"Nazarezinho";7286
+"PB";"Nova Floresta";10626
+"PB";"Nova Olinda";5920
+"PB";"Nova Palmeira";4959
+"PB";"Olho d'Água";6462
+"PB";"Olivedos";3961
+"PB";"Ouro Velho";3046
+"PB";"Parari";1758
+"PB";"Passagem";2436
+"PB";"Patos";108192
+"PB";"Paulista";12379
+"PB";"Pedra Branca";3802
+"PB";"Pedra Lavrada";7899
+"PB";"Pedras de Fogo";28533
+"PB";"Piancó";16111
+"PB";"Picuí";18720
+"PB";"Pilar";11977
+"PB";"Pilões";6576
+"PB";"Pilõezinhos";4955
+"PB";"Pirpirituba";10584
+"PB";"Pitimbu";19275
+"PB";"Pocinhos";18708
+"PB";"Poço Dantas";3882
+"PB";"Poço de José de Moura";4337
+"PB";"Pombal";32802
+"PB";"Prata";4238
+"PB";"Princesa Isabel";23549
+"PB";"Puxinanã";13741
+"PB";"Queimadas";44179
+"PB";"Quixaba";1983
+"PB";"Remígio";19798
+"PB";"Pedro Régis";6114
+"PB";"Riachão";3619
+"PB";"Riachão do Bacamarte";4541
+"PB";"Riachão do Poço";4540
+"PB";"Riacho de Santo Antônio";1974
+"PB";"Riacho dos Cavalos";8541
+"PB";"Rio Tinto";24218
+"PB";"Salgadinho";3931
+"PB";"Salgado de São Félix";12131
+"PB";"Santa Cecília";6541
+"PB";"Santa Cruz";6581
+"PB";"Santa Helena";5871
+"PB";"Santa Inês";3593
+"PB";"Santa Luzia";15426
+"PB";"Santana de Mangueira";5129
+"PB";"Santana dos Garrotes";6986
+"PB";"Joca Claudino";2639
+"PB";"Santa Rita";137349
+"PB";"Santa Teresinha";4562
+"PB";"Santo André";2509
+"PB";"São Bento";34344
+"PB";"São Bentinho";4566
+"PB";"São Domingos do Cariri";2630
+"PB";"São Domingos";3097
+"PB";"São Francisco";3384
+"PB";"São João do Cariri";4184
+"PB";"São João do Tigre";4415
+"PB";"São José da Lagoa Tapada";7626
+"PB";"São José de Caiana";6376
+"PB";"São José de Espinharas";4656
+"PB";"São José dos Ramos";5998
+"PB";"São José de Piranhas";20329
+"PB";"São José de Princesa";3950
+"PB";"São José do Bonfim";3588
+"PB";"São José do Brejo do Cruz";1811
+"PB";"São José do Sabugi";4147
+"PB";"São José dos Cordeiros";3618
+"PB";"São Mamede";7702
+"PB";"São Miguel de Taipu";7410
+"PB";"São Sebastião de Lagoa de Roça";11728
+"PB";"São Sebastião do Umbuzeiro";3512
+"PB";"Sapé";52804
+"PB";"São Vicente do Seridó";10848
+"PB";"Serra Branca";13754
+"PB";"Serra da Raiz";3131
+"PB";"Serra Grande";2916
+"PB";"Serra Redonda";7021
+"PB";"Serraria";6068
+"PB";"Sertãozinho";5089
+"PB";"Sobrado";7815
+"PB";"Solânea";26227
+"PB";"Soledade";15102
+"PB";"Sossêgo";3594
+"PB";"Sousa";69723
+"PB";"Sumé";17031
+"PB";"Tacima";10969
+"PB";"Taperoá";15441
+"PB";"Tavares";14759
+"PB";"Teixeira";15248
+"PB";"Tenório";3081
+"PB";"Triunfo";9464
+"PB";"Uiraúna";15300
+"PB";"Umbuzeiro";9911
+"PB";"Várzea";2841
+"PB";"Vieirópolis";5372
+"PB";"Zabelê";2255
+"PE";"Abreu e Lima";100346
+"PE";"Afogados da Ingazeira";37404
+"PE";"Afrânio";19810
+"PE";"Agrestina";25065
+"PE";"Água Preta";37082
+"PE";"Águas Belas";43686
+"PE";"Alagoinha";14718
+"PE";"Aliança";38397
+"PE";"Altinho";22984
+"PE";"Amaraji";22870
+"PE";"Angelim";11226
+"PE";"Araçoiaba";20733
+"PE";"Araripina";84864
+"PE";"Arcoverde";74822
+"PE";"Barra de Guabiraba";14510
+"PE";"Barreiros";42764
+"PE";"Belém de Maria";12122
+"PE";"Belém do São Francisco";20730
+"PE";"Belo Jardim";76687
+"PE";"Betânia";12765
+"PE";"Bezerros";60880
+"PE";"Bodocó";38378
+"PE";"Bom Conselho";48767
+"PE";"Bom Jardim";39983
+"PE";"Bonito";38117
+"PE";"Brejão";8987
+"PE";"Brejinho";7488
+"PE";"Brejo da Madre de Deus";51225
+"PE";"Buenos Aires";13190
+"PE";"Buíque";58919
+"PE";"Cabo de Santo Agostinho";208944
+"PE";"Cabrobó";34503
+"PE";"Cachoeirinha";20501
+"PE";"Caetés";28904
+"PE";"Calçado";11018
+"PE";"Calumbi";5747
+"PE";"Camaragibe";158899
+"PE";"Camocim de São Félix";18900
+"PE";"Camutanga";8572
+"PE";"Canhotinho";24773
+"PE";"Capoeiras";20048
+"PE";"Carnaíba";19609
+"PE";"Carnaubeira da Penha";13025
+"PE";"Carpina";84395
+"PE";"Caruaru";365278
+"PE";"Casinhas";14368
+"PE";"Catende";43340
+"PE";"Cedro";11891
+"PE";"Chã de Alegria";13556
+"PE";"Chã Grande";21815
+"PE";"Condado";26590
+"PE";"Correntes";18268
+"PE";"Cortês";12560
+"PE";"Cumaru";10192
+"PE";"Cupira";24173
+"PE";"Custódia";37375
+"PE";"Dormentes";19079
+"PE";"Escada";69292
+"PE";"Exu";31766
+"PE";"Feira Nova";22247
+"PE";"Fernando de Noronha";3101
+"PE";"Ferreiros";12170
+"PE";"Flores";22618
+"PE";"Floresta";33184
+"PE";"Frei Miguelinho";15546
+"PE";"Gameleira";31318
+"PE";"Garanhuns";140577
+"PE";"Glória do Goitá";30751
+"PE";"Goiana";80055
+"PE";"Granito";7537
+"PE";"Gravatá";84699
+"PE";"Iati";19241
+"PE";"Ibimirim";29412
+"PE";"Ibirajuba";7768
+"PE";"Igarassu";118370
+"PE";"Iguaracy";12247
+"PE";"Inajá";23645
+"PE";"Ingazeira";4543
+"PE";"Ipojuca";97669
+"PE";"Ipubi";31187
+"PE";"Itacuruba";4966
+"PE";"Itaíba";26308
+"PE";"Ilha de Itamaracá";26672
+"PE";"Itambé";36471
+"PE";"Itapetim";13553
+"PE";"Itapissuma";26900
+"PE";"Itaquitinga";17006
+"PE";"Jaboatão dos Guararapes";706867
+"PE";"Jaqueira";11644
+"PE";"Jataúba";17228
+"PE";"Jatobá";14850
+"PE";"João Alfredo";33328
+"PE";"Joaquim Nabuco";16011
+"PE";"Jucati";11485
+"PE";"Jupi";14922
+"PE";"Jurema";15431
+"PE";"Lagoa do Carro";18252
+"PE";"Lagoa de Itaenga";21460
+"PE";"Lagoa do Ouro";13224
+"PE";"Lagoa dos Gatos";16318
+"PE";"Lagoa Grande";25849
+"PE";"Lajedo";40589
+"PE";"Limoeiro";56198
+"PE";"Macaparana";25472
+"PE";"Machados";16321
+"PE";"Manari";21776
+"PE";"Maraial";11220
+"PE";"Mirandiba";15470
+"PE";"Moreno";63294
+"PE";"Nazaré da Mata";32573
+"PE";"Olinda";393115
+"PE";"Orobó";23935
+"PE";"Orocó";15152
+"PE";"Ouricuri";69969
+"PE";"Palmares";63500
+"PE";"Palmeirina";7600
+"PE";"Panelas";26456
+"PE";"Paranatama";11566
+"PE";"Parnamirim";22106
+"PE";"Passira";28894
+"PE";"Paudalho";56933
+"PE";"Paulista";334376
+"PE";"Pedra";22668
+"PE";"Pesqueira";67735
+"PE";"Petrolândia";36901
+"PE";"Petrolina";354317
+"PE";"Poção";11305
+"PE";"Pombos";27148
+"PE";"Primavera";15101
+"PE";"Quipapá";26175
+"PE";"Quixaba";6805
+"PE";"Recife";1653461
+"PE";"Riacho das Almas";20646
+"PE";"Ribeirão";47616
+"PE";"Rio Formoso";23628
+"PE";"Sairé";9764
+"PE";"Salgadinho";11068
+"PE";"Salgueiro";61249
+"PE";"Saloá";15862
+"PE";"Sanharó";26890
+"PE";"Santa Cruz";15558
+"PE";"Santa Cruz da Baixa Verde";12650
+"PE";"Santa Cruz do Capibaribe";109897
+"PE";"Santa Filomena";14562
+"PE";"Santa Maria da Boa Vista";42100
+"PE";"Santa Maria do Cambucá";14223
+"PE";"Santa Terezinha";11865
+"PE";"São Benedito do Sul";16069
+"PE";"São Bento do Una";60042
+"PE";"São Caitano";37368
+"PE";"São João";22899
+"PE";"São Joaquim do Monte";21398
+"PE";"São José da Coroa Grande";21586
+"PE";"São José do Belmonte";34021
+"PE";"São José do Egito";34056
+"PE";"São Lourenço da Mata";114079
+"PE";"São Vicente Férrer";18085
+"PE";"Serra Talhada";86915
+"PE";"Serrita";19196
+"PE";"Sertânia";36050
+"PE";"Sirinhaém";46361
+"PE";"Moreilândia";11270
+"PE";"Solidão";6021
+"PE";"Surubim";65647
+"PE";"Tabira";28704
+"PE";"Tacaimbó";12859
+"PE";"Tacaratu";26106
+"PE";"Tamandaré";23623
+"PE";"Taquaritinga do Norte";29127
+"PE";"Terezinha";7198
+"PE";"Terra Nova";10206
+"PE";"Timbaúba";52802
+"PE";"Toritama";46164
+"PE";"Tracunhaém";13813
+"PE";"Trindade";30816
+"PE";"Triunfo";15243
+"PE";"Tupanatinga";27551
+"PE";"Tuparetama";8256
+"PE";"Venturosa";18661
+"PE";"Verdejante";9553
+"PE";"Vertente do Lério";7571
+"PE";"Vertentes";20954
+"PE";"Vicência";32772
+"PE";"Vitória de Santo Antão";139583
+"PE";"Xexéu";14757
+"AL";"Água Branca";20230
+"AL";"Anadia";17526
+"AL";"Arapiraca";233047
+"AL";"Atalaia";47365
+"AL";"Barra de Santo Antônio";16068
+"AL";"Barra de São Miguel";8378
+"AL";"Batalha";18338
+"AL";"Belém";4284
+"AL";"Belo Monte";6710
+"AL";"Boca da Mata";27356
+"AL";"Branquinha";10460
+"AL";"Cacimbinhas";10889
+"AL";"Cajueiro";21331
+"AL";"Campestre";6954
+"AL";"Campo Alegre";57537
+"AL";"Campo Grande";9567
+"AL";"Canapi";17719
+"AL";"Capela";16979
+"AL";"Carneiros";9159
+"AL";"Chã Preta";7311
+"AL";"Coité do Nóia";10643
+"AL";"Colônia Leopoldina";21818
+"AL";"Coqueiro Seco";5864
+"AL";"Coruripe";57294
+"AL";"Craíbas";24309
+"AL";"Delmiro Gouveia";52262
+"AL";"Dois Riachos";11067
+"AL";"Estrela de Alagoas";18255
+"AL";"Feira Grande";22178
+"AL";"Feliz Deserto";4779
+"AL";"Flexeiras";12807
+"AL";"Girau do Ponciano";41237
+"AL";"Ibateguara";15627
+"AL";"Igaci";25613
+"AL";"Igreja Nova";24586
+"AL";"Inhapi";18392
+"AL";"Jacaré dos Homens";5219
+"AL";"Jacuípe";7006
+"AL";"Japaratinga";8403
+"AL";"Jaramataia";5761
+"AL";"Jequiá da Praia";11536
+"AL";"Joaquim Gomes";24081
+"AL";"Jundiá";4137
+"AL";"Junqueiro";24722
+"AL";"Lagoa da Canoa";17771
+"AL";"Limoeiro de Anadia";28771
+"AL";"Maceió";1025360
+"AL";"Major Isidoro";19864
+"AL";"Maragogi";33032
+"AL";"Maravilha";9004
+"AL";"Marechal Deodoro";52380
+"AL";"Maribondo";13193
+"AL";"Mar Vermelho";3494
+"AL";"Mata Grande";25207
+"AL";"Matriz de Camaragibe";24634
+"AL";"Messias";18031
+"AL";"Minador do Negrão";5322
+"AL";"Monteirópolis";7165
+"AL";"Murici";28333
+"AL";"Novo Lino";12764
+"AL";"Olho d'Água das Flores";21738
+"AL";"Olho d'Água do Casado";9441
+"AL";"Olho d'Água Grande";5128
+"AL";"Olivença";11657
+"AL";"Ouro Branco";11535
+"AL";"Palestina";5037
+"AL";"Palmeira dos Índios";73337
+"AL";"Pão de Açúcar";24351
+"AL";"Pariconha";10539
+"AL";"Paripueira";13332
+"AL";"Passo de Camaragibe";15258
+"AL";"Paulo Jacinto";7560
+"AL";"Penedo";63846
+"AL";"Piaçabuçu";17848
+"AL";"Pilar";35212
+"AL";"Pindoba";2905
+"AL";"Piranhas";25183
+"AL";"Poço das Trincheiras";14418
+"AL";"Porto Calvo";27249
+"AL";"Porto de Pedras";7701
+"AL";"Porto Real do Colégio";20112
+"AL";"Quebrangulo";11248
+"AL";"Rio Largo";75394
+"AL";"Roteiro";6649
+"AL";"Santa Luzia do Norte";7320
+"AL";"Santana do Ipanema";47819
+"AL";"Santana do Mundaú";10687
+"AL";"São Brás";6969
+"AL";"São José da Laje";23996
+"AL";"São José da Tapera";32405
+"AL";"São Luís do Quitunde";34692
+"AL";"São Miguel dos Campos";61797
+"AL";"São Miguel dos Milagres";8013
+"AL";"São Sebastião";34290
+"AL";"Satuba";13936
+"AL";"Senador Rui Palmeira";13921
+"AL";"Tanque d'Arca";6138
+"AL";"Taquarana";20072
+"AL";"Teotônio Vilela";44372
+"AL";"Traipu";27826
+"AL";"União dos Palmares";65790
+"AL";"Viçosa";25693
+"SE";"Amparo de São Francisco";2380
+"SE";"Aquidabã";21681
+"SE";"Aracaju";664908
+"SE";"Arauá";9947
+"SE";"Areia Branca";18686
+"SE";"Barra dos Coqueiros";30930
+"SE";"Boquim";26899
+"SE";"Brejo Grande";8353
+"SE";"Campo do Brito";18218
+"SE";"Canhoba";4006
+"SE";"Canindé de São Francisco";30402
+"SE";"Capela";34514
+"SE";"Carira";22239
+"SE";"Carmópolis";16937
+"SE";"Cedro de São João";5913
+"SE";"Cristinápolis";18029
+"SE";"Cumbe";3998
+"SE";"Divina Pastora";5215
+"SE";"Estância";69556
+"SE";"Feira Nova";5601
+"SE";"Frei Paulo";15556
+"SE";"Gararu";11601
+"SE";"General Maynard";3384
+"SE";"Graccho Cardoso";5824
+"SE";"Ilha das Flores";8521
+"SE";"Indiaroba";18149
+"SE";"Itabaiana";96142
+"SE";"Itabaianinha";42166
+"SE";"Itabi";4886
+"SE";"Itaporanga d'Ajuda";34709
+"SE";"Japaratuba";18907
+"SE";"Japoatã";13429
+"SE";"Lagarto";105221
+"SE";"Laranjeiras";30080
+"SE";"Macambira";6961
+"SE";"Malhada dos Bois";3699
+"SE";"Malhador";12653
+"SE";"Maruim";17271
+"SE";"Moita Bonita";11348
+"SE";"Monte Alegre de Sergipe";15175
+"SE";"Muribeca";7639
+"SE";"Neópolis";18703
+"SE";"Nossa Senhora Aparecida";8809
+"SE";"Nossa Senhora da Glória";37324
+"SE";"Nossa Senhora das Dores";26795
+"SE";"Nossa Senhora de Lourdes";6496
+"SE";"Nossa Senhora do Socorro";185706
+"SE";"Pacatuba";14540
+"SE";"Pedra Mole";3285
+"SE";"Pedrinhas";9665
+"SE";"Pinhão";6627
+"SE";"Pirambu";9359
+"SE";"Poço Redondo";35122
+"SE";"Poço Verde";23867
+"SE";"Porto da Folha";28693
+"SE";"Propriá";29692
+"SE";"Riachão do Dantas";19809
+"SE";"Riachuelo";10284
+"SE";"Ribeirópolis";18773
+"SE";"Rosário do Catete";11008
+"SE";"Salgado";20025
+"SE";"Santa Luzia do Itanhy";14121
+"SE";"Santana do São Francisco";7844
+"SE";"Santa Rosa de Lima";3923
+"SE";"Santo Amaro das Brotas";12151
+"SE";"São Cristóvão";91093
+"SE";"São Domingos";11207
+"SE";"São Francisco";3781
+"SE";"São Miguel do Aleixo";3947
+"SE";"Simão Dias";40606
+"SE";"Siriri";8970
+"SE";"Telha";3249
+"SE";"Tobias Barreto";52530
+"SE";"Tomar do Geru";13535
+"SE";"Umbaúba";25550
+"BA";"Abaíra";8710
+"BA";"Abaré";20347
+"BA";"Acajutiba";15187
+"BA";"Adustina";17126
+"BA";"Água Fria";17033
+"BA";"Érico Cardoso";10560
+"BA";"Aiquara";4416
+"BA";"Alagoinhas";152327
+"BA";"Alcobaça";22490
+"BA";"Almadina";5366
+"BA";"Amargosa";37441
+"BA";"Amélia Rodrigues";25048
+"BA";"América Dourada";16090
+"BA";"Anagé";21607
+"BA";"Andaraí";13132
+"BA";"Andorinha";14503
+"BA";"Angical";13938
+"BA";"Anguera";11297
+"BA";"Antas";19479
+"BA";"Antônio Cardoso";11677
+"BA";"Antônio Gonçalves";11878
+"BA";"Aporá";17788
+"BA";"Apuarema";7302
+"BA";"Aracatu";13045
+"BA";"Araçás";12208
+"BA";"Araci";54648
+"BA";"Aramari";11461
+"BA";"Arataca";10961
+"BA";"Aratuípe";8837
+"BA";"Aurelino Leal";11299
+"BA";"Baianópolis";13929
+"BA";"Baixa Grande";20449
+"BA";"Banzaê";13240
+"BA";"Barra";53910
+"BA";"Barra da Estiva";20392
+"BA";"Barra do Choça";31209
+"BA";"Barra do Mendes";13833
+"BA";"Barra do Rocha";5612
+"BA";"Barreiras";156975
+"BA";"Barro Alto";15054
+"BA";"Barrocas";16105
+"BA";"Barro Preto";5448
+"BA";"Belmonte";23437
+"BA";"Belo Campo";17109
+"BA";"Biritinga";15984
+"BA";"Boa Nova";12329
+"BA";"Boa Vista do Tupim";18531
+"BA";"Bom Jesus da Lapa";69662
+"BA";"Bom Jesus da Serra";9823
+"BA";"Boninal";14446
+"BA";"Bonito";16884
+"BA";"Boquira";21497
+"BA";"Botuporã";10129
+"BA";"Brejões";14222
+"BA";"Brejolândia";10618
+"BA";"Brotas de Macaúbas";10130
+"BA";"Brumado";67335
+"BA";"Buerarema";18306
+"BA";"Buritirama";21276
+"BA";"Caatiba";6488
+"BA";"Cabaceiras do Paraguaçu";18911
+"BA";"Cachoeira";33567
+"BA";"Caculé";23291
+"BA";"Caém";9058
+"BA";"Caetanos";14608
+"BA";"Caetité";51081
+"BA";"Cafarnaum";18513
+"BA";"Cairu";18427
+"BA";"Caldeirão Grande";13391
+"BA";"Camacan";32006
+"BA";"Camaçari";304302
+"BA";"Camamu";35382
+"BA";"Campo Alegre de Lourdes";28820
+"BA";"Campo Formoso";71487
+"BA";"Canápolis";9703
+"BA";"Canarana";26325
+"BA";"Canavieiras";30906
+"BA";"Candeal";8181
+"BA";"Candeias";87458
+"BA";"Candiba";14368
+"BA";"Cândido Sales";25053
+"BA";"Cansanção";34882
+"BA";"Canudos";16753
+"BA";"Capela do Alto Alegre";11616
+"BA";"Capim Grosso";30862
+"BA";"Caraíbas";8801
+"BA";"Caravelas";22093
+"BA";"Cardeal da Silva";9346
+"BA";"Carinhanha";29070
+"BA";"Casa Nova";72545
+"BA";"Castro Alves";26318
+"BA";"Catolândia";3599
+"BA";"Catu";54970
+"BA";"Caturama";9316
+"BA";"Central";17280
+"BA";"Chorrochó";11200
+"BA";"Cícero Dantas";32576
+"BA";"Cipó";17352
+"BA";"Coaraci";16549
+"BA";"Cocos";18807
+"BA";"Conceição da Feira";22762
+"BA";"Conceição do Almeida";17165
+"BA";"Conceição do Coité";67013
+"BA";"Conceição do Jacuípe";33398
+"BA";"Conde";26035
+"BA";"Condeúba";17178
+"BA";"Contendas do Sincorá";4045
+"BA";"Coração de Maria";22495
+"BA";"Cordeiros";8642
+"BA";"Coribe";14149
+"BA";"Coronel João Sá";15717
+"BA";"Correntina";32191
+"BA";"Cotegipe";13769
+"BA";"Cravolândia";5351
+"BA";"Crisópolis";21163
+"BA";"Cristópolis";13947
+"BA";"Cruz das Almas";63591
+"BA";"Curaçá";34886
+"BA";"Dário Meira";10525
+"BA";"Dias d'Ávila";82432
+"BA";"Dom Basílio";12240
+"BA";"Dom Macedo Costa";4065
+"BA";"Elísio Medrado";8126
+"BA";"Encruzilhada";16446
+"BA";"Entre Rios";41901
+"BA";"Esplanada";37578
+"BA";"Euclides da Cunha";60858
+"BA";"Eunápolis";114396
+"BA";"Fátima";17845
+"BA";"Feira da Mata";5661
+"BA";"Feira de Santana";619609
+"BA";"Filadélfia";16345
+"BA";"Firmino Alves";5629
+"BA";"Floresta Azul";10575
+"BA";"Formosa do Rio Preto";25857
+"BA";"Gandu";32596
+"BA";"Gavião";4440
+"BA";"Gentio do Ouro";11259
+"BA";"Glória";15234
+"BA";"Gongogi";6985
+"BA";"Governador Mangabeira";20762
+"BA";"Guajeru";6646
+"BA";"Guanambi";84928
+"BA";"Guaratinga";20700
+"BA";"Heliópolis";12987
+"BA";"Iaçu";24121
+"BA";"Ibiassucê";9031
+"BA";"Ibicaraí";21378
+"BA";"Ibicoara";19786
+"BA";"Ibicuí";16230
+"BA";"Ibipeba";18319
+"BA";"Ibipitanga";14947
+"BA";"Ibiquera";4046
+"BA";"Ibirapitanga";23404
+"BA";"Ibirapuã";8690
+"BA";"Ibirataia";14882
+"BA";"Ibitiara";16403
+"BA";"Ibititá";17080
+"BA";"Ibotirama";27003
+"BA";"Ichu";6220
+"BA";"Igaporã";15650
+"BA";"Igrapiúna";13091
+"BA";"Iguaí";26963
+"BA";"Ilhéus";159923
+"BA";"Inhambupe";40333
+"BA";"Ipecaetá";14354
+"BA";"Ipiaú";45922
+"BA";"Ipirá";59435
+"BA";"Ipupiara";9911
+"BA";"Irajuba";7279
+"BA";"Iramaia";8197
+"BA";"Iraquara";25478
+"BA";"Irará";29173
+"BA";"Irecê";73524
+"BA";"Itabela";30747
+"BA";"Itaberaba";64646
+"BA";"Itabuna";213685
+"BA";"Itacaré";28684
+"BA";"Itaeté";16110
+"BA";"Itagi";12242
+"BA";"Itagibá";14452
+"BA";"Itagimirim";6825
+"BA";"Itaguaçu da Bahia";14542
+"BA";"Itaju do Colônia";6596
+"BA";"Itajuípe";20398
+"BA";"Itamaraju";64455
+"BA";"Itamari";8003
+"BA";"Itambé";22754
+"BA";"Itanagra";6436
+"BA";"Itanhém";19316
+"BA";"Itaparica";22337
+"BA";"Itapé";8526
+"BA";"Itapebi";10215
+"BA";"Itapetinga";76795
+"BA";"Itapicuru";35883
+"BA";"Itapitanga";10298
+"BA";"Itaquara";8347
+"BA";"Itarantim";19843
+"BA";"Itatim";14539
+"BA";"Itiruçu";12528
+"BA";"Itiúba";36116
+"BA";"Itororó";20388
+"BA";"Ituaçu";19030
+"BA";"Ituberá";28740
+"BA";"Iuiu";11016
+"BA";"Jaborandi";8277
+"BA";"Jacaraci";14850
+"BA";"Jacobina";80635
+"BA";"Jaguaquara";54673
+"BA";"Jaguarari";33746
+"BA";"Jaguaripe";18981
+"BA";"Jandaíra";10726
+"BA";"Jequié";156126
+"BA";"Jeremoabo";40651
+"BA";"Jiquiriçá";14557
+"BA";"Jitaúna";10808
+"BA";"João Dourado";25402
+"BA";"Juazeiro";218162
+"BA";"Jucuruçu";8988
+"BA";"Jussara";15262
+"BA";"Jussari";5768
+"BA";"Jussiape";5976
+"BA";"Lafaiete Coutinho";3693
+"BA";"Lagoa Real";15770
+"BA";"Laje";24032
+"BA";"Lajedão";3975
+"BA";"Lajedinho";3758
+"BA";"Lajedo do Tabocal";8577
+"BA";"Lamarão";8191
+"BA";"Lapão";27274
+"BA";"Lauro de Freitas";201635
+"BA";"Lençóis";11499
+"BA";"Licínio de Almeida";12373
+"BA";"Livramento de Nossa Senhora";46062
+"BA";"Luís Eduardo Magalhães";90162
+"BA";"Macajuba";11332
+"BA";"Macarani";18909
+"BA";"Macaúbas";50161
+"BA";"Macururé";7787
+"BA";"Madre de Deus";21432
+"BA";"Maetinga";2764
+"BA";"Maiquinique";10206
+"BA";"Mairi";18602
+"BA";"Malhada";16861
+"BA";"Malhada de Pedras";8359
+"BA";"Manoel Vitorino";13087
+"BA";"Mansidão";13734
+"BA";"Maracás";20393
+"BA";"Maragogipe";44793
+"BA";"Maraú";20617
+"BA";"Marcionílio Souza";10380
+"BA";"Mascote";13717
+"BA";"Mata de São João";47126
+"BA";"Matina";12283
+"BA";"Medeiros Neto";22716
+"BA";"Miguel Calmon";25894
+"BA";"Milagres";10893
+"BA";"Mirangaba";18474
+"BA";"Mirante";8447
+"BA";"Monte Santo";49278
+"BA";"Morpará";8497
+"BA";"Morro do Chapéu";35440
+"BA";"Mortugaba";12052
+"BA";"Mucugê";8889
+"BA";"Mucuri";42251
+"BA";"Mulungu do Morro";10673
+"BA";"Mundo Novo";26970
+"BA";"Muniz Ferreira";7443
+"BA";"Muquém do São Francisco";11417
+"BA";"Muritiba";29410
+"BA";"Mutuípe";22282
+"BA";"Nazaré";28594
+"BA";"Nilo Peçanha";14079
+"BA";"Nordestina";13164
+"BA";"Nova Canaã";16472
+"BA";"Nova Fátima";7821
+"BA";"Nova Ibiá";6554
+"BA";"Nova Itarana";8279
+"BA";"Nova Redenção";9123
+"BA";"Nova Soure";26998
+"BA";"Nova Viçosa";43783
+"BA";"Novo Horizonte";12522
+"BA";"Novo Triunfo";15443
+"BA";"Olindina";28304
+"BA";"Oliveira dos Brejinhos";21810
+"BA";"Ouriçangas";8570
+"BA";"Ourolândia";17511
+"BA";"Palmas de Monte Alto";21796
+"BA";"Palmeiras";9071
+"BA";"Paramirim";21695
+"BA";"Paratinga";32141
+"BA";"Paripiranga";29058
+"BA";"Pau Brasil";9686
+"BA";"Paulo Afonso";118516
+"BA";"Pé de Serra";13556
+"BA";"Pedrão";7394
+"BA";"Pedro Alexandre";16682
+"BA";"Piatã";16984
+"BA";"Pilão Arcado";35175
+"BA";"Pindaí";16285
+"BA";"Pindobaçu";20098
+"BA";"Pintadas";10394
+"BA";"Piraí do Norte";10036
+"BA";"Piripá";10475
+"BA";"Piritiba";24964
+"BA";"Planaltino";9370
+"BA";"Planalto";26426
+"BA";"Poções";46879
+"BA";"Pojuca";39972
+"BA";"Ponto Novo";14819
+"BA";"Porto Seguro";150658
+"BA";"Potiraguá";6916
+"BA";"Prado";28194
+"BA";"Presidente Dutra";15160
+"BA";"Presidente Jânio Quadros";12179
+"BA";"Presidente Tancredo Neves";28004
+"BA";"Queimadas";25433
+"BA";"Quijingue";27626
+"BA";"Quixabeira";8956
+"BA";"Rafael Jambeiro";22633
+"BA";"Remanso";41170
+"BA";"Retirolândia";14495
+"BA";"Riachão das Neves";22334
+"BA";"Riachão do Jacuípe";33468
+"BA";"Riacho de Santana";35593
+"BA";"Ribeira do Amparo";14612
+"BA";"Ribeira do Pombal";53956
+"BA";"Ribeirão do Largo";5343
+"BA";"Rio de Contas";12932
+"BA";"Rio do Antônio";15448
+"BA";"Rio do Pires";11663
+"BA";"Rio Real";40976
+"BA";"Rodelas";9442
+"BA";"Ruy Barbosa";30857
+"BA";"Salinas da Margarida";15862
+"BA";"Salvador";2886698
+"BA";"Santa Bárbara";20883
+"BA";"Santa Brígida";14063
+"BA";"Santa Cruz Cabrália";27922
+"BA";"Santa Cruz da Vitória";6278
+"BA";"Santa Inês";10606
+"BA";"Santaluz";37531
+"BA";"Santa Luzia";12449
+"BA";"Santa Maria da Vitória";39775
+"BA";"Santana";26705
+"BA";"Santanópolis";8966
+"BA";"Santa Rita de Cássia";28481
+"BA";"Santa Teresinha";10464
+"BA";"Santo Amaro";60131
+"BA";"Santo Antônio de Jesus";102380
+"BA";"Santo Estêvão";53269
+"BA";"São Desidério";34266
+"BA";"São Domingos";9072
+"BA";"São Félix";14762
+"BA";"São Félix do Coribe";15468
+"BA";"São Felipe";21080
+"BA";"São Francisco do Conde";40245
+"BA";"São Gabriel";18789
+"BA";"São Gonçalo dos Campos";37942
+"BA";"São José da Vitória";5608
+"BA";"São José do Jacuípe";10505
+"BA";"São Miguel das Matas";11704
+"BA";"São Sebastião do Passé";44430
+"BA";"Sapeaçu";17409
+"BA";"Sátiro Dias";17302
+"BA";"Saubara";12105
+"BA";"Saúde";12943
+"BA";"Seabra";44234
+"BA";"Sebastião Laranjeiras";11512
+"BA";"Senhor do Bonfim";79424
+"BA";"Serra do Ramalho";31416
+"BA";"Sento Sé";40989
+"BA";"Serra Dourada";17321
+"BA";"Serra Preta";14699
+"BA";"Serrinha";81286
+"BA";"Serrolândia";13446
+"BA";"Simões Filho";135783
+"BA";"Sítio do Mato";13059
+"BA";"Sítio do Quinto";9701
+"BA";"Sobradinho";23233
+"BA";"Souto Soares";17050
+"BA";"Tabocas do Brejo Velho";12516
+"BA";"Tanhaçu";20393
+"BA";"Tanque Novo";17443
+"BA";"Tanquinho";7928
+"BA";"Taperoá";21253
+"BA";"Tapiramutá";16974
+"BA";"Teixeira de Freitas";162438
+"BA";"Teodoro Sampaio";7359
+"BA";"Teofilândia";22555
+"BA";"Teolândia";15022
+"BA";"Terra Nova";13025
+"BA";"Tremedal";16189
+"BA";"Tucano";50798
+"BA";"Uauá";24113
+"BA";"Ubaíra";19877
+"BA";"Ubaitaba";18847
+"BA";"Ubatã";27263
+"BA";"Uibaí";13891
+"BA";"Umburanas";19402
+"BA";"Una";18544
+"BA";"Urandi";16665
+"BA";"Uruçuca";20413
+"BA";"Utinga";19256
+"BA";"Valença";97233
+"BA";"Valente";28800
+"BA";"Várzea da Roça";14121
+"BA";"Várzea do Poço";9210
+"BA";"Várzea Nova";12625
+"BA";"Varzedo";8785
+"BA";"Vera Cruz";43716
+"BA";"Vereda";6153
+"BA";"Vitória da Conquista";341128
+"BA";"Wagner";9344
+"BA";"Wanderley";12180
+"BA";"Wenceslau Guimarães";20978
+"BA";"Xique-Xique";46523
+"MG";"Abadia dos Dourados";7006
+"MG";"Abaeté";23250
+"MG";"Abre Campo";13444
+"MG";"Acaiaca";3994
+"MG";"Açucena";9368
+"MG";"Água Boa";13523
+"MG";"Água Comprida";1992
+"MG";"Aguanil";4522
+"MG";"Águas Formosas";19247
+"MG";"Águas Vermelhas";13599
+"MG";"Aimorés";25141
+"MG";"Aiuruoca";5976
+"MG";"Alagoa";2665
+"MG";"Albertina";3011
+"MG";"Além Paraíba";35401
+"MG";"Alfenas";80494
+"MG";"Alfredo Vasconcelos";6981
+"MG";"Almenara";42143
+"MG";"Alpercata";7436
+"MG";"Alpinópolis";19958
+"MG";"Alterosa";14517
+"MG";"Alto Caparaó";5894
+"MG";"Alto Rio Doce";10859
+"MG";"Alvarenga";3844
+"MG";"Alvinópolis";15169
+"MG";"Alvorada de Minas";3605
+"MG";"Amparo do Serra";4678
+"MG";"Andradas";41396
+"MG";"Cachoeira de Pajeú";9442
+"MG";"Andrelândia";12206
+"MG";"Angelândia";8557
+"MG";"Antônio Carlos";11459
+"MG";"Antônio Dias";9275
+"MG";"Antônio Prado de Minas";1587
+"MG";"Araçaí";2354
+"MG";"Aracitaba";2059
+"MG";"Araçuaí";36712
+"MG";"Araguari";117825
+"MG";"Arantina";2787
+"MG";"Araponga";8453
+"MG";"Araporã";6931
+"MG";"Arapuá";2835
+"MG";"Araújos";9401
+"MG";"Araxá";107337
+"MG";"Arceburgo";10883
+"MG";"Arcos";40380
+"MG";"Areado";15181
+"MG";"Argirita";2704
+"MG";"Aricanduva";5269
+"MG";"Arinos";17862
+"MG";"Astolfo Dutra";14270
+"MG";"Ataléia";12678
+"MG";"Augusto de Lima";4851
+"MG";"Baependi";19199
+"MG";"Baldim";7803
+"MG";"Bambuí";23898
+"MG";"Bandeira";4766
+"MG";"Bandeira do Sul";5778
+"MG";"Barão de Cocais";32866
+"MG";"Barão de Monte Alto";5354
+"MG";"Barbacena";138204
+"MG";"Barra Longa";5015
+"MG";"Barroso";20897
+"MG";"Bela Vista de Minas";10262
+"MG";"Belmiro Braga";3425
+"MG";"Belo Horizonte";2521564
+"MG";"Belo Oriente";26994
+"MG";"Belo Vale";7719
+"MG";"Berilo";11872
+"MG";"Bertópolis";4607
+"MG";"Berizal";4764
+"MG";"Betim";444784
+"MG";"Bias Fortes";3329
+"MG";"Bicas";14554
+"MG";"Biquinhas";2498
+"MG";"Boa Esperança";40219
+"MG";"Bocaina de Minas";5089
+"MG";"Bocaiúva";50256
+"MG";"Bom Despacho";51028
+"MG";"Bom Jardim de Minas";6459
+"MG";"Bom Jesus da Penha";4244
+"MG";"Bom Jesus do Amparo";6133
+"MG";"Bom Jesus do Galho";14862
+"MG";"Bom Repouso";10537
+"MG";"Bom Sucesso";17607
+"MG";"Bonfim";6860
+"MG";"Bonfinópolis de Minas";5444
+"MG";"Bonito de Minas";11369
+"MG";"Borda da Mata";19614
+"MG";"Botelhos";14949
+"MG";"Botumirim";6288
+"MG";"Brasilândia de Minas";16748
+"MG";"Brasília de Minas";32405
+"MG";"Brás Pires";4293
+"MG";"Braúnas";4769
+"MG";"Brazópolis";14410
+"MG";"Brumadinho";40666
+"MG";"Bueno Brandão";10991
+"MG";"Buenópolis";10353
+"MG";"Bugre";3983
+"MG";"Buritis";25013
+"MG";"Buritizeiro";28121
+"MG";"Cabeceira Grande";6988
+"MG";"Cabo Verde";14075
+"MG";"Cachoeira da Prata";3591
+"MG";"Cachoeira de Minas";11579
+"MG";"Cachoeira Dourada";2706
+"MG";"Caetanópolis";11749
+"MG";"Caeté";45047
+"MG";"Caiana";5541
+"MG";"Cajuri";3974
+"MG";"Caldas";14541
+"MG";"Camacho";2869
+"MG";"Camanducaia";21801
+"MG";"Cambuí";29814
+"MG";"Cambuquira";12812
+"MG";"Campanário";3730
+"MG";"Campanha";16762
+"MG";"Campestre";21054
+"MG";"Campina Verde";19752
+"MG";"Campo Azul";3824
+"MG";"Campo Belo";54186
+"MG";"Campo do Meio";11651
+"MG";"Campo Florido";8269
+"MG";"Campos Altos";15563
+"MG";"Campos Gerais";28842
+"MG";"Canaã";4548
+"MG";"Canápolis";12201
+"MG";"Cana Verde";5594
+"MG";"Candeias";14888
+"MG";"Cantagalo";4551
+"MG";"Caparaó";5451
+"MG";"Capela Nova";4634
+"MG";"Capelinha";38057
+"MG";"Capetinga";6890
+"MG";"Capim Branco";9826
+"MG";"Capinópolis";16234
+"MG";"Capitão Andrade";5514
+"MG";"Capitão Enéas";15313
+"MG";"Capitólio";8663
+"MG";"Caputira";9308
+"MG";"Caraí";23780
+"MG";"Caranaíba";3166
+"MG";"Carandaí";25669
+"MG";"Carangola";33011
+"MG";"Caratinga";92603
+"MG";"Carbonita";9414
+"MG";"Careaçu";6792
+"MG";"Carlos Chagas";18674
+"MG";"Carmésia";2646
+"MG";"Carmo da Cachoeira";12182
+"MG";"Carmo da Mata";11511
+"MG";"Carmo de Minas";14947
+"MG";"Carmo do Cajuru";22693
+"MG";"Carmo do Paranaíba";30334
+"MG";"Carmo do Rio Claro";21268
+"MG";"Carmópolis de Minas";19559
+"MG";"Carneirinho";10066
+"MG";"Carrancas";4049
+"MG";"Carvalhópolis";3597
+"MG";"Carvalhos";4461
+"MG";"Casa Grande";2254
+"MG";"Cascalho Rico";3092
+"MG";"Cássia";17740
+"MG";"Conceição da Barra de Minas";3946
+"MG";"Cataguases";75540
+"MG";"Catas Altas";5421
+"MG";"Catas Altas da Noruega";3653
+"MG";"Catuji";6257
+"MG";"Catuti";4965
+"MG";"Caxambu";21610
+"MG";"Cedro do Abaeté";1157
+"MG";"Central de Minas";7046
+"MG";"Centralina";10346
+"MG";"Chácara";3186
+"MG";"Chalé";5699
+"MG";"Chapada do Norte";15345
+"MG";"Chapada Gaúcha";13953
+"MG";"Chiador";2671
+"MG";"Cipotânea";6799
+"MG";"Claraval";4853
+"MG";"Claro dos Poções";7514
+"MG";"Cláudio";28859
+"MG";"Coimbra";7594
+"MG";"Coluna";8841
+"MG";"Comendador Gomes";3120
+"MG";"Comercinho";6774
+"MG";"Conceição da Aparecida";10322
+"MG";"Conceição das Pedras";2813
+"MG";"Conceição das Alagoas";28346
+"MG";"Conceição de Ipanema";4578
+"MG";"Conceição do Mato Dentro";17503
+"MG";"Conceição do Pará";5533
+"MG";"Conceição do Rio Verde";13684
+"MG";"Conceição dos Ouros";11748
+"MG";"Cônego Marinho";7686
+"MG";"Confins";6800
+"MG";"Congonhal";12082
+"MG";"Congonhas";55309
+"MG";"Congonhas do Norte";5046
+"MG";"Conquista";6969
+"MG";"Conselheiro Lafaiete";129606
+"MG";"Conselheiro Pena";22949
+"MG";"Consolação";1784
+"MG";"Contagem";668949
+"MG";"Coqueiral";9128
+"MG";"Coração de Jesus";26611
+"MG";"Cordisburgo";8897
+"MG";"Cordislândia";3542
+"MG";"Corinto";23668
+"MG";"Coroaci";9943
+"MG";"Coromandel";27966
+"MG";"Coronel Fabriciano";110290
+"MG";"Coronel Murta";9215
+"MG";"Coronel Pacheco";3090
+"MG";"Coronel Xavier Chaves";3441
+"MG";"Córrego Danta";3191
+"MG";"Córrego do Bom Jesus";3694
+"MG";"Córrego Fundo";6382
+"MG";"Córrego Novo";2728
+"MG";"Couto de Magalhães de Minas";4423
+"MG";"Crisólita";6760
+"MG";"Cristais";12931
+"MG";"Cristália";5982
+"MG";"Cristiano Otoni";5156
+"MG";"Cristina";10226
+"MG";"Crucilândia";5054
+"MG";"Cruzeiro da Fortaleza";3639
+"MG";"Cruzília";15474
+"MG";"Cuparaque";5005
+"MG";"Curral de Dentro";7799
+"MG";"Curvelo";80616
+"MG";"Datas";5421
+"MG";"Delfim Moreira";8016
+"MG";"Delfinópolis";7131
+"MG";"Delta";10768
+"MG";"Descoberto";5029
+"MG";"Desterro de Entre Rios";7255
+"MG";"Desterro do Melo";2884
+"MG";"Diamantina";47825
+"MG";"Diogo de Vasconcelos";3790
+"MG";"Dionísio";7609
+"MG";"Divinésia";3424
+"MG";"Divino";19976
+"MG";"Divino das Laranjeiras";4974
+"MG";"Divinolândia de Minas";7614
+"MG";"Divinópolis";240408
+"MG";"Divisa Alegre";6868
+"MG";"Divisa Nova";6025
+"MG";"Divisópolis";11211
+"MG";"Dom Bosco";3655
+"MG";"Dom Cavati";5048
+"MG";"Dom Joaquim";4451
+"MG";"Dom Silvério";5232
+"MG";"Dom Viçoso";2997
+"MG";"Dona Euzébia";6619
+"MG";"Dores de Campos";10223
+"MG";"Dores de Guanhães";5154
+"MG";"Dores do Indaiá";13427
+"MG";"Dores do Turvo";4230
+"MG";"Doresópolis";1533
+"MG";"Douradoquara";1912
+"MG";"Durandé";7870
+"MG";"Elói Mendes";28320
+"MG";"Engenheiro Caldas";11202
+"MG";"Engenheiro Navarro";7241
+"MG";"Entre Folhas";5377
+"MG";"Entre Rios de Minas";15380
+"MG";"Ervália";18958
+"MG";"Esmeraldas";71551
+"MG";"Espera Feliz";25122
+"MG";"Espinosa";31610
+"MG";"Espírito Santo do Dourado";4710
+"MG";"Estiva";11386
+"MG";"Estrela Dalva";2325
+"MG";"Estrela do Indaiá";3491
+"MG";"Estrela do Sul";8018
+"MG";"Eugenópolis";11330
+"MG";"Ewbank da Câmara";3923
+"MG";"Extrema";36951
+"MG";"Fama";2376
+"MG";"Faria Lemos";3221
+"MG";"Felício dos Santos";4704
+"MG";"São Gonçalo do Rio Preto";3173
+"MG";"Felisburgo";7504
+"MG";"Felixlândia";15433
+"MG";"Fernandes Tourinho";3466
+"MG";"Ferros";9696
+"MG";"Fervedouro";11054
+"MG";"Florestal";7533
+"MG";"Formiga";67822
+"MG";"Formoso";9688
+"MG";"Fortaleza de Minas";4437
+"MG";"Fortuna de Minas";2967
+"MG";"Francisco Badaró";10321
+"MG";"Francisco Dumont";5242
+"MG";"Francisco Sá";26369
+"MG";"Franciscópolis";5338
+"MG";"Frei Gaspar";5869
+"MG";"Frei Inocêncio";9664
+"MG";"Frei Lagonegro";3487
+"MG";"Fronteira";18492
+"MG";"Fronteira dos Vales";4561
+"MG";"Fruta de Leite";5299
+"MG";"Frutal";60012
+"MG";"Funilândia";4392
+"MG";"Galiléia";6790
+"MG";"Gameleiras";5096
+"MG";"Glaucilândia";3164
+"MG";"Goiabeira";3378
+"MG";"Goianá";3990
+"MG";"Gonçalves";4355
+"MG";"Gonzaga";6171
+"MG";"Gouveia";11818
+"MG";"Governador Valadares";281046
+"MG";"Grão Mogol";15890
+"MG";"Grupiara";1387
+"MG";"Guanhães";34573
+"MG";"Guapé";14258
+"MG";"Guaraciaba";10315
+"MG";"Guaraciama";4989
+"MG";"Guaranésia";19017
+"MG";"Guarani";8918
+"MG";"Guarará";3775
+"MG";"Guarda-Mor";6569
+"MG";"Guaxupé";52078
+"MG";"Guidoval";7051
+"MG";"Guimarânia";8105
+"MG";"Guiricema";8343
+"MG";"Gurinhatã";5577
+"MG";"Heliodora";6591
+"MG";"Iapu";11045
+"MG";"Ibertioga";5010
+"MG";"Ibiá";25358
+"MG";"Ibiaí";8437
+"MG";"Ibiracatu";5369
+"MG";"Ibiraci";13986
+"MG";"Ibirité";182153
+"MG";"Ibitiúra de Minas";3492
+"MG";"Ibituruna";2996
+"MG";"Icaraí de Minas";12097
+"MG";"Igarapé";43817
+"MG";"Igaratinga";11005
+"MG";"Iguatama";7923
+"MG";"Ijaci";6610
+"MG";"Ilicínea";12444
+"MG";"Imbé de Minas";6940
+"MG";"Inconfidentes";7358
+"MG";"Indaiabira";7339
+"MG";"Indianópolis";6951
+"MG";"Ingaí";2776
+"MG";"Inhapim";24079
+"MG";"Inhaúma";6312
+"MG";"Inimutaba";7560
+"MG";"Ipaba";18769
+"MG";"Ipanema";20000
+"MG";"Ipatinga";265409
+"MG";"Ipiaçu";4225
+"MG";"Ipuiúna";10118
+"MG";"Iraí de Minas";7027
+"MG";"Itabira";120904
+"MG";"Itabirinha";11576
+"MG";"Itabirito";52446
+"MG";"Itacambira";5417
+"MG";"Itacarambi";18164
+"MG";"Itaguara";13435
+"MG";"Itaipé";12836
+"MG";"Itajubá";97334
+"MG";"Itamarandiba";34936
+"MG";"Itamarati de Minas";4375
+"MG";"Itambacuri";23209
+"MG";"Itambé do Mato Dentro";2056
+"MG";"Itamogi";10157
+"MG";"Itamonte";15714
+"MG";"Itanhandu";15423
+"MG";"Itanhomi";12244
+"MG";"Itaobim";21029
+"MG";"Itapagipe";15379
+"MG";"Itapecerica";21761
+"MG";"Itapeva";9881
+"MG";"Itatiaiuçu";11252
+"MG";"Itaú de Minas";16199
+"MG";"Itaúna";93847
+"MG";"Itaverava";5369
+"MG";"Itinga";15022
+"MG";"Itueta";6063
+"MG";"Ituiutaba";105255
+"MG";"Itumirim";6000
+"MG";"Iturama";39690
+"MG";"Itutinga";3768
+"MG";"Jaboticatubas";20418
+"MG";"Jacinto";12323
+"MG";"Jacuí";7691
+"MG";"Jacutinga";26264
+"MG";"Jaguaraçu";3142
+"MG";"Jaíba";39388
+"MG";"Jampruca";5429
+"MG";"Janaúba";72018
+"MG";"Januária";67852
+"MG";"Japaraíba";4384
+"MG";"Japonvar";7982
+"MG";"Jeceaba";4852
+"MG";"Jenipapo de Minas";7738
+"MG";"Jequeri";12315
+"MG";"Jequitaí";7468
+"MG";"Jequitibá";5207
+"MG";"Jequitinhonha";25474
+"MG";"Jesuânia";4780
+"MG";"Joaíma";15455
+"MG";"Joanésia";4476
+"MG";"João Monlevade";80416
+"MG";"João Pinheiro";47726
+"MG";"Joaquim Felício";4727
+"MG";"Jordânia";10842
+"MG";"José Gonçalves de Minas";4487
+"MG";"José Raydan";5050
+"MG";"Josenópolis";4889
+"MG";"Nova União";5732
+"MG";"Juatuba";27392
+"MG";"Juiz de Fora";573285
+"MG";"Juramento";4345
+"MG";"Juruaia";10681
+"MG";"Juvenília";5715
+"MG";"Ladainha";18193
+"MG";"Lagamar";7600
+"MG";"Lagoa da Prata";52711
+"MG";"Lagoa dos Patos";4082
+"MG";"Lagoa Dourada";13063
+"MG";"Lagoa Formosa";18111
+"MG";"Lagoa Grande";9608
+"MG";"Lagoa Santa";65657
+"MG";"Lajinha";19918
+"MG";"Lambari";20907
+"MG";"Lamim";3379
+"MG";"Laranjal";6833
+"MG";"Lassance";6503
+"MG";"Lavras";104783
+"MG";"Leandro Ferreira";3226
+"MG";"Leme do Prado";4920
+"MG";"Leopoldina";52640
+"MG";"Liberdade";5031
+"MG";"Lima Duarte";16724
+"MG";"Limeira do Oeste";7589
+"MG";"Lontra";9714
+"MG";"Luisburgo";6258
+"MG";"Luislândia";6718
+"MG";"Luminárias";5438
+"MG";"Luz";18257
+"MG";"Machacalis";7111
+"MG";"Machado";42413
+"MG";"Madre de Deus de Minas";5109
+"MG";"Malacacheta";18602
+"MG";"Mamonas";6554
+"MG";"Manga";18226
+"MG";"Manhuaçu";91169
+"MG";"Manhumirim";22802
+"MG";"Mantena";27647
+"MG";"Maravilhas";8046
+"MG";"Mar de Espanha";12901
+"MG";"Maria da Fé";14056
+"MG";"Mariana";61288
+"MG";"Marilac";4097
+"MG";"Mário Campos";15619
+"MG";"Maripá de Minas";2987
+"MG";"Marliéria";4034
+"MG";"Marmelópolis";2728
+"MG";"Martinho Campos";13443
+"MG";"Martins Soares";8531
+"MG";"Mata Verde";8644
+"MG";"Materlândia";4436
+"MG";"Mateus Leme";31364
+"MG";"Matias Barbosa";14548
+"MG";"Matias Cardoso";11260
+"MG";"Matipó";19005
+"MG";"Mato Verde";12412
+"MG";"Matozinhos";38151
+"MG";"Matutina";3741
+"MG";"Medeiros";3832
+"MG";"Medina";20759
+"MG";"Mendes Pimentel";6446
+"MG";"Mercês";10758
+"MG";"Mesquita";5546
+"MG";"Minas Novas";31497
+"MG";"Minduri";3893
+"MG";"Mirabela";13620
+"MG";"Miradouro";10787
+"MG";"Miraí";15111
+"MG";"Miravânia";4914
+"MG";"Moeda";4934
+"MG";"Moema";7554
+"MG";"Monjolos";2202
+"MG";"Monsenhor Paulo";8727
+"MG";"Montalvânia";14747
+"MG";"Monte Alegre de Minas";21236
+"MG";"Monte Azul";20696
+"MG";"Monte Belo";13152
+"MG";"Monte Carmelo";47931
+"MG";"Monte Formoso";4923
+"MG";"Monte Santo de Minas";21513
+"MG";"Montes Claros";413487
+"MG";"Monte Sião";24029
+"MG";"Montezuma";8315
+"MG";"Morada Nova de Minas";8910
+"MG";"Morro da Garça";2437
+"MG";"Morro do Pilar";3153
+"MG";"Munhoz";5994
+"MG";"Muriaé";109392
+"MG";"Mutum";26961
+"MG";"Muzambinho";20545
+"MG";"Nacip Raydan";3220
+"MG";"Nanuque";40665
+"MG";"Naque";7051
+"MG";"Natalândia";3308
+"MG";"Natércia";4728
+"MG";"Nazareno";8660
+"MG";"Nepomuceno";26826
+"MG";"Ninheira";10326
+"MG";"Nova Belém";3128
+"MG";"Nova Era";17551
+"MG";"Nova Lima";96157
+"MG";"Nova Módica";3573
+"MG";"Nova Ponte";15800
+"MG";"Nova Porteirinha";7497
+"MG";"Nova Resende";16832
+"MG";"Nova Serrana";105520
+"MG";"Novo Cruzeiro";31335
+"MG";"Novo Oriente de Minas";10778
+"MG";"Novorizonte";5324
+"MG";"Olaria";1720
+"MG";"Olhos-d'Água";6171
+"MG";"Olímpio Noronha";2809
+"MG";"Oliveira";41840
+"MG";"Oliveira Fortes";2130
+"MG";"Onça de Pitangui";3152
+"MG";"Oratórios";4663
+"MG";"Orizânia";8079
+"MG";"Ouro Branco";39867
+"MG";"Ouro Fino";33791
+"MG";"Ouro Preto";74558
+"MG";"Ouro Verde de Minas";5914
+"MG";"Padre Carvalho";6423
+"MG";"Padre Paraíso";20252
+"MG";"Paineiras";4462
+"MG";"Pains";8296
+"MG";"Pai Pedro";6094
+"MG";"Paiva";1523
+"MG";"Palma";6611
+"MG";"Palmópolis";5349
+"MG";"Papagaios";15800
+"MG";"Paracatu";93862
+"MG";"Pará de Minas";94808
+"MG";"Paraguaçu";21605
+"MG";"Paraisópolis";21221
+"MG";"Paraopeba";24700
+"MG";"Passabém";1633
+"MG";"Passa Quatro";16393
+"MG";"Passa Tempo";8057
+"MG";"Passa Vinte";2031
+"MG";"Passos";115337
+"MG";"Patis";6002
+"MG";"Patos de Minas";153585
+"MG";"Patrocínio";91449
+"MG";"Patrocínio do Muriaé";5715
+"MG";"Paula Cândido";9584
+"MG";"Paulistas";4812
+"MG";"Pavão";8419
+"MG";"Peçanha";17537
+"MG";"Pedra Azul";24329
+"MG";"Pedra Bonita";7128
+"MG";"Pedra do Anta";3005
+"MG";"Pedra do Indaiá";3974
+"MG";"Pedra Dourada";2532
+"MG";"Pedralva";11146
+"MG";"Pedras de Maria da Cruz";12212
+"MG";"Pedrinópolis";3643
+"MG";"Pedro Leopoldo";64712
+"MG";"Pedro Teixeira";1806
+"MG";"Pequeri";3330
+"MG";"Pequi";4432
+"MG";"Perdigão";11755
+"MG";"Perdizes";16321
+"MG";"Perdões";21485
+"MG";"Periquito";6773
+"MG";"Pescador";4256
+"MG";"Piau";2733
+"MG";"Piedade de Caratinga";8702
+"MG";"Piedade de Ponte Nova";4140
+"MG";"Piedade do Rio Grande";4466
+"MG";"Piedade dos Gerais";5009
+"MG";"Pimenta";8688
+"MG";"Pingo-d'Água";4986
+"MG";"Pintópolis";7524
+"MG";"Piracema";6398
+"MG";"Pirajuba";6348
+"MG";"Piranga";17634
+"MG";"Piranguçu";5488
+"MG";"Piranguinho";8640
+"MG";"Pirapetinga";10772
+"MG";"Pirapora";56640
+"MG";"Piraúba";10759
+"MG";"Pitangui";28215
+"MG";"Piumhi";34918
+"MG";"Planura";12292
+"MG";"Poço Fundo";16846
+"MG";"Poços de Caldas";168641
+"MG";"Pocrane";8359
+"MG";"Pompéu";32035
+"MG";"Ponte Nova";59875
+"MG";"Ponto Chique";4283
+"MG";"Ponto dos Volantes";12179
+"MG";"Porteirinha";37864
+"MG";"Porto Firme";11348
+"MG";"Poté";16616
+"MG";"Pouso Alegre";152549
+"MG";"Pouso Alto";5900
+"MG";"Prados";9080
+"MG";"Prata";28017
+"MG";"Pratápolis";8566
+"MG";"Pratinha";3631
+"MG";"Presidente Bernardes";5341
+"MG";"Presidente Juscelino";3606
+"MG";"Presidente Kubitschek";3001
+"MG";"Presidente Olegário";19627
+"MG";"Alto Jequitibá";8301
+"MG";"Prudente de Morais";10834
+"MG";"Quartel Geral";3584
+"MG";"Queluzito";1943
+"MG";"Raposos";16429
+"MG";"Raul Soares";23711
+"MG";"Recreio";10520
+"MG";"Reduto";7201
+"MG";"Resende Costa";11540
+"MG";"Resplendor";17396
+"MG";"Ressaquinha";4817
+"MG";"Riachinho";8134
+"MG";"Riacho dos Machados";9476
+"MG";"Ribeirão das Neves";338197
+"MG";"Ribeirão Vermelho";4047
+"MG";"Rio Acima";10420
+"MG";"Rio Casca";13473
+"MG";"Rio Doce";2620
+"MG";"Rio do Prado";5133
+"MG";"Rio Espera";5402
+"MG";"Rio Manso";5879
+"MG";"Rio Novo";8957
+"MG";"Rio Paranaíba";12335
+"MG";"Rio Pardo de Minas";31045
+"MG";"Rio Piracicaba";14332
+"MG";"Rio Pomba";17959
+"MG";"Rio Preto";5485
+"MG";"Rio Vermelho";12739
+"MG";"Ritápolis";4562
+"MG";"Rochedo de Minas";2320
+"MG";"Rodeiro";8224
+"MG";"Romaria";3520
+"MG";"Rosário da Limeira";4622
+"MG";"Rubelita";5798
+"MG";"Rubim";10256
+"MG";"Sabará";137125
+"MG";"Sabinópolis";15416
+"MG";"Sacramento";26374
+"MG";"Salinas";41699
+"MG";"Salto da Divisa";7012
+"MG";"Santa Bárbara";31604
+"MG";"Santa Bárbara do Leste";8181
+"MG";"Santa Bárbara do Monte Verde";3182
+"MG";"Santa Bárbara do Tugúrio";4407
+"MG";"Santa Cruz de Minas";8664
+"MG";"Santa Cruz de Salinas";4107
+"MG";"Santa Cruz do Escalvado";4725
+"MG";"Santa Efigênia de Minas";4381
+"MG";"Santa Fé de Minas";3826
+"MG";"Santa Helena de Minas";6386
+"MG";"Santa Juliana";14255
+"MG";"Santa Luzia";220444
+"MG";"Santa Margarida";16302
+"MG";"Santa Maria de Itabira";10857
+"MG";"Santa Maria do Salto";5217
+"MG";"Santa Maria do Suaçuí";14611
+"MG";"Santana da Vargem";7073
+"MG";"Santana de Cataguases";3891
+"MG";"Santana de Pirapama";7589
+"MG";"Santana do Deserto";3981
+"MG";"Santana do Garambéu";2476
+"MG";"Santana do Jacaré";4834
+"MG";"Santana do Manhuaçu";8667
+"MG";"Santana do Paraíso";35369
+"MG";"Santana do Riacho";4315
+"MG";"Santana dos Montes";3765
+"MG";"Santa Rita de Caldas";8924
+"MG";"Santa Rita de Jacutinga";4863
+"MG";"Santa Rita de Minas";7268
+"MG";"Santa Rita de Ibitipoca";3402
+"MG";"Santa Rita do Itueto";5457
+"MG";"Santa Rita do Sapucaí";43753
+"MG";"Santa Rosa da Serra";3357
+"MG";"Santa Vitória";19872
+"MG";"Santo Antônio do Amparo";18613
+"MG";"Santo Antônio do Aventureiro";3602
+"MG";"Santo Antônio do Grama";3886
+"MG";"Santo Antônio do Itambé";3799
+"MG";"Santo Antônio do Jacinto";11604
+"MG";"Santo Antônio do Monte";28427
+"MG";"Santo Antônio do Retiro";7297
+"MG";"Santo Antônio do Rio Abaixo";1760
+"MG";"Santo Hipólito";3065
+"MG";"Santos Dumont";46421
+"MG";"São Bento Abade";5349
+"MG";"São Brás do Suaçuí";3754
+"MG";"São Domingos das Dores";5658
+"MG";"São Domingos do Prata";17327
+"MG";"São Félix de Minas";3362
+"MG";"São Francisco";56477
+"MG";"São Francisco de Paula";6520
+"MG";"São Francisco de Sales";6274
+"MG";"São Francisco do Glória";4800
+"MG";"São Geraldo";12562
+"MG";"São Geraldo da Piedade";3910
+"MG";"São Geraldo do Baixio";4059
+"MG";"São Gonçalo do Abaeté";8459
+"MG";"São Gonçalo do Pará";12597
+"MG";"São Gonçalo do Rio Abaixo";11019
+"MG";"São Gonçalo do Sapucaí";25561
+"MG";"São Gotardo";35782
+"MG";"São João Batista do Glória";7498
+"MG";"São João da Lagoa";4932
+"MG";"São João da Mata";2746
+"MG";"São João da Ponte";25098
+"MG";"São João das Missões";13125
+"MG";"São João del Rei";90497
+"MG";"São João do Manhuaçu";11674
+"MG";"São João do Manteninha";5918
+"MG";"São João do Oriente";7444
+"MG";"São João do Pacuí";4448
+"MG";"São João do Paraíso";23709
+"MG";"São João Evangelista";15767
+"MG";"São João Nepomuceno";26447
+"MG";"São Joaquim de Bicas";32148
+"MG";"São José da Barra";7480
+"MG";"São José da Lapa";24135
+"MG";"São José da Safira";4280
+"MG";"São José da Varginha";5079
+"MG";"São José do Alegre";4210
+"MG";"São José do Divino";3856
+"MG";"São José do Goiabal";5387
+"MG";"São José do Jacuri";6431
+"MG";"São José do Mantimento";2806
+"MG";"São Lourenço";46202
+"MG";"São Miguel do Anta";6944
+"MG";"São Pedro da União";4610
+"MG";"São Pedro dos Ferros";7706
+"MG";"São Pedro do Suaçuí";5202
+"MG";"São Romão";12529
+"MG";"São Roque de Minas";7076
+"MG";"São Sebastião da Bela Vista";5552
+"MG";"São Sebastião da Vargem Alegre";3024
+"MG";"São Sebastião do Anta";6627
+"MG";"São Sebastião do Maranhão";9963
+"MG";"São Sebastião do Oeste";6863
+"MG";"São Sebastião do Paraíso";71445
+"MG";"São Sebastião do Rio Preto";1492
+"MG";"São Sebastião do Rio Verde";2250
+"MG";"São Tiago";10960
+"MG";"São Tomás de Aquino";7000
+"MG";"São Tomé das Letras";7120
+"MG";"São Vicente de Minas";7815
+"MG";"Sapucaí-Mirim";6989
+"MG";"Sardoá";6361
+"MG";"Sarzedo";33413
+"MG";"Setubinha";12378
+"MG";"Sem-Peixe";2606
+"MG";"Senador Amaral";5361
+"MG";"Senador Cortes";2003
+"MG";"Senador Firmino";7858
+"MG";"Senador José Bento";1461
+"MG";"Senador Modestino Gonçalves";4105
+"MG";"Senhora de Oliveira";5786
+"MG";"Senhora do Porto";3519
+"MG";"Senhora dos Remédios";10467
+"MG";"Sericita";7333
+"MG";"Seritinga";1854
+"MG";"Serra Azul de Minas";4292
+"MG";"Serra da Saudade";776
+"MG";"Serra dos Aimorés";8713
+"MG";"Serra do Salitre";11668
+"MG";"Serrania";7668
+"MG";"Serranópolis de Minas";4809
+"MG";"Serranos";1956
+"MG";"Serro";20940
+"MG";"Sete Lagoas";241835
+"MG";"Silveirânia";2264
+"MG";"Silvianópolis";6248
+"MG";"Simão Pereira";2618
+"MG";"Simonésia";19736
+"MG";"Sobrália";5514
+"MG";"Soledade de Minas";6189
+"MG";"Tabuleiro";3708
+"MG";"Taiobeiras";34397
+"MG";"Taparuba";3101
+"MG";"Tapira";4832
+"MG";"Tapiraí";1872
+"MG";"Taquaraçu de Minas";4099
+"MG";"Tarumirim";14302
+"MG";"Teixeiras";11670
+"MG";"Teófilo Otoni";140937
+"MG";"Timóteo";90568
+"MG";"Tiradentes";8072
+"MG";"Tiros";6424
+"MG";"Tocantins";16715
+"MG";"Tocos do Moji";4109
+"MG";"Toledo";6297
+"MG";"Tombos";7850
+"MG";"Três Corações";80032
+"MG";"Três Marias";32716
+"MG";"Três Pontas";56940
+"MG";"Tumiritinga";6765
+"MG";"Tupaciguara";25398
+"MG";"Turmalina";20125
+"MG";"Turvolândia";5070
+"MG";"Ubá";116797
+"MG";"Ubaí";12599
+"MG";"Ubaporanga";12493
+"MG";"Uberaba";337092
+"MG";"Uberlândia";699097
+"MG";"Umburatiba";2596
+"MG";"Unaí";84930
+"MG";"União de Minas";4284
+"MG";"Uruana de Minas";3260
+"MG";"Urucânia";10345
+"MG";"Urucuia";17173
+"MG";"Vargem Alegre";6470
+"MG";"Vargem Bonita";2148
+"MG";"Vargem Grande do Rio Pardo";5026
+"MG";"Varginha";136602
+"MG";"Varjão de Minas";7138
+"MG";"Várzea da Palma";39803
+"MG";"Varzelândia";19305
+"MG";"Vazante";20642
+"MG";"Verdelândia";9443
+"MG";"Veredinha";5727
+"MG";"Veríssimo";4045
+"MG";"Vermelho Novo";4846
+"MG";"Vespasiano";129765
+"MG";"Viçosa";79388
+"MG";"Vieiras";3589
+"MG";"Mathias Lobato";3179
+"MG";"Virgem da Lapa";13740
+"MG";"Virgínia";8663
+"MG";"Virginópolis";10484
+"MG";"Virgolândia";5340
+"MG";"Visconde do Rio Branco";42965
+"MG";"Volta Grande";5261
+"MG";"Wenceslau Braz";2548
+"ES";"Afonso Cláudio";30455
+"ES";"Águia Branca";9631
+"ES";"Água Doce do Norte";10909
+"ES";"Alegre";29975
+"ES";"Alfredo Chaves";14636
+"ES";"Alto Rio Novo";7874
+"ES";"Anchieta";29779
+"ES";"Apiacá";7554
+"ES";"Aracruz";103101
+"ES";"Atilio Vivacqua";12105
+"ES";"Baixo Guandu";31132
+"ES";"Barra de São Francisco";44979
+"ES";"Boa Esperança";15092
+"ES";"Bom Jesus do Norte";9962
+"ES";"Brejetuba";12427
+"ES";"Cachoeiro de Itapemirim";210589
+"ES";"Cariacica";383917
+"ES";"Castelo";37747
+"ES";"Colatina";123400
+"ES";"Conceição da Barra";31273
+"ES";"Conceição do Castelo";12806
+"ES";"Divino de São Lourenço";4270
+"ES";"Domingos Martins";33986
+"ES";"Dores do Rio Preto";6771
+"ES";"Ecoporanga";22835
+"ES";"Fundão";21948
+"ES";"Governador Lindenberg";12880
+"ES";"Guaçuí";31122
+"ES";"Guarapari";126701
+"ES";"Ibatiba";26426
+"ES";"Ibiraçu";12591
+"ES";"Ibitirama";8859
+"ES";"Iconha";13973
+"ES";"Irupi";13526
+"ES";"Itaguaçu";14023
+"ES";"Itapemirim";34656
+"ES";"Itarana";10494
+"ES";"Iúna";29290
+"ES";"Jaguaré";31039
+"ES";"Jerônimo Monteiro";12265
+"ES";"João Neiva";16722
+"ES";"Laranja da Terra";10933
+"ES";"Linhares";176688
+"ES";"Mantenópolis";15503
+"ES";"Marataízes";38883
+"ES";"Marechal Floriano";16920
+"ES";"Marilândia";12963
+"ES";"Mimoso do Sul";26115
+"ES";"Montanha";18894
+"ES";"Mucurici";5496
+"ES";"Muniz Freire";17319
+"ES";"Muqui";15526
+"ES";"Nova Venécia";50434
+"ES";"Pancas";23306
+"ES";"Pedro Canário";26381
+"ES";"Pinheiros";27327
+"ES";"Piúma";22053
+"ES";"Ponto Belo";7940
+"ES";"Presidente Kennedy";11658
+"ES";"Rio Bananal";19271
+"ES";"Rio Novo do Sul";11626
+"ES";"Santa Leopoldina";12197
+"ES";"Santa Maria de Jetibá";41015
+"ES";"Santa Teresa";23724
+"ES";"São Domingos do Norte";8687
+"ES";"São Gabriel da Palha";38522
+"ES";"São José do Calçado";10546
+"ES";"São Mateus";132642
+"ES";"São Roque do Canaã";12510
+"ES";"Serra";527240
+"ES";"Sooretama";30680
+"ES";"Vargem Alta";21591
+"ES";"Venda Nova do Imigrante";25745
+"ES";"Viana";79500
+"ES";"Vila Pavão";9244
+"ES";"Vila Valério";14073
+"ES";"Vila Velha";501325
+"ES";"Vitória";365855
+"RJ";"Angra dos Reis";207044
+"RJ";"Aperibé";11901
+"RJ";"Araruama";134293
+"RJ";"Areal";12669
+"RJ";"Armação dos Búzios";34477
+"RJ";"Arraial do Cabo";30593
+"RJ";"Barra do Piraí";100764
+"RJ";"Barra Mansa";184833
+"RJ";"Belford Roxo";513118
+"RJ";"Bom Jardim";27616
+"RJ";"Bom Jesus do Itabapoana";37203
+"RJ";"Cabo Frio";230378
+"RJ";"Cachoeiras de Macacu";59303
+"RJ";"Cambuci";15514
+"RJ";"Carapebus";16586
+"RJ";"Comendador Levy Gasparian";8576
+"RJ";"Campos dos Goytacazes";511168
+"RJ";"Cantagalo";20168
+"RJ";"Cardoso Moreira";12821
+"RJ";"Carmo";19030
+"RJ";"Casimiro de Abreu";45041
+"RJ";"Conceição de Macabu";23398
+"RJ";"Cordeiro";22041
+"RJ";"Duas Barras";11528
+"RJ";"Duque de Caxias";924624
+"RJ";"Engenheiro Paulo de Frontin";14071
+"RJ";"Guapimirim";61388
+"RJ";"Iguaba Grande";28837
+"RJ";"Itaboraí";242543
+"RJ";"Itaguaí";134819
+"RJ";"Italva";15299
+"RJ";"Itaocara";23222
+"RJ";"Itaperuna";103800
+"RJ";"Itatiaia";32064
+"RJ";"Japeri";105548
+"RJ";"Laje do Muriaé";7326
+"RJ";"Macaé";261501
+"RJ";"Macuco";5623
+"RJ";"Magé";246433
+"RJ";"Mangaratiba";45220
+"RJ";"Maricá";164504
+"RJ";"Mendes";18648
+"RJ";"Mesquita";176569
+"RJ";"Miguel Pereira";25581
+"RJ";"Miracema";27154
+"RJ";"Natividade";15311
+"RJ";"Nilópolis";162693
+"RJ";"Niterói";515317
+"RJ";"Nova Friburgo";191158
+"RJ";"Nova Iguaçu";823302
+"RJ";"Paracambi";52683
+"RJ";"Paraíba do Sul";44518
+"RJ";"Paraty";43680
+"RJ";"Paty do Alferes";27858
+"RJ";"Petrópolis";306678
+"RJ";"Pinheiral";25364
+"RJ";"Piraí";29545
+"RJ";"Porciúncula";18960
+"RJ";"Porto Real";19974
+"RJ";"Quatis";14435
+"RJ";"Queimados";151335
+"RJ";"Quissamã";25126
+"RJ";"Resende";132312
+"RJ";"Rio Bonito";60573
+"RJ";"Rio Claro";18605
+"RJ";"Rio das Flores";9344
+"RJ";"Rio das Ostras";155193
+"RJ";"Rio de Janeiro";6747815
+"RJ";"Santa Maria Madalena";10392
+"RJ";"Santo Antônio de Pádua";42594
+"RJ";"São Francisco de Itabapoana";42210
+"RJ";"São Fidélis";38710
+"RJ";"São Gonçalo";1091737
+"RJ";"São João da Barra";36423
+"RJ";"São João de Meriti";472906
+"RJ";"São José de Ubá";7206
+"RJ";"São José do Vale do Rio Preto";21916
+"RJ";"São Pedro da Aldeia";106049
+"RJ";"São Sebastião do Alto";9387
+"RJ";"Sapucaia";18249
+"RJ";"Saquarema";90583
+"RJ";"Seropédica";83092
+"RJ";"Silva Jardim";21774
+"RJ";"Sumidouro";15667
+"RJ";"Tanguá";34610
+"RJ";"Teresópolis";184240
+"RJ";"Trajano de Moraes";10640
+"RJ";"Três Rios";82142
+"RJ";"Valença";76869
+"RJ";"Varre-Sai";11106
+"RJ";"Vassouras";37083
+"RJ";"Volta Redonda";273988
+"SP";"Adamantina";35111
+"SP";"Adolfo";3554
+"SP";"Aguaí";36648
+"SP";"Águas da Prata";8221
+"SP";"Águas de Lindóia";18808
+"SP";"Águas de Santa Bárbara";6109
+"SP";"Águas de São Pedro";3521
+"SP";"Agudos";37401
+"SP";"Alambari";6129
+"SP";"Alfredo Marcondes";4184
+"SP";"Altair";4186
+"SP";"Altinópolis";16203
+"SP";"Alto Alegre";4088
+"SP";"Alumínio";18767
+"SP";"Álvares Florence";3647
+"SP";"Álvares Machado";24998
+"SP";"Álvaro de Carvalho";5274
+"SP";"Alvinlândia";3237
+"SP";"Americana";242018
+"SP";"Américo Brasiliense";41032
+"SP";"Américo de Campos";5981
+"SP";"Amparo";72677
+"SP";"Analândia";5056
+"SP";"Andradina";57202
+"SP";"Angatuba";25479
+"SP";"Anhembi";6819
+"SP";"Anhumas";4144
+"SP";"Aparecida";36185
+"SP";"Aparecida d'Oeste";4158
+"SP";"Apiaí";24226
+"SP";"Araçariguama";22860
+"SP";"Araçatuba";198129
+"SP";"Araçoiaba da Serra";34776
+"SP";"Aramina";5655
+"SP";"Arandu";6365
+"SP";"Arapeí";2460
+"SP";"Araraquara";238339
+"SP";"Araras";135506
+"SP";"Arco-Íris";1773
+"SP";"Arealva";8613
+"SP";"Areias";3896
+"SP";"Areiópolis";11158
+"SP";"Ariranha";9761
+"SP";"Artur Nogueira";55340
+"SP";"Arujá";91157
+"SP";"Aspásia";1818
+"SP";"Assis";105087
+"SP";"Atibaia";144088
+"SP";"Auriflama";15253
+"SP";"Avaí";5436
+"SP";"Avanhandava";13859
+"SP";"Avaré";91232
+"SP";"Bady Bassitt";17761
+"SP";"Balbinos";5934
+"SP";"Bálsamo";9139
+"SP";"Bananal";10993
+"SP";"Barão de Antonina";3498
+"SP";"Barbosa";7468
+"SP";"Bariri";35558
+"SP";"Barra Bonita";36126
+"SP";"Barra do Chapéu";5760
+"SP";"Barra do Turvo";7632
+"SP";"Barretos";122833
+"SP";"Barrinha";33180
+"SP";"Barueri";276982
+"SP";"Bastos";20953
+"SP";"Batatais";62980
+"SP";"Bauru";379297
+"SP";"Bebedouro";77555
+"SP";"Bento de Abreu";3005
+"SP";"Bernardino de Campos";11158
+"SP";"Bertioga";64723
+"SP";"Bilac";8117
+"SP";"Birigui";124883
+"SP";"Biritiba Mirim";32936
+"SP";"Boa Esperança do Sul";15018
+"SP";"Bocaina";12452
+"SP";"Bofete";11921
+"SP";"Boituva";62170
+"SP";"Bom Jesus dos Perdões";25985
+"SP";"Bom Sucesso de Itararé";3984
+"SP";"Borá";838
+"SP";"Boracéia";4868
+"SP";"Borborema";16164
+"SP";"Borebi";2683
+"SP";"Botucatu";148130
+"SP";"Bragança Paulista";170533
+"SP";"Braúna";5741
+"SP";"Brejo Alegre";2889
+"SP";"Brodowski";25277
+"SP";"Brotas";24636
+"SP";"Buri";19965
+"SP";"Buritama";17281
+"SP";"Buritizal";4514
+"SP";"Cabrália Paulista";4243
+"SP";"Cabreúva";50429
+"SP";"Caçapava";95018
+"SP";"Cachoeira Paulista";33581
+"SP";"Caconde";19009
+"SP";"Cafelândia";17843
+"SP";"Caiabu";4193
+"SP";"Caieiras";102775
+"SP";"Caiuá";5946
+"SP";"Cajamar";77934
+"SP";"Cajati";28494
+"SP";"Cajobi";10596
+"SP";"Cajuru";26393
+"SP";"Campina do Monte Alegre";6057
+"SP";"Campinas";1213792
+"SP";"Campo Limpo Paulista";85541
+"SP";"Campos do Jordão";52405
+"SP";"Campos Novos Paulista";4997
+"SP";"Cananéia";12541
+"SP";"Canas";5204
+"SP";"Cândido Mota";31346
+"SP";"Cândido Rodrigues";2799
+"SP";"Canitar";5292
+"SP";"Capão Bonito";47118
+"SP";"Capela do Alto";20985
+"SP";"Capivari";56379
+"SP";"Caraguatatuba";123389
+"SP";"Carapicuíba";403183
+"SP";"Cardoso";12349
+"SP";"Casa Branca";30520
+"SP";"Cássia dos Coqueiros";2505
+"SP";"Castilho";21267
+"SP";"Catanduva";122497
+"SP";"Catiguá";7855
+"SP";"Cedral";9346
+"SP";"Cerqueira César";20191
+"SP";"Cerquilho";49802
+"SP";"Cesário Lange";18375
+"SP";"Charqueada";17367
+"SP";"Clementina";8757
+"SP";"Colina";18535
+"SP";"Colômbia";6216
+"SP";"Conchal";28273
+"SP";"Conchas";18019
+"SP";"Cordeirópolis";24826
+"SP";"Coroados";6129
+"SP";"Coronel Macedo";4635
+"SP";"Corumbataí";4064
+"SP";"Cosmópolis";73474
+"SP";"Cosmorama";7298
+"SP";"Cotia";253608
+"SP";"Cravinhos";35579
+"SP";"Cristais Paulista";8718
+"SP";"Cruzália";2046
+"SP";"Cruzeiro";82571
+"SP";"Cubatão";131626
+"SP";"Cunha";21459
+"SP";"Descalvado";33910
+"SP";"Diadema";426757
+"SP";"Dirce Reis";1799
+"SP";"Divinolândia";11086
+"SP";"Dobrada";9010
+"SP";"Dois Córregos";27512
+"SP";"Dolcinópolis";2112
+"SP";"Dourado";8878
+"SP";"Dracena";47043
+"SP";"Duartina";12433
+"SP";"Dumont";10023
+"SP";"Echaporã";6064
+"SP";"Eldorado";15544
+"SP";"Elias Fausto";17936
+"SP";"Elisiário";3697
+"SP";"Embaúba";2449
+"SP";"Embu das Artes";276535
+"SP";"Embu-Guaçu";69901
+"SP";"Emilianópolis";3227
+"SP";"Engenheiro Coelho";21249
+"SP";"Espírito Santo do Pinhal";44471
+"SP";"Espírito Santo do Turvo";4878
+"SP";"Estrela d'Oeste";8419
+"SP";"Estrela do Norte";2770
+"SP";"Euclides da Cunha Paulista";9325
+"SP";"Fartura";16070
+"SP";"Fernandópolis";69402
+"SP";"Fernando Prestes";5794
+"SP";"Fernão";1727
+"SP";"Ferraz de Vasconcelos";196500
+"SP";"Flora Rica";1430
+"SP";"Floreal";2900
+"SP";"Flórida Paulista";14790
+"SP";"Florínea";2653
+"SP";"Franca";355901
+"SP";"Francisco Morato";177633
+"SP";"Franco da Rocha";156492
+"SP";"Gabriel Monteiro";2776
+"SP";"Gália";6482
+"SP";"Garça";44409
+"SP";"Gastão Vidigal";4860
+"SP";"Gavião Peixoto";4815
+"SP";"General Salgado";10862
+"SP";"Getulina";11447
+"SP";"Glicério";4829
+"SP";"Guaiçara";12294
+"SP";"Guaimbê";5785
+"SP";"Guaíra";41040
+"SP";"Guapiaçu";21775
+"SP";"Guapiara";17025
+"SP";"Guará";21308
+"SP";"Guaraçaí";8290
+"SP";"Guaraci";11287
+"SP";"Guarani d'Oeste";1998
+"SP";"Guarantã";6675
+"SP";"Guararapes";33100
+"SP";"Guararema";30136
+"SP";"Guaratinguetá";122505
+"SP";"Guareí";18887
+"SP";"Guariba";40487
+"SP";"Guarujá";322750
+"SP";"Guarulhos";1392121
+"SP";"Guatapará";7709
+"SP";"Guzolândia";5307
+"SP";"Herculândia";9588
+"SP";"Holambra";15272
+"SP";"Hortolândia";234259
+"SP";"Iacanga";11858
+"SP";"Iacri";6295
+"SP";"Iaras";9517
+"SP";"Ibaté";35472
+"SP";"Ibirá";12518
+"SP";"Ibirarema";7841
+"SP";"Ibitinga";60600
+"SP";"Ibiúna";79479
+"SP";"Icém";8304
+"SP";"Iepê";8194
+"SP";"Igaraçu do Tietê";24749
+"SP";"Igarapava";30614
+"SP";"Igaratá";9583
+"SP";"Iguape";30989
+"SP";"Ilhabela";35591
+"SP";"Ilha Comprida";11362
+"SP";"Ilha Solteira";26788
+"SP";"Indaiatuba";256223
+"SP";"Indiana";4879
+"SP";"Indiaporã";3886
+"SP";"Inúbia Paulista";4019
+"SP";"Ipaussu";15069
+"SP";"Iperó";37964
+"SP";"Ipeúna";7687
+"SP";"Ipiguá";5476
+"SP";"Iporanga";4199
+"SP";"Ipuã";16604
+"SP";"Iracemápolis";24614
+"SP";"Irapuã";8048
+"SP";"Irapuru";8325
+"SP";"Itaberá";17480
+"SP";"Itaí";27382
+"SP";"Itajobi";15297
+"SP";"Itaju";3887
+"SP";"Itanhaém";103102
+"SP";"Itaoca";3330
+"SP";"Itapecerica da Serra";177662
+"SP";"Itapetininga";165526
+"SP";"Itapeva";94804
+"SP";"Itapevi";240961
+"SP";"Itapira";75234
+"SP";"Itapirapuã Paulista";4268
+"SP";"Itápolis";43331
+"SP";"Itaporanga";15173
+"SP";"Itapuí";14147
+"SP";"Itapura";4951
+"SP";"Itaquaquecetuba";375011
+"SP";"Itararé";50642
+"SP";"Itariri";17598
+"SP";"Itatiba";122581
+"SP";"Itatinga";20921
+"SP";"Itirapina";18387
+"SP";"Itirapuã";6543
+"SP";"Itobi";7852
+"SP";"Itu";175568
+"SP";"Itupeva";62813
+"SP";"Ituverava";42045
+"SP";"Jaborandi";6946
+"SP";"Jaboticabal";77652
+"SP";"Jacareí";235416
+"SP";"Jaci";7196
+"SP";"Jacupiranga";17889
+"SP";"Jaguariúna";58722
+"SP";"Jales";49201
+"SP";"Jambeiro";6717
+"SP";"Jandira";126356
+"SP";"Jardinópolis";44970
+"SP";"Jarinu";30617
+"SP";"Jaú";151881
+"SP";"Jeriquara";3151
+"SP";"Joanópolis";13338
+"SP";"João Ramalho";4551
+"SP";"José Bonifácio";37366
+"SP";"Júlio Mesquita";4800
+"SP";"Jumirim";3418
+"SP";"Jundiaí";423006
+"SP";"Junqueirópolis";20831
+"SP";"Juquiá";18718
+"SP";"Juquitiba";31646
+"SP";"Lagoinha";4889
+"SP";"Laranjal Paulista";28785
+"SP";"Lavínia";12285
+"SP";"Lavrinhas";7311
+"SP";"Leme";104346
+"SP";"Lençóis Paulista";68990
+"SP";"Limeira";308482
+"SP";"Lindóia";8092
+"SP";"Lins";78503
+"SP";"Lorena";89125
+"SP";"Lourdes";2300
+"SP";"Louveira";49993
+"SP";"Lucélia";21886
+"SP";"Lucianópolis";2403
+"SP";"Luís Antônio";15292
+"SP";"Luiziânia";5855
+"SP";"Lupércio";4596
+"SP";"Lutécia";2636
+"SP";"Macatuba";17214
+"SP";"Macaubal";8147
+"SP";"Macedônia";3692
+"SP";"Magda";3102
+"SP";"Mairinque";47441
+"SP";"Mairiporã";101937
+"SP";"Manduri";9910
+"SP";"Marabá Paulista";5948
+"SP";"Maracaí";14036
+"SP";"Marapoama";3064
+"SP";"Mariápolis";4091
+"SP";"Marília";240590
+"SP";"Marinópolis";2106
+"SP";"Martinópolis";26628
+"SP";"Matão";83626
+"SP";"Mauá";477552
+"SP";"Mendonça";5565
+"SP";"Meridiano";3824
+"SP";"Mesópolis";1905
+"SP";"Miguelópolis";22355
+"SP";"Mineiros do Tietê";12966
+"SP";"Miracatu";19643
+"SP";"Mira Estrela";3106
+"SP";"Mirandópolis";29706
+"SP";"Mirante do Paranapanema";18338
+"SP";"Mirassol";60303
+"SP";"Mirassolândia";4919
+"SP";"Mococa";68980
+"SP";"Mogi das Cruzes";450785
+"SP";"Mogi Guaçu";153033
+"SP";"Mogi Mirim";93650
+"SP";"Mombuca";3508
+"SP";"Monções";2267
+"SP";"Mongaguá";57648
+"SP";"Monte Alegre do Sul";8111
+"SP";"Monte Alto";50772
+"SP";"Monte Aprazível";25373
+"SP";"Monte Azul Paulista";18968
+"SP";"Monte Castelo";4166
+"SP";"Monteiro Lobato";4696
+"SP";"Monte Mor";60754
+"SP";"Morro Agudo";33288
+"SP";"Morungaba";13781
+"SP";"Motuca";4795
+"SP";"Murutinga do Sul";4506
+"SP";"Nantes";3179
+"SP";"Narandiba";4904
+"SP";"Natividade da Serra";6642
+"SP";"Nazaré Paulista";18698
+"SP";"Neves Paulista";8923
+"SP";"Nhandeara";11527
+"SP";"Nipoã";5298
+"SP";"Nova Aliança";7068
+"SP";"Nova Campina";9860
+"SP";"Nova Canaã Paulista";1852
+"SP";"Nova Castilho";1278
+"SP";"Nova Europa";11355
+"SP";"Nova Granada";21689
+"SP";"Nova Guataporanga";2325
+"SP";"Nova Independência";4053
+"SP";"Novais";5945
+"SP";"Nova Luzitânia";4160
+"SP";"Nova Odessa";60956
+"SP";"Novo Horizonte";41414
+"SP";"Nuporanga";7478
+"SP";"Ocauçu";4291
+"SP";"Óleo";2471
+"SP";"Olímpia";55130
+"SP";"Onda Verde";4422
+"SP";"Oriente";6542
+"SP";"Orindiúva";7194
+"SP";"Orlândia";44360
+"SP";"Osasco";699944
+"SP";"Oscar Bressane";2603
+"SP";"Osvaldo Cruz";33000
+"SP";"Ourinhos";114352
+"SP";"Ouroeste";10539
+"SP";"Ouro Verde";8620
+"SP";"Pacaembu";14263
+"SP";"Palestina";13123
+"SP";"Palmares Paulista";13486
+"SP";"Palmeira d'Oeste";9227
+"SP";"Palmital";22272
+"SP";"Panorama";15862
+"SP";"Paraguaçu Paulista";45945
+"SP";"Paraibuna";18263
+"SP";"Paraíso";6496
+"SP";"Paranapanema";20395
+"SP";"Paranapuã";4095
+"SP";"Parapuã";10949
+"SP";"Pardinho";6508
+"SP";"Pariquera-Açu";19723
+"SP";"Parisi";2169
+"SP";"Patrocínio Paulista";14807
+"SP";"Paulicéia";7454
+"SP";"Paulínia";112003
+"SP";"Paulistânia";1834
+"SP";"Paulo de Faria";8959
+"SP";"Pederneiras";47111
+"SP";"Pedra Bela";6110
+"SP";"Pedranópolis";2481
+"SP";"Pedregulho";16811
+"SP";"Pedreira";48463
+"SP";"Pedrinhas Paulista";3101
+"SP";"Pedro de Toledo";11421
+"SP";"Penápolis";63757
+"SP";"Pereira Barreto";25677
+"SP";"Pereiras";8773
+"SP";"Peruíbe";69001
+"SP";"Piacatu";6038
+"SP";"Piedade";55542
+"SP";"Pilar do Sul";29402
+"SP";"Pindamonhangaba";170132
+"SP";"Pindorama";17216
+"SP";"Pinhalzinho";15388
+"SP";"Piquerobi";3699
+"SP";"Piquete";13575
+"SP";"Piracaia";27462
+"SP";"Piracicaba";407252
+"SP";"Piraju";29869
+"SP";"Pirajuí";25719
+"SP";"Pirangi";11471
+"SP";"Pirapora do Bom Jesus";19178
+"SP";"Pirapozinho";27754
+"SP";"Pirassununga";76877
+"SP";"Piratininga";13765
+"SP";"Pitangueiras";40080
+"SP";"Planalto";5304
+"SP";"Platina";3578
+"SP";"Poá";118349
+"SP";"Poloni";6113
+"SP";"Pompéia";22172
+"SP";"Pongaí";3400
+"SP";"Pontal";50852
+"SP";"Pontalinda";4674
+"SP";"Pontes Gestal";2577
+"SP";"Populina";4152
+"SP";"Porangaba";10067
+"SP";"Porto Feliz";53402
+"SP";"Porto Ferreira";56504
+"SP";"Potim";25130
+"SP";"Potirendaba";17516
+"SP";"Pracinha";4212
+"SP";"Pradópolis";21873
+"SP";"Praia Grande";330845
+"SP";"Pratânia";5317
+"SP";"Presidente Alves";4080
+"SP";"Presidente Bernardes";13023
+"SP";"Presidente Epitácio";44389
+"SP";"Presidente Prudente";230371
+"SP";"Presidente Venceslau";39583
+"SP";"Promissão";40828
+"SP";"Quadra";3854
+"SP";"Quatá";14210
+"SP";"Queiroz";3460
+"SP";"Queluz";13606
+"SP";"Quintana";6688
+"SP";"Rafard";9101
+"SP";"Rancharia";29726
+"SP";"Redenção da Serra";3839
+"SP";"Regente Feijó";20394
+"SP";"Reginópolis";9837
+"SP";"Registro";56393
+"SP";"Restinga";7679
+"SP";"Ribeira";3330
+"SP";"Ribeirão Bonito";13299
+"SP";"Ribeirão Branco";16211
+"SP";"Ribeirão Corrente";4752
+"SP";"Ribeirão do Sul";4539
+"SP";"Ribeirão dos Índios";2224
+"SP";"Ribeirão Grande";7679
+"SP";"Ribeirão Pires";124159
+"SP";"Ribeirão Preto";711825
+"SP";"Riversul";5443
+"SP";"Rifaina";3640
+"SP";"Rincão";10812
+"SP";"Rinópolis";9961
+"SP";"Rio Claro";208008
+"SP";"Rio das Pedras";35738
+"SP";"Rio Grande da Serra";51436
+"SP";"Riolândia";12689
+"SP";"Rosana";16281
+"SP";"Roseira";10801
+"SP";"Rubiácea";3162
+"SP";"Rubinéia";3170
+"SP";"Sabino";5614
+"SP";"Sagres";2430
+"SP";"Sales";6407
+"SP";"Sales Oliveira";11998
+"SP";"Salesópolis";17252
+"SP";"Salmourão";5337
+"SP";"Saltinho";8393
+"SP";"Salto";119736
+"SP";"Salto de Pirapora";45860
+"SP";"Salto Grande";9364
+"SP";"Sandovalina";4354
+"SP";"Santa Adélia";15561
+"SP";"Santa Albertina";6022
+"SP";"Santa Bárbara d'Oeste";194390
+"SP";"Santa Branca";14857
+"SP";"Santa Clara d'Oeste";2113
+"SP";"Santa Cruz da Conceição";4544
+"SP";"Santa Cruz da Esperança";2153
+"SP";"Santa Cruz das Palmeiras";34737
+"SP";"Santa Cruz do Rio Pardo";47943
+"SP";"Santa Ernestina";5588
+"SP";"Santa Fé do Sul";32563
+"SP";"Santa Gertrudes";27381
+"SP";"Santa Isabel";57966
+"SP";"Santa Lúcia";8854
+"SP";"Santa Maria da Serra";6236
+"SP";"Santa Mercedes";2943
+"SP";"Santana da Ponte Pensa";1467
+"SP";"Santana de Parnaíba";142301
+"SP";"Santa Rita d'Oeste";2487
+"SP";"Santa Rita do Passa Quatro";27600
+"SP";"Santa Rosa de Viterbo";26753
+"SP";"Santa Salete";1552
+"SP";"Santo Anastácio";20866
+"SP";"Santo André";721368
+"SP";"Santo Antônio da Alegria";6977
+"SP";"Santo Antônio de Posse";23529
+"SP";"Santo Antônio do Aracanguá";8481
+"SP";"Santo Antônio do Jardim";5940
+"SP";"Santo Antônio do Pinhal";6827
+"SP";"Santo Expedito";3135
+"SP";"Santópolis do Aguapeí";4817
+"SP";"Santos";433656
+"SP";"São Bento do Sapucaí";10893
+"SP";"São Bernardo do Campo";844483
+"SP";"São Caetano do Sul";161957
+"SP";"São Carlos";254484
+"SP";"São Francisco";2817
+"SP";"São João da Boa Vista";91771
+"SP";"São João das Duas Pontes";2561
+"SP";"São João de Iracema";1932
+"SP";"São João do Pau d'Alho";2100
+"SP";"São Joaquim da Barra";52319
+"SP";"São José da Bela Vista";8960
+"SP";"São José do Barreiro";4144
+"SP";"São José do Rio Pardo";55124
+"SP";"São José do Rio Preto";464983
+"SP";"São José dos Campos";729737
+"SP";"São Lourenço da Serra";15978
+"SP";"São Luiz do Paraitinga";10690
+"SP";"São Manuel";41123
+"SP";"São Miguel Arcanjo";33002
+"SP";"São Paulo";12325232
+"SP";"São Pedro";35980
+"SP";"São Pedro do Turvo";7696
+"SP";"São Roque";92060
+"SP";"São Sebastião";90328
+"SP";"São Sebastião da Grama";12159
+"SP";"São Simão";15385
+"SP";"São Vicente";368355
+"SP";"Sarapuí";10390
+"SP";"Sarutaiá";3630
+"SP";"Sebastianópolis do Sul";3554
+"SP";"Serra Azul";14981
+"SP";"Serrana";45644
+"SP";"Serra Negra";29452
+"SP";"Sertãozinho";127142
+"SP";"Sete Barras";12780
+"SP";"Severínia";17661
+"SP";"Silveiras";6339
+"SP";"Socorro";41352
+"SP";"Sorocaba";687357
+"SP";"Sud Mennucci";7728
+"SP";"Sumaré";286211
+"SP";"Suzano";300559
+"SP";"Suzanápolis";4014
+"SP";"Tabapuã";12485
+"SP";"Tabatinga";16644
+"SP";"Taboão da Serra";293652
+"SP";"Taciba";6329
+"SP";"Taguaí";14141
+"SP";"Taiaçu";6320
+"SP";"Taiúva";5564
+"SP";"Tambaú";23232
+"SP";"Tanabi";26101
+"SP";"Tapiraí";7766
+"SP";"Tapiratiba";12950
+"SP";"Taquaral";2813
+"SP";"Taquaritinga";57364
+"SP";"Taquarituba";23256
+"SP";"Taquarivaí";5911
+"SP";"Tarabai";7540
+"SP";"Tarumã";15183
+"SP";"Tatuí";122967
+"SP";"Taubaté";317915
+"SP";"Tejupá";4491
+"SP";"Teodoro Sampaio";23273
+"SP";"Terra Roxa";9437
+"SP";"Tietê";42517
+"SP";"Timburi";2652
+"SP";"Torre de Pedra";2422
+"SP";"Torrinha";10056
+"SP";"Trabiju";1738
+"SP";"Tremembé";47714
+"SP";"Três Fronteiras";5832
+"SP";"Tuiuti";6977
+"SP";"Tupã";65570
+"SP";"Tupi Paulista";15583
+"SP";"Turiúba";2020
+"SP";"Turmalina";1696
+"SP";"Ubarana";6400
+"SP";"Ubatuba";91824
+"SP";"Ubirajara";4804
+"SP";"Uchoa";10151
+"SP";"União Paulista";1865
+"SP";"Urânia";9120
+"SP";"Uru";1153
+"SP";"Urupês";13888
+"SP";"Valentim Gentil";13532
+"SP";"Valinhos";131210
+"SP";"Valparaíso";26822
+"SP";"Vargem";10692
+"SP";"Vargem Grande do Sul";43110
+"SP";"Vargem Grande Paulista";53468
+"SP";"Várzea Paulista";123071
+"SP";"Vera Cruz";10823
+"SP";"Vinhedo";80111
+"SP";"Viradouro";19017
+"SP";"Vista Alegre do Alto";8989
+"SP";"Vitória Brasil";1846
+"SP";"Votorantim";123599
+"SP";"Votuporanga";95338
+"SP";"Zacarias";2752
+"SP";"Chavantes";12418
+"SP";"Estiva Gerbi";11407
+"PR";"Abatiá";7408
+"PR";"Adrianópolis";5857
+"PR";"Agudos do Sul";9470
+"PR";"Almirante Tamandaré";120041
+"PR";"Altamira do Paraná";1682
+"PR";"Altônia";22176
+"PR";"Alto Paraná";14859
+"PR";"Alto Piquiri";9778
+"PR";"Alvorada do Sul";11503
+"PR";"Amaporã";6332
+"PR";"Ampére";19311
+"PR";"Anahy";2788
+"PR";"Andirá";19926
+"PR";"Ângulo";2930
+"PR";"Antonina";18949
+"PR";"Antônio Olinto";7427
+"PR";"Apucarana";136234
+"PR";"Arapongas";124810
+"PR";"Arapoti";28300
+"PR";"Arapuã";3009
+"PR";"Araruna";14000
+"PR";"Araucária";146214
+"PR";"Ariranha do Ivaí";2066
+"PR";"Assaí";14954
+"PR";"Assis Chateaubriand";33340
+"PR";"Astorga";26209
+"PR";"Atalaia";3881
+"PR";"Balsa Nova";13092
+"PR";"Bandeirantes";31211
+"PR";"Barbosa Ferraz";11426
+"PR";"Barracão";10312
+"PR";"Barra do Jacaré";2781
+"PR";"Bela Vista da Caroba";3457
+"PR";"Bela Vista do Paraíso";15399
+"PR";"Bituruna";16400
+"PR";"Boa Esperança";4047
+"PR";"Boa Esperança do Iguaçu";2470
+"PR";"Boa Ventura de São Roque";6365
+"PR";"Boa Vista da Aparecida";7540
+"PR";"Bocaiúva do Sul";13129
+"PR";"Bom Jesus do Sul";3506
+"PR";"Bom Sucesso";7068
+"PR";"Bom Sucesso do Sul";3254
+"PR";"Borrazópolis";6439
+"PR";"Braganey";5382
+"PR";"Brasilândia do Sul";2585
+"PR";"Cafeara";2954
+"PR";"Cafelândia";18456
+"PR";"Cafezal do Sul";4009
+"PR";"Califórnia";8606
+"PR";"Cambará";25466
+"PR";"Cambé";107341
+"PR";"Cambira";7917
+"PR";"Campina da Lagoa";14043
+"PR";"Campina do Simão";3859
+"PR";"Campina Grande do Sul";43685
+"PR";"Campo Bonito";3763
+"PR";"Campo do Tenente";8045
+"PR";"Campo Largo";133865
+"PR";"Campo Magro";29740
+"PR";"Campo Mourão";95488
+"PR";"Cândido de Abreu";14809
+"PR";"Candói";16053
+"PR";"Cantagalo";13329
+"PR";"Capanema";19148
+"PR";"Capitão Leônidas Marques";15834
+"PR";"Carambeí";23825
+"PR";"Carlópolis";14356
+"PR";"Cascavel";332333
+"PR";"Castro";71809
+"PR";"Catanduvas";10167
+"PR";"Centenário do Sul";10764
+"PR";"Cerro Azul";17833
+"PR";"Céu Azul";11819
+"PR";"Chopinzinho";19167
+"PR";"Cianorte";83816
+"PR";"Cidade Gaúcha";12797
+"PR";"Clevelândia";16450
+"PR";"Colombo";246540
+"PR";"Colorado";24145
+"PR";"Congonhinhas";8857
+"PR";"Conselheiro Mairinck";3876
+"PR";"Contenda";18837
+"PR";"Corbélia";17117
+"PR";"Cornélio Procópio";47842
+"PR";"Coronel Domingos Soares";7518
+"PR";"Coronel Vivida";20580
+"PR";"Corumbataí do Sul";3127
+"PR";"Cruzeiro do Iguaçu";4240
+"PR";"Cruzeiro do Oeste";20947
+"PR";"Cruzeiro do Sul";4449
+"PR";"Cruz Machado";18741
+"PR";"Cruzmaltina";2921
+"PR";"Curitiba";1948626
+"PR";"Curiúva";15196
+"PR";"Diamante do Norte";5030
+"PR";"Diamante do Sul";3424
+"PR";"Diamante D'Oeste";5266
+"PR";"Dois Vizinhos";41038
+"PR";"Douradina";8869
+"PR";"Doutor Camargo";5983
+"PR";"Enéas Marques";5933
+"PR";"Engenheiro Beltrão";13981
+"PR";"Esperança Nova";1665
+"PR";"Entre Rios do Oeste";4596
+"PR";"Espigão Alto do Iguaçu";4048
+"PR";"Farol";3041
+"PR";"Faxinal";17316
+"PR";"Fazenda Rio Grande";102004
+"PR";"Fênix";4748
+"PR";"Fernandes Pinheiro";5602
+"PR";"Figueira";7696
+"PR";"Floraí";4906
+"PR";"Flor da Serra do Sul";4603
+"PR";"Floresta";6851
+"PR";"Florestópolis";10453
+"PR";"Flórida";2699
+"PR";"Formosa do Oeste";6460
+"PR";"Foz do Iguaçu";258248
+"PR";"Francisco Alves";5993
+"PR";"Francisco Beltrão";92216
+"PR";"Foz do Jordão";4556
+"PR";"General Carneiro";13685
+"PR";"Godoy Moreira";2898
+"PR";"Goioerê";28808
+"PR";"Goioxim";7053
+"PR";"Grandes Rios";5497
+"PR";"Guaíra";33310
+"PR";"Guairaçá";6609
+"PR";"Guamiranga";8811
+"PR";"Guapirama";3784
+"PR";"Guaporema";2241
+"PR";"Guaraci";5530
+"PR";"Guaraniaçu";12217
+"PR";"Guarapuava";182644
+"PR";"Guaraqueçaba";7594
+"PR";"Guaratuba";37527
+"PR";"Honório Serpa";5119
+"PR";"Ibaiti";31644
+"PR";"Ibema";6370
+"PR";"Ibiporã";55131
+"PR";"Icaraíma";7786
+"PR";"Iguaraçu";4440
+"PR";"Iguatu";2253
+"PR";"Imbaú";13282
+"PR";"Imbituva";32940
+"PR";"Inácio Martins";11121
+"PR";"Inajá";3116
+"PR";"Indianópolis";4465
+"PR";"Ipiranga";15251
+"PR";"Iporã";13782
+"PR";"Iracema do Oeste";2251
+"PR";"Irati";61088
+"PR";"Iretama";10098
+"PR";"Itaguajé";4446
+"PR";"Itaipulândia";11385
+"PR";"Itambaracá";6549
+"PR";"Itambé";6109
+"PR";"Itapejara d'Oeste";12094
+"PR";"Itaperuçu";29070
+"PR";"Itaúna do Sul";2781
+"PR";"Ivaí";13965
+"PR";"Ivaiporã";31935
+"PR";"Ivaté";8240
+"PR";"Ivatuba";3279
+"PR";"Jaboti";5303
+"PR";"Jacarezinho";39322
+"PR";"Jaguapitã";13742
+"PR";"Jaguariaíva";35027
+"PR";"Jandaia do Sul";21230
+"PR";"Janiópolis";5095
+"PR";"Japira";4930
+"PR";"Japurá";9500
+"PR";"Jardim Alegre";11196
+"PR";"Jardim Olinda";1320
+"PR";"Jataizinho";12638
+"PR";"Jesuítas";8330
+"PR";"Joaquim Távora";12009
+"PR";"Jundiaí do Sul";3269
+"PR";"Juranda";7292
+"PR";"Jussara";7041
+"PR";"Kaloré";4047
+"PR";"Lapa";48410
+"PR";"Laranjal";5784
+"PR";"Laranjeiras do Sul";32139
+"PR";"Leópolis";3925
+"PR";"Lidianópolis";3231
+"PR";"Lindoeste";4592
+"PR";"Loanda";23242
+"PR";"Lobato";4819
+"PR";"Londrina";575377
+"PR";"Luiziana";7240
+"PR";"Lunardelli";4744
+"PR";"Lupionópolis";4945
+"PR";"Mallet";13663
+"PR";"Mamborê";13014
+"PR";"Mandaguaçu";23100
+"PR";"Mandaguari";34515
+"PR";"Mandirituba";27315
+"PR";"Manfrinópolis";2506
+"PR";"Mangueirinha";16642
+"PR";"Manoel Ribas";13510
+"PR";"Marechal Cândido Rondon";53495
+"PR";"Maria Helena";5634
+"PR";"Marialva";35804
+"PR";"Marilândia do Sul";8814
+"PR";"Marilena";7084
+"PR";"Mariluz";10336
+"PR";"Maringá";430157
+"PR";"Mariópolis";6632
+"PR";"Maripá";5582
+"PR";"Marmeleiro";14387
+"PR";"Marquinho";4340
+"PR";"Marumbi";4677
+"PR";"Matelândia";18107
+"PR";"Matinhos";35219
+"PR";"Mato Rico";3206
+"PR";"Mauá da Serra";10800
+"PR";"Medianeira";46574
+"PR";"Mercedes";5577
+"PR";"Mirador";2196
+"PR";"Miraselva";1796
+"PR";"Missal";10704
+"PR";"Moreira Sales";12042
+"PR";"Morretes";16446
+"PR";"Munhoz de Melo";4009
+"PR";"Nossa Senhora das Graças";4008
+"PR";"Nova Aliança do Ivaí";1551
+"PR";"Nova América da Colina";3434
+"PR";"Nova Aurora";10299
+"PR";"Nova Cantu";5061
+"PR";"Nova Esperança";27984
+"PR";"Nova Esperança do Sudoeste";5030
+"PR";"Nova Fátima";8136
+"PR";"Nova Laranjeiras";11507
+"PR";"Nova Londrina";13200
+"PR";"Nova Olímpia";5826
+"PR";"Nova Santa Bárbara";4277
+"PR";"Nova Santa Rosa";8266
+"PR";"Nova Prata do Iguaçu";10544
+"PR";"Nova Tebas";5448
+"PR";"Novo Itacolomi";2840
+"PR";"Ortigueira";21960
+"PR";"Ourizona";3425
+"PR";"Ouro Verde do Oeste";6016
+"PR";"Paiçandu";41773
+"PR";"Palmas";51755
+"PR";"Palmeira";33994
+"PR";"Palmital";12960
+"PR";"Palotina";32121
+"PR";"Paraíso do Norte";14023
+"PR";"Paranacity";11580
+"PR";"Paranaguá";156174
+"PR";"Paranapoema";3241
+"PR";"Paranavaí";88922
+"PR";"Pato Bragado";5684
+"PR";"Pato Branco";83843
+"PR";"Paula Freitas";5908
+"PR";"Paulo Frontin";7387
+"PR";"Peabiru";14007
+"PR";"Perobal";6160
+"PR";"Pérola";11321
+"PR";"Pérola d'Oeste";6288
+"PR";"Piên";12882
+"PR";"Pinhais";133490
+"PR";"Pinhalão";6324
+"PR";"Pinhal de São Bento";2737
+"PR";"Pinhão";32559
+"PR";"Piraí do Sul";25617
+"PR";"Piraquara";114970
+"PR";"Pitanga";29994
+"PR";"Pitangueiras";3262
+"PR";"Planaltina do Paraná";4272
+"PR";"Planalto";13431
+"PR";"Ponta Grossa";355336
+"PR";"Pontal do Paraná";27915
+"PR";"Porecatu";12748
+"PR";"Porto Amazonas";4874
+"PR";"Porto Barreiro";3184
+"PR";"Porto Rico";2556
+"PR";"Porto Vitória";4061
+"PR";"Prado Ferreira";3780
+"PR";"Pranchita";5095
+"PR";"Presidente Castelo Branco";5351
+"PR";"Primeiro de Maio";11130
+"PR";"Prudentópolis";52513
+"PR";"Quarto Centenário";4465
+"PR";"Quatiguá";7477
+"PR";"Quatro Barras";23911
+"PR";"Quatro Pontes";4029
+"PR";"Quedas do Iguaçu";34409
+"PR";"Querência do Norte";12232
+"PR";"Quinta do Sol";4508
+"PR";"Quitandinha";19221
+"PR";"Ramilândia";4476
+"PR";"Rancho Alegre";3784
+"PR";"Rancho Alegre D'Oeste";2628
+"PR";"Realeza";16950
+"PR";"Rebouças";14946
+"PR";"Renascença";6787
+"PR";"Reserva";26825
+"PR";"Reserva do Iguaçu";8069
+"PR";"Ribeirão Claro";10645
+"PR";"Ribeirão do Pinhal";12948
+"PR";"Rio Azul";15336
+"PR";"Rio Bom";3182
+"PR";"Rio Bonito do Iguaçu";13255
+"PR";"Rio Branco do Ivaí";4109
+"PR";"Rio Branco do Sul";32517
+"PR";"Rio Negro";34411
+"PR";"Rolândia";67383
+"PR";"Roncador";9645
+"PR";"Rondon";9622
+"PR";"Rosário do Ivaí";4689
+"PR";"Sabáudia";6891
+"PR";"Salgado Filho";3483
+"PR";"Salto do Itararé";4898
+"PR";"Salto do Lontra";14872
+"PR";"Santa Amélia";3266
+"PR";"Santa Cecília do Pavão";3293
+"PR";"Santa Cruz de Monte Castelo";7751
+"PR";"Santa Fé";12186
+"PR";"Santa Helena";26767
+"PR";"Santa Inês";1594
+"PR";"Santa Isabel do Ivaí";8523
+"PR";"Santa Izabel do Oeste";14794
+"PR";"Santa Lúcia";3793
+"PR";"Santa Maria do Oeste";9410
+"PR";"Santa Mariana";11622
+"PR";"Santa Mônica";4017
+"PR";"Santana do Itararé";4954
+"PR";"Santa Tereza do Oeste";10096
+"PR";"Santa Terezinha de Itaipu";23699
+"PR";"Santo Antônio da Platina";46251
+"PR";"Santo Antônio do Caiuá";2626
+"PR";"Santo Antônio do Paraíso";2068
+"PR";"Santo Antônio do Sudoeste";20261
+"PR";"Santo Inácio";5416
+"PR";"São Carlos do Ivaí";6920
+"PR";"São Jerônimo da Serra";11128
+"PR";"São João";10181
+"PR";"São João do Caiuá";5837
+"PR";"São João do Ivaí";10056
+"PR";"São João do Triunfo";15241
+"PR";"São Jorge d'Oeste";9028
+"PR";"São Jorge do Ivaí";5543
+"PR";"São Jorge do Patrocínio";5586
+"PR";"São José da Boa Vista";6160
+"PR";"São José das Palmeiras";3627
+"PR";"São José dos Pinhais";329058
+"PR";"São Manoel do Paraná";2163
+"PR";"São Mateus do Sul";46705
+"PR";"São Miguel do Iguaçu";27576
+"PR";"São Pedro do Iguaçu";5820
+"PR";"São Pedro do Ivaí";11046
+"PR";"São Pedro do Paraná";2289
+"PR";"São Sebastião da Amoreira";8859
+"PR";"São Tomé";5750
+"PR";"Sapopema";6722
+"PR";"Sarandi";97803
+"PR";"Saudade do Iguaçu";5539
+"PR";"Sengés";19385
+"PR";"Serranópolis do Iguaçu";4477
+"PR";"Sertaneja";5216
+"PR";"Sertanópolis";16413
+"PR";"Siqueira Campos";21249
+"PR";"Sulina";2930
+"PR";"Tamarana";15040
+"PR";"Tamboara";5158
+"PR";"Tapejara";16345
+"PR";"Tapira";5495
+"PR";"Teixeira Soares";12567
+"PR";"Telêmaco Borba";79792
+"PR";"Terra Boa";17200
+"PR";"Terra Rica";16924
+"PR";"Terra Roxa";17522
+"PR";"Tibagi";20607
+"PR";"Tijucas do Sul";17084
+"PR";"Toledo";142645
+"PR";"Tomazina";7807
+"PR";"Três Barras do Paraná";12038
+"PR";"Tunas do Paraná";9022
+"PR";"Tuneiras do Oeste";8533
+"PR";"Tupãssi";8109
+"PR";"Turvo";13095
+"PR";"Ubiratã";20909
+"PR";"Umuarama";112500
+"PR";"União da Vitória";57913
+"PR";"Uniflor";2614
+"PR";"Uraí";11273
+"PR";"Wenceslau Braz";19386
+"PR";"Ventania";12088
+"PR";"Vera Cruz do Oeste";8454
+"PR";"Verê";7174
+"PR";"Alto Paraíso";2685
+"PR";"Doutor Ulysses";5552
+"PR";"Virmond";4022
+"PR";"Vitorino";6859
+"PR";"Xambrê";5630
+"SC";"Abdon Batista";2548
+"SC";"Abelardo Luz";17960
+"SC";"Agrolândia";11013
+"SC";"Agronômica";5509
+"SC";"Água Doce";7152
+"SC";"Águas de Chapecó";6515
+"SC";"Águas Frias";2354
+"SC";"Águas Mornas";6559
+"SC";"Alfredo Wagner";10086
+"SC";"Alto Bela Vista";1926
+"SC";"Anchieta";5557
+"SC";"Angelina";4743
+"SC";"Anita Garibaldi";6957
+"SC";"Anitápolis";3228
+"SC";"Antônio Carlos";8613
+"SC";"Apiúna";10848
+"SC";"Arabutã";4267
+"SC";"Araquari";39524
+"SC";"Araranguá";68867
+"SC";"Armazém";8759
+"SC";"Arroio Trinta";3549
+"SC";"Arvoredo";2234
+"SC";"Ascurra";7978
+"SC";"Atalanta";3195
+"SC";"Aurora";5683
+"SC";"Balneário Arroio do Silva";13430
+"SC";"Balneário Camboriú";145796
+"SC";"Balneário Barra do Sul";11035
+"SC";"Balneário Gaivota";11260
+"SC";"Bandeirante";2648
+"SC";"Barra Bonita";1651
+"SC";"Barra Velha";29860
+"SC";"Bela Vista do Toldo";6362
+"SC";"Belmonte";2709
+"SC";"Benedito Novo";11775
+"SC";"Biguaçu";69486
+"SC";"Blumenau";361855
+"SC";"Bocaina do Sul";3488
+"SC";"Bombinhas";20335
+"SC";"Bom Jardim da Serra";4772
+"SC";"Bom Jesus";3057
+"SC";"Bom Jesus do Oeste";2139
+"SC";"Bom Retiro";10060
+"SC";"Botuverá";5322
+"SC";"Braço do Norte";33876
+"SC";"Braço do Trombudo";3769
+"SC";"Brunópolis";2368
+"SC";"Brusque";137689
+"SC";"Caçador";79313
+"SC";"Caibi";6130
+"SC";"Calmon";3335
+"SC";"Camboriú";85105
+"SC";"Capão Alto";2496
+"SC";"Campo Alegre";11981
+"SC";"Campo Belo do Sul";6952
+"SC";"Campo Erê";8418
+"SC";"Campos Novos";36556
+"SC";"Canelinha";12398
+"SC";"Canoinhas";54480
+"SC";"Capinzal";23035
+"SC";"Capivari de Baixo";25177
+"SC";"Catanduvas";10984
+"SC";"Caxambu do Sul";3551
+"SC";"Celso Ramos";2719
+"SC";"Cerro Negro";3068
+"SC";"Chapadão do Lageado";3006
+"SC";"Chapecó";224013
+"SC";"Cocal do Sul";16821
+"SC";"Concórdia";75167
+"SC";"Cordilheira Alta";4520
+"SC";"Coronel Freitas";9940
+"SC";"Coronel Martins";2555
+"SC";"Corupá";16107
+"SC";"Correia Pinto";12553
+"SC";"Criciúma";217311
+"SC";"Cunha Porã";11118
+"SC";"Cunhataí";1967
+"SC";"Curitibanos";39893
+"SC";"Descanso";8192
+"SC";"Dionísio Cerqueira";15545
+"SC";"Dona Emma";4186
+"SC";"Doutor Pedrinho";4115
+"SC";"Entre Rios";3218
+"SC";"Ermo";2061
+"SC";"Erval Velho";4418
+"SC";"Faxinal dos Guedes";10649
+"SC";"Flor do Sertão";1579
+"SC";"Florianópolis";508826
+"SC";"Formosa do Sul";2495
+"SC";"Forquilhinha";27211
+"SC";"Fraiburgo";36584
+"SC";"Frei Rogério";1970
+"SC";"Galvão";2791
+"SC";"Garopaba";23579
+"SC";"Garuva";18484
+"SC";"Gaspar";70793
+"SC";"Governador Celso Ramos";14606
+"SC";"Grão Pará";6595
+"SC";"Gravatal";11577
+"SC";"Guabiruba";24382
+"SC";"Guaraciaba";10026
+"SC";"Guaramirim";45797
+"SC";"Guarujá do Sul";5178
+"SC";"Guatambú";4698
+"SC";"Herval d'Oeste";22714
+"SC";"Ibiam";1954
+"SC";"Ibicaré";3178
+"SC";"Ibirama";19096
+"SC";"Içara";57247
+"SC";"Ilhota";14359
+"SC";"Imaruí";9948
+"SC";"Imbituba";45286
+"SC";"Imbuia";6241
+"SC";"Indaial";70900
+"SC";"Iomerê";2962
+"SC";"Ipira";4406
+"SC";"Iporã do Oeste";9045
+"SC";"Ipuaçu";7579
+"SC";"Ipumirim";7620
+"SC";"Iraceminha";3938
+"SC";"Irani";10498
+"SC";"Irati";1909
+"SC";"Irineópolis";11289
+"SC";"Itá";6129
+"SC";"Itaiópolis";21780
+"SC";"Itajaí";223112
+"SC";"Itapema";67338
+"SC";"Itapiranga";17007
+"SC";"Itapoá";21177
+"SC";"Ituporanga";25355
+"SC";"Jaborá";3918
+"SC";"Jacinto Machado";10376
+"SC";"Jaguaruna";20288
+"SC";"Jaraguá do Sul";181173
+"SC";"Jardinópolis";1546
+"SC";"Joaçaba";30404
+"SC";"Joinville";597658
+"SC";"José Boiteux";5007
+"SC";"Jupiá";2092
+"SC";"Lacerdópolis";2247
+"SC";"Lages";157349
+"SC";"Laguna";46122
+"SC";"Lajeado Grande";1418
+"SC";"Laurentino";7063
+"SC";"Lauro Müller";15313
+"SC";"Lebon Régis";12115
+"SC";"Leoberto Leal";3000
+"SC";"Lindóia do Sul";4546
+"SC";"Lontras";12315
+"SC";"Luiz Alves";13107
+"SC";"Luzerna";5684
+"SC";"Macieira";1766
+"SC";"Mafra";56561
+"SC";"Major Gercino";3454
+"SC";"Major Vieira";8156
+"SC";"Maracajá";7378
+"SC";"Maravilha";26116
+"SC";"Marema";1750
+"SC";"Massaranduba";17125
+"SC";"Matos Costa";2480
+"SC";"Meleiro";7001
+"SC";"Mirim Doce";2283
+"SC";"Modelo";4218
+"SC";"Mondaí";11889
+"SC";"Monte Carlo";9906
+"SC";"Monte Castelo";8269
+"SC";"Morro da Fumaça";17947
+"SC";"Morro Grande";2888
+"SC";"Navegantes";83626
+"SC";"Nova Erechim";5092
+"SC";"Nova Itaberaba";4329
+"SC";"Nova Trento";14782
+"SC";"Nova Veneza";15342
+"SC";"Novo Horizonte";2404
+"SC";"Orleans";23038
+"SC";"Otacílio Costa";18975
+"SC";"Ouro";7272
+"SC";"Ouro Verde";2207
+"SC";"Paial";1474
+"SC";"Painel";2356
+"SC";"Palhoça";175272
+"SC";"Palma Sola";7372
+"SC";"Palmeira";2650
+"SC";"Palmitos";16157
+"SC";"Papanduva";19422
+"SC";"Paraíso";3360
+"SC";"Passo de Torres";9048
+"SC";"Passos Maia";4109
+"SC";"Paulo Lopes";7569
+"SC";"Pedras Grandes";3953
+"SC";"Penha";33284
+"SC";"Peritiba";2760
+"SC";"Pescaria Brava";10159
+"SC";"Petrolândia";5905
+"SC";"Balneário Piçarras";23772
+"SC";"Pinhalzinho";20712
+"SC";"Pinheiro Preto";3596
+"SC";"Piratuba";3745
+"SC";"Planalto Alegre";2888
+"SC";"Pomerode";34010
+"SC";"Ponte Alta";4650
+"SC";"Ponte Alta do Norte";3420
+"SC";"Ponte Serrada";11634
+"SC";"Porto Belo";21932
+"SC";"Porto União";35543
+"SC";"Pouso Redondo";17712
+"SC";"Praia Grande";7312
+"SC";"Presidente Castello Branco";1547
+"SC";"Presidente Getúlio";17726
+"SC";"Presidente Nereu";2283
+"SC";"Princesa";2937
+"SC";"Quilombo";9829
+"SC";"Rancho Queimado";2887
+"SC";"Rio das Antas";6202
+"SC";"Rio do Campo";5902
+"SC";"Rio do Oeste";7520
+"SC";"Rio dos Cedros";11808
+"SC";"Rio do Sul";72006
+"SC";"Rio Fortuna";4620
+"SC";"Rio Negrinho";42495
+"SC";"Rio Rufino";2483
+"SC";"Riqueza";4561
+"SC";"Rodeio";11600
+"SC";"Romelândia";4684
+"SC";"Salete";7659
+"SC";"Saltinho";3754
+"SC";"Salto Veloso";4756
+"SC";"Sangão";12905
+"SC";"Santa Cecília";16918
+"SC";"Santa Helena";2200
+"SC";"Santa Rosa de Lima";2147
+"SC";"Santa Rosa do Sul";8378
+"SC";"Santa Terezinha";8773
+"SC";"Santa Terezinha do Progresso";2372
+"SC";"Santiago do Sul";1235
+"SC";"Santo Amaro da Imperatriz";23579
+"SC";"São Bernardino";2287
+"SC";"São Bento do Sul";85421
+"SC";"São Bonifácio";2814
+"SC";"São Carlos";11369
+"SC";"São Cristóvão do Sul";5598
+"SC";"São Domingos";9434
+"SC";"São Francisco do Sul";53746
+"SC";"São João do Oeste";6402
+"SC";"São João Batista";38583
+"SC";"São João do Itaperiú";3759
+"SC";"São João do Sul";7315
+"SC";"São Joaquim";27139
+"SC";"São José";250181
+"SC";"São José do Cedro";13820
+"SC";"São José do Cerrito";8173
+"SC";"São Lourenço do Oeste";24291
+"SC";"São Ludgero";13650
+"SC";"São Martinho";3171
+"SC";"São Miguel da Boa Vista";1807
+"SC";"São Miguel do Oeste";40868
+"SC";"São Pedro de Alcântara";5935
+"SC";"Saudades";9810
+"SC";"Schroeder";21991
+"SC";"Seara";17576
+"SC";"Serra Alta";3256
+"SC";"Siderópolis";14092
+"SC";"Sombrio";30733
+"SC";"Sul Brasil";2423
+"SC";"Taió";18486
+"SC";"Tangará";8662
+"SC";"Tigrinhos";1619
+"SC";"Tijucas";39155
+"SC";"Timbé do Sul";5343
+"SC";"Timbó";44977
+"SC";"Timbó Grande";7941
+"SC";"Três Barras";19366
+"SC";"Treviso";3966
+"SC";"Treze de Maio";7093
+"SC";"Treze Tílias";7991
+"SC";"Trombudo Central";7434
+"SC";"Tubarão";106422
+"SC";"Tunápolis";4525
+"SC";"Turvo";12990
+"SC";"União do Oeste";2412
+"SC";"Urubici";11273
+"SC";"Urupema";2459
+"SC";"Urussanga";21344
+"SC";"Vargeão";3571
+"SC";"Vargem";2432
+"SC";"Vargem Bonita";4451
+"SC";"Vidal Ramos";6329
+"SC";"Videira";53610
+"SC";"Vitor Meireles";4943
+"SC";"Witmarsum";3998
+"SC";"Xanxerê";51642
+"SC";"Xavantina";3903
+"SC";"Xaxim";28983
+"SC";"Zortéa";3398
+"SC";"Balneário Rincão";12946
+"RS";"Aceguá";4942
+"RS";"Água Santa";3743
+"RS";"Agudo";16401
+"RS";"Ajuricaba";6987
+"RS";"Alecrim";5827
+"RS";"Alegrete";73028
+"RS";"Alegria";3374
+"RS";"Almirante Tamandaré do Sul";1949
+"RS";"Alpestre";6067
+"RS";"Alto Alegre";1613
+"RS";"Alto Feliz";3036
+"RS";"Alvorada";211352
+"RS";"Amaral Ferrador";7085
+"RS";"Ametista do Sul";7403
+"RS";"André da Rocha";1343
+"RS";"Anta Gorda";5961
+"RS";"Antônio Prado";13045
+"RS";"Arambaré";3562
+"RS";"Araricá";5771
+"RS";"Aratiba";6189
+"RS";"Arroio do Meio";20967
+"RS";"Arroio do Sal";10279
+"RS";"Arroio do Padre";2951
+"RS";"Arroio dos Ratos";14177
+"RS";"Arroio do Tigre";13413
+"RS";"Arroio Grande";18238
+"RS";"Arvorezinha";10423
+"RS";"Augusto Pestana";6602
+"RS";"Áurea";3535
+"RS";"Bagé";121335
+"RS";"Balneário Pinhal";14363
+"RS";"Barão";6202
+"RS";"Barão de Cotegipe";6620
+"RS";"Barão do Triunfo";7519
+"RS";"Barracão";5256
+"RS";"Barra do Guarita";3257
+"RS";"Barra do Quaraí";4227
+"RS";"Barra do Ribeiro";13556
+"RS";"Barra do Rio Azul";1655
+"RS";"Barra Funda";2551
+"RS";"Barros Cassal";11182
+"RS";"Benjamin Constant do Sul";1958
+"RS";"Bento Gonçalves";121803
+"RS";"Boa Vista das Missões";2092
+"RS";"Boa Vista do Buricá";6712
+"RS";"Boa Vista do Cadeado";2468
+"RS";"Boa Vista do Incra";2616
+"RS";"Boa Vista do Sul";2778
+"RS";"Bom Jesus";11309
+"RS";"Bom Princípio";14255
+"RS";"Bom Progresso";1899
+"RS";"Bom Retiro do Sul";12390
+"RS";"Boqueirão do Leão";7702
+"RS";"Bossoroca";6205
+"RS";"Bozano";2111
+"RS";"Braga";3311
+"RS";"Brochier";5104
+"RS";"Butiá";20952
+"RS";"Caçapava do Sul";33548
+"RS";"Cacequi";12423
+"RS";"Cachoeira do Sul";81869
+"RS";"Cachoeirinha";131240
+"RS";"Cacique Doble";5074
+"RS";"Caibaté";4823
+"RS";"Caiçara";4700
+"RS";"Camaquã";66478
+"RS";"Camargo";2742
+"RS";"Cambará do Sul";6406
+"RS";"Campestre da Serra";3395
+"RS";"Campina das Missões";5398
+"RS";"Campinas do Sul";5438
+"RS";"Campo Bom";69458
+"RS";"Campo Novo";4376
+"RS";"Campos Borges";3295
+"RS";"Candelária";31421
+"RS";"Cândido Godói";6151
+"RS";"Candiota";9647
+"RS";"Canela";45488
+"RS";"Canguçu";56211
+"RS";"Canoas";348208
+"RS";"Canudos do Vale";1705
+"RS";"Capão Bonito do Sul";1641
+"RS";"Capão da Canoa";54051
+"RS";"Capão do Cipó";3699
+"RS";"Capão do Leão";25409
+"RS";"Capivari do Sul";4728
+"RS";"Capela de Santana";12064
+"RS";"Capitão";2763
+"RS";"Carazinho";62265
+"RS";"Caraá";8350
+"RS";"Carlos Barbosa";30241
+"RS";"Carlos Gomes";1351
+"RS";"Casca";9051
+"RS";"Caseiros";3216
+"RS";"Catuípe";8701
+"RS";"Caxias do Sul";517451
+"RS";"Centenário";2877
+"RS";"Cerrito";6047
+"RS";"Cerro Branco";4706
+"RS";"Cerro Grande";2296
+"RS";"Cerro Grande do Sul";12413
+"RS";"Cerro Largo";14189
+"RS";"Chapada";9239
+"RS";"Charqueadas";41258
+"RS";"Charrua";3252
+"RS";"Chiapetta";3719
+"RS";"Chuí";6770
+"RS";"Chuvisca";5480
+"RS";"Cidreira";16583
+"RS";"Ciríaco";4719
+"RS";"Colinas";2469
+"RS";"Colorado";3130
+"RS";"Condor";6759
+"RS";"Constantina";9907
+"RS";"Coqueiro Baixo";1495
+"RS";"Coqueiros do Sul";2286
+"RS";"Coronel Barros";2520
+"RS";"Coronel Bicaco";7268
+"RS";"Coronel Pilar";1614
+"RS";"Cotiporã";3838
+"RS";"Coxilha";2743
+"RS";"Crissiumal";13357
+"RS";"Cristal";8067
+"RS";"Cristal do Sul";2844
+"RS";"Cruz Alta";59922
+"RS";"Cruzaltense";1799
+"RS";"Cruzeiro do Sul";12402
+"RS";"David Canabarro";4736
+"RS";"Derrubadas";2761
+"RS";"Dezesseis de Novembro";2378
+"RS";"Dilermando de Aguiar";3002
+"RS";"Dois Irmãos";33119
+"RS";"Dois Irmãos das Missões";2008
+"RS";"Dois Lajeados";3405
+"RS";"Dom Feliciano";15487
+"RS";"Dom Pedro de Alcântara";2527
+"RS";"Dom Pedrito";38339
+"RS";"Dona Francisca";2999
+"RS";"Doutor Maurício Cardoso";4462
+"RS";"Doutor Ricardo";1975
+"RS";"Eldorado do Sul";41902
+"RS";"Encantado";22880
+"RS";"Encruzilhada do Sul";25960
+"RS";"Engenho Velho";982
+"RS";"Entre-Ijuís";8411
+"RS";"Entre Rios do Sul";2758
+"RS";"Erebango";2982
+"RS";"Erechim";106633
+"RS";"Ernestina";3170
+"RS";"Herval";6814
+"RS";"Erval Grande";4819
+"RS";"Erval Seco";6802
+"RS";"Esmeralda";3287
+"RS";"Esperança do Sul";2885
+"RS";"Espumoso";15591
+"RS";"Estação";5940
+"RS";"Estância Velha";50672
+"RS";"Esteio";83279
+"RS";"Estrela";34399
+"RS";"Estrela Velha";3650
+"RS";"Eugênio de Castro";2352
+"RS";"Fagundes Varela";2741
+"RS";"Farroupilha";73061
+"RS";"Faxinal do Soturno";6663
+"RS";"Faxinalzinho";2284
+"RS";"Fazenda Vilanova";4608
+"RS";"Feliz";13640
+"RS";"Flores da Cunha";31063
+"RS";"Floriano Peixoto";1737
+"RS";"Fontoura Xavier";10241
+"RS";"Formigueiro";6616
+"RS";"Forquetinha";2400
+"RS";"Fortaleza dos Valos";4285
+"RS";"Frederico Westphalen";31498
+"RS";"Garibaldi";35440
+"RS";"Garruchos";2886
+"RS";"Gaurama";5489
+"RS";"General Câmara";8361
+"RS";"Gentil";1626
+"RS";"Getúlio Vargas";16184
+"RS";"Giruá";15863
+"RS";"Glorinha";8204
+"RS";"Gramado";36555
+"RS";"Gramado dos Loureiros";2058
+"RS";"Gramado Xavier";4352
+"RS";"Gravataí";283620
+"RS";"Guabiju";1490
+"RS";"Guaíba";98239
+"RS";"Guaporé";25968
+"RS";"Guarani das Missões";7463
+"RS";"Harmonia";4917
+"RS";"Herveiras";3019
+"RS";"Horizontina";19389
+"RS";"Hulha Negra";6836
+"RS";"Humaitá";4736
+"RS";"Ibarama";4399
+"RS";"Ibiaçá";4699
+"RS";"Ibiraiaras";7265
+"RS";"Ibirapuitã";4000
+"RS";"Ibirubá";20413
+"RS";"Igrejinha";37340
+"RS";"Ijuí";83764
+"RS";"Ilópolis";4066
+"RS";"Imbé";23271
+"RS";"Imigrante";3100
+"RS";"Independência";6109
+"RS";"Inhacorá";2215
+"RS";"Ipê";6689
+"RS";"Ipiranga do Sul";1880
+"RS";"Iraí";7141
+"RS";"Itaara";5537
+"RS";"Itacurubi";3460
+"RS";"Itapuca";2065
+"RS";"Itaqui";37489
+"RS";"Itati";2397
+"RS";"Itatiba do Sul";3231
+"RS";"Ivorá";1881
+"RS";"Ivoti";24690
+"RS";"Jaboticaba";3773
+"RS";"Jacuizinho";2706
+"RS";"Jacutinga";3546
+"RS";"Jaguarão";26500
+"RS";"Jaguari";10765
+"RS";"Jaquirana";3662
+"RS";"Jari";3486
+"RS";"Jóia";8566
+"RS";"Júlio de Castilhos";19224
+"RS";"Lagoa Bonita do Sul";2921
+"RS";"Lagoão";6461
+"RS";"Lagoa dos Três Cantos";1607
+"RS";"Lagoa Vermelha";27778
+"RS";"Lajeado";85033
+"RS";"Lajeado do Bugre";2566
+"RS";"Lavras do Sul";7444
+"RS";"Liberato Salzano";5152
+"RS";"Lindolfo Collor";6125
+"RS";"Linha Nova";1719
+"RS";"Machadinho";5427
+"RS";"Maçambará";4562
+"RS";"Mampituba";2973
+"RS";"Manoel Viana";7307
+"RS";"Maquiné";6681
+"RS";"Maratá";2702
+"RS";"Marau";44858
+"RS";"Marcelino Ramos";4319
+"RS";"Mariana Pimentel";3888
+"RS";"Mariano Moro";2009
+"RS";"Marques de Souza";3995
+"RS";"Mata";4797
+"RS";"Mato Castelhano";2542
+"RS";"Mato Leitão";4573
+"RS";"Mato Queimado";1629
+"RS";"Maximiliano de Almeida";4314
+"RS";"Minas do Leão";8103
+"RS";"Miraguaí";4911
+"RS";"Montauri";1441
+"RS";"Monte Alegre dos Campos";3232
+"RS";"Monte Belo do Sul";2530
+"RS";"Montenegro";65721
+"RS";"Mormaço";3113
+"RS";"Morrinhos do Sul";2919
+"RS";"Morro Redondo";6589
+"RS";"Morro Reuter";6513
+"RS";"Mostardas";12847
+"RS";"Muçum";4961
+"RS";"Muitos Capões";3173
+"RS";"Muliterno";1897
+"RS";"Não-Me-Toque";17758
+"RS";"Nicolau Vergueiro";1674
+"RS";"Nonoai";11633
+"RS";"Nova Alvorada";3663
+"RS";"Nova Araçá";4826
+"RS";"Nova Bassano";10005
+"RS";"Nova Boa Vista";1753
+"RS";"Nova Bréscia";3337
+"RS";"Nova Candelária";2688
+"RS";"Nova Esperança do Sul";5410
+"RS";"Nova Hartz";21875
+"RS";"Nova Pádua";2558
+"RS";"Nova Palma";6515
+"RS";"Nova Petrópolis";21536
+"RS";"Nova Prata";27648
+"RS";"Nova Ramada";2218
+"RS";"Nova Roma do Sul";3717
+"RS";"Nova Santa Rita";29905
+"RS";"Novo Cabrais";4222
+"RS";"Novo Hamburgo";247032
+"RS";"Novo Machado";3256
+"RS";"Novo Tiradentes";2200
+"RS";"Novo Xingu";1712
+"RS";"Novo Barreiro";4175
+"RS";"Osório";46414
+"RS";"Paim Filho";3778
+"RS";"Palmares do Sul";11330
+"RS";"Palmeira das Missões";33131
+"RS";"Palmitinho";7056
+"RS";"Panambi";44128
+"RS";"Pantano Grande";9083
+"RS";"Paraí";7727
+"RS";"Paraíso do Sul";7623
+"RS";"Pareci Novo";3862
+"RS";"Parobé";58858
+"RS";"Passa Sete";5747
+"RS";"Passo do Sobrado";6574
+"RS";"Passo Fundo";204722
+"RS";"Paulo Bento";2299
+"RS";"Paverama";8515
+"RS";"Pedras Altas";1954
+"RS";"Pedro Osório";7706
+"RS";"Pejuçara";3857
+"RS";"Pelotas";343132
+"RS";"Picada Café";5738
+"RS";"Pinhal";2580
+"RS";"Pinhal da Serra";1918
+"RS";"Pinhal Grande";4329
+"RS";"Pinheirinho do Vale";4899
+"RS";"Pinheiro Machado";12195
+"RS";"Pinto Bandeira";3036
+"RS";"Pirapó";2254
+"RS";"Piratini";20704
+"RS";"Planalto";10019
+"RS";"Poço das Antas";2101
+"RS";"Pontão";3901
+"RS";"Ponte Preta";1524
+"RS";"Portão";37561
+"RS";"Porto Alegre";1488252
+"RS";"Porto Lucena";4594
+"RS";"Porto Mauá";2352
+"RS";"Porto Vera Cruz";1308
+"RS";"Porto Xavier";10194
+"RS";"Pouso Novo";1612
+"RS";"Presidente Lucena";2937
+"RS";"Progresso";6239
+"RS";"Protásio Alves";1938
+"RS";"Putinga";3889
+"RS";"Quaraí";22607
+"RS";"Quatro Irmãos";1856
+"RS";"Quevedos";2790
+"RS";"Quinze de Novembro";3803
+"RS";"Redentora";11669
+"RS";"Relvado";2079
+"RS";"Restinga Sêca";15744
+"RS";"Rio dos Índios";2660
+"RS";"Rio Grande";211965
+"RS";"Rio Pardo";38265
+"RS";"Riozinho";4676
+"RS";"Roca Sales";11471
+"RS";"Rodeio Bonito";5868
+"RS";"Rolador";2296
+"RS";"Rolante";21453
+"RS";"Ronda Alta";10617
+"RS";"Rondinha";5080
+"RS";"Roque Gonzales";6797
+"RS";"Rosário do Sul";39314
+"RS";"Sagrada Família";2605
+"RS";"Saldanha Marinho";2622
+"RS";"Salto do Jacuí";12481
+"RS";"Salvador das Missões";2733
+"RS";"Salvador do Sul";7889
+"RS";"Sananduva";16328
+"RS";"Santa Bárbara do Sul";7909
+"RS";"Santa Cecília do Sul";1634
+"RS";"Santa Clara do Sul";6681
+"RS";"Santa Cruz do Sul";131365
+"RS";"Santa Maria";283677
+"RS";"Santa Maria do Herval";6364
+"RS";"Santa Margarida do Sul";2578
+"RS";"Santana da Boa Vista";8067
+"RS";"Sant'Ana do Livramento";76321
+"RS";"Santa Rosa";73575
+"RS";"Santa Tereza";1726
+"RS";"Santa Vitória do Palmar";29483
+"RS";"Santiago";49360
+"RS";"Santo Ângelo";77568
+"RS";"Santo Antônio do Palma";2123
+"RS";"Santo Antônio da Patrulha";43171
+"RS";"Santo Antônio das Missões";10050
+"RS";"Santo Antônio do Planalto";2019
+"RS";"Santo Augusto";13848
+"RS";"Santo Cristo";14216
+"RS";"Santo Expedito do Sul";2305
+"RS";"São Borja";60019
+"RS";"São Domingos do Sul";3083
+"RS";"São Francisco de Assis";18205
+"RS";"São Francisco de Paula";21801
+"RS";"São Gabriel";62147
+"RS";"São Jerônimo";24412
+"RS";"São João da Urtiga";4641
+"RS";"São João do Polêsine";2543
+"RS";"São Jorge";2816
+"RS";"São José das Missões";2514
+"RS";"São José do Herval";1943
+"RS";"São José do Hortêncio";4865
+"RS";"São José do Inhacorá";2056
+"RS";"São José do Norte";27721
+"RS";"São José do Ouro";6922
+"RS";"São José do Sul";2437
+"RS";"São José dos Ausentes";3543
+"RS";"São Leopoldo";238648
+"RS";"São Lourenço do Sul";43540
+"RS";"São Luiz Gonzaga";33293
+"RS";"São Marcos";21658
+"RS";"São Martinho";5380
+"RS";"São Martinho da Serra";3231
+"RS";"São Miguel das Missões";7683
+"RS";"São Nicolau";5208
+"RS";"São Paulo das Missões";5720
+"RS";"São Pedro da Serra";3842
+"RS";"São Pedro das Missões";2017
+"RS";"São Pedro do Butiá";2949
+"RS";"São Pedro do Sul";16148
+"RS";"São Sebastião do Caí";25959
+"RS";"São Sepé";23555
+"RS";"São Valentim";3259
+"RS";"São Valentim do Sul";2245
+"RS";"São Valério do Sul";2729
+"RS";"São Vendelino";2266
+"RS";"São Vicente do Sul";8732
+"RS";"Sapiranga";80037
+"RS";"Sapucaia do Sul";141808
+"RS";"Sarandi";24763
+"RS";"Seberi";10713
+"RS";"Sede Nova";2891
+"RS";"Segredo";7444
+"RS";"Selbach";5107
+"RS";"Senador Salgado Filho";2770
+"RS";"Sentinela do Sul";5609
+"RS";"Serafina Corrêa";17795
+"RS";"Sério";1924
+"RS";"Sertão";5315
+"RS";"Sertão Santana";6537
+"RS";"Sete de Setembro";1950
+"RS";"Severiano de Almeida";3631
+"RS";"Silveira Martins";2374
+"RS";"Sinimbu";10162
+"RS";"Sobradinho";15005
+"RS";"Soledade";31035
+"RS";"Tabaí";4769
+"RS";"Tapejara";24552
+"RS";"Tapera";10577
+"RS";"Tapes";17332
+"RS";"Taquara";57584
+"RS";"Taquari";26885
+"RS";"Taquaruçu do Sul";3077
+"RS";"Tavares";5483
+"RS";"Tenente Portela";13434
+"RS";"Terra de Areia";11315
+"RS";"Teutônia";33766
+"RS";"Tio Hugo";3055
+"RS";"Tiradentes do Sul";5616
+"RS";"Toropi";2772
+"RS";"Torres";39064
+"RS";"Tramandaí";52632
+"RS";"Travesseiro";2334
+"RS";"Três Arroios";2643
+"RS";"Três Cachoeiras";11115
+"RS";"Três Coroas";28581
+"RS";"Três de Maio";23876
+"RS";"Três Forquilhas";2669
+"RS";"Três Palmeiras";4251
+"RS";"Três Passos";23852
+"RS";"Trindade do Sul";5791
+"RS";"Triunfo";29856
+"RS";"Tucunduva";5644
+"RS";"Tunas";4577
+"RS";"Tupanci do Sul";1459
+"RS";"Tupanciretã";24068
+"RS";"Tupandi";4939
+"RS";"Tuparendi";7810
+"RS";"Turuçu";3423
+"RS";"Ubiretama";1983
+"RS";"União da Serra";1118
+"RS";"Unistalda";2321
+"RS";"Uruguaiana";126866
+"RS";"Vacaria";66575
+"RS";"Vale Verde";3515
+"RS";"Vale do Sol";11828
+"RS";"Vale Real";5981
+"RS";"Vanini";2122
+"RS";"Venâncio Aires";71973
+"RS";"Vera Cruz";27099
+"RS";"Veranópolis";26533
+"RS";"Vespasiano Corrêa";1795
+"RS";"Viadutos";4690
+"RS";"Viamão";256302
+"RS";"Vicente Dutra";4599
+"RS";"Victor Graeff";2860
+"RS";"Vila Flores";3396
+"RS";"Vila Lângaro";2080
+"RS";"Vila Maria";4363
+"RS";"Vila Nova do Sul";4277
+"RS";"Vista Alegre";2739
+"RS";"Vista Alegre do Prata";1557
+"RS";"Vista Gaúcha";2855
+"RS";"Vitória das Missões";3092
+"RS";"Westfália";3031
+"RS";"Xangri-lá";16775
+"MS";"Água Clara";15776
+"MS";"Alcinópolis";5417
+"MS";"Amambai";39826
+"MS";"Anastácio";25237
+"MS";"Anaurilândia";9076
+"MS";"Angélica";10932
+"MS";"Antônio João";9020
+"MS";"Aparecida do Taboado";26069
+"MS";"Aquidauana";48029
+"MS";"Aral Moreira";12332
+"MS";"Bandeirantes";7266
+"MS";"Bataguassu";23325
+"MS";"Batayporã";11349
+"MS";"Bela Vista";24735
+"MS";"Bodoquena";7838
+"MS";"Bonito";22190
+"MS";"Brasilândia";11853
+"MS";"Caarapó";30593
+"MS";"Camapuã";13693
+"MS";"Campo Grande";906092
+"MS";"Caracol";6182
+"MS";"Cassilândia";22002
+"MS";"Chapadão do Sul";25865
+"MS";"Corguinho";6054
+"MS";"Coronel Sapucaia";15352
+"MS";"Corumbá";112058
+"MS";"Costa Rica";21142
+"MS";"Coxim";33459
+"MS";"Deodápolis";12984
+"MS";"Dois Irmãos do Buriti";11467
+"MS";"Douradina";5975
+"MS";"Dourados";225495
+"MS";"Eldorado";12400
+"MS";"Fátima do Sul";19170
+"MS";"Figueirão";3059
+"MS";"Glória de Dourados";9950
+"MS";"Guia Lopes da Laguna";9824
+"MS";"Iguatemi";16176
+"MS";"Inocência";7588
+"MS";"Itaporã";25162
+"MS";"Itaquiraí";21376
+"MS";"Ivinhema";23232
+"MS";"Japorã";9243
+"MS";"Jaraguari";7265
+"MS";"Jardim";26238
+"MS";"Jateí";4021
+"MS";"Juti";6787
+"MS";"Ladário";23689
+"MS";"Laguna Carapã";7419
+"MS";"Maracaju";48022
+"MS";"Miranda";28220
+"MS";"Mundo Novo";18473
+"MS";"Naviraí";55689
+"MS";"Nioaque";13862
+"MS";"Nova Alvorada do Sul";22430
+"MS";"Nova Andradina";55224
+"MS";"Novo Horizonte do Sul";3684
+"MS";"Paraíso das Águas";5654
+"MS";"Paranaíba";42276
+"MS";"Paranhos";14404
+"MS";"Pedro Gomes";7621
+"MS";"Ponta Porã";93937
+"MS";"Porto Murtinho";17298
+"MS";"Ribas do Rio Pardo";24966
+"MS";"Rio Brilhante";38186
+"MS";"Rio Negro";4793
+"MS";"Rio Verde de Mato Grosso";19973
+"MS";"Rochedo";5079
+"MS";"Santa Rita do Pardo";7900
+"MS";"São Gabriel do Oeste";27221
+"MS";"Sete Quedas";10771
+"MS";"Selvíria";6542
+"MS";"Sidrolândia";59245
+"MS";"Sonora";19721
+"MS";"Tacuru";11674
+"MS";"Taquarussu";3588
+"MS";"Terenos";22269
+"MS";"Três Lagoas";123281
+"MS";"Vicentina";6109
+"MT";"Acorizal";5334
+"MT";"Água Boa";26204
+"MT";"Alta Floresta";51959
+"MT";"Alto Araguaia";19385
+"MT";"Alto Boa Vista";6936
+"MT";"Alto Garças";12151
+"MT";"Alto Paraguai";11473
+"MT";"Alto Taquari";11133
+"MT";"Apiacás";10283
+"MT";"Araguaiana";3109
+"MT";"Araguainha";946
+"MT";"Araputanga";16951
+"MT";"Arenápolis";9502
+"MT";"Aripuanã";22714
+"MT";"Barão de Melgaço";8164
+"MT";"Barra do Bugres";35307
+"MT";"Barra do Garças";61135
+"MT";"Bom Jesus do Araguaia";6706
+"MT";"Brasnorte";20140
+"MT";"Cáceres";94861
+"MT";"Campinápolis";16919
+"MT";"Campo Novo do Parecis";36143
+"MT";"Campo Verde";45740
+"MT";"Campos de Júlio";7070
+"MT";"Canabrava do Norte";4728
+"MT";"Canarana";21842
+"MT";"Carlinda";10199
+"MT";"Castanheira";8749
+"MT";"Chapada dos Guimarães";19453
+"MT";"Cláudia";12245
+"MT";"Cocalinho";5681
+"MT";"Colíder";33649
+"MT";"Colniza";39861
+"MT";"Comodoro";21008
+"MT";"Confresa";31510
+"MT";"Conquista D'Oeste";4101
+"MT";"Cotriguaçu";20238
+"MT";"Cuiabá";618124
+"MT";"Curvelândia";5241
+"MT";"Denise";9544
+"MT";"Diamantino";22178
+"MT";"Dom Aquino";8159
+"MT";"Feliz Natal";14522
+"MT";"Figueirópolis D'Oeste";3452
+"MT";"Gaúcha do Norte";7782
+"MT";"General Carneiro";5592
+"MT";"Glória D'Oeste";3008
+"MT";"Guarantã do Norte";36130
+"MT";"Guiratinga";15245
+"MT";"Indiavaí";2779
+"MT";"Ipiranga do Norte";7920
+"MT";"Itanhangá";6885
+"MT";"Itaúba";3704
+"MT";"Itiquira";13552
+"MT";"Jaciara";27807
+"MT";"Jangada";8451
+"MT";"Jauru";8582
+"MT";"Juara";35121
+"MT";"Juína";41101
+"MT";"Juruena";16335
+"MT";"Juscimeira";11176
+"MT";"Lambari D'Oeste";6186
+"MT";"Lucas do Rio Verde";67620
+"MT";"Luciara";2058
+"MT";"Vila Bela da Santíssima Trindade";16271
+"MT";"Marcelândia";10301
+"MT";"Matupá";16793
+"MT";"Mirassol d'Oeste";27941
+"MT";"Nobres";15334
+"MT";"Nortelândia";5923
+"MT";"Nossa Senhora do Livramento";13104
+"MT";"Nova Bandeirantes";15685
+"MT";"Nova Nazaré";3932
+"MT";"Nova Lacerda";6751
+"MT";"Nova Santa Helena";3737
+"MT";"Nova Brasilândia";3805
+"MT";"Nova Canaã do Norte";12831
+"MT";"Nova Mutum";46813
+"MT";"Nova Olímpia";20563
+"MT";"Nova Ubiratã";12298
+"MT";"Nova Xavantina";20944
+"MT";"Novo Mundo";9363
+"MT";"Novo Horizonte do Norte";4051
+"MT";"Novo São Joaquim";4938
+"MT";"Paranaíta";11244
+"MT";"Paranatinga";22861
+"MT";"Novo Santo Antônio";2705
+"MT";"Pedra Preta";17446
+"MT";"Peixoto de Azevedo";35338
+"MT";"Planalto da Serra";2649
+"MT";"Poconé";33315
+"MT";"Pontal do Araguaia";6843
+"MT";"Ponte Branca";1550
+"MT";"Pontes e Lacerda";45774
+"MT";"Porto Alegre do Norte";12685
+"MT";"Porto dos Gaúchos";5363
+"MT";"Porto Esperidião";12097
+"MT";"Porto Estrela";2877
+"MT";"Poxoréu";15916
+"MT";"Primavera do Leste";63092
+"MT";"Querência";17937
+"MT";"São José dos Quatro Marcos";18846
+"MT";"Reserva do Cabaçal";2743
+"MT";"Ribeirão Cascalheira";10329
+"MT";"Ribeirãozinho";2422
+"MT";"Rio Branco";5150
+"MT";"Santa Carmem";4563
+"MT";"Santo Afonso";3155
+"MT";"São José do Povo";4450
+"MT";"São José do Rio Claro";21011
+"MT";"São José do Xingu";5620
+"MT";"São Pedro da Cipa";4771
+"MT";"Rondolândia";4036
+"MT";"Rondonópolis";236042
+"MT";"Rosário Oeste";17054
+"MT";"Santa Cruz do Xingu";2633
+"MT";"Salto do Céu";3295
+"MT";"Santa Rita do Trivelato";3506
+"MT";"Santa Terezinha";8460
+"MT";"Santo Antônio do Leste";5334
+"MT";"Santo Antônio do Leverger";16999
+"MT";"São Félix do Araguaia";11843
+"MT";"Sapezal";26688
+"MT";"Serra Nova Dourada";1678
+"MT";"Sinop";146005
+"MT";"Sorriso";92769
+"MT";"Tabaporã";9429
+"MT";"Tangará da Serra";105711
+"MT";"Tapurah";14046
+"MT";"Terra Nova do Norte";9473
+"MT";"Tesouro";3824
+"MT";"Torixoréu";3547
+"MT";"União do Sul";3490
+"MT";"Vale de São Domingos";3126
+"MT";"Várzea Grande";287526
+"MT";"Vera";11402
+"MT";"Vila Rica";26496
+"MT";"Nova Guarita";4464
+"MT";"Nova Marilândia";3304
+"MT";"Nova Maringá";8850
+"MT";"Nova Monte Verde";9277
+"GO";"Abadia de Goiás";8958
+"GO";"Abadiânia";20461
+"GO";"Acreúna";22546
+"GO";"Adelândia";2516
+"GO";"Água Fria de Goiás";5793
+"GO";"Água Limpa";1830
+"GO";"Águas Lindas de Goiás";217698
+"GO";"Alexânia";28010
+"GO";"Aloândia";1986
+"GO";"Alto Horizonte";6605
+"GO";"Alto Paraíso de Goiás";7688
+"GO";"Alvorada do Norte";8705
+"GO";"Amaralina";3845
+"GO";"Americano do Brasil";6164
+"GO";"Amorinópolis";3069
+"GO";"Anápolis";391772
+"GO";"Anhanguera";1160
+"GO";"Anicuns";21981
+"GO";"Aparecida de Goiânia";590146
+"GO";"Aparecida do Rio Doce";2474
+"GO";"Aporé";4232
+"GO";"Araçu";3486
+"GO";"Aragarças";20273
+"GO";"Aragoiânia";10496
+"GO";"Araguapaz";7783
+"GO";"Arenópolis";2536
+"GO";"Aruanã";10110
+"GO";"Aurilândia";3058
+"GO";"Avelinópolis";2409
+"GO";"Baliza";5280
+"GO";"Barro Alto";11408
+"GO";"Bela Vista de Goiás";30492
+"GO";"Bom Jardim de Goiás";8869
+"GO";"Bom Jesus de Goiás";25648
+"GO";"Bonfinópolis";9919
+"GO";"Bonópolis";4493
+"GO";"Brazabrantes";3746
+"GO";"Britânia";5797
+"GO";"Buriti Alegre";9484
+"GO";"Buriti de Goiás";2476
+"GO";"Buritinópolis";3283
+"GO";"Cabeceiras";8046
+"GO";"Cachoeira Alta";12666
+"GO";"Cachoeira de Goiás";1342
+"GO";"Cachoeira Dourada";8031
+"GO";"Caçu";16270
+"GO";"Caiapônia";19107
+"GO";"Caldas Novas";93196
+"GO";"Caldazinha";3848
+"GO";"Campestre de Goiás";3649
+"GO";"Campinaçu";3632
+"GO";"Campinorte";12764
+"GO";"Campo Alegre de Goiás";7738
+"GO";"Campo Limpo de Goiás";7940
+"GO";"Campos Belos";20007
+"GO";"Campos Verdes";1830
+"GO";"Carmo do Rio Verde";10186
+"GO";"Castelândia";3407
+"GO";"Catalão";110983
+"GO";"Caturaí";5101
+"GO";"Cavalcante";9725
+"GO";"Ceres";22306
+"GO";"Cezarina";8703
+"GO";"Chapadão do Céu";10486
+"GO";"Cidade Ocidental";72890
+"GO";"Cocalzinho de Goiás";20504
+"GO";"Colinas do Sul";3360
+"GO";"Córrego do Ouro";2290
+"GO";"Corumbá de Goiás";11169
+"GO";"Corumbaíba";9869
+"GO";"Cristalina";60210
+"GO";"Cristianópolis";2964
+"GO";"Crixás";17044
+"GO";"Cromínia";3472
+"GO";"Cumari";2837
+"GO";"Damianópolis";3306
+"GO";"Damolândia";2953
+"GO";"Davinópolis";2094
+"GO";"Diorama";2479
+"GO";"Doverlândia";7247
+"GO";"Edealina";3688
+"GO";"Edéia";12467
+"GO";"Estrela do Norte";3264
+"GO";"Faina";6576
+"GO";"Fazenda Nova";5553
+"GO";"Firminópolis";13449
+"GO";"Flores de Goiás";17005
+"GO";"Formosa";123684
+"GO";"Formoso";4172
+"GO";"Gameleira de Goiás";3880
+"GO";"Divinópolis de Goiás";4778
+"GO";"Goianápolis";11224
+"GO";"Goiandira";5625
+"GO";"Goianésia";71075
+"GO";"Goiânia";1536097
+"GO";"Goianira";45296
+"GO";"Goiás";22381
+"GO";"Goiatuba";34202
+"GO";"Gouvelândia";5988
+"GO";"Guapó";14207
+"GO";"Guaraíta";1951
+"GO";"Guarani de Goiás";3846
+"GO";"Guarinos";1737
+"GO";"Heitoraí";3733
+"GO";"Hidrolândia";22124
+"GO";"Hidrolina";3508
+"GO";"Iaciara";14082
+"GO";"Inaciolândia";6235
+"GO";"Indiara";15787
+"GO";"Inhumas";53259
+"GO";"Ipameri";27174
+"GO";"Ipiranga de Goiás";2893
+"GO";"Iporá";31499
+"GO";"Israelândia";2786
+"GO";"Itaberaí";43622
+"GO";"Itaguari";4685
+"GO";"Itaguaru";5206
+"GO";"Itajá";4475
+"GO";"Itapaci";23421
+"GO";"Itapirapuã";4685
+"GO";"Itapuranga";25681
+"GO";"Itarumã";7259
+"GO";"Itauçu";8960
+"GO";"Itumbiara";105809
+"GO";"Ivolândia";2334
+"GO";"Jandaia";6025
+"GO";"Jaraguá";51338
+"GO";"Jataí";102065
+"GO";"Jaupaci";2860
+"GO";"Jesúpolis";2506
+"GO";"Joviânia";7402
+"GO";"Jussara";18371
+"GO";"Lagoa Santa";1621
+"GO";"Leopoldo de Bulhões";7651
+"GO";"Luziânia";211508
+"GO";"Mairipotaba";2363
+"GO";"Mambaí";9081
+"GO";"Mara Rosa";9363
+"GO";"Marzagão";2250
+"GO";"Matrinchã";4336
+"GO";"Maurilândia";14327
+"GO";"Mimoso de Goiás";2583
+"GO";"Minaçu";28793
+"GO";"Mineiros";68154
+"GO";"Moiporá";1501
+"GO";"Monte Alegre de Goiás";8684
+"GO";"Montes Claros de Goiás";8047
+"GO";"Montividiu";13672
+"GO";"Montividiu do Norte";4509
+"GO";"Morrinhos";46548
+"GO";"Morro Agudo de Goiás";2232
+"GO";"Mossâmedes";4206
+"GO";"Mozarlândia";15870
+"GO";"Mundo Novo";4713
+"GO";"Mutunópolis";3764
+"GO";"Nazário";9260
+"GO";"Nerópolis";30395
+"GO";"Niquelândia";46730
+"GO";"Nova América";2357
+"GO";"Nova Aurora";2222
+"GO";"Nova Crixás";12945
+"GO";"Nova Glória";8112
+"GO";"Nova Iguaçu de Goiás";2934
+"GO";"Nova Roma";3236
+"GO";"Nova Veneza";10018
+"GO";"Novo Brasil";2843
+"GO";"Novo Gama";117703
+"GO";"Novo Planalto";4544
+"GO";"Orizona";15725
+"GO";"Ouro Verde de Goiás";3723
+"GO";"Ouvidor";6782
+"GO";"Padre Bernardo";34430
+"GO";"Palestina de Goiás";3467
+"GO";"Palmeiras de Goiás";29392
+"GO";"Palmelo";2381
+"GO";"Palminópolis";3582
+"GO";"Panamá";2603
+"GO";"Paranaiguara";10140
+"GO";"Paraúna";10980
+"GO";"Perolândia";3143
+"GO";"Petrolina de Goiás";10261
+"GO";"Pilar de Goiás";2194
+"GO";"Piracanjuba";24548
+"GO";"Piranhas";10272
+"GO";"Pirenópolis";25064
+"GO";"Pires do Rio";31686
+"GO";"Planaltina";90640
+"GO";"Pontalina";17860
+"GO";"Porangatu";45633
+"GO";"Porteirão";3931
+"GO";"Portelândia";4022
+"GO";"Posse";37414
+"GO";"Professor Jamil";3203
+"GO";"Quirinópolis";50701
+"GO";"Rialma";10940
+"GO";"Rianápolis";4817
+"GO";"Rio Quente";4612
+"GO";"Rio Verde";241518
+"GO";"Rubiataba";19947
+"GO";"Sanclerlândia";7632
+"GO";"Santa Bárbara de Goiás";6634
+"GO";"Santa Cruz de Goiás";2819
+"GO";"Santa Fé de Goiás";5523
+"GO";"Santa Helena de Goiás";38808
+"GO";"Santa Isabel";3815
+"GO";"Santa Rita do Araguaia";8935
+"GO";"Santa Rita do Novo Destino";3355
+"GO";"Santa Rosa de Goiás";2252
+"GO";"Santa Tereza de Goiás";3280
+"GO";"Santa Terezinha de Goiás";8562
+"GO";"Santo Antônio da Barra";4854
+"GO";"Santo Antônio de Goiás";6440
+"GO";"Santo Antônio do Descoberto";75829
+"GO";"São Domingos";13103
+"GO";"São Francisco de Goiás";6267
+"GO";"São João d'Aliança";14085
+"GO";"São João da Paraúna";1345
+"GO";"São Luís de Montes Belos";34157
+"GO";"São Luiz do Norte";5215
+"GO";"São Miguel do Araguaia";21920
+"GO";"São Miguel do Passa Quatro";4082
+"GO";"São Patrício";2037
+"GO";"São Simão";20985
+"GO";"Senador Canedo";118451
+"GO";"Serranópolis";8642
+"GO";"Silvânia";20816
+"GO";"Simolândia";6879
+"GO";"Sítio d'Abadia";3001
+"GO";"Taquaral de Goiás";3521
+"GO";"Teresina de Goiás";3498
+"GO";"Terezópolis de Goiás";8186
+"GO";"Três Ranchos";2830
+"GO";"Trindade";129823
+"GO";"Trombas";3498
+"GO";"Turvânia";4564
+"GO";"Turvelândia";5365
+"GO";"Uirapuru";2840
+"GO";"Uruaçu";40840
+"GO";"Uruana";13818
+"GO";"Urutaí";3066
+"GO";"Valparaíso de Goiás";172135
+"GO";"Varjão";3838
+"GO";"Vianópolis";13977
+"GO";"Vicentinópolis";8873
+"GO";"Vila Boa";6312
+"GO";"Vila Propício";5882
+"DF";"Brasília";3055149

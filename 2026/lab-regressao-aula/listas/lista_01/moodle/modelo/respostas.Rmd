@@ -1,0 +1,92 @@
+---
+title: "Lista 1 - respostas"
+author: "Identifique a autoria conforme a modalidade anunciada no Moodle"
+date: "FLS 6183 - 2026"
+lang: pt-BR
+output:
+  pdf_document:
+    latex_engine: xelatex
+fontsize: 11pt
+geometry: margin=2.2cm
+header-includes:
+  - \renewcommand{\tablename}{Tabela}
+  - \renewcommand{\figurename}{Figura}
+---
+
+```{r preparar, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = TRUE)
+source("scripts/01_respostas.R", local = knitr::knit_global(), encoding = "UTF-8")
+```
+
+Este é um modelo de organização. Substitua as orientações por suas respostas.
+Os cálculos ficam em `scripts/01_respostas.R` e são executados novamente
+quando este documento é compilado. Um PDF vazio de respostas não é uma
+atividade concluída.
+
+# 1. Importação e verificação
+
+Descreva sua tentativa inicial, o diagnóstico e as verificações solicitadas.
+Inclua os resultados relevantes produzidos pelo script.
+
+# 2. Municípios de São Paulo
+
+Responda aos itens do enunciado, identificando as unidades de medida.
+
+# 3. Centro, dispersão e forma
+
+Inclua os três painéis e interprete as diferenças entre recorte e escala.
+
+# 4. Médias por UF e média nacional
+
+Apresente as médias e explique a ponderação usada para recompor a média nacional.
+
+# 5. Probabilidades e simulação
+
+Informe denominadores, probabilidades e resultados da simulação reproduzível.
+
+# 6. Esperança condicional e EQM
+
+Compare os previsores, explique os desvios e desenvolva o argumento solicitado.
+
+# 7. Melhor preditor linear
+
+Apresente os coeficientes e as comparações solicitadas.
+
+# 8. Covariância zero não implica independência
+
+Resolva, em etapas, o exemplo exato com as variáveis aleatórias $A$ e $B$.
+
+# 9. Tema e período
+
+Inclua a figura, a comparação de EQMs e o parágrafo final de 100 a 150 palavras.
+
+# Referências e apoio utilizado
+
+Identifique os dados e os materiais consultados. Se usar o [tutor](https://mgaldino.pythonanywhere.com/),
+registre sua tentativa, o diagnóstico recebido e como verificou a solução.
+
+<!-- As orientações abaixo são exemplos de ligação com o script, não respostas.
+     Remova esta seção de orientações antes da entrega. -->
+
+# Como incluir seus resultados
+
+Depois de guardar sua tabela em `resultados$verificacoes`, acrescente um
+chunk como o seguinte e retire `eval=FALSE`. Os nomes precisam corresponder
+aos objetos que você criou no script. Não recalcule a análise no relatório.
+
+```{r exemplo-tabela, eval=FALSE, echo=TRUE}
+knitr::kable(
+  resultados$verificacoes,
+  caption = "Verificações de importação da base municipal."
+)
+```
+
+Depois da tabela, escreva a fonte e explique as verificações. Para uma figura,
+guarde o objeto ggplot no script e use um chunk com legenda:
+
+```{r exemplo-figura, eval=FALSE, echo=TRUE, fig.cap='Substitua pela descrição da figura, unidade e fonte.'}
+print(resultados$figura_1)
+```
+
+No PDF, a numeração de tabelas e figuras é inserida automaticamente. Substitua as legendas de
+exemplo por textos que descrevam seus resultados.

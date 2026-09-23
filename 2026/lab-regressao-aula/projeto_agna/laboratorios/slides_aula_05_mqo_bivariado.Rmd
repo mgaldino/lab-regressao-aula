@@ -1,0 +1,1129 @@
+---
+title: "Aula 5: mínimos quadrados ordinários"
+subtitle: "Regressão bivariada, estimação e interpretação"
+author: "FLS 6183 - Métodos Quantitativos de Pesquisa II"
+date: "23 de setembro de 2026"
+lang: pt-BR
+output:
+  beamer_presentation:
+    latex_engine: xelatex
+    theme: Madrid
+    colortheme: default
+    fonttheme: professionalfonts
+    incremental: false
+classoption:
+  - aspectratio=169
+  - 10pt
+header-includes:
+  - \usepackage{amsmath}
+  - \usepackage{amssymb}
+  - \usepackage{booktabs}
+  - \usepackage{xcolor}
+  - \definecolor{AzulAula}{HTML}{1D4ED8}
+  - \definecolor{AzulEscuro}{HTML}{0F172A}
+  - \definecolor{CinzaTexto}{HTML}{334155}
+  - \definecolor{VerdeAula}{HTML}{047857}
+  - \setbeamercolor{structure}{fg=AzulAula}
+  - \setbeamercolor{title}{fg=white,bg=AzulEscuro}
+  - \setbeamercolor{frametitle}{fg=white,bg=AzulEscuro}
+  - \setbeamercolor{normal text}{fg=CinzaTexto,bg=white}
+  - \setbeamercolor{block title}{fg=white,bg=AzulAula}
+  - \setbeamercolor{block body}{fg=AzulEscuro,bg=blue!5}
+  - \setbeamercolor{alertblock title}{fg=white,bg=red!75!black}
+  - \setbeamercolor{alertblock body}{fg=AzulEscuro,bg=red!5}
+  - \setbeamertemplate{navigation symbols}{}
+  - \setbeamertemplate{caption}[numbered]
+  - \setbeamertemplate{footline}[frame number]
+  - \setbeamerfont{caption}{size=\scriptsize}
+  - \setlength{\abovecaptionskip}{2pt}
+  - \setlength{\belowcaptionskip}{0pt}
+  - \renewcommand{\tablename}{Tabela}
+  - \renewcommand{\figurename}{Figura}
+---
+
+```{r setup, include=FALSE}
+Sys.setlocale("LC_CTYPE", "en_US.UTF-8")
+options(encoding = "UTF-8")
+
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center",
+  dev = "png",
+  dpi = 180,
+  fig.path = paste0(
+    here::here("projeto_agna", "output", "aula_05_slides"),
+    "/"
+  ),
+  out.width = "82%"
+)
+
+options(scipen = 999)
+
+library(data.table)
+library(dplyr)
+library(ggplot2)
+library(here)
+library(knitr)
+library(scales)
+
+dir.create(
+  here::here("projeto_agna", "output", "aula_05_slides"),
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+# Exemplo numérico com quatro unidades.
+exemplo <- data.frame(
+  unidade = 1:4,
+  x = c(0, 1, 2, 3),
+  y = c(1, 3, 2, 6)
+)
+
+x_barra <- mean(exemplo$x)
+y_barra <- mean(exemplo$y)
+
+exemplo <- exemplo |>
+  dplyr::mutate(
+    x_centralizado = x - x_barra,
+    y_centralizado = y - y_barra,
+    produto = x_centralizado * y_centralizado,
+    quadrado_x = x_centralizado^2
+  )
+
+beta_chapeu <- sum(exemplo$produto) / sum(exemplo$quadrado_x)
+alpha_chapeu <- y_barra - beta_chapeu * x_barra
+
+exemplo <- exemplo |>
+  dplyr::mutate(
+    y_ajustado = alpha_chapeu + beta_chapeu * x,
+    residuo = y - y_ajustado,
+    residuo_quadrado = residuo^2,
+    y_alternativo = 1 + x,
+    residuo_alternativo = y - y_alternativo,
+    residuo_alternativo_quadrado = residuo_alternativo^2
+  )
+
+sqr_mqo <- sum(exemplo$residuo_quadrado)
+eqm_mqo <- mean(exemplo$residuo_quadrado)
+sqr_alternativa <- sum(exemplo$residuo_alternativo_quadrado)
+
+# Aplicação anual do projeto AGNA.
+dados_agna <- data.table::fread(
+  here::here(
+    "projeto_agna", "data", "processed",
+    "brasil_convergencia_china_1997_2016.csv"
+  )
+)
+
+stopifnot(
+  nrow(dados_agna) == 1762,
+  data.table::uniqueN(dados_agna$rcid) == 1762,
+  all(dados_agna$ano >= 1997 & dados_agna$ano <= 2016),
+  all(dados_agna$convergente %in% c(0, 1))
+)
+
+resumo_ano <- dados_agna |>
+  dplyr::group_by(ano) |>
+  dplyr::summarise(
+    resolucoes_validas = dplyr::n(),
+    votos_convergentes = sum(convergente),
+    convergencia_media = mean(convergente),
+    .groups = "drop"
+  ) |>
+  dplyr::mutate(
+    anos_desde_1997 = ano - 1997
+  ) |>
+  dplyr::select(
+    ano, anos_desde_1997, resolucoes_validas,
+    votos_convergentes, convergencia_media
+  )
+
+stopifnot(
+  nrow(resumo_ano) == 20,
+  sum(resumo_ano$resolucoes_validas) == nrow(dados_agna),
+  all(resumo_ano$convergencia_media >= 0 &
+        resumo_ano$convergencia_media <= 1)
+)
+
+modelo_agna <- lm(
+  convergencia_media ~ anos_desde_1997,
+  data = resumo_ano
+)
+
+alpha_agna <- unname(coef(modelo_agna)[1])
+beta_agna <- unname(coef(modelo_agna)[2])
+
+resumo_ano <- resumo_ano |>
+  dplyr::mutate(
+    valor_ajustado = fitted(modelo_agna)
+  )
+```
+
+# Mapa conceitual: do BLP ao MQO amostral
+
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{Problema}
+Qual reta resume melhor a associação linear observada entre $X$ e $Y$?
+\end{block}
+
+\begin{block}{Ponte com a Aula 3}
+O BLP minimiza o EQM na população; o MQO aplica o mesmo critério à amostra.
+\end{block}
+
+\column{0.48\textwidth}
+\begin{alertblock}{Dois problemas}
+Estimar uma reta não identifica, por si só, um efeito causal.
+\end{alertblock}
+
+\begin{block}{Ao final}
+Você saberá calcular a reta, interpretar seus coeficientes e delimitar o que ela não responde.
+\end{block}
+\end{columns}
+
+# A Aula 5 acumula quatro camadas anteriores
+
+\begin{enumerate}
+\item \textbf{Aula 1:} probabilidade e simulação organizam a incerteza.
+\item \textbf{Aula 2:} esperança, variância, covariância, correlação e EQM resumem distribuições.
+\item \textbf{Aula 3:} CEF, melhor preditor e BLP separam descrição condicional e previsão linear.
+\item \textbf{Aula 4:} resultados potenciais e identificação separam associação e causalidade.
+\end{enumerate}
+
+\begin{block}{Próximo passo}
+Trocar momentos populacionais desconhecidos por momentos da amostra e encontrar a melhor reta observada.
+\end{block}
+
+# O projeto AGNA fornece uma pergunta bivariada
+
+\begin{block}{Pergunta substantiva}
+Qual é a associação linear entre o ano da votação e a convergência média anual dos votos de Brasil e China na AGNU?
+\end{block}
+
+- Unidade de análise da regressão: \textbf{ano}, após agregar as resoluções.
+- Variável resposta $Y_i$: taxa de convergência no ano $i$.
+- Preditor $X_i$: anos decorridos desde 1997 no ano $i$.
+- Amostra: $n=20$ anos, de 1997 a 2016, construídos com 1.762 resoluções válidas.
+
+\begin{alertblock}{Leitura permitida}
+A inclinação descreverá associação temporal média, não efeito do tempo, de 2009, do comércio ou da China.
+\end{alertblock}
+
+# Estimação e identificação respondem a perguntas diferentes
+
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{Estimação por MQO}
+Qual reta minimiza os erros quadráticos nesta amostra?
+\end{block}
+
+Resultado: números $\widehat\alpha$ e $\widehat\beta$ calculados a partir dos dados.
+
+\column{0.48\textwidth}
+\begin{alertblock}{Identificação causal}
+Que contraste observado corresponde a um contraste entre resultados potenciais?
+\end{alertblock}
+
+Resultado: um argumento sobre desenho, atribuição e confundimento.
+\end{columns}
+
+\vfill
+
+Uma solução algébrica para o primeiro problema não resolve o segundo.
+
+# Três elementos vêm antes da reta
+
+\begin{block}{Unidade de análise}
+O objeto ao qual cada linha da amostra se refere; o índice $i\in\{1,\ldots,n\}$ identifica a unidade.
+\end{block}
+
+\begin{block}{Variável resposta $Y_i$}
+O resultado que desejamos descrever ou ajustar para a unidade $i$.
+\end{block}
+
+\begin{block}{Preditor $X_i$}
+A informação usada para construir a reta associacional para a unidade $i$.
+\end{block}
+
+\small
+No exemplo didático, a unidade é uma observação, $X_i$ varia de 0 a 3 e $Y_i$ varia de 1 a 6. No AGNA, cada unidade será um ano.
+
+# Uma reta atribui um valor ajustado a cada $X_i$
+
+\begin{block}{Definição em palavras}
+A reta de regressão amostral é uma regra linear que associa a cada valor observado de $X$ um valor ajustado de $Y$.
+\end{block}
+
+Formalmente:
+
+\[
+\widehat Y_i=\widehat\alpha+\widehat\beta X_i,
+\]
+
+onde:
+
+- $\widehat Y_i$ é o valor ajustado para a unidade $i$;
+- $\widehat\alpha$ é o intercepto estimado;
+- $\widehat\beta$ é a inclinação estimada.
+
+\begin{alertblock}{Limite}
+Uma reta resume apenas o componente linear da associação observada.
+\end{alertblock}
+
+# Valor observado, valor ajustado e resíduo não são sinônimos
+
+Para cada unidade $i$:
+
+\[
+\underbrace{Y_i}_{\text{observado}}
+=
+\underbrace{\widehat Y_i}_{\text{ajustado}}
++
+\underbrace{\widehat e_i}_{\text{resíduo}},
+\qquad
+\widehat e_i=Y_i-\widehat Y_i.
+\]
+
+\begin{block}{Intuição geométrica}
+O resíduo é a distância vertical, com sinal, entre o ponto observado e a reta ajustada.
+\end{block}
+
+\begin{alertblock}{Erro comum}
+O resíduo $\widehat e_i$ é calculado depois de ajustar a reta à amostra; não é o mesmo objeto que um erro populacional não observado.
+\end{alertblock}
+
+# Os resíduos são distâncias verticais até a reta
+
+```{r figura-1-residuos, fig.width=8.5, fig.height=3.75, fig.cap='Resíduos em torno da reta de MQO no exemplo didático. Unidade: observação; denominador: quatro observações. Fonte: elaboração própria.'}
+ggplot(exemplo, aes(x = x, y = y)) +
+  geom_segment(
+    aes(
+      xend = x,
+      y = y_ajustado,
+      yend = y,
+      color = "Resíduo"
+    ),
+    linewidth = 0.9,
+    linetype = "dashed"
+  ) +
+  geom_line(
+    aes(y = y_ajustado, color = "Reta de MQO"),
+    linewidth = 1
+  ) +
+  geom_point(
+    aes(color = "Valor observado"),
+    size = 2.8
+  ) +
+  scale_color_manual(
+    values = c(
+      "Resíduo" = "#B91C1C",
+      "Reta de MQO" = "#1D4ED8",
+      "Valor observado" = "#0F172A"
+    )
+  ) +
+  scale_x_continuous(breaks = 0:3) +
+  labs(
+    x = "Preditor X (unidades de X)",
+    y = "Resposta Y (unidades de Y)",
+    color = NULL
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    legend.position = "top",
+    panel.grid.minor = element_blank()
+  )
+```
+
+# O critério precisa resumir todos os resíduos
+
+A soma dos quadrados dos resíduos é:
+
+\[
+\operatorname{SQR}(a,b)
+=
+\sum_{i=1}^{n}(Y_i-a-bX_i)^2.
+\]
+
+O erro quadrático médio amostral é:
+
+\[
+\operatorname{EQM}(a,b)
+=
+\frac{1}{n}\sum_{i=1}^{n}(Y_i-a-bX_i)^2.
+\]
+
+\begin{block}{Mesma reta minimizadora}
+Como $n$ é uma constante positiva, minimizar SQR ou EQM produz os mesmos coeficientes.
+\end{block}
+
+# Por que elevar os resíduos ao quadrado?
+
+\begin{enumerate}
+\item Resíduos positivos e negativos não se cancelam.
+\item Erros verticais maiores recebem penalidade maior.
+\item A função objetivo é quadrática e, quando $X$ varia, tem mínimo único.
+\end{enumerate}
+
+\begin{block}{Exemplo}
+Resíduos $-2$ e $+2$ somam zero, mas representam erro: seus quadrados somam $4+4=8$.
+\end{block}
+
+\begin{alertblock}{Limite}
+O quadrado é uma escolha de perda; ele torna observações com resíduos grandes especialmente influentes no critério.
+\end{alertblock}
+
+# O estimador escolhe a reta com menor erro quadrático
+
+\begin{block}{Definição formal}
+\[
+(\widehat\alpha,\widehat\beta)
+=
+\arg\min_{(a,b)\in\mathbb R^2}
+\sum_{i=1}^{n}(Y_i-a-bX_i)^2.
+\]
+\end{block}
+
+Onde:
+
+- $a$ e $b$ são coeficientes candidatos;
+- $\mathbb R^2$ é o conjunto de todos os pares reais $(a,b)$;
+- $\arg\min$ devolve o par que minimiza a SQR;
+- $\widehat\alpha$ e $\widehat\beta$ são os valores escolhidos pelo MQO.
+
+Se todos os $X_i$ forem iguais, o critério não produzirá uma inclinação única.
+
+# A derivação começa pela função objetivo
+
+Defina:
+
+\[
+Q(a,b)=\sum_{i=1}^{n}(Y_i-a-bX_i)^2.
+\]
+
+Para encontrar um mínimo interior, calculamos uma condição de primeira ordem para cada coeficiente:
+
+\[
+\frac{\partial Q(a,b)}{\partial a}=0,
+\qquad
+\frac{\partial Q(a,b)}{\partial b}=0.
+\]
+
+\begin{block}{Intuição}
+No ponto mínimo, um pequeno movimento isolado no intercepto ou na inclinação não reduz a SQR.
+\end{block}
+
+# Intercepto: os resíduos somam zero
+
+Pela regra da cadeia:
+
+\[
+\begin{aligned}
+\frac{\partial Q(a,b)}{\partial a}
+&=\sum_{i=1}^{n}2(Y_i-a-bX_i)(-1)\\
+&=-2\sum_{i=1}^{n}(Y_i-a-bX_i).
+\end{aligned}
+\]
+
+Na solução $(\widehat\alpha,\widehat\beta)$:
+
+\[
+\boxed{\sum_{i=1}^{n}
+(Y_i-\widehat\alpha-\widehat\beta X_i)=0.}
+\]
+
+O termo entre parênteses é o resíduo $\widehat e_i$.
+
+# Inclinação: o produto com $X$ soma zero
+
+Também pela regra da cadeia:
+
+\[
+\begin{aligned}
+\frac{\partial Q(a,b)}{\partial b}
+&=\sum_{i=1}^{n}2(Y_i-a-bX_i)(-X_i)\\
+&=-2\sum_{i=1}^{n}X_i(Y_i-a-bX_i).
+\end{aligned}
+\]
+
+Na solução:
+
+\[
+\boxed{\sum_{i=1}^{n}X_i
+(Y_i-\widehat\alpha-\widehat\beta X_i)=0.}
+\]
+
+Logo, $\sum_i X_i\widehat e_i=0$.
+
+# A equação normal determina o intercepto
+
+Comece por $\sum_i\widehat e_i=0$:
+
+\[
+\begin{aligned}
+0
+&=\sum_{i=1}^{n}(Y_i-\widehat\alpha-\widehat\beta X_i)\\
+&=\sum_{i=1}^{n}Y_i-n\widehat\alpha
+-\widehat\beta\sum_{i=1}^{n}X_i.
+\end{aligned}
+\]
+
+Divida por $n$ e defina as médias amostrais
+$\bar X=n^{-1}\sum_iX_i$ e $\bar Y=n^{-1}\sum_iY_i$:
+
+\[
+\boxed{\widehat\alpha=\bar Y-\widehat\beta\bar X.}
+\]
+
+# Centralizar revela a fórmula da inclinação
+
+Substitua $\widehat\alpha=\bar Y-\widehat\beta\bar X$ na segunda equação normal:
+
+\[
+\begin{aligned}
+0
+&=\sum_i X_i
+\{Y_i-\bar Y-\widehat\beta(X_i-\bar X)\}.
+\end{aligned}
+\]
+
+Como $\sum_i(Y_i-\bar Y)=0$ e $\sum_i(X_i-\bar X)=0$, podemos escrever:
+
+\[
+0=
+\sum_i(X_i-\bar X)(Y_i-\bar Y)
+-\widehat\beta\sum_i(X_i-\bar X)^2.
+\]
+
+# Inclinação = covariação / variação de $X$
+
+Se $\sum_i(X_i-\bar X)^2>0$:
+
+\[
+\boxed{
+\widehat\beta
+=
+\frac{\sum_i(X_i-\bar X)(Y_i-\bar Y)}
+     {\sum_i(X_i-\bar X)^2}
+},
+\qquad
+\boxed{
+\widehat\alpha=\bar Y-\widehat\beta\bar X
+}.
+\]
+
+\begin{block}{Intuição}
+O numerador mede como $X$ e $Y$ se movem juntos; o denominador mede quanto $X$ varia. A razão converte covariação em mudança de $Y$ por unidade de $X$.
+\end{block}
+
+\begin{alertblock}{Limite}
+Sem variação em $X$, o denominador é zero e não há inclinação única.
+\end{alertblock}
+
+# O MQO é o análogo amostral do BLP
+
+Na população, o BLP da Aula 3 é:
+
+\[
+\beta=\frac{\operatorname{Cov}(X,Y)}{\operatorname{V}(X)},
+\qquad
+\alpha=E[Y]-\beta E[X].
+\]
+
+Na amostra, substituímos momentos populacionais por momentos amostrais:
+
+\[
+E[X]\mapsto\bar X,
+\quad
+E[Y]\mapsto\bar Y,
+\quad
+\operatorname{Cov}(X,Y)\mapsto
+\frac{1}{n}\sum_i(X_i-\bar X)(Y_i-\bar Y).
+\]
+
+\begin{block}{Princípio plug-in}
+O MQO estima a melhor aproximação linear populacional usando a distribuição empírica da amostra.
+\end{block}
+
+# População e amostra não devem ser confundidas
+
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{BLP populacional}
+Objeto: distribuição conjunta de $(X,Y)$.
+
+Critério: $E[(Y-a-bX)^2]$.
+
+Coeficientes: $\alpha$ e $\beta$.
+
+Desvio: $\varepsilon=Y-\alpha-\beta X$.
+\end{block}
+
+\column{0.48\textwidth}
+\begin{block}{MQO amostral}
+Objeto: $n$ pares observados.
+
+Critério: $n^{-1}\sum_i(Y_i-a-bX_i)^2$.
+
+Coeficientes: $\widehat\alpha$ e $\widehat\beta$.
+
+Resíduo: $\widehat e_i=Y_i-\widehat Y_i$.
+\end{block}
+\end{columns}
+
+\vfill
+
+\scriptsize
+O chapéu marca uma quantidade calculada na amostra. Fonte: Aronow e Miller (2019, seção 4.1) e Hansen (2022, seções 3.3--3.4).
+
+# Exemplo completo: quatro pares observados
+
+```{r tabela-2-contas-iniciais, results='asis'}
+tabela_exemplo_1 <- exemplo |>
+  dplyr::transmute(
+    Unidade = unidade,
+    `X_i` = x,
+    `Y_i` = y,
+    `X_i - X_barra` = x_centralizado,
+    `Y_i - Y_barra` = y_centralizado,
+    Produto = produto,
+    `Quadrado de X` = quadrado_x
+  )
+
+knitr::kable(
+  tabela_exemplo_1,
+  format = "latex",
+  booktabs = TRUE,
+  digits = 2,
+  escape = FALSE,
+  col.names = c(
+    "Unidade", "$X_i$", "$Y_i$", "$X_i-\\bar X$",
+    "$Y_i-\\bar Y$", "Produto", "Quadrado de $X$"
+  ),
+  caption = paste(
+    "Momentos para calcular a reta no exemplo didático.",
+    "Unidade: observação; denominador: quatro observações.",
+    "Fonte: elaboração própria."
+  ),
+  align = c("r", "r", "r", "r", "r", "r", "r")
+)
+```
+
+\small
+$\bar X=(0+1+2+3)/4=1{,}5$ e $\bar Y=(1+3+2+6)/4=3{,}0$.
+
+# Exemplo: calcular a inclinação
+
+Da Tabela 1:
+
+\[
+\sum_i(X_i-\bar X)(Y_i-\bar Y)
+=3+0-0{,}5+4{,}5=7.
+\]
+
+\[
+\sum_i(X_i-\bar X)^2
+=2{,}25+0{,}25+0{,}25+2{,}25=5.
+\]
+
+Portanto:
+
+\[
+\boxed{\widehat\beta=\frac{7}{5}=1{,}4.}
+\]
+
+Uma unidade adicional de $X$ está associada, na reta, a 1,4 unidade adicional de $Y$.
+
+# Exemplo: calcular o intercepto e escrever a reta
+
+Use $\widehat\alpha=\bar Y-\widehat\beta\bar X$:
+
+\[
+\begin{aligned}
+\widehat\alpha
+&=3{,}0-(1{,}4)(1{,}5)\\
+&=3{,}0-2{,}1=0{,}9.
+\end{aligned}
+\]
+
+A reta estimada é:
+
+\[
+\boxed{\widehat Y_i=0{,}9+1{,}4X_i.}
+\]
+
+\begin{block}{Checagem}
+Quando $X=\bar X=1{,}5$, a reta passa por $\widehat Y=0{,}9+1{,}4(1{,}5)=3=\bar Y$.
+\end{block}
+
+# Exemplo: ajustes, resíduos e SQR
+
+```{r tabela-3-ajuste-residuos, results='asis'}
+tabela_exemplo_2 <- exemplo |>
+  dplyr::transmute(
+    Unidade = unidade,
+    `X_i` = x,
+    `Y_i` = y,
+    `Y_ajustado_i` = y_ajustado,
+    `e_i` = residuo,
+    `e_i^2` = residuo_quadrado
+  )
+
+knitr::kable(
+  tabela_exemplo_2,
+  format = "latex",
+  booktabs = TRUE,
+  digits = 2,
+  escape = FALSE,
+  col.names = c(
+    "Unidade", "$X_i$", "$Y_i$", "$\\widehat Y_i$",
+    "$\\widehat e_i$", "$\\widehat e_i^2$"
+  ),
+  caption = paste(
+    "Ajuste e resíduos da reta de MQO no exemplo didático.",
+    "Unidade: observação; denominador: quatro observações.",
+    "Fonte: elaboração própria."
+  ),
+  align = c("r", "r", "r", "r", "r", "r")
+)
+```
+
+\small
+$\operatorname{SQR}=0{,}01+0{,}49+2{,}89+0{,}81=4{,}20$ e
+$\operatorname{EQM}=4{,}20/4=1{,}05$.
+
+# As equações normais aparecem nas contas do exemplo
+
+Com intercepto, o MQO garante mecanicamente:
+
+\[
+\sum_i\widehat e_i=0,
+\qquad
+\sum_iX_i\widehat e_i=0.
+\]
+
+No exemplo:
+
+\[
+0{,}1+0{,}7-1{,}7+0{,}9=0,
+\]
+
+\[
+0(0{,}1)+1(0{,}7)+2(-1{,}7)+3(0{,}9)=0.
+\]
+
+\begin{alertblock}{Cuidado}
+Essas igualdades são propriedades algébricas do ajuste na própria amostra; não demonstram causalidade nem qualidade fora da amostra.
+\end{alertblock}
+
+# Outra reta produz erro quadrático maior
+
+Considere a reta candidata $\widetilde Y_i=1+X_i$.
+
+Seus valores ajustados são $(1,2,3,4)$ e os resíduos são $(0,1,-1,2)$.
+
+\[
+\operatorname{SQR}_{\text{alternativa}}
+=0^2+1^2+(-1)^2+2^2=6.
+\]
+
+Para o MQO:
+
+\[
+\operatorname{SQR}_{\text{MQO}}=4{,}20<6.
+\]
+
+\begin{block}{Leitura}
+A reta alternativa parece plausível, mas a soma de suas distâncias verticais ao quadrado é 42,9\% maior.
+\end{block}
+
+# O gráfico permite comparar as duas somas de quadrados
+
+```{r figura-2-comparacao-retas, fig.width=8.8, fig.height=3.65, fig.cap='Comparação entre a reta de MQO e uma reta alternativa. Unidade: observação; denominador: quatro observações em cada painel. Fonte: elaboração própria.'}
+dados_comparacao <- dplyr::bind_rows(
+  exemplo |>
+    dplyr::transmute(
+      x,
+      y,
+      ajuste = y_ajustado,
+      modelo = "MQO: SQR = 4,20"
+    ),
+  exemplo |>
+    dplyr::transmute(
+      x,
+      y,
+      ajuste = y_alternativo,
+      modelo = "Alternativa: SQR = 6,00"
+    )
+)
+
+ggplot(dados_comparacao, aes(x = x, y = y)) +
+  geom_segment(
+    aes(xend = x, y = ajuste, yend = y),
+    color = "#B91C1C",
+    linewidth = 0.75,
+    linetype = "dashed"
+  ) +
+  geom_line(aes(y = ajuste), color = "#1D4ED8", linewidth = 0.9) +
+  geom_point(color = "#0F172A", size = 2.4) +
+  facet_wrap(~modelo) +
+  scale_x_continuous(breaks = 0:3) +
+  labs(
+    x = "Preditor X (unidades de X)",
+    y = "Resposta Y (unidades de Y)"
+  ) +
+  theme_minimal(base_size = 10.5) +
+  theme(
+    panel.grid.minor = element_blank(),
+    strip.text = element_text(face = "bold")
+  )
+```
+
+# A inclinação deve ser lida nas unidades originais
+
+\begin{block}{Regra de interpretação}
+Quando $X$ aumenta uma unidade, o valor ajustado de $Y$ muda $\widehat\beta$ unidades, em média segundo a reta amostral.
+\end{block}
+
+No exemplo:
+
+\[
+\widehat\beta=1{,}4
+\ \frac{\text{unidade de }Y}{\text{unidade de }X}.
+\]
+
+\begin{alertblock}{Erro comum}
+Uma inclinação positiva descreve associação linear positiva. Ela não diz que aumentar $X$ causaria aumento de $Y$.
+\end{alertblock}
+
+# O intercepto só é substantivo quando $X=0$ faz sentido
+
+\[
+\widehat\alpha=\widehat Y\text{ quando }X=0.
+\]
+
+No exemplo, $X=0$ está na amostra e $\widehat\alpha=0{,}9$ é uma leitura direta.
+
+No AGNA, usar $X=\text{ano}$ produziria:
+
+\[
+\widehat Y=\widehat\alpha+\widehat\beta(\text{ano}),
+\]
+
+e $\widehat\alpha$ descreveria a reta no ano zero.
+
+\begin{alertblock}{Problema}
+O ano zero está muito fora dos dados de 1997--2016; o intercepto seria matematicamente válido, mas substantivamente pouco útil.
+\end{alertblock}
+
+# Centralizar muda o intercepto, não a inclinação
+
+Escolha um ponto de referência $c$ e defina:
+
+\[
+X_i^c=X_i-c.
+\]
+
+Como $X_i=X_i^c+c$:
+
+\[
+\begin{aligned}
+\widehat Y_i
+&=\widehat\alpha+\widehat\beta(X_i^c+c)\\
+&=(\widehat\alpha+\widehat\beta c)+\widehat\beta X_i^c.
+\end{aligned}
+\]
+
+\begin{block}{Consequência}
+A nova inclinação continua $\widehat\beta$; o novo intercepto é o valor ajustado no ponto original $X=c$.
+\end{block}
+
+# Exemplo de centralização: tornar $X=2$ a referência
+
+A reta original é:
+
+\[
+\widehat Y=0{,}9+1{,}4X.
+\]
+
+Defina $X^c=X-2$, portanto $X=X^c+2$:
+
+\[
+\begin{aligned}
+\widehat Y
+&=0{,}9+1{,}4(X^c+2)\\
+&=3{,}7+1{,}4X^c.
+\end{aligned}
+\]
+
+\begin{block}{Leitura}
+O novo intercepto, 3,7, é o valor ajustado quando o $X$ original vale 2. A reta e todos os valores ajustados permanecem idênticos.
+\end{block}
+
+# No AGNA, 1997 é uma referência substantiva
+
+Defina:
+
+\[
+X_i=\text{ano}_i-1997.
+\]
+
+Então:
+
+- $X_i=0$ representa 1997;
+- $X_i=1$ representa 1998;
+- $X_i=19$ representa 2016.
+
+\begin{block}{Vantagem}
+O intercepto passa a ser a convergência média anual ajustada para 1997, o início da janela observada.
+\end{block}
+
+O número de anos transcorridos muda a origem da escala, não a informação nem a inclinação.
+
+# Valores ajustados descrevem a reta dentro da amostra
+
+Para qualquer $X_i$ observado:
+
+\[
+\widehat Y_i=\widehat\alpha+\widehat\beta X_i.
+\]
+
+\begin{block}{Uso descritivo}
+Comparar $\widehat Y_i$ entre valores de $X$ resume a direção e a magnitude da associação linear observada.
+\end{block}
+
+\begin{alertblock}{Dois limites}
+O valor ajustado pode não coincidir com a CEF se a associação for não linear; e não é automaticamente uma previsão válida para uma nova amostra.
+\end{alertblock}
+
+# Extrapolar exige informação que os dados não fornecem
+
+\begin{block}{Interpolação}
+Avaliar a reta entre valores de $X$ cobertos pela amostra.
+\end{block}
+
+\begin{alertblock}{Extrapolação}
+Avaliar a reta fora do suporte observado de $X$.
+\end{alertblock}
+
+Uma reta estimada entre 1997 e 2016 pode ser calculada para 2050, mas os dados não mostram que a associação linear persiste até lá.
+
+\begin{block}{Pergunta de verificação}
+O valor de $X$ que estou interpretando aparece nos dados ou depende de uma extensão não testada da reta?
+\end{block}
+
+# A associação anual no AGNA é pequena e positiva
+
+```{r figura-3-agna, fig.width=8.7, fig.height=3.75, fig.cap='Convergência média anual e reta de MQO, 1997-2016. Unidade: ano; denominador: 20 anos, construídos com 1.762 resoluções válidas. Fonte: base didática AGNA do curso.'}
+ggplot(
+  resumo_ano,
+  aes(x = anos_desde_1997, y = convergencia_media)
+) +
+  geom_point(
+    aes(color = "Média anual observada"),
+    size = 2.4
+  ) +
+  geom_line(
+    aes(y = valor_ajustado, color = "Reta de MQO"),
+    linewidth = 1
+  ) +
+  scale_color_manual(
+    values = c(
+      "Média anual observada" = "#0F172A",
+      "Reta de MQO" = "#1D4ED8"
+    )
+  ) +
+  scale_x_continuous(
+    breaks = c(0, 3, 6, 9, 12, 15, 18, 19),
+    labels = c(1997, 2000, 2003, 2006, 2009, 2012, 2015, 2016)
+  ) +
+  scale_y_continuous(
+    labels = scales::label_percent(
+      accuracy = 1,
+      decimal.mark = ","
+    ),
+    limits = c(0.65, 0.92)
+  ) +
+  labs(
+    x = "Ano da votação",
+    y = "Convergência média anual",
+    color = NULL
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    legend.position = "top",
+    panel.grid.minor = element_blank()
+  )
+```
+
+# Os coeficientes do AGNA têm leitura associacional
+
+Com $X=\text{ano}-1997$, o ajuste nos 20 anos é:
+
+\[
+\widehat Y
+=
+`r formatC(alpha_agna, format = "f", digits = 4, decimal.mark = ",")`
++
+`r formatC(beta_agna, format = "f", digits = 4, decimal.mark = ",")`X.
+\]
+
+\begin{block}{Intercepto}
+A convergência média anual ajustada para 1997 é
+`r formatC(alpha_agna * 100, format = "f", digits = 1, decimal.mark = ",")`\%.
+\end{block}
+
+\begin{block}{Inclinação}
+Cada ano adicional está associado a
+`r formatC(beta_agna * 100, format = "f", digits = 2, decimal.mark = ",")` ponto percentual adicional de convergência média anual, segundo a reta.
+\end{block}
+
+\small
+Cada ano recebe o mesmo peso porque a unidade da regressão é o ano.
+
+# A inclinação positiva não identifica efeito causal
+
+O ajuste mostra:
+
+\[
+\widehat\beta>0.
+\]
+
+Isso permite dizer que a reta amostral tem direção positiva.
+
+Não permite dizer que:
+
+- a passagem do tempo causou convergência;
+- 2009 causou uma mudança;
+- comércio ou poder explicam a inclinação;
+- a China causou os votos do Brasil.
+
+\begin{alertblock}{Lição da Aula 4}
+Sem exposição bem definida, resultados potenciais e hipótese de identificação, a regressão permanece descritiva e associacional.
+\end{alertblock}
+
+# `lm()` executa o cálculo, não escolhe a interpretação
+
+Em R, a chamada bivariada é:
+
+```{r, eval=FALSE, echo=TRUE}
+modelo <- lm(
+  convergencia_media ~ anos_desde_1997,
+  data = resumo_ano
+)
+
+coef(modelo)
+fitted(modelo)
+residuals(modelo)
+```
+
+\begin{block}{O que o programa faz}
+Encontra os coeficientes que minimizam a SQR e devolve valores ajustados e resíduos.
+\end{block}
+
+\begin{alertblock}{O que o programa não faz}
+`lm()` não cria identificação causal e, nesta aula, não usaremos valores-p, testes, intervalos de confiança ou `summary(modelo)`.
+\end{alertblock}
+
+# Propriedades dos resíduos são mecânicas, não diagnósticas
+
+Quando o modelo inclui intercepto:
+
+\[
+\sum_i\widehat e_i=0,
+\qquad
+\sum_iX_i\widehat e_i=0,
+\qquad
+\sum_i\widehat Y_i=\sum_iY_i.
+\]
+
+Também:
+
+\[
+(\bar X,\bar Y)
+\quad\text{pertence à reta ajustada.}
+\]
+
+\begin{alertblock}{Escopo}
+Hoje usamos essas igualdades somente para verificar a construção da reta. Diagnóstico de resíduos e observações influentes pertence à Aula 8.
+\end{alertblock}
+
+# Pausa: recupere a lógica sem usar software
+
+Considere a reta $\widehat Y=2+0{,}5X$.
+
+\begin{enumerate}
+\item Qual é o valor ajustado quando $X=6$?
+\item Se o valor observado for $Y=4$, qual é o resíduo?
+\item Quais são as unidades da inclinação?
+\item O que o intercepto representa? $X=0$ é substantivamente relevante?
+\item Que argumento adicional seria necessário para chamar 0,5 de efeito causal?
+\end{enumerate}
+
+\begin{block}{Objetivo}
+Separar cálculo, interpretação em unidades, suporte de $X$ e identificação.
+\end{block}
+
+# Pausa: por que recentralizar não muda a reta?
+
+No AGNA, substitua $X=\text{ano}-1997$ por:
+
+\[
+X^{2009}=\text{ano}-2009.
+\]
+
+Discuta:
+
+1. Por que a inclinação permanece igual?
+2. Por que o intercepto muda?
+3. O que o novo intercepto representa?
+4. Por que nenhuma parametrização identifica um efeito causal de 2009?
+
+\begin{block}{Dica}
+A centralização apenas muda o ponto em que $X=0$; ela não muda pontos, resíduos, SQR ou valores ajustados.
+\end{block}
+
+# Cinco erros que o MQO não corrige
+
+\begin{enumerate}
+\item Confundir a unidade resolução com a unidade ano.
+\item Interpretar $\widehat\beta$ sem mencionar unidades de $X$ e $Y$.
+\item Dar sentido substantivo a $\widehat\alpha$ quando $X=0$ é irrelevante.
+\item Extrapolar a reta para valores de $X$ não observados.
+\item Chamar associação linear de efeito causal sem desenho de identificação.
+\end{enumerate}
+
+\begin{alertblock}{E mais um limite de escopo}
+Hoje não ensinamos regressão múltipla, inferência, erros-padrão robustos, propriedades amostrais do estimador nem diagnóstico.
+\end{alertblock}
+
+# Síntese: quatro ideias para levar adiante
+
+\begin{enumerate}
+\item O MQO escolhe a reta que minimiza a SQR, ou equivalentemente o EQM, na amostra.
+\item A inclinação é covariação dividida pela variação de $X$; a reta passa por $(\bar X,\bar Y)$.
+\item Centralizar $X$ torna o intercepto interpretável sem mudar inclinação, ajustes ou resíduos.
+\item Uma reta bem estimada continua sendo associacional sem um argumento separado de identificação.
+\end{enumerate}
+
+\vfill
+
+\begin{center}
+\Large MQO resolve uma minimização; não inventa um contrafactual.
+\end{center}
+
+# Referências e fronteira da aula
+
+\begin{block}{Leituras principais}
+Aronow, Peter M., e Benjamin T. Miller. \textit{Foundations of Agnostic Statistics} (2019), cap. 4, seção 4.1.
+
+Hansen, Bruce E. \textit{Econometrics} (2022), seções 3.3--3.8.
+\end{block}
+
+\begin{block}{Fronteira}
+A Aula 5 termina na estimação e interpretação bivariada. Regressão múltipla começa na Aula 6; propriedades amostrais, diagnóstico e inferência entram apenas nas aulas posteriores previstas no syllabus.
+\end{block}
+
+\scriptsize
+Dados de aplicação: base didática AGNA do curso, votações da Assembleia Geral das Nações Unidas, 1997--2016.

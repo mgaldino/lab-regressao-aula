@@ -1,0 +1,11 @@
+variavel,tipo,descricao,unidade,uso_no_curso
+resolucao_id,inteiro,Identificador da votação,resolução,chave da observação
+simbolo_resolucao,texto,Símbolo oficial da resolução,resolução,identificação e auditoria
+ano,inteiro,Ano da votação,ano,tendência descritiva
+periodo_2009,categórica,Período 2005-2008 ou 2009-2012,período,comparação descritiva
+periodo_fonte,texto,Período original do diagnóstico,período,proveniência
+tema,categórica,Família temática da resolução,resolução,esperança condicional e interação
+voto_importante,binária,Indicador de voto importante; pode ter ausências,resolução,preditor e estratificação
+convergente,binária,1 se Brasil e China votaram igual; 0 caso contrário,resolução,variável resposta principal
+eleitorado_valido,contínua,Número de votos válidos dos demais países,resolução,escala da votação
+percentual_apoio_convergente,contínua,Percentual de apoio coincidente quando há convergência,resolução,extensão descritiva

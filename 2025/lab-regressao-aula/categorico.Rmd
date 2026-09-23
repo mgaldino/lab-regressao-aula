@@ -1,0 +1,57 @@
+---
+title: "Preditor Categórico"
+author: "Manoel"
+date: "2025-10-09"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+# 1. Objetivo (Intro)
+
+Explicar, no caso **binário** (duas categorias), como variáveis categóricas entram na regressão linear via **dummies**, por que **duas dummies + intercepto** causam **multicolinearidade**, e como a **categoria de referência** afeta o **intercepto**.
+
+# 2. Variável Binária, Dummies e “Dummy Trap”
+
+## 2.1 Definições
+
+Se \(C\in\{A,B\}\), crie
+\[
+D_A = \mathbb{1}\{C=A\},\qquad D_B=\mathbb{1}\{C=B\},\quad \text{logo } D_A+D_B=1.
+\]
+
+Tentar ajustar
+\[
+Y=\beta_0+\beta_A D_A+\beta_B D_B+\varepsilon
+\]
+gera **dependência linear** entre \((1,D_A,D_B)\). A matriz \(X=[\mathbf{1}\; D_A\; D_B]\) não tem posto completo \(\Rightarrow\) **multicolinearidade perfeita**.
+
+## 2.2 Solução (categoria de referência)
+
+Mantenha **intercepto** e exclua **uma dummy**. Se excluir \(D_A\):
+\[
+Y=\beta_0+\beta_B D_B+\varepsilon.
+\]
+
+**Interpretação:**
+- \(\beta_0=\mathbb{E}[Y\mid C=A]\) (**média do grupo de referência** A).
+- \(\beta_B=\mathbb{E}[Y\mid C=B]-\mathbb{E}[Y\mid C=A]\) (**diferença B−A**).
+
+**Intuição:** Como \(D_B=0\) no grupo A e \(1\) no grupo B, as predições são
+\[
+\hat Y\_{A}=\hat\beta_0,\qquad \hat Y\_{B}=\hat\beta_0+\hat\beta_B.
+\]
+
+## LASSO
+
+
+$y_i = \alpha + \beta x_i + e_i$
+
+$\hat{\beta}$ e $\hat{\alpha}$ que minimizam $\sum_{i=1}^n \hat{e_i}^2 + \lambda|\hat{\beta}|$
+
+

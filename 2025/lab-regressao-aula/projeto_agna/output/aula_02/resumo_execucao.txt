@@ -1,0 +1,12 @@
+status=PASS
+data_execucao=2026-08-25T14:59:48-0300
+fonte=/Users/manoelgaldino/Documents/DCP/Cursos/Regressao/2025/lab-regressao-aula/projeto_agna/data/processed/dados_ensino_agna.csv
+unidade_analise=registro de votacao nominal (rcid) associado a resolucao da AGNU
+n_observacoes=748
+n_variaveis=10
+n_convergentes=619
+n_divergentes=129
+proporcao_convergente=0.82754011
+n_ids_duplicados=0
+n_missing_simbolo_resolucao=4
+n_missing_voto_importante=176

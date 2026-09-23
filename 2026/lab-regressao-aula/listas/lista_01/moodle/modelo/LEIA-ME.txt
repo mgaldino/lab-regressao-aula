@@ -1,0 +1,20 @@
+LISTA 1 - FLS 6183 - AULAS 1 A 3
+
+1. Extraia a pasta inteira. Não trabalhe dentro do arquivo ZIP.
+2. Leia lista_01_revisada_2026.pdf e orientacoes_lista_01.pdf.
+3. Abra Lista_01.Rproj no RStudio.
+4. Abra scripts/00_conferir_ambiente.R e execute com Source.
+5. Escreva os cálculos em scripts/01_respostas.R.
+6. Escreva a interpretação em respostas.Rmd e use Knit para gerar respostas.pdf.
+7. Reinicie o R e compile novamente antes de entregar.
+
+O modelo é facultativo: você pode usar seu próprio RMarkdown ou Quarto,
+mantendo os cálculos em script R separado e entregando o PDF e suas fontes.
+
+Envie no Moodle o PDF, a fonte .Rmd ou .qmd e o script .R. Se dividir o código
+em vários scripts, envie todos os necessários. Preserve caminhos relativos.
+Não é necessário reenviar as bases fornecidas. Consulte prazo e modalidade
+(individual ou em grupo) na atividade do Moodle.
+
+As bases estão em dados/. Não altere esses arquivos.
+O kit não contém soluções. Compilar o modelo inicial apenas confere o ambiente.

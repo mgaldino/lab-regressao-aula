@@ -1,0 +1,11 @@
+Lista 1 disponível - conteúdo até a Aula 3
+
+O enunciado e o kit de trabalho da Lista 1 estão disponíveis na atividade
+“Lista 1 - dos dados à previsão (Aulas 1 a 3)”. O kit reúne as duas bases,
+orientações de trabalho e modelos facultativos de script R e relatório.
+
+Resolvam os exercícios 1 a 9. A entrega deve incluir
+o PDF, a fonte .Rmd ou .qmd e os scripts .R utilizados.
+
+Consultem o prazo e a modalidade de entrega indicados na atividade.
+Leiam as orientações e confiram o ambiente de R antes de começar.
