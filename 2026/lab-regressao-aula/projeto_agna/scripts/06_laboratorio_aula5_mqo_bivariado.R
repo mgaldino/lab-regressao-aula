@@ -4,7 +4,9 @@
 # qual é a associação linear entre o ano da votação e a convergência média
 # anual dos votos de Brasil e China na AGNU?
 #
-
+# Antes de começar, abra `lab-regressao-aula-2026.Rproj` no RStudio.
+# Em aula, execute um bloco de cada vez. As linhas com o nome de um objeto
+# mostram tabelas no console ou gráficos no painel Plots do RStudio.
 
 options(scipen = 999)
 
@@ -121,30 +123,44 @@ dados_anuais
 dados_anuais <- dados_anuais |>
   dplyr::mutate(anos_desde_1997 = ano - 1997)
 
-  dados_anuais |>
-    dplyr::select(
-      ano,
-      anos_desde_1997,
-      n_resolucoes_validas,
-      n_votos_convergentes,
-      taxa_media_convergencia
-    )
+dados_anuais |>
+  dplyr::select(
+    ano,
+    anos_desde_1997,
+    n_resolucoes_validas,
+    n_votos_convergentes,
+    taxa_media_convergencia
+  )
 
 # 4. Gráfico de dispersão mínimo ----------------------------------------
 
-# `grafico_basico` contém apenas os 20 pontos anuais. Cada ponto acrescenta
-# a taxa observada de um ano, antes de qualquer reta ou acabamento visual.
+# `grafico_basico` contém os 20 pontos anuais, antes de acrescentar a reta.
+# Execute a linha `grafico_basico` para vê-lo no painel Plots.
 grafico_basico <- ggplot(
   dados_anuais,
   aes(x = ano, y = taxa_media_convergencia)
 ) +
-  geom_point()
+  geom_point(aes(color = "Taxa anual observada"), size = 2.2) +
+  scale_color_manual(
+    name = NULL,
+    values = c(
+      "Taxa anual observada" = "#1D4ED8",
+      "Reta ajustada por MQO" = "#C2410C"
+    )
+  ) +
+  scale_x_continuous(breaks = c(1997, 2000, 2003, 2006, 2009, 2012, 2016)) +
+  labs(
+    title = "Figura 1 (etapa 1). Convergência média anual",
+    subtitle = "Votos de Brasil e China na AGNU, 1997 a 2016",
+    x = "Ano da votação",
+    y = "Convergência média anual (proporção)",
+    caption = paste0(
+      "Cada ponto representa um ano. Denominador: resoluções com votos ",
+      "válidos de Brasil e China em cada ano.\n",
+      "Fonte: base didática AGNA."
+    )
+  )
 
-cat("\nFigura 1 (etapa 1). Dispersão da convergência média anual\n")
-cat(
-  "Legenda: cada ponto representa um ano; o denominador é o número de",
-  "resoluções válidas naquele ano. Fonte: base didática AGNA.\n"
-)
 grafico_basico
 
 # 5. Cálculo manual do MQO ----------------------------------------------
@@ -170,12 +186,8 @@ calculo_manual <- data.frame(
   intercepto = intercepto_manual
 )
 
-cat("\nTabela 6. Cálculo manual dos coeficientes de MQO\n")
-cat(
-  "Legenda: a resposta é a taxa anual de convergência e o preditor é o",
-  "número de anos desde 1997.\n"
-)
-print(calculo_manual)
+# Resposta: proporção anual de convergência; preditor: anos desde 1997.
+calculo_manual
 
 # 6. Estimação com lm() e comparação dos coeficientes -------------------
 
@@ -188,6 +200,9 @@ modelo_mqo <- lm(
 
 coeficientes_lm <- coef(modelo_mqo)
 
+# Compare primeiro a saída direta de `lm()` com a tabela abaixo.
+coeficientes_lm
+
 coeficientes_comparados <- data.frame(
   termo = c("Intercepto", "Anos desde 1997"),
   calculo_manual = c(intercepto_manual, inclinacao_manual),
@@ -197,12 +212,8 @@ coeficientes_comparados <- data.frame(
   )
 )
 
-cat("\nTabela 7. Comparação entre o cálculo manual e lm()\n")
-cat(
-  "Legenda: diferenças próximas de zero confirmam que os dois métodos",
-  "constroem a mesma reta amostral.\n"
-)
-print(coeficientes_comparados)
+# Diferenças próximas de zero indicam a mesma reta amostral.
+coeficientes_comparados
 
 coeficientes_iguais <- isTRUE(all.equal(
   c(intercepto_manual, inclinacao_manual),
@@ -210,9 +221,8 @@ coeficientes_iguais <- isTRUE(all.equal(
   tolerance = 0.000000000001
 ))
 
-stopifnot(coeficientes_iguais)
-
-message("Coeficientes manuais e de lm() são numericamente iguais.")
+# O resultado esperado é TRUE.
+coeficientes_iguais
 
 # 7. Valores ajustados e resíduos como construção da reta ---------------
 
@@ -226,48 +236,52 @@ dados_com_ajuste <- dados_anuais |>
     residuo = taxa_media_convergencia - valor_ajustado_lm
   )
 
-cat("\nTabela 8. Valores ajustados e resíduos da reta amostral\n")
-cat(
-  "Legenda: taxa observada = valor ajustado por lm() + resíduo; unidade de",
-  "análise = ano.\n"
-)
-print(
-  dados_com_ajuste |>
-    dplyr::select(
-      ano,
-      taxa_media_convergencia,
-      valor_ajustado_formula,
-      valor_ajustado_lm,
-      residuo
-    )
+# Cada linha representa um ano. Taxa observada = ajuste + resíduo.
+dados_com_ajuste |>
+  dplyr::select(
+    ano,
+    taxa_media_convergencia,
+    valor_ajustado_formula,
+    valor_ajustado_lm,
+    residuo
+  )
+
+checagens_ajuste <- data.frame(
+  verificacao = c(
+    "A fórmula e lm() produzem os mesmos valores ajustados",
+    "Taxa observada = valor ajustado + resíduo"
+  ),
+  passou = c(
+    isTRUE(all.equal(
+      dados_com_ajuste$valor_ajustado_formula,
+      dados_com_ajuste$valor_ajustado_lm,
+      tolerance = 0.000000000001
+    )),
+    isTRUE(all.equal(
+      dados_com_ajuste$taxa_media_convergencia,
+      dados_com_ajuste$valor_ajustado_lm + dados_com_ajuste$residuo
+    ))
+  )
 )
 
-stopifnot(
-  isTRUE(all.equal(
-    dados_com_ajuste$valor_ajustado_formula,
-    dados_com_ajuste$valor_ajustado_lm,
-    tolerance = 0.000000000001
-  )),
-  isTRUE(all.equal(
-    dados_com_ajuste$taxa_media_convergencia,
-    dados_com_ajuste$valor_ajustado_lm + dados_com_ajuste$residuo
-  ))
-)
+# Ambos os resultados esperados são TRUE.
+checagens_ajuste
 
 # 8. Construção incremental do gráfico final ----------------------------
 
 # `grafico_com_reta` acrescenta a relação linear estimada aos pontos.
+# A legenda é construída pelas camadas do próprio ggplot.
 grafico_com_reta <- grafico_basico +
   geom_line(
     data = dados_com_ajuste,
-    aes(y = valor_ajustado_lm)
+    aes(y = valor_ajustado_lm, color = "Reta ajustada por MQO"),
+    linewidth = 0.9
+  ) +
+  labs(
+    title = "Figura 1 (etapa 2). Pontos anuais e reta de MQO",
+    subtitle = "Convergência média dos votos de Brasil e China na AGNU"
   )
 
-cat("\nFigura 1 (etapa 2). Dispersão e reta de MQO\n")
-cat(
-  "Legenda: a linha liga os valores ajustados pela regressão; cada ponto",
-  "continua representando um ano. Fonte: base didática AGNA.\n"
-)
 grafico_com_reta
 
 # `grafico_com_rotulos` explicita pergunta, unidades, denominador e fonte.
@@ -277,48 +291,45 @@ grafico_com_rotulos <- grafico_com_reta +
       "Figura 1. Associação entre ano e convergência média anual\n",
       "dos votos de Brasil e China"
     ),
-    subtitle = "Pontos anuais e reta amostral estimada por MQO bivariado",
+    subtitle = "Pontos anuais e reta amostral de mínimos quadrados ordinários",
     x = "Ano da votação",
     y = "Convergência média anual (proporção)",
     caption = paste0(
-      "Unidade: ano; denominador: resoluções com votos válidos dos dois ",
-      "países em cada ano.\n",
-      "Fonte: base didática AGNA.\n",
-      "Nota: a inclinação descreve associação linear, não efeito causal."
+      "Unidade: ano (20 observações); denominador: resoluções com votos ",
+      "válidos dos dois países em cada ano.\n",
+      "Fonte: base didática AGNA. Associação descritiva; sem interpretação causal."
     )
   )
 
-cat("\nFigura 1 (etapa 3). Dispersão e reta com rótulos substantivos\n")
-cat(
-  "Legenda: os rótulos informam pergunta, unidade, denominador, fonte e",
-  "limite de interpretação.\n"
-)
 grafico_com_rotulos
 
 # `grafico_final` melhora apenas a legibilidade de escalas e elementos visuais.
 grafico_final <- grafico_com_rotulos +
-  scale_x_continuous(breaks = seq(1997, 2016, by = 3)) +
   scale_y_continuous(
     breaks = seq(0, 1, by = 0.1),
     labels = scales::label_percent(accuracy = 1),
     limits = c(0, 1)
   ) +
-  theme_minimal() +
+  labs(
+    title = "Figura 1. Ano e convergência média dos votos de Brasil e China",
+    y = "Convergência média anual (%)"
+  ) +
+  theme_minimal(base_size = 11) +
   theme(
     panel.grid.minor = element_blank(),
-    plot.title.position = "plot"
+    plot.title.position = "plot",
+    plot.title = element_text(face = "bold"),
+    plot.caption = element_text(hjust = 0, size = 8),
+    legend.position = "bottom"
   )
 
-cat("\nFigura 1 (etapa 4). Gráfico final da associação linear\n")
-cat(
-  "Legenda: pontos = taxas anuais; linha = valores ajustados por MQO;",
-  "denominador = resoluções válidas por ano. Fonte: base didática AGNA.\n"
-)
 grafico_final
 
-stopifnot(inherits(grafico_final, "ggplot"))
-
-message("O gráfico final foi construído com sucesso.")
+# Opcional: depois da aula, descomente para salvar o gráfico em arquivo.
+# ggplot2::ggsave(
+#   filename = here("projeto_agna", "output", "aula_05", "figura_1_mqo_bivariado.png"),
+#   plot = grafico_final, width = 9, height = 5.5, units = "in", dpi = 300
+# )
 
 # 9. Interpretação substantiva ------------------------------------------
 
@@ -326,31 +337,16 @@ message("O gráfico final foi construído com sucesso.")
 inclinacao_pontos_percentuais <- 100 * inclinacao_manual
 intercepto_percentual <- 100 * intercepto_manual
 
-cat(
-  sprintf(
-    paste0(
-      "\nInterpretação: entre os 20 anos observados, um ano adicional está ",
-      "associado, em média, a uma variação de %.3f ponto percentual na ",
-      "convergência média anual.\n"
-    ),
-    inclinacao_pontos_percentuais
-  )
+# Leia a inclinação em pontos percentuais por ano e o intercepto como a
+# convergência prevista para 1997. Interprete os dois valores em voz alta.
+medidas_interpretacao <- data.frame(
+  medida = c("Inclinação (p.p. por ano)", "Intercepto em 1997 (%)"),
+  valor = c(inclinacao_pontos_percentuais, intercepto_percentual)
 )
 
-cat(
-  sprintf(
-    paste0(
-      "Como o preditor vale zero em 1997, o intercepto representa uma ",
-      "convergência prevista de %.3f%% para 1997.\n"
-    ),
-    intercepto_percentual
-  )
-)
+medidas_interpretacao
 
-cat(
-  "Esses coeficientes descrevem a reta amostral; não identificam efeitos",
-  "causais.\n"
-)
+# A reta resume associação linear nos 20 anos; não identifica efeito causal.
 
 # 10. Exercício ---------------------------------------------------------
 
