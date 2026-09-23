@@ -162,7 +162,7 @@ dados_com_ajuste <- dados_anuais |>
   )
 ```
 
-# Recapitulação: aplicar a mesma regra à amostra
+# Plug-in
 
 \begin{block}{Princípio plug-in, em palavras}
 Escreva a fórmula de uma quantidade da população. Aplique a mesma regra aos dados observados e use o resultado como estimador.
