@@ -161,6 +161,118 @@ resumo_ano <- resumo_ano |>
   )
 ```
 
+# Recapitulação: aplicar a mesma regra à amostra
+
+\begin{block}{Princípio plug-in, em palavras}
+Escreva a fórmula de uma quantidade da população. Aplique a mesma regra aos dados observados e use o resultado como estimador.
+\end{block}
+
+Para a média populacional de $Y$:
+
+\[
+\mu=E[Y]
+\quad\longrightarrow\quad
+\widehat\mu=\bar Y=\frac{1}{n}\sum_{i=1}^{n}Y_i.
+\]
+
+Se observarmos os valores $1$, $3$, $2$ e $6$, a média amostral será
+$\bar Y=(1+3+2+6)/4=3$.
+
+\begin{alertblock}{Pergunta}
+Aplicar a fórmula à amostra garante que o estimador não tenha viés?
+\end{alertblock}
+
+# A variância plug-in é viesada em amostras finitas
+
+Na população, denote a variância de $Y$ por $\sigma^2$:
+
+\[
+\sigma^2=\operatorname{V}(Y)=E[Y^2]-E[Y]^2.
+\]
+
+Ao aplicar a mesma regra à amostra:
+
+\[
+\widehat V_{\mathrm{PI}}
+=\overline{Y^2}-\bar Y^2
+=\frac{1}{n}\sum_{i=1}^{n}(Y_i-\bar Y)^2,
+\qquad
+\overline{Y^2}=\frac{1}{n}\sum_{i=1}^{n}Y_i^2.
+\]
+
+Para os quatro valores do slide anterior, $\bar Y=3$ e
+$\widehat V_{\mathrm{PI}}=(4+0+1+9)/4=3{,}5$.
+
+\begin{alertblock}{Em amostras repetidas}
+Se as observações forem independentes e identicamente distribuídas, com variância finita,
+$E[\widehat V_{\mathrm{PI}}]=\frac{n-1}{n}\sigma^2$: o viés é negativo.
+\end{alertblock}
+
+# Um estimador viesado ainda pode ser consistente
+
+\begin{block}{Duas perguntas diferentes}
+\textbf{Viés em amostras finitas:} $E[\widehat V_{\mathrm{PI}}]\neq\sigma^2$
+quando $n$ é finito e $\sigma^2>0$.
+Com $n=4$, a esperança é $3\sigma^2/4$.
+
+\medskip
+
+\textbf{Consistência:} sob amostragem independente e identicamente distribuída e
+$\sigma^2<\infty$, $\widehat V_{\mathrm{PI}}\xrightarrow{p}\sigma^2$ quando $n$ cresce.
+O símbolo $\xrightarrow{p}$ significa convergência em probabilidade.
+\end{block}
+
+Por quê? $\overline{Y^2}\xrightarrow{p}E[Y^2]$ e
+$\bar Y\xrightarrow{p}E[Y]$; portanto,
+$\overline{Y^2}-\bar Y^2\xrightarrow{p}E[Y^2]-E[Y]^2$.
+
+\smallskip
+
+A correção $s^2=\frac{n}{n-1}\widehat V_{\mathrm{PI}}
+=\frac{1}{n-1}\sum_i(Y_i-\bar Y)^2$ elimina o viés em amostras finitas.
+
+# Quando o princípio plug-in oferece boas estimativas?
+
+\begin{enumerate}
+\item Os dados precisam aproximar a distribuição de interesse; o livro parte de
+amostragem independente e identicamente distribuída.
+\item A quantidade calculada precisa estar definida: para a variância,
+por exemplo, é necessário que $E[Y^2]<\infty$.
+\item A regra deve ser \textbf{estável}: uma pequena mudança na distribuição
+não pode provocar uma mudança desproporcional na quantidade de interesse.
+\end{enumerate}
+
+\begin{block}{Condições de regularidade}
+Essas condições dependem da quantidade estimada. Para resultados mais fortes,
+como normalidade assintótica, Aronow e Miller exigem que a regra seja
+bem-comportada no entorno da distribuição populacional.
+\end{block}
+
+\small
+Sem amostragem adequada ou com uma regra instável, aplicar a fórmula à amostra
+não garante aproximação da quantidade populacional.
+
+# Definição formal do princípio plug-in
+
+Seja $\theta=T(F)$ uma característica da distribuição populacional $F$.
+Para observações $X_1,\ldots,X_n$ independentes e identicamente distribuídas,
+$\widehat F$ é a função de distribuição empírica:
+
+\[
+\widehat F(x)=\frac{1}{n}\sum_{i=1}^{n}\mathbf{1}\{X_i\leq x\}.
+\]
+
+\begin{block}{Estimador plug-in}
+\[
+\boxed{\widehat\theta_{\mathrm{PI}}=T(\widehat F).}
+\]
+Aplicamos à distribuição empírica a mesma regra $T$ usada para definir
+$\theta$ na população.
+\end{block}
+
+\scriptsize
+Fonte: Aronow e Miller (2019, seções 3.2.3 e 3.3--3.3.1, pp. 105--107 e 116--120).
+
 # Mapa conceitual: do BLP ao MQO amostral
 
 \begin{columns}[T,onlytextwidth]
@@ -542,8 +654,9 @@ E[Y]\mapsto\bar Y,
 \frac{1}{n}\sum_i(X_i-\bar X)(Y_i-\bar Y).
 \]
 
-\begin{block}{Princípio plug-in}
-O MQO estima a melhor aproximação linear populacional usando a distribuição empírica da amostra.
+\begin{block}{Retomada do princípio plug-in}
+Aplicar o princípio à fórmula populacional do BLP produz os coeficientes do MQO amostral.
+No projeto AGNA, a reta resume a associação linear entre os 20 anos observados.
 \end{block}
 
 # População e amostra não devem ser confundidas
