@@ -71,3 +71,41 @@ A versão anterior, com 54 páginas, foi preservada na tag Git `aula05-v1` (`git
 - Mantidos por decisão do professor: condições de regularidade do plug-in e comparação população vs. amostra.
 
 Compilação XeLaTeX sem erro. Inspeção visual das 37 páginas, com ajuste dos slides 19 e 22, que encostavam no rodapé. Conferidos no texto extraído os números 76,7%, 0,7672, 0,0039, 0,39 p.p., 79,3%, 69,6% e SQR 4,20. O roteiro do laboratório não foi modificado.
+
+## Exercício de ajuste visual (23 de setembro de 2026, tarde)
+
+O slide com a série Brasil–China no eixo de 0% a 100% saiu. Entraram quatro rodadas de ajuste visual, cada uma com dois slides idênticos: o primeiro só com os pontos, para os alunos desenharem na lousa a reta que melhor se ajusta; o segundo com a reta de MQO. Os dois gráficos de cada par têm os mesmos eixos e o mesmo tamanho, e a diferença de pixels entre eles fica restrita à área de plotagem.
+
+| Rodada | Dados | n | r | Inclinação de MQO |
+|---|---|---:|---:|---:|
+| 1 | Concordância com EUA × concordância com China, AGNU 2019 (sessão 74), por país | 191 | −0,92 | −1,09 |
+| 2 | Concordância com EUA × concordância com Rússia, AGNU 2018 (sessão 73), por país | 191 | −0,70 | −0,46 |
+| 3 | Concordância com Rússia × concordância com Brasil, AGNU 2019, por país | 191 | 0,64 | 0,63 |
+| 4 | Convergência Brasil–China por ano, 1997–2016 (base AGNA), eixo de 65% a 90% | 20 | 0,39 | +0,39 p.p./ano |
+
+As rodadas 1 a 3 leem `data/raw/ideal_points/IdealpointestimatesAll_Jun2024.csv` (colunas `USAgree`, `ChinaAgree`, `RUSSAgree` e `BrazilAgree`; ano = sessão + 1945). Cada rodada exclui os dois países que definem os eixos. O gráfico "AGNA: taxa anual e reta de MQO" passou a usar o mesmo eixo vertical de 65% a 90% da rodada 4. Os slides agora têm 44 páginas.
+
+Nas rodadas 1 e 2, o Brasil aparece destacado em verde e rotulado nos dois slides de cada par: em 2019, 26,4% de concordância com os EUA e 60,7% com a China; em 2018, 18,9% com os EUA e 66,3% com a Rússia. Na rodada 3, o Brasil define o eixo vertical e não é um ponto; na rodada 4, todos os pontos são do Brasil.
+
+## Laboratório: gráficos da lousa, correlação e padronização
+
+O roteiro `scripts/06_laboratorio_aula5_mqo_bivariado.R` ganhou a seção 10. Com isso, o exercício de recentralização passou a ser a seção 11 e os limites, a 12. A seção 10 refaz os quatro gráficos da lousa (Figura 2, com o Brasil em verde nas relações 1 e 2) e segue três passos: correlação por relação, `lm()` na relação 1 e regressão com X e Y padronizados na relação 1. Depois repete os passos nas quatro relações em `comparacao_relacoes` e mostra a Figura 3, com X e Y padronizados, a reta de MQO e a reta de correlação perfeita com o mesmo sinal.
+
+| Relação | r | Inclinação | Inclinação padronizada |
+|---|---:|---:|---:|
+| EUA × China, 2019 | −0,915 | −1,090 | −0,915 |
+| EUA × Rússia, 2018 | −0,696 | −0,456 | −0,696 |
+| Rússia × Brasil, 2019 | 0,636 | 0,627 | 0,636 |
+| Ano × convergência Brasil–China | 0,394 | 0,389 | 0,394 |
+
+Execução integral do script sem erro. As duas verificações (inclinação = r × dp(Y)/dp(X); inclinação padronizada = r) retornam TRUE, e os gráficos foram conferidos visualmente. O slide "Laboratório" passou a listar esse quarto momento.
+
+O slide "Equações normais" passou a mostrar a origem das duas condições (as derivadas da SQR em relação a $a$ e a $b$ igualadas a zero, uma por coeficiente) e a razão do nome: em geometria, *normal* quer dizer perpendicular, e as duas somas são produtos internos nulos do vetor de resíduos com $\mathbf 1_n$ e com $\mathbf X$. O Hansen usa o termo (eq. 2.21 para o BLP) sem explicar a origem; a leitura geométrica é a explicação usual, e a origem histórica do termo não foi verificada.
+
+As perguntas aos alunos saíram do slide "Equações normais". Um slide novo, "Equações normais: população e amostra", mostra as condições do BLP ($E[\varepsilon]=0$, $E[X\varepsilon]=0$) ao lado das amostrais e as apresenta como aplicação do princípio plug-in. Ele registra também que as condições do BLP valem por construção, com segundos momentos finitos e $\operatorname{V}(X)>0$. Os slides agora têm 45 páginas.
+
+Notação unificada segundo a convenção do professor: letra grega sem chapéu para parâmetros populacionais e com chapéu para estimativas amostrais. Os argumentos $a$, $b$ saíram de todos os slides. O critério, as condições de primeira ordem e as equações normais agora são escritos em $\widehat\alpha$, $\widehat\beta$ na amostra e em $\alpha$, $\beta$ na população, e o $\arg\min$ com variáveis mudas foi substituído por uma definição em palavras. A convenção é enunciada no slide "Valor ajustado e resíduo", primeiro uso de $\widehat\alpha$.
+
+Candidatos da minimização com til: $(\widehat\alpha,\widehat\beta)=\arg\min_{(\widetilde\alpha,\widetilde\beta)}\operatorname{SQR}(\widetilde\alpha,\widetilde\beta)$ na amostra e $(\alpha,\beta)$ como o par $(\widetilde\alpha,\widetilde\beta)$ que minimiza $E[(Y-\widetilde\alpha-\widetilde\beta X)^2]$ na população. As derivadas são tomadas em $\widetilde\alpha,\widetilde\beta$ e iguais a zero no mínimo $(\widehat\alpha,\widehat\beta)$. A frase "as duas derivadas se anulam", que sugeria cancelamento mútuo, passou a "são iguais a zero".
+
+O slide "Pergunta do projeto AGNA" foi cortado. O rótulo "AGNA" saiu de todo texto visível dos slides. Títulos: "Centralização em 1997", "Brasil e China: reta de MQO" e "Brasil e China: coeficientes". No roteiro da aula, o item passou a "Aplicação: votos de Brasil e China na AGNU". As fontes agora citam as votações nominais da AGNU (pacote unvotes) e os dados de Voeten, Strezhnev e Bailey. Os slides têm 44 páginas.

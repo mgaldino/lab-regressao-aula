@@ -349,7 +349,249 @@ medidas_interpretacao
 
 # A reta resume associação linear nos 20 anos; não identifica efeito causal.
 
-# 10. Exercício ---------------------------------------------------------
+# 10. Gráficos da lousa: correlação, regressão e padronização -----------
+
+# As quatro relações do exercício da lousa, da associação mais forte para a
+# mais fraca. As três primeiras vêm do arquivo de pontos ideais da AGNU
+# (Voeten, Strezhnev e Bailey, versão de junho de 2024). Nele, cada linha é
+# um país em uma sessão, e o ano de referência é sessão + 1945. As colunas
+# `USAgree`, `ChinaAgree`, `RUSSAgree` e `BrazilAgree` medem a concordância
+# de votos de cada país com EUA, China, Rússia e Brasil. Cada relação exclui
+# os dois países que definem os eixos.
+pontos_ideais <- fread(
+  here(
+    "projeto_agna",
+    "data",
+    "raw",
+    "ideal_points",
+    "IdealpointestimatesAll_Jun2024.csv"
+  )
+)
+
+eua_china_2019 <- pontos_ideais |>
+  dplyr::filter(
+    session == 74,
+    !iso3c %in% c("USA", "CHN"),
+    !is.na(USAgree),
+    !is.na(ChinaAgree)
+  ) |>
+  dplyr::transmute(
+    relacao = "1. EUA (X) e China (Y), 2019",
+    pais = iso3c,
+    x = 100 * USAgree,
+    y = 100 * ChinaAgree
+  )
+
+eua_russia_2018 <- pontos_ideais |>
+  dplyr::filter(
+    session == 73,
+    !iso3c %in% c("USA", "RUS"),
+    !is.na(USAgree),
+    !is.na(RUSSAgree)
+  ) |>
+  dplyr::transmute(
+    relacao = "2. EUA (X) e Rússia (Y), 2018",
+    pais = iso3c,
+    x = 100 * USAgree,
+    y = 100 * RUSSAgree
+  )
+
+russia_brasil_2019 <- pontos_ideais |>
+  dplyr::filter(
+    session == 74,
+    !iso3c %in% c("RUS", "BRA"),
+    !is.na(RUSSAgree),
+    !is.na(BrazilAgree)
+  ) |>
+  dplyr::transmute(
+    relacao = "3. Rússia (X) e Brasil (Y), 2019",
+    pais = iso3c,
+    x = 100 * RUSSAgree,
+    y = 100 * BrazilAgree
+  )
+
+# Na relação 4, cada ponto é um ano da base desta aula.
+brasil_china_anual <- dados_anuais |>
+  dplyr::transmute(
+    relacao = "4. Ano (X) e convergência Brasil-China (Y)",
+    pais = NA_character_,
+    x = ano,
+    y = 100 * taxa_media_convergencia
+  )
+
+relacoes <- dplyr::bind_rows(
+  eua_china_2019,
+  eua_russia_2018,
+  russia_brasil_2019,
+  brasil_china_anual
+)
+
+# Esperado: 191 países nas relações 1 a 3 e 20 anos na relação 4.
+relacoes |>
+  dplyr::count(relacao)
+
+# `grafico_relacoes` refaz os gráficos da lousa com a reta de MQO.
+# O Brasil aparece em verde nas relações 1 e 2.
+grafico_relacoes <- ggplot(relacoes, aes(x = x, y = y)) +
+  geom_point(color = "#0F172A", alpha = 0.6, size = 1.8) +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x,
+    se = FALSE,
+    color = "#C2410C",
+    linewidth = 0.9
+  ) +
+  geom_point(
+    data = dplyr::filter(relacoes, pais == "BRA"),
+    color = "#15803D",
+    size = 3
+  ) +
+  facet_wrap(~relacao, scales = "free") +
+  labs(
+    title = "Figura 2. As quatro relações do exercício da lousa",
+    x = "X: concordância (%) nas relações 1 a 3; ano na relação 4",
+    y = "Y: concordância ou convergência (%)",
+    caption = paste0(
+      "Relações 1 a 3: cada ponto é um país (191). ",
+      "Relação 4: cada ponto é um ano (20). Brasil em verde.\n",
+      "Fontes: Voeten, Strezhnev e Bailey, pontos ideais da AGNU ",
+      "(jun. 2024); base didática de votações da AGNU."
+    )
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(panel.grid.minor = element_blank())
+
+grafico_relacoes
+
+# Passo 1. Correlação entre X e Y em cada relação.
+correlacoes <- relacoes |>
+  dplyr::group_by(relacao) |>
+  dplyr::summarise(correlacao = cor(x, y), .groups = "drop")
+
+correlacoes
+
+# Passo 2. Regressão com lm(), começando pela relação 1. A inclinação está em
+# pontos percentuais de concordância com a China por ponto percentual de
+# concordância com os EUA.
+modelo_eua_china <- lm(y ~ x, data = eua_china_2019)
+
+coef(modelo_eua_china)
+
+# Passo 3. Padronize X e Y: subtraia a média e divida pelo desvio-padrão.
+# As variáveis padronizadas têm média 0 e desvio-padrão 1.
+eua_china_padronizada <- eua_china_2019 |>
+  dplyr::mutate(
+    x_padronizado = (x - mean(x)) / sd(x),
+    y_padronizado = (y - mean(y)) / sd(y)
+  )
+
+modelo_eua_china_padronizado <- lm(
+  y_padronizado ~ x_padronizado,
+  data = eua_china_padronizada
+)
+
+# Compare a inclinação padronizada com a correlação da relação 1.
+coef(modelo_eua_china_padronizado)
+
+cor(eua_china_2019$x, eua_china_2019$y)
+
+# Por quê? A inclinação de MQO é cov(X, Y) / var(X). Com X e Y padronizados,
+# var(X) = 1 e cov(X, Y) passa a ser exatamente a correlação. O intercepto
+# vira zero, a menos de erro numérico, porque a reta passa pelo ponto das
+# médias, agora (0, 0).
+
+# `comparacao_relacoes` repete os três passos nas quatro relações. A coluna
+# `correlacao_vezes_razao_dp` mostra a ponte entre inclinação e correlação:
+# inclinação = correlação * dp(Y) / dp(X).
+dados_padronizados <- relacoes |>
+  dplyr::group_by(relacao) |>
+  dplyr::mutate(
+    x_padronizado = (x - mean(x)) / sd(x),
+    y_padronizado = (y - mean(y)) / sd(y)
+  ) |>
+  dplyr::ungroup()
+
+comparacao_relacoes <- dados_padronizados |>
+  dplyr::group_by(relacao) |>
+  dplyr::summarise(
+    n = dplyr::n(),
+    correlacao = cor(x, y),
+    inclinacao = unname(coef(lm(y ~ x))[2]),
+    correlacao_vezes_razao_dp = cor(x, y) * sd(y) / sd(x),
+    inclinacao_padronizada = unname(
+      coef(lm(y_padronizado ~ x_padronizado))[2]
+    ),
+    .groups = "drop"
+  )
+
+comparacao_relacoes
+
+# O resultado esperado é TRUE nas duas linhas.
+data.frame(
+  verificacao = c(
+    "Inclinação = correlação * dp(Y) / dp(X)",
+    "Inclinação padronizada = correlação"
+  ),
+  passou = c(
+    isTRUE(all.equal(
+      comparacao_relacoes$inclinacao,
+      comparacao_relacoes$correlacao_vezes_razao_dp
+    )),
+    isTRUE(all.equal(
+      comparacao_relacoes$inclinacao_padronizada,
+      comparacao_relacoes$correlacao
+    ))
+  )
+)
+
+# `grafico_padronizado` põe as quatro relações na mesma escala. A inclinação
+# de cada reta laranja é a correlação. A linha tracejada mostra a reta de uma
+# correlação perfeita com o mesmo sinal: inclinação +1 ou -1.
+correlacoes_perfeitas <- comparacao_relacoes |>
+  dplyr::transmute(relacao, inclinacao_perfeita = sign(correlacao))
+
+grafico_padronizado <- ggplot(
+  dados_padronizados,
+  aes(x = x_padronizado, y = y_padronizado)
+) +
+  geom_abline(
+    data = correlacoes_perfeitas,
+    aes(slope = inclinacao_perfeita, intercept = 0),
+    linetype = "dashed",
+    color = "grey50"
+  ) +
+  geom_point(color = "#0F172A", alpha = 0.6, size = 1.8) +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ x,
+    se = FALSE,
+    color = "#C2410C",
+    linewidth = 0.9
+  ) +
+  facet_wrap(~relacao) +
+  coord_equal() +
+  labs(
+    title = "Figura 3. As quatro relações com X e Y padronizados",
+    x = "X padronizado (desvios-padrão)",
+    y = "Y padronizado (desvios-padrão)",
+    caption = paste0(
+      "Reta laranja: MQO, com inclinação igual à correlação. ",
+      "Linha tracejada: correlação perfeita com o mesmo sinal."
+    )
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(panel.grid.minor = element_blank())
+
+grafico_padronizado
+
+# Perguntas para discutir:
+# 1. Ordene as relações pela correlação. A ordem coincide com a dificuldade
+#    que a turma teve para desenhar a reta na lousa?
+# 2. Na relação 1, a inclinação é menor que -1, mas a correlação não pode
+#    ser. Por quê?
+# 3. Por que a inclinação padronizada não depende das unidades de X e Y?
+
+# 11. Exercício ---------------------------------------------------------
 
 # Recentrar o ano em 2009:
 # 1. Crie `anos_desde_2009 = ano - 2009`.
@@ -362,7 +604,7 @@ medidas_interpretacao
 # Pista: recentralizar muda a origem do eixo horizontal, não os pontos nem
 # a reta ajustada.
 
-# 11. Limites -----------------------------------------------------------
+# 12. Limites -----------------------------------------------------------
 
 # - A unidade da regressão é o ano, com apenas 20 observações agregadas.
 # - Anos têm números diferentes de resoluções; aqui cada média anual recebe

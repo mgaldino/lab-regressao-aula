@@ -109,7 +109,7 @@ sqr_mqo <- sum(exemplo$residuo_quadrado)
 eqm_mqo <- mean(exemplo$residuo_quadrado)
 sqr_alternativa <- sum(exemplo$residuo_alternativo_quadrado)
 
-# Aplicação anual do projeto AGNA.
+# Aplicação anual: votos de Brasil e China na AGNU.
 banco_resolucoes <- data.table::fread(
   here::here(
     "projeto_agna", "data", "processed",
@@ -160,6 +160,200 @@ dados_com_ajuste <- dados_anuais |>
   dplyr::mutate(
     valor_ajustado_lm = as.numeric(fitted(modelo_mqo))
   )
+
+# Exercício de ajuste visual: três relações com associação cada vez mais fraca.
+pontos_ideais <- data.table::fread(
+  here::here(
+    "projeto_agna", "data", "raw", "ideal_points",
+    "IdealpointestimatesAll_Jun2024.csv"
+  )
+)
+
+# Ano de referência = sessão + 1945.
+pontos_ideais_2018 <- pontos_ideais[session == 73]
+pontos_ideais_2019 <- pontos_ideais[session == 74]
+
+rodada_eua_china <- pontos_ideais_2019 |>
+  dplyr::filter(
+    !iso3c %in% c("USA", "CHN"),
+    !is.na(USAgree), !is.na(ChinaAgree)
+  ) |>
+  dplyr::transmute(pais = iso3c, x = 100 * USAgree, y = 100 * ChinaAgree)
+
+rodada_eua_russia <- pontos_ideais_2018 |>
+  dplyr::filter(
+    !iso3c %in% c("USA", "RUS"),
+    !is.na(USAgree), !is.na(RUSSAgree)
+  ) |>
+  dplyr::transmute(pais = iso3c, x = 100 * USAgree, y = 100 * RUSSAgree)
+
+rodada_russia_brasil <- pontos_ideais_2019 |>
+  dplyr::filter(
+    !iso3c %in% c("RUS", "BRA"),
+    !is.na(RUSSAgree), !is.na(BrazilAgree)
+  ) |>
+  dplyr::transmute(x = 100 * RUSSAgree, y = 100 * BrazilAgree)
+
+rodada_agna <- dados_anuais |>
+  dplyr::transmute(x = ano, y = 100 * taxa_media_convergencia)
+
+stopifnot(
+  nrow(rodada_eua_china) == 191,
+  nrow(rodada_eua_russia) == 191,
+  nrow(rodada_russia_brasil) == 191,
+  nrow(rodada_agna) == 20
+)
+
+formatar_numero <- function(valor, digitos = 2) {
+  formatC(valor, format = "f", digits = digitos, decimal.mark = ",")
+}
+
+equacao_mqo <- function(dados) {
+  coeficientes <- coef(lm(y ~ x, data = dados))
+  sinal <- if (coeficientes[2] < 0) " − " else " + "
+  paste0(
+    "MQO: Ŷ = ", formatar_numero(coeficientes[1], 1),
+    sinal, formatar_numero(abs(coeficientes[2])), "X"
+  )
+}
+
+rotulo_percentual <- function(valor) paste0(valor, "%")
+
+# Os gráficos com e sem reta usam os mesmos eixos e o mesmo tamanho, para que
+# a reta projetada caia sobre as retas desenhadas na lousa.
+grafico_rodada <- function(dados, rotulo_x, rotulo_y, limites_x, limites_y,
+                           quebras_x, rotulos_x, rotulo_reta = NULL,
+                           posicao_rotulo = NULL, destaque = NULL) {
+  grafico <- ggplot(dados, aes(x = x, y = y)) +
+    geom_point(size = 3, color = "#0F172A", alpha = 0.75) +
+    scale_x_continuous(breaks = quebras_x, labels = rotulos_x) +
+    scale_y_continuous(labels = rotulo_percentual) +
+    coord_cartesian(xlim = limites_x, ylim = limites_y) +
+    labs(x = rotulo_x, y = rotulo_y) +
+    theme_minimal(base_size = 16) +
+    theme(panel.grid.minor = element_blank())
+
+  if (!is.null(rotulo_reta)) {
+    grafico <- grafico +
+      geom_smooth(
+        method = "lm", formula = y ~ x, se = FALSE,
+        color = "#C2410C", linewidth = 1.6
+      ) +
+      annotate(
+        "label",
+        x = posicao_rotulo[1], y = posicao_rotulo[2],
+        label = rotulo_reta, hjust = 0, size = 5.5,
+        color = "#C2410C", fill = "white"
+      )
+  }
+
+  if (!is.null(destaque)) {
+    ponto <- dplyr::filter(dados, pais == destaque$pais)
+    direcao <- sign(ponto$y - destaque$posicao[2])
+    grafico <- grafico +
+      annotate(
+        "segment",
+        x = destaque$posicao[1], y = destaque$posicao[2] + 3 * direcao,
+        xend = ponto$x, yend = ponto$y - 1.5 * direcao,
+        color = "#15803D", linewidth = 0.8
+      ) +
+      geom_point(data = ponto, size = 5, color = "#15803D") +
+      annotate(
+        "label",
+        x = destaque$posicao[1], y = destaque$posicao[2],
+        label = destaque$rotulo, size = 5.5, fontface = "bold",
+        color = "#15803D", fill = "white"
+      )
+  }
+
+  grafico
+}
+
+eixos_eua_china <- list(
+  dados = rodada_eua_china,
+  rotulo_x = "Concordância com os EUA",
+  rotulo_y = "Concordância com a China",
+  limites_x = c(0, 100), limites_y = c(0, 100),
+  quebras_x = seq(0, 100, 20), rotulos_x = rotulo_percentual,
+  destaque = list(pais = "BRA", rotulo = "Brasil", posicao = c(24, 42))
+)
+
+eixos_eua_russia <- list(
+  dados = rodada_eua_russia,
+  rotulo_x = "Concordância com os EUA",
+  rotulo_y = "Concordância com a Rússia",
+  limites_x = c(0, 100), limites_y = c(0, 100),
+  quebras_x = seq(0, 100, 20), rotulos_x = rotulo_percentual,
+  destaque = list(pais = "BRA", rotulo = "Brasil", posicao = c(12, 90))
+)
+
+eixos_russia_brasil <- list(
+  dados = rodada_russia_brasil,
+  rotulo_x = "Concordância com a Rússia",
+  rotulo_y = "Concordância com o Brasil",
+  limites_x = c(0, 100), limites_y = c(0, 100),
+  quebras_x = seq(0, 100, 20), rotulos_x = rotulo_percentual
+)
+
+eixos_agna <- list(
+  dados = rodada_agna,
+  rotulo_x = "Ano da votação",
+  rotulo_y = "Convergência Brasil–China",
+  limites_x = c(1997, 2016), limites_y = c(65, 90),
+  quebras_x = c(1997, 2000, 2003, 2006, 2009, 2012, 2016),
+  rotulos_x = ggplot2::waiver()
+)
+
+reta_eua_china <- list(
+  rotulo_reta = equacao_mqo(rodada_eua_china),
+  posicao_rotulo = c(55, 92)
+)
+
+reta_eua_russia <- list(
+  rotulo_reta = equacao_mqo(rodada_eua_russia),
+  posicao_rotulo = c(55, 92)
+)
+
+reta_russia_brasil <- list(
+  rotulo_reta = equacao_mqo(rodada_russia_brasil),
+  posicao_rotulo = c(3, 95)
+)
+
+reta_agna <- list(
+  rotulo_reta = paste0(
+    "MQO: inclinação de +",
+    formatar_numero(coef(lm(y ~ x, data = rodada_agna))[2]),
+    " p.p. por ano"
+  ),
+  posicao_rotulo = c(1997.3, 89)
+)
+
+legenda_eua_china <- paste(
+  "Índice de concordância de votos com EUA e China na sessão de 2019 da AGNU.",
+  "Cada ponto é um país (191; exclui EUA e China).",
+  "Fonte: Voeten, Strezhnev e Bailey, United Nations General Assembly",
+  "Voting Data (jun. 2024)."
+)
+
+legenda_eua_russia <- paste(
+  "Índice de concordância de votos com EUA e Rússia na sessão de 2018 da AGNU.",
+  "Cada ponto é um país (191; exclui EUA e Rússia).",
+  "Fonte: Voeten, Strezhnev e Bailey, United Nations General Assembly",
+  "Voting Data (jun. 2024)."
+)
+
+legenda_russia_brasil <- paste(
+  "Índice de concordância de votos com Rússia e Brasil na sessão de 2019 da AGNU.",
+  "Cada ponto é um país (191; exclui Rússia e Brasil).",
+  "Fonte: Voeten, Strezhnev e Bailey, United Nations General Assembly",
+  "Voting Data (jun. 2024)."
+)
+
+legenda_agna <- paste(
+  "Convergência média anual dos votos de Brasil e China na AGNU, 1997–2016.",
+  "Cada ponto é um ano; denominador: 61 a 112 resoluções válidas por ano.",
+  "Fonte: votações nominais da AGNU (pacote unvotes), base didática do curso."
+)
 ```
 
 # Roteiro
@@ -181,7 +375,7 @@ e o princípio plug-in liga os dois.
 \item Derivação do MQO bivariado
 \item Exemplo com quatro pares
 \item Interpretação dos coeficientes
-\item Aplicação ao projeto AGNA
+\item Aplicação: votos de Brasil e China na AGNU
 \end{enumerate}
 
 \begin{block}{Objetivo}
@@ -302,41 +496,53 @@ $\theta$ na população.
 \scriptsize
 Fonte: Aronow e Miller (2019, seções 3.2.3 e 3.3--3.3.1, pp. 105--107 e 116--120).
 
-# Convergência Brasil--China na AGNU
+# EUA e China na AGNU, 2019
 
-```{r figura-0-pontos-agna, fig.width=8.7, fig.height=3.1, fig.cap='Convergência média dos votos de Brasil e China na Assembleia Geral das Nações Unidas (AGNU), 1997–2016. Cada ponto representa um ano; denominador de cada taxa: 61 a 112 resoluções válidas naquele ano. Fonte: base didática AGNA do curso.'}
-ggplot(dados_anuais, aes(x = ano, y = taxa_media_convergencia)) +
-  geom_point(color = "#1D4ED8", size = 2.6) +
-  scale_x_continuous(
-    breaks = c(1997, 2000, 2003, 2006, 2009, 2012, 2016)
-  ) +
-  scale_y_continuous(
-    breaks = seq(0, 1, by = 0.2),
-    labels = scales::label_percent(accuracy = 1),
-    limits = c(0, 1)
-  ) +
-  labs(
-    x = "Ano da votação",
-    y = "Convergência média anual (%)"
-  ) +
-  theme_minimal(base_size = 11) +
-  theme(panel.grid.minor = element_blank())
+```{r figura-rodada-1-pontos, fig.width=7, fig.height=4, out.width="74%", fig.cap=legenda_eua_china}
+do.call(grafico_rodada, eixos_eua_china)
 ```
 
-\small
-Em 1997, a taxa observada foi 79,3\%; em 2016, 69,6\%.
-O que aconteceria se uma reta usasse \textbf{todos} os pontos, e não apenas os extremos?
+# EUA e China na AGNU, 2019
 
-# Pergunta do projeto AGNA
+```{r figura-rodada-1-reta, fig.width=7, fig.height=4, out.width="74%", fig.cap=legenda_eua_china}
+do.call(grafico_rodada, c(eixos_eua_china, reta_eua_china))
+```
 
-\begin{block}{Pergunta substantiva}
-Qual é a associação linear entre o ano da votação e a convergência média anual dos votos de Brasil e China na AGNU?
-\end{block}
+# EUA e Rússia na AGNU, 2018
 
-- Unidade de análise da regressão: \textbf{ano}, após agregar as resoluções.
-- Variável resposta $Y_i$: taxa de convergência no ano $i$.
-- Preditor $X_i$: anos decorridos desde 1997 no ano $i$.
-- Amostra: $n=20$ anos, de 1997 a 2016, construídos com 1.762 resoluções válidas.
+```{r figura-rodada-2-pontos, fig.width=7, fig.height=4, out.width="74%", fig.cap=legenda_eua_russia}
+do.call(grafico_rodada, eixos_eua_russia)
+```
+
+# EUA e Rússia na AGNU, 2018
+
+```{r figura-rodada-2-reta, fig.width=7, fig.height=4, out.width="74%", fig.cap=legenda_eua_russia}
+do.call(grafico_rodada, c(eixos_eua_russia, reta_eua_russia))
+```
+
+# Rússia e Brasil na AGNU, 2019
+
+```{r figura-rodada-3-pontos, fig.width=7, fig.height=4, out.width="74%", fig.cap=legenda_russia_brasil}
+do.call(grafico_rodada, eixos_russia_brasil)
+```
+
+# Rússia e Brasil na AGNU, 2019
+
+```{r figura-rodada-3-reta, fig.width=7, fig.height=4, out.width="74%", fig.cap=legenda_russia_brasil}
+do.call(grafico_rodada, c(eixos_russia_brasil, reta_russia_brasil))
+```
+
+# Brasil e China na AGNU, 1997--2016
+
+```{r figura-rodada-4-pontos, fig.width=7, fig.height=4, out.width="74%", fig.cap=legenda_agna}
+do.call(grafico_rodada, eixos_agna)
+```
+
+# Brasil e China na AGNU, 1997--2016
+
+```{r figura-rodada-4-reta, fig.width=7, fig.height=4, out.width="74%", fig.cap=legenda_agna}
+do.call(grafico_rodada, c(eixos_agna, reta_agna))
+```
 
 # Exemplo: quatro pares
 
@@ -366,7 +572,8 @@ A reta de regressão amostral associa a cada $X_i$ observado um valor ajustado:
 \widehat Y_i=\widehat\alpha+\widehat\beta X_i,
 \]
 
-em que $\widehat\alpha$ é o intercepto estimado e $\widehat\beta$ é a inclinação estimada.
+em que $\widehat\alpha$ é o intercepto e $\widehat\beta$ é a inclinação calculados na amostra.
+Sem chapéu, $\alpha$ e $\beta$ são os parâmetros populacionais do BLP.
 Cada observação se decompõe em
 
 \[
@@ -427,39 +634,42 @@ ggplot(exemplo, aes(x = x, y = y)) +
 
 # Critério de mínimos quadrados
 
-A soma dos quadrados dos resíduos de uma reta candidata $a+bX$ é:
+A soma dos quadrados dos resíduos de uma reta candidata, com intercepto
+$\widetilde\alpha$ e inclinação $\widetilde\beta$, é:
 
 \[
-\operatorname{SQR}(a,b)
+\operatorname{SQR}(\widetilde\alpha,\widetilde\beta)
 =
-\sum_{i=1}^{n}(Y_i-a-bX_i)^2.
+\sum_{i=1}^{n}(Y_i-\widetilde\alpha-\widetilde\beta X_i)^2.
 \]
 
 \begin{block}{Estimador de MQO}
 \[
 (\widehat\alpha,\widehat\beta)
 =
-\arg\min_{(a,b)\in\mathbb R^2}
-\operatorname{SQR}(a,b).
+\arg\min_{(\widetilde\alpha,\widetilde\beta)\in\mathbb R^2}
+\operatorname{SQR}(\widetilde\alpha,\widetilde\beta).
 \]
+O til marca valores candidatos; o chapéu, o par que minimiza a SQR.
 \end{block}
 
-- $\arg\min$ devolve o par $(a,b)$ que minimiza a SQR.
-- Minimizar o EQM amostral, $\operatorname{SQR}(a,b)/n$, produz os mesmos coeficientes.
+- Minimizar o EQM amostral, $\operatorname{SQR}(\widetilde\alpha,\widetilde\beta)/n$, produz os mesmos coeficientes.
 - Elevar ao quadrado impede que resíduos positivos e negativos se cancelem e penaliza mais os resíduos grandes.
 - Se todos os $X_i$ forem iguais, o critério não produz uma inclinação única.
 
 # Condições de primeira ordem
 
-Escreva $Q(a,b)=\sum_{i=1}^{n}(Y_i-a-bX_i)^2$. Pela regra da cadeia:
+Derive a SQR em relação a $\widetilde\alpha$ e a $\widetilde\beta$. Pela regra da cadeia:
 
 \[
-\frac{\partial Q(a,b)}{\partial a}=-2\sum_{i=1}^{n}(Y_i-a-bX_i),
+\frac{\partial\operatorname{SQR}}{\partial\widetilde\alpha}
+=-2\sum_{i=1}^{n}(Y_i-\widetilde\alpha-\widetilde\beta X_i),
 \qquad
-\frac{\partial Q(a,b)}{\partial b}=-2\sum_{i=1}^{n}X_i(Y_i-a-bX_i).
+\frac{\partial\operatorname{SQR}}{\partial\widetilde\beta}
+=-2\sum_{i=1}^{n}X_i(Y_i-\widetilde\alpha-\widetilde\beta X_i).
 \]
 
-No mínimo $(\widehat\alpha,\widehat\beta)$, as duas derivadas se anulam.
+No mínimo $(\widehat\alpha,\widehat\beta)$, as duas derivadas são iguais a zero.
 Obtemos as \textbf{equações normais}:
 
 \[
@@ -477,20 +687,59 @@ No ponto mínimo, um pequeno movimento isolado no intercepto ou na inclinação 
 
 # Equações normais
 
-No ajuste com intercepto, as duas condições são:
+São as duas condições de primeira ordem da minimização da SQR, uma para cada coeficiente:
 
 \[
-\sum_i\widehat e_i=0,
-\qquad
-\sum_iX_i\widehat e_i=0.
+\underbrace{\sum_i\widehat e_i=0}_{\partial\operatorname{SQR}/\partial\widetilde\alpha\,=\,0}
+\qquad\qquad
+\underbrace{\sum_iX_i\widehat e_i=0}_{\partial\operatorname{SQR}/\partial\widetilde\beta\,=\,0}
 \]
 
-\begin{alertblock}{Perguntas}
-\begin{enumerate}
-\item Se os quatro resíduos fossem positivos, a primeira igualdade poderia valer?
-\item No exemplo, $X$ vai de 0 a 3. Qual ponto pesa mais na segunda soma:
-um resíduo em $X=0$ ou o mesmo resíduo em $X=3$?
-\end{enumerate}
+\begin{block}{Por que ``normais''}
+Em geometria, \emph{normal} quer dizer perpendicular. Com os vetores
+$\widehat{\mathbf e}=(\widehat e_1,\ldots,\widehat e_n)$,
+$\mathbf 1_n=(1,\ldots,1)$ e $\mathbf X=(X_1,\ldots,X_n)$, as duas somas são
+produtos internos: $\mathbf 1_n\cdot\widehat{\mathbf e}=0$ e
+$\mathbf X\cdot\widehat{\mathbf e}=0$. O vetor de resíduos é perpendicular
+a $\mathbf 1_n$ e a $\mathbf X$.
+\end{block}
+
+# Equações normais: população e amostra
+
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{População: BLP (Aula 3)}
+$(\alpha,\beta)$ é o par $(\widetilde\alpha,\widetilde\beta)$ que minimiza
+$E[(Y-\widetilde\alpha-\widetilde\beta X)^2]$. Com $\varepsilon=Y-\alpha-\beta X$,
+as condições de primeira ordem são:
+\[
+E[\varepsilon]=0,
+\qquad
+E[X\varepsilon]=0.
+\]
+\end{block}
+
+\column{0.48\textwidth}
+\begin{block}{Amostra: MQO}
+$(\widehat\alpha,\widehat\beta)$ é o par $(\widetilde\alpha,\widetilde\beta)$ que minimiza
+$n^{-1}\sum_i(Y_i-\widetilde\alpha-\widetilde\beta X_i)^2$. Com
+$\widehat e_i=Y_i-\widehat\alpha-\widehat\beta X_i$:
+\[
+\frac{1}{n}\sum_{i=1}^{n}\widehat e_i=0,
+\qquad
+\frac{1}{n}\sum_{i=1}^{n}X_i\widehat e_i=0.
+\]
+\end{block}
+\end{columns}
+
+\bigskip
+
+As equações amostrais são as populacionais com a esperança trocada pela média
+amostral: o princípio plug-in aplicado às equações normais.
+
+\begin{alertblock}{Por construção}
+No BLP, $E[\varepsilon]=0$ e $E[X\varepsilon]=0$ valem pela própria definição de
+$\alpha$ e $\beta$, desde que os segundos momentos sejam finitos e $\operatorname{V}(X)>0$.
 \end{alertblock}
 
 # Intercepto
@@ -591,7 +840,7 @@ A covariância e a variância plug-in têm ambas o fator $1/n$. Por que ele não
 \begin{block}{BLP populacional}
 Objeto: distribuição conjunta de $(X,Y)$.
 
-Critério: $E[(Y-a-bX)^2]$.
+Critério: minimizar $E[(Y-\widetilde\alpha-\widetilde\beta X)^2]$.
 
 Coeficientes: $\alpha$ e $\beta$.
 
@@ -602,7 +851,7 @@ Desvio: $\varepsilon=Y-\alpha-\beta X$.
 \begin{block}{MQO amostral}
 Objeto: $n$ pares observados.
 
-Critério: $n^{-1}\sum_i(Y_i-a-bX_i)^2$.
+Critério: minimizar $n^{-1}\sum_i(Y_i-\widetilde\alpha-\widetilde\beta X_i)^2$.
 
 Coeficientes: $\widehat\alpha$ e $\widehat\beta$.
 
@@ -792,7 +1041,7 @@ que diferem em 1,4 unidade de $Y$.
 
 No exemplo, $X=0$ está na amostra e $\widehat\alpha=0{,}9$ é uma leitura direta.
 
-No AGNA, chame o ano bruto de $A_i=\text{ano}_i$. Usar $A_i$ diretamente como preditor produziria:
+Na série Brasil--China, chame o ano bruto de $A_i=\text{ano}_i$. Usar $A_i$ diretamente como preditor produziria:
 
 \[
 \widehat Y_i=\widehat\alpha_A+\widehat\beta A_i,
@@ -826,7 +1075,7 @@ Como $X_i=X_i^c+c$:
 A nova inclinação continua $\widehat\beta$; o novo intercepto é o valor ajustado no ponto original $X=c$.
 \end{block}
 
-# Centralização no AGNA
+# Centralização em 1997
 
 Defina:
 
@@ -864,9 +1113,9 @@ pode ser calculada para 2050, mas os dados não mostram que a associação linea
 \small
 Mesmo dentro do suporte, o valor ajustado pode se afastar da CEF se a associação for não linear.
 
-# AGNA: taxa anual e reta de MQO
+# Brasil e China: reta de MQO
 
-```{r figura-3-agna, fig.width=8.7, fig.height=3.75, fig.cap='Convergência média anual e reta de MQO, 1997–2016. Unidade da regressão: ano (20 pontos); denominador de cada taxa: 61 a 112 resoluções válidas naquele ano, 1.762 no total. Eixo vertical: 0%–100%. Fonte: base didática AGNA do curso.'}
+```{r figura-3-agna, fig.width=8.7, fig.height=3.75, fig.cap='Convergência média anual e reta de MQO, 1997–2016. Unidade da regressão: ano (20 pontos); denominador de cada taxa: 61 a 112 resoluções válidas naquele ano, 1.762 no total. Eixo vertical: 65%–90%. Fonte: votações nominais da AGNU (pacote unvotes), base didática do curso.'}
 ggplot(
   dados_anuais,
   aes(x = anos_desde_1997, y = taxa_media_convergencia)
@@ -891,13 +1140,13 @@ ggplot(
     labels = c(1997, 2000, 2003, 2006, 2009, 2012, 2015, 2016)
   ) +
   scale_y_continuous(
-    breaks = seq(0, 1, by = 0.2),
+    breaks = seq(0.65, 0.90, by = 0.05),
     labels = scales::label_percent(
       accuracy = 1,
       decimal.mark = ","
-    ),
-    limits = c(0, 1)
+    )
   ) +
+  coord_cartesian(ylim = c(0.65, 0.90)) +
   labs(
     x = "Ano da votação",
     y = "Convergência média anual",
@@ -910,7 +1159,7 @@ ggplot(
   )
 ```
 
-# AGNA: coeficientes
+# Brasil e China: coeficientes
 
 Com $X=\text{ano}-1997$, o ajuste nos 20 anos é:
 
@@ -991,15 +1240,18 @@ Confirme que há 20 anos e que cada taxa tem seu próprio denominador.
 os cálculos manuais e o resultado de \texttt{lm()}.
 \item \textbf{Interpretação:} use \texttt{grafico\_final} e \texttt{dados\_com\_ajuste}
 para relacionar pontos, valores ajustados e resíduos.
+\item \textbf{Correlação e padronização:} use \texttt{grafico\_relacoes} e
+\texttt{comparacao\_relacoes} para retomar os gráficos da lousa e verificar que,
+com $X$ e $Y$ padronizados, a inclinação é a correlação.
 \end{enumerate}
 
-\begin{block}{Pergunta para os três momentos}
+\begin{block}{Pergunta para os quatro momentos}
 O que a saída descreve na amostra?
 \end{block}
 
 # Exercício
 
-No AGNA, $A_i$ é o ano, $X_i=A_i-1997$ mede anos desde 1997,
+Na série Brasil--China, $A_i$ é o ano, $X_i=A_i-1997$ mede anos desde 1997,
 e $Y_i$ é a taxa de convergência em proporção. A reta arredondada é:
 
 \[
@@ -1034,4 +1286,4 @@ A Aula 5 termina na estimação e interpretação bivariada. Regressão múltipl
 \end{block}
 
 \scriptsize
-Dados de aplicação: base didática AGNA do curso, votações da Assembleia Geral das Nações Unidas, 1997--2016.
+Dados de aplicação: votações nominais da Assembleia Geral das Nações Unidas (pacote unvotes), 1997--2016; pontos ideais e índices de concordância de Voeten, Strezhnev e Bailey (jun. 2024).
