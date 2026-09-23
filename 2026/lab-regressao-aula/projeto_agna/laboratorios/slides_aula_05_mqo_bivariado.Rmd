@@ -110,7 +110,7 @@ eqm_mqo <- mean(exemplo$residuo_quadrado)
 sqr_alternativa <- sum(exemplo$residuo_alternativo_quadrado)
 
 # Aplicação anual do projeto AGNA.
-dados_agna <- data.table::fread(
+banco_resolucoes <- data.table::fread(
   here::here(
     "projeto_agna", "data", "processed",
     "brasil_convergencia_china_1997_2016.csv"
@@ -118,46 +118,47 @@ dados_agna <- data.table::fread(
 )
 
 stopifnot(
-  nrow(dados_agna) == 1762,
-  data.table::uniqueN(dados_agna$rcid) == 1762,
-  all(dados_agna$ano >= 1997 & dados_agna$ano <= 2016),
-  all(dados_agna$convergente %in% c(0, 1))
+  nrow(banco_resolucoes) == 1762,
+  data.table::uniqueN(banco_resolucoes$rcid) == 1762,
+  all(banco_resolucoes$ano >= 1997 & banco_resolucoes$ano <= 2016),
+  all(banco_resolucoes$convergente %in% c(0, 1))
 )
 
-resumo_ano <- dados_agna |>
+dados_anuais <- banco_resolucoes |>
   dplyr::group_by(ano) |>
   dplyr::summarise(
-    resolucoes_validas = dplyr::n(),
-    votos_convergentes = sum(convergente),
-    convergencia_media = mean(convergente),
+    n_resolucoes_validas = dplyr::n(),
+    n_votos_convergentes = sum(convergente),
+    taxa_media_convergencia = mean(convergente),
     .groups = "drop"
   ) |>
+  dplyr::arrange(ano) |>
   dplyr::mutate(
     anos_desde_1997 = ano - 1997
   ) |>
   dplyr::select(
-    ano, anos_desde_1997, resolucoes_validas,
-    votos_convergentes, convergencia_media
+    ano, anos_desde_1997, n_resolucoes_validas,
+    n_votos_convergentes, taxa_media_convergencia
   )
 
 stopifnot(
-  nrow(resumo_ano) == 20,
-  sum(resumo_ano$resolucoes_validas) == nrow(dados_agna),
-  all(resumo_ano$convergencia_media >= 0 &
-        resumo_ano$convergencia_media <= 1)
+  nrow(dados_anuais) == 20,
+  sum(dados_anuais$n_resolucoes_validas) == nrow(banco_resolucoes),
+  all(dados_anuais$taxa_media_convergencia >= 0 &
+        dados_anuais$taxa_media_convergencia <= 1)
 )
 
-modelo_agna <- lm(
-  convergencia_media ~ anos_desde_1997,
-  data = resumo_ano
+modelo_mqo <- lm(
+  taxa_media_convergencia ~ anos_desde_1997,
+  data = dados_anuais
 )
 
-alpha_agna <- unname(coef(modelo_agna)[1])
-beta_agna <- unname(coef(modelo_agna)[2])
+alpha_agna <- unname(coef(modelo_mqo)[1])
+beta_agna <- unname(coef(modelo_mqo)[2])
 
-resumo_ano <- resumo_ano |>
+dados_com_ajuste <- dados_anuais |>
   dplyr::mutate(
-    valor_ajustado = fitted(modelo_agna)
+    valor_ajustado_lm = as.numeric(fitted(modelo_mqo))
   )
 ```
 
@@ -273,6 +274,31 @@ $\theta$ na população.
 \scriptsize
 Fonte: Aronow e Miller (2019, seções 3.2.3 e 3.3--3.3.1, pp. 105--107 e 116--120).
 
+# Que reta resumiria estes 20 anos?
+
+```{r figura-0-pontos-agna, fig.width=8.7, fig.height=3.1, fig.cap='Convergência média dos votos de Brasil e China na Assembleia Geral das Nações Unidas (AGNU), 1997–2016. Cada ponto representa um ano; denominador de cada taxa: 61 a 112 resoluções válidas naquele ano. Fonte: base didática AGNA do curso.'}
+ggplot(dados_anuais, aes(x = ano, y = taxa_media_convergencia)) +
+  geom_point(color = "#1D4ED8", size = 2.6) +
+  scale_x_continuous(
+    breaks = c(1997, 2000, 2003, 2006, 2009, 2012, 2016)
+  ) +
+  scale_y_continuous(
+    breaks = seq(0, 1, by = 0.2),
+    labels = scales::label_percent(accuracy = 1),
+    limits = c(0, 1)
+  ) +
+  labs(
+    x = "Ano da votação",
+    y = "Convergência média anual (%)"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(panel.grid.minor = element_blank())
+```
+
+\small
+Em 1997, a taxa observada foi 79,3\%; em 2016, 69,6\%.
+O que aconteceria se uma reta usasse \textbf{todos} os pontos, e não apenas os extremos?
+
 # Mapa conceitual: do BLP ao MQO amostral
 
 \begin{columns}[T,onlytextwidth]
@@ -294,19 +320,6 @@ Estimar uma reta não identifica, por si só, um efeito causal.
 Você saberá calcular a reta, interpretar seus coeficientes e delimitar o que ela não responde.
 \end{block}
 \end{columns}
-
-# A Aula 5 acumula quatro camadas anteriores
-
-\begin{enumerate}
-\item \textbf{Aula 1:} probabilidade e simulação organizam a incerteza.
-\item \textbf{Aula 2:} esperança, variância, covariância, correlação e EQM resumem distribuições.
-\item \textbf{Aula 3:} CEF, melhor preditor e BLP separam descrição condicional e previsão linear.
-\item \textbf{Aula 4:} resultados potenciais e identificação separam associação e causalidade.
-\end{enumerate}
-
-\begin{block}{Próximo passo}
-Trocar momentos populacionais desconhecidos por momentos da amostra e encontrar a melhor reta observada.
-\end{block}
 
 # O projeto AGNA fornece uma pergunta bivariada
 
@@ -361,6 +374,26 @@ A informação usada para construir a reta associacional para a unidade $i$.
 
 \small
 No exemplo didático, a unidade é uma observação, $X_i$ varia de 0 a 3 e $Y_i$ varia de 1 a 6. No AGNA, cada unidade será um ano.
+
+# Quatro pares para acompanhar a construção da reta
+
+São os mesmos quatro valores de $Y$ usados na recapitulação do plug-in,
+agora acompanhados por um preditor $X$:
+
+\begingroup\Large
+\[
+\begin{array}{c|rrrr}
+i&1&2&3&4\\ \hline
+X_i&0&1&2&3\\
+Y_i&1&3&2&6
+\end{array}
+\]
+\endgroup
+
+\begin{block}{Antes de calcular}
+Você esperaria uma reta crescente ou decrescente? Uma reta precisa passar
+por todos os quatro pontos para resumir bem a associação?
+\end{block}
 
 # Uma reta atribui um valor ajustado a cada $X_i$
 
@@ -568,6 +601,24 @@ Na solução:
 
 Logo, $\sum_i X_i\widehat e_i=0$.
 
+# Pausa: o que dizem as duas condições?
+
+No ajuste com intercepto, as duas condições são:
+
+\[
+\sum_i\widehat e_i=0,
+\qquad
+\sum_iX_i\widehat e_i=0.
+\]
+
+\begin{alertblock}{Discuta antes de continuar}
+\begin{enumerate}
+\item Se os quatro resíduos fossem positivos, a primeira igualdade poderia valer?
+\item No exemplo, $X$ vai de 0 a 3. Qual ponto pesa mais na segunda soma:
+um resíduo em $X=0$ ou o mesmo resíduo em $X=3$?
+\end{enumerate}
+\end{alertblock}
+
 # A equação normal determina o intercepto
 
 Comece por $\sum_i\widehat e_i=0$:
@@ -632,6 +683,21 @@ O numerador mede como $X$ e $Y$ se movem juntos; o denominador mede quanto $X$ v
 \begin{alertblock}{Limite}
 Sem variação em $X$, o denominador é zero e não há inclinação única.
 \end{alertblock}
+
+# Pausa: leia a fórmula antes das contas
+
+Volte aos quatro pares $(X_i,Y_i)$ do início da aula.
+
+\begin{enumerate}
+\item Você espera uma inclinação positiva ou negativa? Confira o sinal do
+numerador antes de dividir.
+\item A covariância e a variância plug-in têm ambas um fator $1/n$.
+Por que esse fator não aparece na fórmula de $\widehat\beta$?
+\end{enumerate}
+
+\begin{block}{Pista}
+O denominador é uma soma de quadrados, portanto é positivo quando $X$ varia.
+\end{block}
 
 # O MQO é o análogo amostral do BLP
 
@@ -709,6 +775,7 @@ knitr::kable(
   format = "latex",
   booktabs = TRUE,
   digits = 2,
+  format.args = list(decimal.mark = ","),
   escape = FALSE,
   col.names = c(
     "Unidade", "$X_i$", "$Y_i$", "$X_i-\\bar X$",
@@ -788,6 +855,7 @@ knitr::kable(
   format = "latex",
   booktabs = TRUE,
   digits = 2,
+  format.args = list(decimal.mark = ","),
   escape = FALSE,
   col.names = c(
     "Unidade", "$X_i$", "$Y_i$", "$\\widehat Y_i$",
@@ -918,13 +986,13 @@ Uma inclinação positiva descreve associação linear positiva. Ela não diz qu
 
 No exemplo, $X=0$ está na amostra e $\widehat\alpha=0{,}9$ é uma leitura direta.
 
-No AGNA, usar $X=\text{ano}$ produziria:
+No AGNA, chame o ano bruto de $A_i=\text{ano}_i$. Usar $A_i$ diretamente como preditor produziria:
 
 \[
-\widehat Y=\widehat\alpha+\widehat\beta(\text{ano}),
+\widehat Y_i=\widehat\alpha_A+\widehat\beta A_i,
 \]
 
-e $\widehat\alpha$ descreveria a reta no ano zero.
+e $\widehat\alpha_A$ descreveria a reta no ano zero.
 
 \begin{alertblock}{Problema}
 O ano zero está muito fora dos dados de 1997--2016; o intercepto seria matematicamente válido, mas substantivamente pouco útil.
@@ -979,7 +1047,8 @@ O novo intercepto, 3,7, é o valor ajustado quando o $X$ original vale 2. A reta
 Defina:
 
 \[
-X_i=\text{ano}_i-1997.
+A_i=\text{ano}_i,
+\qquad X_i=A_i-1997.
 \]
 
 Então:
@@ -993,6 +1062,25 @@ O intercepto passa a ser a convergência média anual ajustada para 1997, o iní
 \end{block}
 
 O número de anos transcorridos muda a origem da escala, não a informação nem a inclinação.
+
+# Pausa: por que recentralizar não muda a reta?
+
+No AGNA, substitua $X_i=A_i-1997$ por:
+
+\[
+X_i^{2009}=A_i-2009.
+\]
+
+Discuta:
+
+1. Por que a inclinação permanece igual?
+2. Por que o intercepto muda?
+3. O que o novo intercepto representa?
+4. Por que nenhuma parametrização identifica um efeito causal de 2009?
+
+\begin{block}{Dica}
+A centralização apenas muda o ponto em que o preditor vale zero; ela não muda pontos, resíduos, SQR ou valores ajustados.
+\end{block}
 
 # Valores ajustados descrevem a reta dentro da amostra
 
@@ -1028,23 +1116,24 @@ O valor de $X$ que estou interpretando aparece nos dados ou depende de uma exten
 
 # A associação anual no AGNA é pequena e positiva
 
-```{r figura-3-agna, fig.width=8.7, fig.height=3.75, fig.cap='Convergência média anual e reta de MQO, 1997-2016. Unidade: ano; denominador: 20 anos, construídos com 1.762 resoluções válidas. Fonte: base didática AGNA do curso.'}
+```{r figura-3-agna, fig.width=8.7, fig.height=3.75, fig.cap='Convergência média anual e reta de MQO, 1997–2016. Unidade da regressão: ano (20 pontos); denominador de cada taxa: 61 a 112 resoluções válidas naquele ano, 1.762 no total. Eixo vertical: 0%–100%. Fonte: base didática AGNA do curso.'}
 ggplot(
-  resumo_ano,
-  aes(x = anos_desde_1997, y = convergencia_media)
+  dados_anuais,
+  aes(x = anos_desde_1997, y = taxa_media_convergencia)
 ) +
   geom_point(
-    aes(color = "Média anual observada"),
+    aes(color = "Taxa anual observada"),
     size = 2.4
   ) +
   geom_line(
-    aes(y = valor_ajustado, color = "Reta de MQO"),
+    data = dados_com_ajuste,
+    aes(y = valor_ajustado_lm, color = "Reta ajustada por MQO"),
     linewidth = 1
   ) +
   scale_color_manual(
     values = c(
-      "Média anual observada" = "#0F172A",
-      "Reta de MQO" = "#1D4ED8"
+      "Taxa anual observada" = "#1D4ED8",
+      "Reta ajustada por MQO" = "#C2410C"
     )
   ) +
   scale_x_continuous(
@@ -1052,11 +1141,12 @@ ggplot(
     labels = c(1997, 2000, 2003, 2006, 2009, 2012, 2015, 2016)
   ) +
   scale_y_continuous(
+    breaks = seq(0, 1, by = 0.2),
     labels = scales::label_percent(
       accuracy = 1,
       decimal.mark = ","
     ),
-    limits = c(0.65, 0.92)
+    limits = c(0, 1)
   ) +
   labs(
     x = "Ano da votação",
@@ -1095,6 +1185,30 @@ Cada ano adicional está associado a
 \small
 Cada ano recebe o mesmo peso porque a unidade da regressão é o ano.
 
+# Volte aos extremos: a reta usa os vinte pontos
+
+\begin{columns}[T,onlytextwidth]
+\column{0.47\textwidth}
+\begin{block}{Dois anos isolados}
+Taxa observada em 1997: 79,3\%.
+
+Taxa observada em 2016: 69,6\%.
+
+Ligar apenas esses dois pontos produziria uma reta descendente.
+\end{block}
+
+\column{0.47\textwidth}
+\begin{block}{Todos os anos}
+O MQO ajusta a reta aos 20 pontos anuais. Sua inclinação é positiva:
++0,39 ponto percentual por ano.
+\end{block}
+\end{columns}
+
+\begin{alertblock}{O que explica a diferença?}
+Os 18 anos intermediários também entram nas somas de covariação e variação.
+Os dois extremos, sozinhos, não determinam a inclinação do MQO.
+\end{alertblock}
+
 # A inclinação positiva não identifica efeito causal
 
 O ajuste mostra:
@@ -1121,14 +1235,14 @@ Sem exposição bem definida, resultados potenciais e hipótese de identificaç�
 Em R, a chamada bivariada é:
 
 ```{r, eval=FALSE, echo=TRUE}
-modelo <- lm(
-  convergencia_media ~ anos_desde_1997,
-  data = resumo_ano
+modelo_mqo <- lm(
+  taxa_media_convergencia ~ anos_desde_1997,
+  data = dados_anuais
 )
 
-coef(modelo)
-fitted(modelo)
-residuals(modelo)
+coef(modelo_mqo)
+fitted(modelo_mqo)
+residuals(modelo_mqo)
 ```
 
 \begin{block}{O que o programa faz}
@@ -1136,8 +1250,23 @@ Encontra os coeficientes que minimizam a SQR e devolve valores ajustados e resí
 \end{block}
 
 \begin{alertblock}{O que o programa não faz}
-`lm()` não cria identificação causal e, nesta aula, não usaremos valores-p, testes, intervalos de confiança ou `summary(modelo)`.
+\texttt{lm()} não cria identificação causal e, nesta aula, não usaremos valores-p, testes, intervalos de confiança ou \texttt{summary(modelo\_mqo)}.
 \end{alertblock}
+
+# No laboratório, acompanhe três momentos
+
+\begin{enumerate}
+\item \textbf{Antes da reta:} leia \texttt{dados\_anuais} e \texttt{grafico\_basico}.
+Confirme que há 20 anos e que cada taxa tem seu próprio denominador.
+\item \textbf{A reta:} use \texttt{coeficientes\_comparados} para confrontar
+os cálculos manuais e o resultado de \texttt{lm()}.
+\item \textbf{Interpretação:} use \texttt{grafico\_final} e \texttt{dados\_com\_ajuste}
+para relacionar pontos, valores ajustados e resíduos.
+\end{enumerate}
+
+\begin{block}{Pergunta comum aos três momentos}
+O que a saída descreve na amostra? Que conclusão causal ela não permite?
+\end{block}
 
 # Propriedades dos resíduos são mecânicas, não diagnósticas
 
@@ -1164,37 +1293,22 @@ Hoje usamos essas igualdades somente para verificar a construção da reta. Diag
 
 # Pausa: recupere a lógica sem usar software
 
-Considere a reta $\widehat Y=2+0{,}5X$.
+No AGNA, $A_i$ é o ano, $X_i=A_i-1997$ mede anos desde 1997,
+e $Y_i$ é a taxa de convergência em proporção. A reta arredondada é:
+
+\[
+\widehat Y=0{,}7672+0{,}0039X.
+\]
 
 \begin{enumerate}
-\item Qual é o valor ajustado quando $X=6$?
-\item Se o valor observado for $Y=4$, qual é o resíduo?
-\item Quais são as unidades da inclinação?
-\item O que o intercepto representa? $X=0$ é substantivamente relevante?
-\item Que argumento adicional seria necessário para chamar 0,5 de efeito causal?
+\item Qual é a taxa ajustada em 2000, quando $X=3$?
+\item Se, hipoteticamente, a taxa observada nesse ano fosse $0{,}80$, qual seria o resíduo?
+\item Quais são as unidades da inclinação e o que representa o intercepto?
+\item Que argumento adicional seria necessário para chamar a inclinação de efeito causal?
 \end{enumerate}
 
 \begin{block}{Objetivo}
 Separar cálculo, interpretação em unidades, suporte de $X$ e identificação.
-\end{block}
-
-# Pausa: por que recentralizar não muda a reta?
-
-No AGNA, substitua $X=\text{ano}-1997$ por:
-
-\[
-X^{2009}=\text{ano}-2009.
-\]
-
-Discuta:
-
-1. Por que a inclinação permanece igual?
-2. Por que o intercepto muda?
-3. O que o novo intercepto representa?
-4. Por que nenhuma parametrização identifica um efeito causal de 2009?
-
-\begin{block}{Dica}
-A centralização apenas muda o ponto em que $X=0$; ela não muda pontos, resíduos, SQR ou valores ajustados.
 \end{block}
 
 # Cinco erros que o MQO não corrige
@@ -1214,7 +1328,7 @@ Hoje não ensinamos regressão múltipla, inferência, erros-padrão robustos, p
 # Síntese: quatro ideias para levar adiante
 
 \begin{enumerate}
-\item O MQO escolhe a reta que minimiza a SQR, ou equivalentemente o EQM, na amostra.
+\item O MQO aplica a regra populacional do BLP aos momentos amostrais e escolhe a reta que minimiza a SQR, ou o EQM.
 \item A inclinação é covariação dividida pela variação de $X$; a reta passa por $(\bar X,\bar Y)$.
 \item Centralizar $X$ torna o intercepto interpretável sem mudar inclinação, ajustes ou resíduos.
 \item Uma reta bem estimada continua sendo associacional sem um argumento separado de identificação.
@@ -1229,7 +1343,7 @@ Hoje não ensinamos regressão múltipla, inferência, erros-padrão robustos, p
 # Referências e fronteira da aula
 
 \begin{block}{Leituras principais}
-Aronow, Peter M., e Benjamin T. Miller. \textit{Foundations of Agnostic Statistics} (2019), cap. 4, seção 4.1.
+Aronow, Peter M., e Benjamin T. Miller. \textit{Foundations of Agnostic Statistics} (2019), seções 3.2.3, 3.3--3.3.1 e 4.1.
 
 Hansen, Bruce E. \textit{Econometrics} (2022), seções 3.3--3.8.
 \end{block}

@@ -32,7 +32,7 @@ Resultados descritivos: intercepto de 0,767151656, interpretado como 76,715% pre
 - Ausência de inferência antecipada: PASS.
 - Simplicidade e legibilidade do script: PASS.
 - Numeração, legendas, unidades, denominadores e fontes: PASS.
-- Compilação XeLaTeX e inspeção visual das 44 páginas: PASS.
+- Compilação XeLaTeX e inspeção visual das 44 páginas da entrega inicial: PASS.
 - Parse e execução integral do script: PASS.
 - Coeficientes manuais e de `lm()` iguais com tolerância de 10^-12: PASS.
 - Inexistência de `Rplots.pdf` e outputs acidentais: PASS.
@@ -46,3 +46,14 @@ Warnings visíveis: `dplyr` e `ggplot2` foram compilados sob R 4.4.3, enquanto o
 - O syllabus, os dados e o produto da Aula 5 são consistentes: a base permite exatamente 20 observações anuais entre 1997 e 2016.
 - Durante o trabalho, ocorreu um fluxo autoral concorrente da Aula 4. O arquivo `projeto_agna/scripts/05_laboratorio_aula4_causalidade.R` mudou entre os registros de hashes, e surgiram `slides_aula_04_causalidade_identificacao.Rmd` e seu PDF. Esses arquivos não pertencem à entrega da Aula 5, não foram editados pelas duas frentes e foram preservados no estado encontrado.
 - O modelo descreve associação linear em uma amostra de 20 anos; não identifica efeito do tempo, de 2009, do comércio ou da China e não sustenta extrapolação além de 1997–2016.
+
+## Atualização pedagógica de 22 de setembro de 2026
+
+Após o parecer pedagógico e a discussão em sala planejada sobre o princípio plug-in, o arquivo-fonte e o PDF dos slides foram atualizados. A versão atual tem 54 páginas e começa com a regra intuitiva, a média e a variância plug-in, o contraste entre viés e consistência, condições de regularidade e a definição formal $\widehat\theta=T(\widehat F)$, antes de introduzir regressão.
+
+- O gráfico dos 20 pontos anuais, ainda sem reta, abre a parte de regressão; a diferença entre os extremos observados e a inclinação do MQO é retomada após o ajuste.
+- Os quatro pares do exemplo aparecem antes da derivação; duas pausas curtas interrompem o bloco algébrico e a pausa sobre recentralização foi deslocada para junto da explicação correspondente.
+- As tabelas passaram a usar vírgula decimal. O ano bruto recebeu a notação $A_i$, distinta de $X_i=A_i-1997$. O gráfico da AGNU usa eixo de 0% a 100% e distingue os 20 anos dos denominadores anuais das taxas, que variam de 61 a 112 resoluções.
+- A chamada de `lm()` nos slides usa os mesmos nomes de objetos e variáveis do roteiro do laboratório. A atividade final de interpretação passou a explicitar as unidades, e um slide indica três momentos para discutir as saídas práticas.
+
+A atualização foi compilada com R Markdown e XeLaTeX. Foram conferidos o texto extraído do PDF, a paginação e a legibilidade das páginas alteradas. Os valores de 1997 (79,3%), 2016 (69,6%) e da inclinação (+0,39 ponto percentual por ano) foram confrontados com a base da aula. O roteiro do laboratório não foi modificado nesta atualização.
