@@ -184,15 +184,15 @@ e o princípio plug-in liga os dois.
 \item Aplicação ao projeto AGNA
 \end{enumerate}
 
-\begin{block}{Ao final}
-Você saberá derivar e calcular a reta de MQO e interpretar seus coeficientes
+\begin{block}{Objetivo}
+Derivar e calcular a reta de MQO e interpretar seus coeficientes
 nas unidades dos dados.
 \end{block}
 \end{columns}
 
 # Princípio plug-in
 
-\begin{block}{Em palavras}
+\begin{block}{Definição informal}
 Escreva a fórmula de uma quantidade da população. Aplique a mesma regra aos dados observados e use o resultado como estimador.
 \end{block}
 
@@ -353,7 +353,7 @@ Y_i&1&3&2&6
 \]
 \endgroup
 
-\begin{block}{Antes de calcular}
+\begin{block}{Perguntas}
 Você esperaria uma reta crescente ou decrescente? Uma reta precisa passar
 por todos os quatro pontos para resumir bem a associação?
 \end{block}
@@ -485,7 +485,7 @@ No ajuste com intercepto, as duas condições são:
 \sum_iX_i\widehat e_i=0.
 \]
 
-\begin{alertblock}{Discuta antes de continuar}
+\begin{alertblock}{Perguntas}
 \begin{enumerate}
 \item Se os quatro resíduos fossem positivos, a primeira igualdade poderia valer?
 \item No exemplo, $X$ vai de 0 a 3. Qual ponto pesa mais na segunda soma:
@@ -935,7 +935,7 @@ Cada ano adicional está associado a
 \small
 Cada ano recebe o mesmo peso porque a unidade da regressão é o ano.
 
-# De volta aos extremos
+# Extremos e reta de MQO
 
 \begin{columns}[T,onlytextwidth]
 \column{0.47\textwidth}
@@ -954,7 +954,7 @@ O MQO ajusta a reta aos 20 pontos anuais. Sua inclinação é positiva:
 \end{block}
 \end{columns}
 
-\begin{alertblock}{O que explica a diferença?}
+\begin{alertblock}{Anos intermediários}
 Os 18 anos intermediários também entram nas somas de covariação e variação.
 Os dois extremos, sozinhos, não determinam a inclinação do MQO.
 \end{alertblock}
@@ -993,7 +993,7 @@ os cálculos manuais e o resultado de \texttt{lm()}.
 para relacionar pontos, valores ajustados e resíduos.
 \end{enumerate}
 
-\begin{block}{Pergunta comum aos três momentos}
+\begin{block}{Pergunta para os três momentos}
 O que a saída descreve na amostra?
 \end{block}
 

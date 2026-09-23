@@ -1,48 +1,43 @@
-# Série China–EUA e pontos ideais em 2019
+# Série China–EUA e pontos ideais dos países
 
-Preparado em 23 de setembro de 2026 com a fonte local
-`projeto_agna/data/raw/unvotes/unvotes_0.3.0.tar.gz` (SHA-256:
-`5c826e9ab6d6aa6bb52fe936050783e2ce5ba879166ba0444fe2f6e530dfdeed`).
-O script reproduzível é `projeto_agna/scripts/08_serie_china_eua_pontos_ideais_2019.R`.
-Execute-o a partir da raiz de `lab-regressao-aula` com:
+Gráficos gerados em 23 de setembro de 2026 por
+`projeto_agna/scripts/08_serie_china_eua_pontos_ideais_2019.R`. Para reproduzir,
+execute a partir da raiz de `lab-regressao-aula`:
 
 ```bash
 Rscript --vanilla projeto_agna/scripts/08_serie_china_eua_pontos_ideais_2019.R
 ```
 
-## Série China–EUA
+## Série de votos China–EUA, 1990–2019
 
-Cada ano mostra a fração de votações nominais em que China e EUA registraram
-o mesmo voto (`yes`, `no` ou `abstain`). O denominador contém apenas votações
-com votos observados de ambos. Há 30 anos completos, de 1990 a 2019,
-2.567 pares válidos e 417 votos iguais (16,2% no período). Os denominadores
-anuais variam de 61 a 127. Os anos de 1997 a 2016 foram conferidos contra
-o painel anual já processado no projeto: contagens e taxas coincidem.
+Fonte: a coluna `ChinaAgree` na linha dos EUA do mesmo arquivo de dados usado
+no paper, descrito abaixo. Cada observação é uma sessão da Assembleia Geral,
+identificada pelo ano de início (`session + 1945`). São 30 sessões, de 1990 a
+2019. O gráfico apresenta diretamente a proporção de concordância registrada
+no arquivo, sem recalcular votos a partir de outra base.
 
 Arquivos: `serie_convergencia_china_eua_1990_2019.csv` e
 `figura_convergencia_china_eua_1990_2019.{png,pdf}`.
 
-## Pontos ideais de 2019
+## Pontos ideais dos países, sessão iniciada em 2019
 
-O arquivo local contém 90 votações nominais e 193 entradas de países em 2019.
-Foram usadas 46 votações com pelo menos cinco votos `yes` e cinco votos `no`.
-As abstenções são tratadas como ausentes no modelo. Cada país tem ao menos dois
-votos binários nas votações usadas; Dominica tem dois e Guiné Equatorial, sete.
+Fonte: `projeto_agna/data/raw/ideal_points/IdealpointestimatesAll_Jun2024.csv`,
+cópia idêntica do arquivo usado no pipeline do paper em
+`/Users/manoelgaldino/Documents/DCP/Papers/RDD Trade/red_trade/raw data/dataverse_files-2/IdealpointestimatesAll_Jun2024.csv`
+(SHA-256 `94ce7440bdba9252b2f4294333291585748dfe84dbaf56fe9f26e1af38f66198`).
+O pipeline do paper define o ano de referência como `session + 1945`; por isso,
+2019 corresponde à sessão 74. Os dois gráficos seguem essa convenção.
 
-As posições são médias posteriores de um modelo espacial bayesiano
-unidimensional (IRT 2PL), estimado por `pscl::ideal` em três cadeias de
-60.000 iterações (15.000 iniciais descartadas, uma amostra a cada 30).
-O sinal do eixo foi orientado para colocar os EUA à esquerda da China.
-O maior R-hat entre os 193 países foi 1,0996. Os traços dos quatro países
-identificados na figura são intervalos de credibilidade de 95%.
+O gráfico usa diretamente a mediana posterior `Q50%All` já existente no
+arquivo, para os 193 países da sessão 74. Os traços dos quatro países
+identificados vão de `Q5%All` a `Q95%All` (intervalo posterior central de 90%).
+Não há reestimação de pontos ideais. Os valores dos países destacados são:
 
-Os pontos representam posições relativas em **2019**. Seu valor numérico
-depende da normalização, dos votos incluídos e do tratamento das abstenções;
-este ajuste não produz uma série temporal de pontos ideais. Uma dimensão
-resume apenas parte das diferenças entre países.
+| País | Ponto ideal (`Q50%All`) |
+| --- | ---: |
+| China | -0,3713594 |
+| Rússia | 0,09219355 |
+| Brasil | 0,2885661 |
+| EUA | 2,606005 |
 
 Arquivos: `pontos_ideais_2019.csv` e `figura_pontos_ideais_2019.{png,pdf}`.
-O CSV preserva os códigos da fonte. Ao lê-lo com R, use
-`read.csv("pontos_ideais_2019.csv", na.strings = "")`: o código `NA` é o da
-Namíbia, e a leitura padrão o confundiria com um valor ausente. A fonte usa
-o rótulo histórico `YU`/`Yugoslavia` em 2019; ele foi preservado no CSV.
