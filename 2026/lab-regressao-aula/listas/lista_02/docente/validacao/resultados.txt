@@ -1,0 +1,15 @@
+Lista 2 (2026): validação docente
+Fonte: projeto_agna/data/processed/brasil_convergencia_china_1997_2016.csv
+Arquivo anual: listas/lista_02/dados/convergencia_anual_1997_2016.csv
+Resoluções: 1762
+Anos: 20
+MQO 1997: intercepto 0.767151656; inclinacao 0.003891086
+MQO 2009: intercepto 0.813844691; inclinacao 0.003891086
+Padronizada: intercepto 0.000000000; inclinacao 0.394038633
+Residuo medio com intercepto: 0.000000000000
+Residuo medio sem intercepto: 0.206540830
+SQR com intercepto: 0.054777917
+SQR sem intercepto: 3.223740715
+Simulacao unica: alfa 5.449833689; beta 1.491402189; media do erro 0.370990576
+100 simulacoes: media beta 1.482984426; minimo 1.233154322; maximo 1.763026610
+Todas as verificacoes programadas: PASS

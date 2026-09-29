@@ -1,0 +1,520 @@
+---
+title: "Aula 6: regressão múltipla"
+subtitle: "Interpretação condicional, categorias e variável omitida"
+author: "FLS 6183 - Métodos Quantitativos de Pesquisa II"
+date: "30 de setembro de 2026"
+lang: pt-BR
+output:
+  beamer_presentation:
+    latex_engine: xelatex
+    theme: Madrid
+    colortheme: default
+    fonttheme: professionalfonts
+    incremental: false
+classoption:
+  - aspectratio=169
+  - 10pt
+header-includes:
+  - \usepackage{amsmath}
+  - \usepackage{amssymb}
+  - \usepackage{booktabs}
+  - \usepackage{xcolor}
+  - \definecolor{AzulAula}{HTML}{1D4ED8}
+  - \definecolor{AzulEscuro}{HTML}{0F172A}
+  - \definecolor{CinzaTexto}{HTML}{334155}
+  - \definecolor{VerdeAula}{HTML}{047857}
+  - \setbeamercolor{structure}{fg=AzulAula}
+  - \setbeamercolor{title}{fg=white,bg=AzulEscuro}
+  - \setbeamercolor{frametitle}{fg=white,bg=AzulEscuro}
+  - \setbeamercolor{normal text}{fg=CinzaTexto,bg=white}
+  - \setbeamercolor{block title}{fg=white,bg=AzulAula}
+  - \setbeamercolor{block body}{fg=AzulEscuro,bg=blue!5}
+  - \setbeamercolor{alertblock title}{fg=white,bg=red!75!black}
+  - \setbeamercolor{alertblock body}{fg=AzulEscuro,bg=red!5}
+  - \setbeamertemplate{navigation symbols}{}
+  - \setbeamertemplate{caption}[numbered]
+  - \setbeamertemplate{footline}[frame number]
+  - \setbeamerfont{caption}{size=\scriptsize}
+  - \renewcommand{\tablename}{Tabela}
+  - \renewcommand{\figurename}{Figura}
+---
+
+```{r setup, include=FALSE}
+Sys.setlocale("LC_CTYPE", "pt_BR.UTF-8")
+options(encoding = "UTF-8", scipen = 999)
+knitr::opts_chunk$set(
+  echo = FALSE, warning = FALSE, message = FALSE,
+  fig.align = "center", dev = "png", dpi = 180,
+  fig.path = file.path(tempdir(), "aula06_fig_"),
+  out.width = "84%"
+)
+source(
+  here::here(
+    "projeto_agna", "scripts",
+    "09_laboratorio_aula6_regressao_multipla.R"
+  ),
+  local = TRUE
+)
+# As cifras visíveis são verificadas contra o cálculo no script.
+stopifnot(
+  identical(as.integer(validacao_2016$valor[1:3]), c(96L, 20L, 114L)),
+  isTRUE(all.equal(
+    round(tabela_modelos$china_trade_pp_por_dp, 2),
+    c(0.80, 0.52, 1.29, 1.69),
+    check.attributes = FALSE
+  )),
+  isTRUE(all.equal(
+    round(tabela_modelos$r2_amostral, 3),
+    c(0.004, 0.104, 0.250, 0.398),
+    check.attributes = FALSE
+  )),
+  isTRUE(all.equal(
+    round(perfis$taxa_ajustada_percentual, 2),
+    c(60.45, 67.15),
+    check.attributes = FALSE
+  ))
+)
+```
+
+# Roteiro da aula
+
+\begin{columns}[T,onlytextwidth]
+\column{0.52\textwidth}
+\begin{block}{Pergunta}
+Como ler a associação entre comércio e convergência de votos quando também
+observamos cobertura da votação, região e outras características dos países?
+\end{block}
+\column{0.44\textwidth}
+\begin{enumerate}
+\item Da reta bivariada ao ajuste múltiplo
+\item Categoria de referência
+\item Variável omitida
+\item Aplicação com 96 países da AGNU
+\item Laboratório em duplas ou trios
+\end{enumerate}
+\end{columns}
+
+\vspace{0.5em}
+Exposição e discussão: cerca de 65 minutos. Laboratório: cerca de 45 minutos.
+
+# Da Aula 5 à Aula 6
+
+Na Aula 5, uma única reta resumia a associação entre duas variáveis:
+\[
+\widehat Y_i=\widehat\alpha+\widehat\beta X_i.
+\]
+
+Agora permitimos mais de um preditor:
+\[
+\widehat Y_i=\widehat\beta_0+\widehat\beta_1X_i+
+\widehat\beta_2Z_i.
+\]
+
+\begin{block}{Mudança na pergunta}
+Qual é a diferença ajustada em \(Y\) entre unidades que diferem em \(X\),
+mantendo \(Z\) no mesmo valor?
+\end{block}
+
+# O sentido de manter constante
+
+Imagine dois países com o mesmo valor de \(Z\), mas valores de \(X\) que
+diferem em uma unidade:
+\[
+\widehat Y(X+1,Z)-\widehat Y(X,Z)=\widehat\beta_1.
+\]
+
+O modelo produz essa comparação. Países reais podem diferir também em
+características que não incluímos.
+
+\begin{alertblock}{Leitura correta}
+\(\widehat\beta_1\) descreve uma diferença ajustada pela equação escolhida.
+Para chamá-la de efeito causal, precisaríamos de um desenho de identificação.
+\end{alertblock}
+
+# Símbolos da regressão múltipla
+
+\[
+Y_i=\beta_0+\beta_1X_{1i}+\beta_2X_{2i}+\cdots+\beta_kX_{ki}+u_i.
+\]
+
+\begin{itemize}
+\item \(i\): unidade observada; \(Y_i\): desfecho.
+\item \(X_{ji}\): valor do preditor \(j\) na unidade \(i\).
+\item \(\beta_j\): coeficiente da projeção linear de referência; o chapéu
+marca a estimativa na amostra.
+\item \(u_i\): diferença entre \(Y_i\) e a parte linear de referência.
+\end{itemize}
+
+No laboratório, cada \(i\) será um país em 2016, e \(Y_i\) será uma taxa
+entre 0 e 1.
+
+# Preditor categórico: a referência
+
+Defina \(D_i=1\) para país da América Latina e \(D_i=0\) para país de
+outra região:
+\[
+\widehat Y_i=\widehat\beta_0+\widehat\beta_1X_i+
+\widehat\gamma D_i.
+\]
+
+\begin{itemize}
+\item Outra região (\(D=0\)): \(\widehat Y=\widehat\beta_0+\widehat\beta_1X\).
+\item América Latina (\(D=1\)): \(\widehat Y=\widehat\beta_0+\widehat\beta_1X+\widehat\gamma\).
+\end{itemize}
+
+\begin{block}{Interpretação}
+\(\widehat\gamma\) é a diferença ajustada entre as categorias para o mesmo
+\(X\). A categoria \(D=0\) é a referência.
+\end{block}
+
+# Variável omitida: quatro unidades
+
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+Unidade & \(X\) & \(Z\) & \(Y=1+2X+3Z\)\\
+\midrule
+A & 0 & 0 & 1\\
+B & 0 & 1 & 4\\
+C & 1 & 1 & 6\\
+D & 1 & 2 & 9\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\(X\) e \(Z\) crescem juntos; ambos entram na regra que gerou \(Y\).
+
+\begin{block}{Pergunta para a turma}
+Quanto parece variar \(Y\) com \(X\) se \(Z\) for ignorado? E se
+compararmos B e C, que têm o mesmo \(Z=1\)?
+\end{block}
+
+# A regressão curta e a comparação condicional
+
+Ignorando \(Z\), a média de \(Y\) é \(2{,}5\) quando \(X=0\)
+e \(7{,}5\) quando \(X=1\):
+\[
+\widehat\beta_X^{\text{curta}}=7{,}5-2{,}5=5.
+\]
+
+Entre B e C, \(Z=1\) nos dois casos. Quando \(X\) passa de 0 a 1,
+\(Y\) passa de 4 a 6: diferença de \(2\).
+
+Com os dois preditores, a regressão recupera
+\(\widehat Y=1+2X+3Z\).
+
+# A decomposição da omissão
+
+No exemplo, o coeficiente da regressão de \(Z\) em \(X\) é \(1\):
+\[
+\underbrace{5}_{\text{coeficiente curto}}=
+\underbrace{2}_{\text{coeficiente com }Z}+
+\underbrace{3}_{\text{coeficiente de }Z}\times
+\underbrace{1}_{\text{associação }X\text{--}Z}.
+\]
+
+Esta é uma decomposição algébrica entre duas regressões lineares
+estimadas nas mesmas quatro unidades.
+
+\begin{alertblock}{Cuidado}
+Mudar o coeficiente ao acrescentar \(Z\) informa como a especificação
+altera a associação estimada. Isso não comprova que \(Z\) seja um
+confundidor causal.
+\end{alertblock}
+
+# Como o MQO escolhe os coeficientes
+
+Para \(k\) preditores, o MQO escolhe os coeficientes que minimizam:
+\[
+\operatorname{SQR}(\widetilde\beta_0,\ldots,\widetilde\beta_k)
+=\sum_{i=1}^{n}
+\left(Y_i-\widetilde\beta_0-\sum_{j=1}^{k}
+\widetilde\beta_jX_{ji}\right)^2.
+\]
+
+É a mesma regra da Aula 5, agora aplicada a um plano com mais dimensões.
+
+\smallskip
+\(\widetilde\beta_j\) é um candidato. \(\widehat\beta_j\) é o
+valor que minimiza a soma de quadrados na amostra.
+
+\vspace{0.4em}
+\scriptsize
+Em notação matricial, com colunas linearmente independentes:
+\(\widehat{\boldsymbol\beta}=(\mathbf X^\top\mathbf X)^{-1}
+\mathbf X^\top\mathbf Y\). A função \texttt{lm()} faz o cálculo.
+
+# A aplicação: países e votos na AGNU
+
+\begin{itemize}
+\item Recorte: 2016, uma linha por país, 96 países.
+\item Desfecho: proporção de pares de votos válidos em que o país votou
+como a China nas votações nominais da Assembleia Geral das Nações Unidas (AGNU).
+\item Fonte: painel didático preservado, formado a partir de votações da
+AGNU e de \texttt{synth\_data.rds}.
+\end{itemize}
+
+\[
+\text{taxa de convergência}_i=
+\frac{\text{votos convergentes com a China}_i}
+{\text{pares de votos válidos}_i}.
+\]
+
+A taxa não é uma medida de alinhamento causal nem um resultado de
+intervenção.
+
+# Conferência dos denominadores
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+Verificação em 2016 & Resultado\\
+\midrule
+Países distintos & 96\\
+Países da América Latina & 20\\
+Votações no ano & 114\\
+Pares válidos por país: mínimo / mediana / máximo & 5 / 112 / 113\\
+Ausências nas variáveis usadas & 0\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Cada país contribui com uma taxa calculada sobre seu próprio
+denominador. Um país com cinco pares válidos requer cautela especial.
+
+\scriptsize
+Fonte: painel didático país--ano da AGNU, 2016; validações executadas
+no script do laboratório.
+
+# A escala dos preditores
+
+O campo de comércio com a China foi transformado na fonte original.
+O dicionário local não documenta a transformação.
+
+\[
+Z_{Xi}=\frac{X_i-\overline X}{s_X},
+\qquad
+s_X=\text{desvio-padrão de }X\text{ entre os 96 países}.
+\]
+
+\begin{block}{Unidade do coeficiente}
+Ao multiplicar o coeficiente da taxa por 100, lemos a diferença ajustada
+em pontos percentuais de convergência por um desvio-padrão do preditor.
+\end{block}
+
+Não lemos o coeficiente como pontos percentuais de comércio.
+
+# Associação bivariada no recorte de 2016
+
+```{r figura-1, fig.width=8.8, fig.height=4.15, out.width="82%"}
+print(figura_1 + ggplot2::labs(caption = NULL))
+```
+
+\scriptsize
+Unidade: país (96); denominador da taxa: 5 a 113 pares de votos válidos por país.
+A reta laranja é bivariada. Fonte: painel didático da AGNU e
+\texttt{synth\_data.rds}. Associação, sem leitura causal.
+
+# Quatro modelos na mesma amostra
+
+\begin{center}
+\begin{tabular}{lp{8.6cm}}
+\toprule
+Modelo & Preditores acrescentados\\
+\midrule
+M1 & Campo de comércio com a China\\
+M2 & Cobertura de pares válidos e categoria América Latina\\
+M3 & Campo de comércio com os EUA e hiato de poder em relação aos EUA\\
+M4 & Dois controles econômicos da fonte: \texttt{pci\_cur} e \texttt{CA\_GDP}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Todos usam os mesmos 96 países. Os preditores contínuos foram
+padronizados nesse recorte; a categoria tem referência "outras regiões".
+
+# Coeficiente do comércio com a China
+
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+ & M1 & M2 & M3 & M4\\
+\midrule
+Coeficiente & \(+0{,}80\) & \(+0{,}52\) & \(+1{,}29\) & \(+1{,}69\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Unidade: pontos percentuais da taxa de convergência por um
+desvio-padrão do campo comercial transformado.
+
+\begin{block}{Leitura de M4}
+Entre países com os mesmos valores dos demais preditores no modelo,
+uma diferença de um desvio-padrão no campo comercial está associada a
+\(1{,}69\) ponto percentual a mais na taxa ajustada.
+\end{block}
+
+# O coeficiente muda entre especificações
+
+```{r figura-2, fig.width=8.8, fig.height=4.15, out.width="82%"}
+print(figura_2 + ggplot2::labs(caption = NULL))
+```
+
+\scriptsize
+Unidade: pontos percentuais da taxa por um desvio-padrão do campo comercial.
+M1: comércio com a China; M2: cobertura e região; M3: comércio com os EUA e
+hiato de poder; M4: controles econômicos. Fonte: painel didático da AGNU e
+\texttt{synth\_data.rds}. A linha não representa tempo nem incerteza.
+
+# A categoria geográfica em M4
+
+A referência da categoria é "outras regiões". O coeficiente de
+América Latina em M4 é \(+6{,}70\) pontos percentuais.
+
+\[
+\widehat Y_{\text{América Latina}}(X)
+-\widehat Y_{\text{outras regiões}}(X)
+=0{,}0670.
+\]
+
+Todos os outros preditores \(X\) têm o mesmo valor nos dois lados.
+O modelo é aditivo: essa diferença prevista é constante em \(X\).
+
+Relações distintas por nível de comércio exigiriam uma interação,
+assunto da Aula 11.
+
+# Dois perfis condicionais de M4
+
+Fixe todos os preditores contínuos em zero depois da padronização
+(a média dos 96 países). Mude apenas a região:
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+Perfil hipotético & Taxa ajustada\\
+\midrule
+Outras regiões & \(60{,}45\%\)\\
+América Latina & \(67{,}15\%\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A diferença de \(6{,}70\) pontos percentuais reproduz o coeficiente
+da categoria. São previsões da reta, não dois países observados.
+
+# Ajuste descritivo dos modelos
+
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+ & M1 & M2 & M3 & M4\\
+\midrule
+\(R^2\) amostral & 0,004 & 0,104 & 0,250 & 0,398\\
+Países & 96 & 96 & 96 & 96\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\(R^2\) resume a fração da variação amostral do desfecho explicada
+pelos valores ajustados. Ao acrescentar preditores na mesma amostra,
+o \(R^2\) do MQO não diminui.
+
+\begin{alertblock}{Limite}
+Mais ajuste dentro da amostra não comprova melhor previsão fora dela,
+nem efeito causal dos preditores.
+\end{alertblock}
+
+# Limites desta comparação
+
+\begin{itemize}
+\item É um corte transversal de 2016: coeficientes são associações
+entre países.
+\item Os denominadores das taxas variam de 5 a 113 pares válidos.
+O MQO aqui dá o mesmo peso a cada país.
+\item Não conhecemos a transformação original dos campos comerciais;
+por isso a leitura é por desvio-padrão no recorte.
+\item Características não incluídas podem alterar os coeficientes.
+\end{itemize}
+
+Não interpretamos valores-p ou intervalos nesta aula. A inferência está
+prevista para as Aulas 9 e 10.
+
+# Laboratório: leitura e validação
+
+Abra o projeto no RStudio e execute, bloco a bloco,
+\texttt{scripts/09\_laboratorio\_aula6\_regressao\_multipla.R}.
+
+\begin{enumerate}
+\item Leia o painel país--ano e filtre 2016.
+\item Confirme 96 países, 20 latino-americanos e 114 votações.
+\item Confira tipos, ausências, chaves únicas, numerador,
+denominador e taxa.
+\item Observe o menor denominador: cinco pares válidos.
+\end{enumerate}
+
+O script mostra os objetos \texttt{validacao\_2016} e
+\texttt{ausentes\_2016} antes de qualquer modelo.
+
+# Laboratório: estimar e comparar
+
+\begin{enumerate}
+\item Padronize os preditores contínuos nos mesmos 96 países.
+\item Execute M1 a M4 com \texttt{lm()}.
+\item Leia \texttt{tabela\_modelos}: coeficiente comercial,
+coeficiente da categoria e \(R^2\).
+\item Confira que \texttt{perfis} difere apenas em região.
+\end{enumerate}
+
+\begin{block}{Unidade a escrever na resposta}
+Pontos percentuais de convergência por um desvio-padrão do campo
+comercial, com os demais preditores do modelo mantidos constantes.
+\end{block}
+
+# Laboratório: conversa em duplas ou trios
+
+\begin{enumerate}
+\item Por que o coeficiente do campo comercial muda de \(+0{,}80\)
+em M1 para \(+1{,}69\) em M4?
+\item O que significa a referência "outras regiões" no coeficiente
+de América Latina?
+\item Uma taxa baseada em cinco pares válidos merece a mesma
+confiança descritiva que outra baseada em 113? Explique.
+\item Que informação adicional seria necessária para defender
+uma leitura causal da associação comercial?
+\end{enumerate}
+
+Entregue uma tabela curta, uma figura, o script e um parágrafo
+de interpretação associacional.
+
+# Síntese
+
+\begin{enumerate}
+\item Um coeficiente múltiplo compara valores ajustados quando os
+demais preditores do modelo ficam iguais.
+\item Categorias entram por contraste com uma referência explícita.
+\item Omitir um preditor associado a \(X\) e a \(Y\) pode mudar o
+coeficiente de \(X\); a mudança sozinha não estabelece causalidade.
+\end{enumerate}
+
+No projeto da AGNU, a unidade, a escala e o denominador determinam
+como devemos ler cada número.
+
+# Leituras e fontes
+
+\small
+Hansen, Bruce E. \textit{Econometrics} (2022), seções 2.21--2.25.
+
+\smallskip
+Shalizi, Cosma R. \textit{The Truth About Linear Regression},
+capítulo 12 e seção 14.3:
+\url{https://www.stat.cmu.edu/~cshalizi/TALR/}.
+
+\smallskip
+Painel didático país--ano da AGNU (1997--2016), dicionário e
+manifesto local de dados no projeto do curso. Fontes preservadas:
+votações nominais do pacote \texttt{unvotes} e
+\texttt{synth\_data.rds}.
+
+\smallskip
+Os resultados numéricos destes slides são reproduzidos e verificados
+em \texttt{scripts/09\_laboratorio\_aula6\_regressao\_multipla.R}.

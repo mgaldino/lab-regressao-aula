@@ -1,0 +1,174 @@
+---
+title: "Lista 2: enxergar e estimar uma regressão"
+subtitle: "Scatterplot, lm(), escalas, intercepto e simulação"
+author: "FLS 6183 - Métodos Quantitativos de Pesquisa II"
+date: "Aula 5 | 2026"
+lang: pt-BR
+output:
+  pdf_document:
+    latex_engine: xelatex
+fontsize: 11pt
+geometry: margin=2.2cm
+classoption: a4paper
+header-includes:
+  - \usepackage{amsmath,amssymb,booktabs}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \fancyhead[L]{\small FLS 6183 | Lista 2}
+  - \fancyhead[R]{\small Regressão bivariada}
+  - \fancyfoot[C]{\thepage}
+  - \setlength{\headheight}{14pt}
+  - \setlength{\parskip}{5pt}
+---
+
+# O que você vai fazer
+
+Esta lista concentra-se no uso e na interpretação de **regressão bivariada**.
+Você fará um gráfico de dispersão (*scatterplot*), ajustará retas com `lm()`,
+mudará a origem e a escala das variáveis, examinará resíduos e simulará dados
+cuja relação populacional é conhecida. O conjunto aplicado resume a
+convergência dos votos de Brasil e China na Assembleia Geral das Nações
+Unidas (AGNU), de 1997 a 2016.
+
+## Organização e entrega
+
+- Resolva os **quatro exercícios**. Tempo de trabalho sugerido:
+  35 + 40 + 35 + 50 minutos, aproximadamente 2h40 no total. O roteiro é
+  deliberadamente mais curto que a Lista 1.
+- Entregue pelo Moodle um PDF, a fonte `.Rmd` ou `.qmd` e o script `.R` dos
+  cálculos. O documento deve importar os resultados do script. Consulte o
+  Moodle para prazo e modalidade de entrega; este arquivo não fixa uma data.
+- Use caminhos relativos. Não altere o arquivo em `dados/`. Faça tabelas
+  apenas quando ajudarem a resposta; para cada figura, informe número,
+  eixos, unidade, denominador e fonte. Execute tudo em uma sessão nova do R.
+- Extraia de `lm()` os coeficientes, valores ajustados e resíduos. Ainda não
+  é preciso interpretar valores-p, testes ou intervalos de confiança.
+
+## Dados para os exercícios 1 a 3
+
+O arquivo `dados/convergencia_anual_1997_2016.csv` tem **20 linhas: uma por
+ano**. `n_resolucoes_validas` é o número de votações com votos observados de
+Brasil e China; `n_convergentes` conta as votações em que os dois votos
+coincidem; `taxa_media_convergencia` é a razão entre essas duas colunas.
+No total, as taxas usam 1.762 votações válidas. A taxa é uma **proporção**,
+de zero a um. Sua origem está documentada em `dados/PROVENIENCIA.md`.
+
+\newpage
+
+# 1. Ver os dados, ajustar a reta e interpretá-la
+
+*Tempo sugerido: 35 minutos.*
+
+a. Importe o CSV com `read.csv()`. Confira 20 anos distintos, sequência de
+   1997 a 2016, ausência de valores faltantes nas quatro colunas, taxas
+   entre zero e um, denominadores positivos e soma dos denominadores igual
+   a 1.762.
+b. Faça um **scatterplot** da taxa anual no eixo vertical e do ano no
+   horizontal. Cada ponto representa um ano. Descreva a direção geral,
+   a dispersão e um aspecto que a reta poderá deixar de representar.
+c. Rode `modelo_ano <- lm(taxa_media_convergencia ~ ano, data = dados)`.
+   Use `coef(modelo_ano)` e `abline(modelo_ano)` para acrescentar a reta
+   ao gráfico. Interprete o intercepto matematicamente e explique por que
+   ele tem pouca utilidade substantiva. Interprete a inclinação em
+   **pontos percentuais por ano**. A inclinação descreve associação
+   linear, não um efeito causal da passagem do tempo.
+d. Obtenha a previsão para 2016 e compare-a à taxa observada nesse ano.
+   Indique o sinal do resíduo de 2016. Diga qual é a diferença entre a
+   previsão pela reta e a observação efetiva.
+
+# 2. Mudar a origem e a escala sem mudar os dados
+
+*Tempo sugerido: 40 minutos.*
+
+a. Defina `anos_desde_1997 = ano - 1997` e
+   `anos_desde_2009 = ano - 2009`. Ajuste
+   `modelo_1997 <- lm(taxa_media_convergencia ~ anos_desde_1997, data = dados)`
+   e um modelo análogo com `anos_desde_2009`. Compare-os a `modelo_ano`.
+   Quais
+   coeficientes mudam? Confira com `fitted()` se as previsões para cada
+   um dos 20 anos mudam. Explique algebricamente por que o intercepto
+   da parametrização centrada em 2009 é o intercepto da parametrização
+   centrada em 1997 mais 12 vezes a inclinação.
+b. Qual intercepto é mais útil para comunicar o caso da AGNU: o da
+   regressão com `ano` bruto, o centrado em 1997 ou o centrado em 2009?
+   Justifique e dê **outro exemplo** de pesquisa em que centrar um
+   preditor torna o intercepto substantivamente interpretável.
+c. Padronize `anos_desde_1997` e `taxa_media_convergencia`
+   separadamente: subtraia a média amostral e divida pelo desvio-padrão
+   amostral. Use `as.numeric(scale(...))` para criar `x_z` e `y_z`.
+   Ajuste `lm(y_z ~ x_z, data = dados)`. Interprete a inclinação em
+   desvios-padrão de $Y$ por desvio-padrão de $X$; compare-a com
+   `cor(dados$x_z, dados$y_z)`.
+d. Faça um segundo scatterplot com os eixos padronizados e a nova reta.
+   Compare-o visualmente ao gráfico original. Explique uma situação em
+   que a padronização ajuda a comparar relações medidas em escalas
+   diferentes e uma informação que ela esconde se as unidades originais
+   não forem apresentadas junto.
+
+\newpage
+
+# 3. Intercepto e resíduos
+
+*Tempo sugerido: 35 minutos.*
+
+a. Compare `modelo_1997`, **com intercepto**, a
+   `modelo_sem_intercepto <- lm(taxa_media_convergencia ~ 0 + anos_desde_1997, data = dados)`.
+   Desenhe as duas retas no mesmo scatterplot, usando os valores ajustados
+   em função do ano. Por qual
+   ponto o segundo modelo é obrigado a passar? Por que essa restrição
+   é substantivamente estranha para este caso?
+b. Calcule para os dois modelos a média dos resíduos e a soma dos
+   quadrados dos resíduos. Com intercepto, a média amostral dos resíduos
+   deve ser zero até precisão numérica; sem intercepto, isso não é
+   garantido. Confira com `mean(resid(modelo_1997))` e
+   `mean(resid(modelo_sem_intercepto))`.
+c. Mostre o motivo algébrico. Para
+   $S(a,b)=\sum_{i=1}^{n}(Y_i-a-bX_i)^2$, derive a condição de primeira
+   ordem em $a$ e conclua que $\sum_i\widehat e_i=0$ quando o
+   intercepto é estimado. O que resta dessa demonstração quando a
+   regressão impõe $a=0$?
+d. Agora considere uma **equação populacional**
+   $Y=\alpha+\beta X+u$, com $E[|u|]<\infty$ e $E[u]=m$.
+   Defina $\alpha^*=\alpha+m$ e $u^*=u-m$. Verifique que a
+   equação para $Y$ não mudou e que $E[u^*]=0$. Isso explica por que
+   podemos normalizar a **média incondicional** do erro para zero ao
+   incluir um intercepto. A normalização também garante
+   $E[u^*\mid X]=0$? Explique. Distinga $u^*$, que é populacional,
+   dos resíduos calculados por `lm()` na amostra.
+
+# 4. Simular quando a população é conhecida
+
+*Tempo sugerido: 50 minutos.*
+
+Você construirá uma população por uma regra conhecida:
+
+\[
+X\sim N(10,3^2),\qquad
+u\sim N(0,2^2)\text{ independente de }X,\qquad
+Y=5+1{,}5X+u.
+\]
+
+Nessa população, a inclinação da projeção linear de $Y$ em $X$ é 1,5 e
+o intercepto é 5. No R, gere amostras com `rnorm()`.
+
+a. Use `set.seed(6183)` e gere **uma amostra de 40 pares** $(X,Y)$
+   conforme a regra acima. Faça o scatterplot, rode
+   `modelo_sim <- lm(Y ~ X)` e
+   desenhe a reta estimada. Compare os coeficientes estimados a 5 e
+   1,5. Por que não se espera igualdade exata numa amostra finita?
+b. Calcule `mean(u)` para os 40 erros gerados e
+   `mean(resid(modelo_sim))` para a regressão com intercepto. Explique por
+   que esses números podem ser diferentes, embora o erro tenha média
+   populacional zero.
+c. Gere **100 amostras independentes** de tamanho 40 com a mesma regra
+   e guarde as 100 inclinações estimadas por `lm()`. Faça um histograma
+   das inclinações e marque 1,5 no eixo horizontal. Informe a média e
+   o intervalo entre a menor e a maior inclinação simulada. Uma média
+   das estimativas próxima de 1,5 exige que cada estimativa seja igual
+   a 1,5? Não interprete o intervalo como intervalo de confiança.
+d. Neste processo, $X=0$ fica longe do centro da distribuição de $X$.
+   Refaça uma das regressões com `X_c = X - 10`. Qual é o novo
+   intercepto populacional e qual é sua interpretação? Diga quando
+   você preferiria comunicar coeficientes em unidades originais
+   e quando acrescentaria uma versão padronizada.
