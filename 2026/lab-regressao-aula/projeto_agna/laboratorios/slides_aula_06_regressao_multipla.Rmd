@@ -1,6 +1,6 @@
 ---
 title: "Aula 6: regressão múltipla"
-subtitle: "Interpretação condicional, categorias e variável omitida"
+subtitle: "Interpretação condicional, variável omitida e preditores categóricos"
 author: "FLS 6183 - Métodos Quantitativos de Pesquisa II"
 date: "30 de setembro de 2026"
 lang: pt-BR
@@ -35,486 +35,948 @@ header-includes:
   - \setbeamertemplate{caption}[numbered]
   - \setbeamertemplate{footline}[frame number]
   - \setbeamerfont{caption}{size=\scriptsize}
+  - \setlength{\abovecaptionskip}{2pt}
+  - \setlength{\belowcaptionskip}{0pt}
   - \renewcommand{\tablename}{Tabela}
   - \renewcommand{\figurename}{Figura}
 ---
 
 ```{r setup, include=FALSE}
-Sys.setlocale("LC_CTYPE", "pt_BR.UTF-8")
+Sys.setlocale("LC_CTYPE", "en_US.UTF-8")
 options(encoding = "UTF-8", scipen = 999)
+
 knitr::opts_chunk$set(
-  echo = FALSE, warning = FALSE, message = FALSE,
-  fig.align = "center", dev = "png", dpi = 180,
-  fig.path = file.path(tempdir(), "aula06_fig_"),
-  out.width = "84%"
-)
-source(
-  here::here(
-    "projeto_agna", "scripts",
-    "09_laboratorio_aula6_regressao_multipla.R"
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center",
+  dev = "png",
+  dpi = 180,
+  fig.path = paste0(
+    here::here("projeto_agna", "output", "aula_06_slides"),
+    "/"
   ),
-  local = TRUE
+  out.width = "74%"
 )
-# As cifras visíveis são verificadas contra o cálculo no script.
+
+library(data.table)
+library(dplyr)
+library(ggplot2)
+library(here)
+
+dir.create(
+  here::here("projeto_agna", "output", "aula_06_slides"),
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+# Em texto: vírgula decimal e sinal de menos tipográfico.
+numero <- function(valor, digitos = 2) {
+  texto <- formatC(valor, format = "f", digits = digitos, decimal.mark = ",")
+  sub("^-", "\u2212", texto)
+}
+
+# Em modo matemático: {,} evita o espaço depois da vírgula decimal.
+numero_m <- function(valor, digitos = 2, sinal = FALSE) {
+  texto <- formatC(
+    valor, format = "f", digits = digitos, decimal.mark = ",",
+    flag = if (sinal) "+" else ""
+  )
+  gsub(",", "{,}", texto, fixed = TRUE)
+}
+
+# Exemplo de quatro unidades: Y foi gerado por 1 + 2 X1 + 3 X2, sem erro.
+exemplo <- data.frame(
+  unidade = c("A", "B", "C", "D"),
+  x1 = c(0, 0, 1, 1),
+  x2 = c(0, 1, 1, 2)
+)
+exemplo$y <- 1 + 2 * exemplo$x1 + 3 * exemplo$x2
+exemplo$residuo_x1 <- as.numeric(residuals(lm(x1 ~ x2, data = exemplo)))
+
 stopifnot(
-  identical(as.integer(validacao_2016$valor[1:3]), c(96L, 20L, 114L)),
+  isTRUE(all.equal(exemplo$residuo_x1, c(0, -0.5, 0.5, 0))),
   isTRUE(all.equal(
-    round(tabela_modelos$china_trade_pp_por_dp, 2),
-    c(0.80, 0.52, 1.29, 1.69),
-    check.attributes = FALSE
+    sum(exemplo$residuo_x1 * exemplo$y) / sum(exemplo$residuo_x1^2), 2
   )),
   isTRUE(all.equal(
-    round(tabela_modelos$r2_amostral, 3),
-    c(0.004, 0.104, 0.250, 0.398),
-    check.attributes = FALSE
+    unname(coef(lm(y ~ x1 + x2, data = exemplo))), c(1, 2, 3)
   )),
+  isTRUE(all.equal(unname(coef(lm(y ~ x1, data = exemplo))[2]), 5)),
+  isTRUE(all.equal(unname(coef(lm(x2 ~ x1, data = exemplo))[2]), 1))
+)
+
+# Exemplo em matrizes: X'X, X'Y, inversa e coeficientes mostrados nos slides.
+matriz_x <- cbind(1, exemplo$x1, exemplo$x2)
+xtx <- crossprod(matriz_x)
+xty <- crossprod(matriz_x, exemplo$y)
+stopifnot(
+  isTRUE(all.equal(unname(xtx), matrix(c(4, 2, 4, 2, 2, 3, 4, 3, 6), 3))),
+  isTRUE(all.equal(as.numeric(xty), c(20, 15, 28))),
   isTRUE(all.equal(
-    round(perfis$taxa_ajustada_percentual, 2),
-    c(60.45, 67.15),
-    check.attributes = FALSE
-  ))
+    unname(solve(xtx)), matrix(c(3, 0, -2, 0, 8, -4, -2, -4, 4), 3) / 4
+  )),
+  isTRUE(all.equal(as.numeric(solve(xtx, xty)), c(1, 2, 3)))
+)
+
+# Solução com somatórios para dois preditores (slide das equações normais).
+centrar <- function(v) v - mean(v)
+s11 <- sum(centrar(exemplo$x1)^2)
+s22 <- sum(centrar(exemplo$x2)^2)
+s12 <- sum(centrar(exemplo$x1) * centrar(exemplo$x2))
+s1y <- sum(centrar(exemplo$x1) * centrar(exemplo$y))
+s2y <- sum(centrar(exemplo$x2) * centrar(exemplo$y))
+stopifnot(isTRUE(all.equal((s22 * s1y - s12 * s2y) / (s11 * s22 - s12^2), 2)))
+
+# Brasil e China: uma linha por resolução votada, 1997-2016.
+resolucoes <- data.table::fread(
+  here::here(
+    "projeto_agna", "data", "processed",
+    "brasil_convergencia_china_1997_2016.csv"
+  )
+)
+stopifnot(nrow(resolucoes) == 1762, all(resolucoes$convergente %in% c(0, 1)))
+
+resolucoes <- resolucoes |>
+  dplyr::mutate(
+    convergencia = 100 * convergente,
+    anos_desde_1997 = ano - 1997,
+    palestina = as.integer(grepl("Palestinian conflict", tema))
+  )
+
+regressao_curta <- lm(convergencia ~ anos_desde_1997, data = resolucoes)
+regressao_longa <- lm(convergencia ~ anos_desde_1997 + palestina, data = resolucoes)
+regressao_auxiliar <- lm(palestina ~ anos_desde_1997, data = resolucoes)
+
+gamma_1 <- coef(regressao_curta)[["anos_desde_1997"]]
+beta_1 <- coef(regressao_longa)[["anos_desde_1997"]]
+beta_2 <- coef(regressao_longa)[["palestina"]]
+delta <- coef(regressao_auxiliar)[["anos_desde_1997"]]
+stopifnot(abs(gamma_1 - (beta_1 + beta_2 * delta)) < 1e-10)
+
+convergencia_palestina <- mean(resolucoes$convergencia[resolucoes$palestina == 1])
+convergencia_demais <- mean(resolucoes$convergencia[resolucoes$palestina == 0])
+participacao_antes <- 100 * mean(resolucoes$palestina[resolucoes$ano <= 2008])
+participacao_depois <- 100 * mean(resolucoes$palestina[resolucoes$ano >= 2009])
+
+agenda_anual <- resolucoes |>
+  dplyr::group_by(ano) |>
+  dplyr::summarise(
+    participacao = 100 * mean(palestina),
+    votacoes = dplyr::n(),
+    .groups = "drop"
+  )
+
+# Ponderada pelo número de votações do ano, a reta anual reproduz 100 * delta.
+stopifnot(abs(
+  coef(lm(participacao ~ ano, data = agenda_anual, weights = votacoes))[[2]] -
+    100 * delta
+) < 1e-8)
+
+# Países em 2016: votos na AGNU e covariáveis em escala original.
+painel_votos <- data.table::fread(
+  here::here("projeto_agna", "data", "processed", "painel_pais_ano_1997_2016.csv")
+)
+covariaveis <- data.table::fread(
+  here::here("projeto_agna", "data", "processed", "covariaveis_pais_ano_1997_2016.csv")
+)
+
+paises_2016 <- painel_votos |>
+  dplyr::select(pais_iso3, ano, taxa_convergencia_china) |>
+  dplyr::inner_join(covariaveis, by = c("pais_iso3", "ano")) |>
+  dplyr::filter(ano == 2016) |>
+  dplyr::mutate(
+    convergencia = 100 * taxa_convergencia_china,
+    continente = factor(
+      continente,
+      levels = c("África", "Américas", "Ásia e Oceania", "Europa")
+    )
+  )
+stopifnot(nrow(paises_2016) == 96, !anyNA(paises_2016$continente))
+
+medias_continente <- paises_2016 |>
+  dplyr::group_by(continente) |>
+  dplyr::summarise(
+    paises = dplyr::n(),
+    media = mean(convergencia),
+    .groups = "drop"
+  )
+
+modelo_continente <- lm(convergencia ~ continente, data = paises_2016)
+modelo_americas <- lm(
+  convergencia ~ relevel(continente, ref = "Américas"),
+  data = paises_2016
+)
+stopifnot(isTRUE(all.equal(fitted(modelo_continente), fitted(modelo_americas))))
+coef_africa <- unname(coef(modelo_continente))
+coef_americas <- unname(coef(modelo_americas))
+
+modelo_so_exportacoes <- lm(convergencia ~ exportacoes_china_pct, data = paises_2016)
+modelo_categoria <- lm(
+  convergencia ~ exportacoes_china_pct + continente,
+  data = paises_2016
+)
+inclinacao_sem_continente <- coef(modelo_so_exportacoes)[["exportacoes_china_pct"]]
+inclinacao_com_continente <- coef(modelo_categoria)[["exportacoes_china_pct"]]
+
+# Três indicadoras omitidas: gamma_1 = beta_1 + soma de beta_g * delta_g.
+delta_continente <- sapply(
+  c("Américas", "Ásia e Oceania", "Europa"),
+  function(categoria) {
+    coef(lm(
+      as.integer(paises_2016$continente == categoria) ~ paises_2016$exportacoes_china_pct
+    ))[[2]]
+  }
+)
+soma_omitidas <- sum(coef(modelo_categoria)[3:5] * delta_continente)
+stopifnot(
+  abs(inclinacao_sem_continente - (inclinacao_com_continente + soma_omitidas)) < 1e-10
+)
+
+# Retas do modelo com continente, dentro da faixa observada em cada continente.
+linhas_continente <- paises_2016 |>
+  dplyr::group_by(continente) |>
+  dplyr::summarise(
+    minimo = min(exportacoes_china_pct),
+    maximo = max(exportacoes_china_pct),
+    .groups = "drop"
+  ) |>
+  dplyr::rowwise() |>
+  dplyr::reframe(
+    continente = continente,
+    exportacoes_china_pct = seq(minimo, maximo, length.out = 50)
+  )
+linhas_continente$ajuste <- predict(modelo_categoria, newdata = linhas_continente)
+
+brasil_2016 <- dplyr::filter(paises_2016, pais_iso3 == "BRA")
+
+cores_continente <- c(
+  "África" = "#B45309",
+  "Américas" = "#047857",
+  "Ásia e Oceania" = "#1D4ED8",
+  "Europa" = "#7C3AED"
 )
 ```
 
-# Roteiro da aula
-
-\begin{columns}[T,onlytextwidth]
-\column{0.52\textwidth}
-\begin{block}{Pergunta}
-Como ler a associação entre comércio e convergência de votos quando também
-observamos cobertura da votação, região e outras características dos países?
-\end{block}
-\column{0.44\textwidth}
-\begin{enumerate}
-\item Da reta bivariada ao ajuste múltiplo
-\item Categoria de referência
-\item Variável omitida
-\item Aplicação com 96 países da AGNU
-\item Laboratório em duplas ou trios
-\end{enumerate}
-\end{columns}
-
-\vspace{0.5em}
-Exposição e discussão: cerca de 65 minutos. Laboratório: cerca de 45 minutos.
-
 # Da Aula 5 à Aula 6
 
-Na Aula 5, uma única reta resumia a associação entre duas variáveis:
+Na Aula 5, um preditor:
 \[
 \widehat Y_i=\widehat\alpha+\widehat\beta X_i.
 \]
 
-Agora permitimos mais de um preditor:
+Agora, dois preditores:
 \[
-\widehat Y_i=\widehat\beta_0+\widehat\beta_1X_i+
-\widehat\beta_2Z_i.
+\widehat Y_i=\widehat\alpha+\widehat\beta_1X_{1i}+\widehat\beta_2X_{2i}.
 \]
 
-\begin{block}{Mudança na pergunta}
-Qual é a diferença ajustada em \(Y\) entre unidades que diferem em \(X\),
-mantendo \(Z\) no mesmo valor?
+Com $k$ preditores: $\widehat Y_i=\widehat\alpha+\widehat\beta_1X_{1i}+\cdots+\widehat\beta_kX_{ki}$.
+Os resultados desta aula valem para qualquer $k$; as contas usam $k=2$.
+
+\begin{block}{Notação}
+Sem chapéu, $\alpha$, $\beta_1$ e $\beta_2$ são os coeficientes do BLP na população;
+com chapéu, as estimativas de MQO. O til marca valores candidatos na minimização.
+$\varepsilon$ é o desvio em torno do BLP e $\widehat e_i$, o resíduo.
 \end{block}
 
-# O sentido de manter constante
-
-Imagine dois países com o mesmo valor de \(Z\), mas valores de \(X\) que
-diferem em uma unidade:
-\[
-\widehat Y(X+1,Z)-\widehat Y(X,Z)=\widehat\beta_1.
-\]
-
-O modelo produz essa comparação. Países reais podem diferir também em
-características que não incluímos.
-
-\begin{alertblock}{Leitura correta}
-\(\widehat\beta_1\) descreve uma diferença ajustada pela equação escolhida.
-Para chamá-la de efeito causal, precisaríamos de um desenho de identificação.
-\end{alertblock}
-
-# Símbolos da regressão múltipla
+# BLP com dois preditores
 
 \[
-Y_i=\beta_0+\beta_1X_{1i}+\beta_2X_{2i}+\cdots+\beta_kX_{ki}+u_i.
+(\alpha,\beta_1,\beta_2)
+=\arg\min_{(\widetilde\alpha,\widetilde\beta_1,\widetilde\beta_2)\in\mathbb R^3}
+E\!\left[(Y-\widetilde\alpha-\widetilde\beta_1X_1-\widetilde\beta_2X_2)^2\right],
+\qquad
+\varepsilon=Y-\alpha-\beta_1X_1-\beta_2X_2.
 \]
 
-\begin{itemize}
-\item \(i\): unidade observada; \(Y_i\): desfecho.
-\item \(X_{ji}\): valor do preditor \(j\) na unidade \(i\).
-\item \(\beta_j\): coeficiente da projeção linear de referência; o chapéu
-marca a estimativa na amostra.
-\item \(u_i\): diferença entre \(Y_i\) e a parte linear de referência.
-\end{itemize}
-
-No laboratório, cada \(i\) será um país em 2016, e \(Y_i\) será uma taxa
-entre 0 e 1.
-
-# Preditor categórico: a referência
-
-Defina \(D_i=1\) para país da América Latina e \(D_i=0\) para país de
-outra região:
+Derivada em relação a $\widetilde\beta_1$; as derivadas em $\widetilde\alpha$ e $\widetilde\beta_2$
+são análogas:
 \[
-\widehat Y_i=\widehat\beta_0+\widehat\beta_1X_i+
-\widehat\gamma D_i.
+\frac{\partial}{\partial\widetilde\beta_1}
+E\!\left[(Y-\widetilde\alpha-\widetilde\beta_1X_1-\widetilde\beta_2X_2)^2\right]
+=-2E\!\left[X_1(Y-\widetilde\alpha-\widetilde\beta_1X_1-\widetilde\beta_2X_2)\right].
 \]
 
-\begin{itemize}
-\item Outra região (\(D=0\)): \(\widehat Y=\widehat\beta_0+\widehat\beta_1X\).
-\item América Latina (\(D=1\)): \(\widehat Y=\widehat\beta_0+\widehat\beta_1X+\widehat\gamma\).
-\end{itemize}
+No mínimo, as três derivadas são iguais a zero:
+\[
+\boxed{E[\varepsilon]=0,}
+\qquad
+\boxed{E[X_1\varepsilon]=0,}
+\qquad
+\boxed{E[X_2\varepsilon]=0.}
+\]
 
-\begin{block}{Interpretação}
-\(\widehat\gamma\) é a diferença ajustada entre as categorias para o mesmo
-\(X\). A categoria \(D=0\) é a referência.
+\begin{block}{Por construção}
+As três condições valem para o BLP de qualquer distribuição com segundos momentos finitos.
+São consequência da minimização, e não uma hipótese sobre a relação entre $X$ e $\varepsilon$.
 \end{block}
 
-# Variável omitida: quatro unidades
+\scriptsize
+Solução única sem relação linear exata entre $1$, $X_1$ e $X_2$. Com um preditor, as duas
+condições davam $\beta=\operatorname{Cov}(X,Y)/{\operatorname{V}}(X)$ (Aula 3).
 
-\begin{center}
-\begin{tabular}{lrrr}
-\toprule
-Unidade & \(X\) & \(Z\) & \(Y=1+2X+3Z\)\\
-\midrule
-A & 0 & 0 & 1\\
-B & 0 & 1 & 4\\
-C & 1 & 1 & 6\\
-D & 1 & 2 & 9\\
-\bottomrule
-\end{tabular}
-\end{center}
+# Equações normais
 
-\(X\) e \(Z\) crescem juntos; ambos entram na regra que gerou \(Y\).
-
-\begin{block}{Pergunta para a turma}
-Quanto parece variar \(Y\) com \(X\) se \(Z\) for ignorado? E se
-compararmos B e C, que têm o mesmo \(Z=1\)?
+\begin{columns}[T,onlytextwidth]
+\column{0.44\textwidth}
+\begin{block}{População: BLP}
+\[
+E[\varepsilon]=0,\quad
+E[X_1\varepsilon]=0,\quad
+E[X_2\varepsilon]=0.
+\]
 \end{block}
-
-# A regressão curta e a comparação condicional
-
-Ignorando \(Z\), a média de \(Y\) é \(2{,}5\) quando \(X=0\)
-e \(7{,}5\) quando \(X=1\):
+\column{0.52\textwidth}
+\begin{block}{Amostra: MQO}
 \[
-\widehat\beta_X^{\text{curta}}=7{,}5-2{,}5=5.
+\frac{1}{n}\sum_{i=1}^{n}\widehat e_i=0,\quad
+\frac{1}{n}\sum_{i=1}^{n}X_{1i}\widehat e_i=0,\quad
+\frac{1}{n}\sum_{i=1}^{n}X_{2i}\widehat e_i=0.
 \]
-
-Entre B e C, \(Z=1\) nos dois casos. Quando \(X\) passa de 0 a 1,
-\(Y\) passa de 4 a 6: diferença de \(2\).
-
-Com os dois preditores, a regressão recupera
-\(\widehat Y=1+2X+3Z\).
-
-# A decomposição da omissão
-
-No exemplo, o coeficiente da regressão de \(Z\) em \(X\) é \(1\):
-\[
-\underbrace{5}_{\text{coeficiente curto}}=
-\underbrace{2}_{\text{coeficiente com }Z}+
-\underbrace{3}_{\text{coeficiente de }Z}\times
-\underbrace{1}_{\text{associação }X\text{--}Z}.
-\]
-
-Esta é uma decomposição algébrica entre duas regressões lineares
-estimadas nas mesmas quatro unidades.
-
-\begin{alertblock}{Cuidado}
-Mudar o coeficiente ao acrescentar \(Z\) informa como a especificação
-altera a associação estimada. Isso não comprova que \(Z\) seja um
-confundidor causal.
-\end{alertblock}
-
-# Como o MQO escolhe os coeficientes
-
-Para \(k\) preditores, o MQO escolhe os coeficientes que minimizam:
-\[
-\operatorname{SQR}(\widetilde\beta_0,\ldots,\widetilde\beta_k)
-=\sum_{i=1}^{n}
-\left(Y_i-\widetilde\beta_0-\sum_{j=1}^{k}
-\widetilde\beta_jX_{ji}\right)^2.
-\]
-
-É a mesma regra da Aula 5, agora aplicada a um plano com mais dimensões.
+\end{block}
+\end{columns}
 
 \smallskip
-\(\widetilde\beta_j\) é um candidato. \(\widehat\beta_j\) é o
-valor que minimiza a soma de quadrados na amostra.
 
-\vspace{0.4em}
-\scriptsize
-Em notação matricial, com colunas linearmente independentes:
-\(\widehat{\boldsymbol\beta}=(\mathbf X^\top\mathbf X)^{-1}
-\mathbf X^\top\mathbf Y\). A função \texttt{lm()} faz o cálculo.
-
-# A aplicação: países e votos na AGNU
-
-\begin{itemize}
-\item Recorte: 2016, uma linha por país, 96 países.
-\item Desfecho: proporção de pares de votos válidos em que o país votou
-como a China nas votações nominais da Assembleia Geral das Nações Unidas (AGNU).
-\item Fonte: painel didático preservado, formado a partir de votações da
-AGNU e de \texttt{synth\_data.rds}.
-\end{itemize}
-
+O MQO troca a esperança pela média amostral: o princípio plug-in da Aula 5. Com
+$\widehat e_i=Y_i-\widehat\alpha-\widehat\beta_1X_{1i}-\widehat\beta_2X_{2i}$, são três equações
+lineares em $\widehat\alpha$, $\widehat\beta_1$ e $\widehat\beta_2$. Resolvidas com somatórios:
 \[
-\text{taxa de convergência}_i=
-\frac{\text{votos convergentes com a China}_i}
-{\text{pares de votos válidos}_i}.
-\]
-
-A taxa não é uma medida de alinhamento causal nem um resultado de
-intervenção.
-
-# Conferência dos denominadores
-
-\begin{center}
-\begin{tabular}{lr}
-\toprule
-Verificação em 2016 & Resultado\\
-\midrule
-Países distintos & 96\\
-Países da América Latina & 20\\
-Votações no ano & 114\\
-Pares válidos por país: mínimo / mediana / máximo & 5 / 112 / 113\\
-Ausências nas variáveis usadas & 0\\
-\bottomrule
-\end{tabular}
-\end{center}
-
-Cada país contribui com uma taxa calculada sobre seu próprio
-denominador. Um país com cinco pares válidos requer cautela especial.
-
-\scriptsize
-Fonte: painel didático país--ano da AGNU, 2016; validações executadas
-no script do laboratório.
-
-# A escala dos preditores
-
-O campo de comércio com a China foi transformado na fonte original.
-O dicionário local não documenta a transformação.
-
-\[
-Z_{Xi}=\frac{X_i-\overline X}{s_X},
+\widehat\beta_1=\frac{S_{22}S_{1Y}-S_{12}S_{2Y}}{S_{11}S_{22}-S_{12}^2},
 \qquad
-s_X=\text{desvio-padrão de }X\text{ entre os 96 países}.
+S_{jl}=\sum_i(X_{ji}-\bar X_j)(X_{li}-\bar X_l).
 \]
 
-\begin{block}{Unidade do coeficiente}
-Ao multiplicar o coeficiente da taxa por 100, lemos a diferença ajustada
-em pontos percentuais de convergência por um desvio-padrão do preditor.
+\begin{block}{Com $k$ preditores}
+São $k+1$ equações, e a solução com somatórios cresce rápido a cada preditor. A notação
+matricial escreve o sistema e a solução da mesma forma para qualquer $k$.
 \end{block}
 
-Não lemos o coeficiente como pontos percentuais de comércio.
+# Vetores e matrizes
 
-# Associação bivariada no recorte de 2016
-
-```{r figura-1, fig.width=8.8, fig.height=4.15, out.width="82%"}
-print(figura_1 + ggplot2::labs(caption = NULL))
-```
-
-\scriptsize
-Unidade: país (96); denominador da taxa: 5 a 113 pares de votos válidos por país.
-A reta laranja é bivariada. Fonte: painel didático da AGNU e
-\texttt{synth\_data.rds}. Associação, sem leitura causal.
-
-# Quatro modelos na mesma amostra
-
-\begin{center}
-\begin{tabular}{lp{8.6cm}}
-\toprule
-Modelo & Preditores acrescentados\\
-\midrule
-M1 & Campo de comércio com a China\\
-M2 & Cobertura de pares válidos e categoria América Latina\\
-M3 & Campo de comércio com os EUA e hiato de poder em relação aos EUA\\
-M4 & Dois controles econômicos da fonte: \texttt{pci\_cur} e \texttt{CA\_GDP}\\
-\bottomrule
-\end{tabular}
-\end{center}
-
-Todos usam os mesmos 96 países. Os preditores contínuos foram
-padronizados nesse recorte; a categoria tem referência "outras regiões".
-
-# Coeficiente do comércio com a China
-
-\begin{center}
-\begin{tabular}{lrrrr}
-\toprule
- & M1 & M2 & M3 & M4\\
-\midrule
-Coeficiente & \(+0{,}80\) & \(+0{,}52\) & \(+1{,}29\) & \(+1{,}69\)\\
-\bottomrule
-\end{tabular}
-\end{center}
-
-Unidade: pontos percentuais da taxa de convergência por um
-desvio-padrão do campo comercial transformado.
-
-\begin{block}{Leitura de M4}
-Entre países com os mesmos valores dos demais preditores no modelo,
-uma diferença de um desvio-padrão no campo comercial está associada a
-\(1{,}69\) ponto percentual a mais na taxa ajustada.
-\end{block}
-
-# O coeficiente muda entre especificações
-
-```{r figura-2, fig.width=8.8, fig.height=4.15, out.width="82%"}
-print(figura_2 + ggplot2::labs(caption = NULL))
-```
-
-\scriptsize
-Unidade: pontos percentuais da taxa por um desvio-padrão do campo comercial.
-M1: comércio com a China; M2: cobertura e região; M3: comércio com os EUA e
-hiato de poder; M4: controles econômicos. Fonte: painel didático da AGNU e
-\texttt{synth\_data.rds}. A linha não representa tempo nem incerteza.
-
-# A categoria geográfica em M4
-
-A referência da categoria é "outras regiões". O coeficiente de
-América Latina em M4 é \(+6{,}70\) pontos percentuais.
-
+\begin{columns}[T,onlytextwidth]
+\column{0.52\textwidth}
+Um \textbf{vetor} é uma lista ordenada de números, escrita em coluna:
 \[
-\widehat Y_{\text{América Latina}}(X)
--\widehat Y_{\text{outras regiões}}(X)
-=0{,}0670.
+\mathbf Y=\begin{bmatrix}Y_1\\ Y_2\\ \vdots\\ Y_n\end{bmatrix}\quad(n\times1).
 \]
+Uma \textbf{matriz} é uma tabela de números com linhas e colunas. A matriz dos preditores tem
+uma linha por unidade e uma coluna por coeficiente:
+\[
+\mathbf X=\begin{bmatrix}1&X_{11}&X_{21}\\ 1&X_{12}&X_{22}\\ \vdots&\vdots&\vdots\\ 1&X_{1n}&X_{2n}\end{bmatrix}\quad(n\times3).
+\]
+\column{0.44\textwidth}
+\begin{block}{Exemplo: quatro unidades}
+\[
+\mathbf Y=\begin{bmatrix}1\\4\\6\\9\end{bmatrix},
+\qquad
+\mathbf X=\begin{bmatrix}1&0&0\\1&0&1\\1&1&1\\1&1&2\end{bmatrix}.
+\]
+Os valores de $Y$ seguem $Y=1+2X_1+3X_2$, sem erro.
+\end{block}
+\end{columns}
 
-Todos os outros preditores \(X\) têm o mesmo valor nos dois lados.
-O modelo é aditivo: essa diferença prevista é constante em \(X\).
+\scriptsize
+Negrito: vetores e matrizes. $X_{ji}$ é o valor do preditor $j$ na unidade $i$; a linha $i$ de
+$\mathbf X$ é $(1,X_{1i},X_{2i})$. A coluna de uns, $\mathbf 1_n$, corresponde ao intercepto.
 
-Relações distintas por nível de comércio exigiriam uma interação,
-assunto da Aula 11.
+# Transposta
 
-# Dois perfis condicionais de M4
-
-Fixe todos os preditores contínuos em zero depois da padronização
-(a média dos 96 países). Mude apenas a região:
-
-\begin{center}
-\begin{tabular}{lr}
-\toprule
-Perfil hipotético & Taxa ajustada\\
-\midrule
-Outras regiões & \(60{,}45\%\)\\
-América Latina & \(67{,}15\%\)\\
-\bottomrule
-\end{tabular}
-\end{center}
-
-A diferença de \(6{,}70\) pontos percentuais reproduz o coeficiente
-da categoria. São previsões da reta, não dois países observados.
-
-# Ajuste descritivo dos modelos
-
-\begin{center}
-\begin{tabular}{lrrrr}
-\toprule
- & M1 & M2 & M3 & M4\\
-\midrule
-\(R^2\) amostral & 0,004 & 0,104 & 0,250 & 0,398\\
-Países & 96 & 96 & 96 & 96\\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\(R^2\) resume a fração da variação amostral do desfecho explicada
-pelos valores ajustados. Ao acrescentar preditores na mesma amostra,
-o \(R^2\) do MQO não diminui.
-
-\begin{alertblock}{Limite}
-Mais ajuste dentro da amostra não comprova melhor previsão fora dela,
-nem efeito causal dos preditores.
-\end{alertblock}
-
-# Limites desta comparação
+A transposta $\mathbf A'$ troca linhas por colunas: o elemento $(i,j)$ de $\mathbf A'$ é o elemento
+$(j,i)$ de $\mathbf A$. Uma matriz $m\times n$ vira $n\times m$.
+\[
+\mathbf X=\begin{bmatrix}1&0&0\\1&0&1\\1&1&1\\1&1&2\end{bmatrix}
+\quad\Longrightarrow\quad
+\mathbf X'=\begin{bmatrix}1&1&1&1\\0&0&1&1\\0&1&1&2\end{bmatrix}.
+\]
 
 \begin{itemize}
-\item É um corte transversal de 2016: coeficientes são associações
-entre países.
-\item Os denominadores das taxas variam de 5 a 113 pares válidos.
-O MQO aqui dá o mesmo peso a cada país.
-\item Não conhecemos a transformação original dos campos comerciais;
-por isso a leitura é por desvio-padrão no recorte.
-\item Características não incluídas podem alterar os coeficientes.
+\item O vetor coluna $\mathbf Y$ ($4\times1$) vira o vetor linha $\mathbf Y'=(1\;\;4\;\;6\;\;9)$ ($1\times4$).
+\item Transposta do produto: $(\mathbf A\mathbf B)'=\mathbf B'\mathbf A'$.
+\item $\mathbf A$ é simétrica quando $\mathbf A'=\mathbf A$.
 \end{itemize}
 
-Não interpretamos valores-p ou intervalos nesta aula. A inferência está
-prevista para as Aulas 9 e 10.
+\scriptsize
+No R, a transposta é \texttt{t(X)}. Alguns livros escrevem $\mathbf A^{\mathsf T}$.
 
-# Laboratório: leitura e validação
+# Produto de matrizes
 
-Abra o projeto no RStudio e execute, bloco a bloco,
-\texttt{scripts/09\_laboratorio\_aula6\_regressao\_multipla.R}.
+$\mathbf A$ ($m\times p$) vezes $\mathbf B$ ($p\times q$) dá $\mathbf C=\mathbf A\mathbf B$ ($m\times q$).
+O elemento $(i,j)$ combina a linha $i$ de $\mathbf A$ com a coluna $j$ de $\mathbf B$:
+\[
+c_{ij}=\sum_{l=1}^{p}a_{il}b_{lj}.
+\]
+O número de colunas de $\mathbf A$ precisa ser igual ao número de linhas de $\mathbf B$.
 
-\begin{enumerate}
-\item Leia o painel país--ano e filtre 2016.
-\item Confirme 96 países, 20 latino-americanos e 114 votações.
-\item Confira tipos, ausências, chaves únicas, numerador,
-denominador e taxa.
-\item Observe o menor denominador: cinco pares válidos.
-\end{enumerate}
+\begin{block}{Dois produtos da aula}
+Produto interno de dois vetores $n\times1$: $\mathbf a'\mathbf b=\sum_{i=1}^{n}a_ib_i$, um número.
 
-O script mostra os objetos \texttt{validacao\_2016} e
-\texttt{ausentes\_2016} antes de qualquer modelo.
+\medskip
 
-# Laboratório: estimar e comparar
-
-\begin{enumerate}
-\item Padronize os preditores contínuos nos mesmos 96 países.
-\item Execute M1 a M4 com \texttt{lm()}.
-\item Leia \texttt{tabela\_modelos}: coeficiente comercial,
-coeficiente da categoria e \(R^2\).
-\item Confira que \texttt{perfis} difere apenas em região.
-\end{enumerate}
-
-\begin{block}{Unidade a escrever na resposta}
-Pontos percentuais de convergência por um desvio-padrão do campo
-comercial, com os demais preditores do modelo mantidos constantes.
+Com $\widetilde{\boldsymbol\beta}=(\widetilde\alpha,\widetilde\beta_1,\widetilde\beta_2)'$, a linha $i$ de
+$\mathbf X\widetilde{\boldsymbol\beta}$ ($n\times1$) é $\widetilde\alpha+\widetilde\beta_1X_{1i}+\widetilde\beta_2X_{2i}$:
+o valor ajustado da unidade $i$ pela reta candidata.
 \end{block}
 
-# Laboratório: conversa em duplas ou trios
+# Somas em forma matricial
+
+\[
+\mathbf X'\mathbf X=
+\begin{bmatrix}
+n & \sum_iX_{1i} & \sum_iX_{2i}\\
+\sum_iX_{1i} & \sum_iX_{1i}^2 & \sum_iX_{1i}X_{2i}\\
+\sum_iX_{2i} & \sum_iX_{1i}X_{2i} & \sum_iX_{2i}^2
+\end{bmatrix},
+\qquad
+\mathbf X'\mathbf Y=
+\begin{bmatrix}
+\sum_iY_i\\ \sum_iX_{1i}Y_i\\ \sum_iX_{2i}Y_i
+\end{bmatrix}.
+\]
+
+Cada elemento é o produto interno de duas colunas de $\mathbf X$, ou de uma coluna de $\mathbf X$ com
+$\mathbf Y$. A matriz $\mathbf X'\mathbf X$ é $3\times3$ e simétrica.
+
+\begin{block}{Exemplo: quatro unidades}
+\[
+\mathbf X'\mathbf X=\begin{bmatrix}4&2&4\\2&2&3\\4&3&6\end{bmatrix},
+\qquad
+\mathbf X'\mathbf Y=\begin{bmatrix}20\\15\\28\end{bmatrix}.
+\]
+\end{block}
+
+# Soma dos quadrados dos resíduos
+
+O vetor de desvios da reta candidata é $\mathbf Y-\mathbf X\widetilde{\boldsymbol\beta}$ ($n\times1$).
+O produto interno de um vetor com ele mesmo é a soma dos quadrados dos seus elementos:
+\[
+\operatorname{SQR}(\widetilde{\boldsymbol\beta})
+=\sum_{i=1}^{n}(Y_i-\widetilde\alpha-\widetilde\beta_1X_{1i}-\widetilde\beta_2X_{2i})^2
+=(\mathbf Y-\mathbf X\widetilde{\boldsymbol\beta})'(\mathbf Y-\mathbf X\widetilde{\boldsymbol\beta}).
+\]
+
+\begin{block}{Estimador de MQO}
+\[
+\widehat{\boldsymbol\beta}
+=\arg\min_{\widetilde{\boldsymbol\beta}}
+(\mathbf Y-\mathbf X\widetilde{\boldsymbol\beta})'(\mathbf Y-\mathbf X\widetilde{\boldsymbol\beta}).
+\]
+A expressão é a mesma com 1, 2 ou 20 preditores; muda só o número de colunas de $\mathbf X$.
+\end{block}
+
+# Equações normais em forma matricial
+
+Resíduos: $\widehat{\mathbf e}=\mathbf Y-\mathbf X\widehat{\boldsymbol\beta}$. As três equações normais
+formam um único produto:
+\[
+\mathbf X'\widehat{\mathbf e}=
+\begin{bmatrix}\sum_i\widehat e_i\\ \sum_iX_{1i}\widehat e_i\\ \sum_iX_{2i}\widehat e_i\end{bmatrix}
+=\begin{bmatrix}0\\0\\0\end{bmatrix}.
+\]
+A derivada da SQR empilha as três derivadas parciais:
+\[
+\frac{\partial\operatorname{SQR}}{\partial\widetilde{\boldsymbol\beta}}
+=-2\mathbf X'(\mathbf Y-\mathbf X\widetilde{\boldsymbol\beta}).
+\]
+No mínimo, ela é igual a zero:
+\[
+\mathbf X'(\mathbf Y-\mathbf X\widehat{\boldsymbol\beta})=\mathbf 0
+\;\Longrightarrow\;
+\boxed{\mathbf X'\mathbf X\widehat{\boldsymbol\beta}=\mathbf X'\mathbf Y.}
+\]
+
+# Matriz inversa
+
+\begin{itemize}
+\item Identidade $\mathbf I_m$: 1 na diagonal e 0 fora dela; $\mathbf A\mathbf I=\mathbf I\mathbf A=\mathbf A$.
+\item Inversa de uma matriz quadrada $\mathbf A$: $\mathbf A^{-1}\mathbf A=\mathbf A\mathbf A^{-1}=\mathbf I$.
+\end{itemize}
+
+Multiplique os dois lados de $\mathbf X'\mathbf X\widehat{\boldsymbol\beta}=\mathbf X'\mathbf Y$ por
+$(\mathbf X'\mathbf X)^{-1}$:
+\[
+\boxed{\widehat{\boldsymbol\beta}=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y.}
+\]
+
+\begin{block}{Posto completo}
+$(\mathbf X'\mathbf X)^{-1}$ existe quando nenhuma coluna de $\mathbf X$ é combinação linear exata das
+outras. Com um preditor, é a condição $\sum_i(X_i-\bar X)^2>0$ da Aula 5.
+\end{block}
+
+# Exemplo em matrizes
+
+Nas quatro unidades:
+\[
+(\mathbf X'\mathbf X)^{-1}=\frac14\begin{bmatrix}3&0&-2\\0&8&-4\\-2&-4&4\end{bmatrix},
+\qquad
+\widehat{\boldsymbol\beta}
+=\frac14\begin{bmatrix}3&0&-2\\0&8&-4\\-2&-4&4\end{bmatrix}
+\begin{bmatrix}20\\15\\28\end{bmatrix}
+=\begin{bmatrix}1\\2\\3\end{bmatrix}.
+\]
+
+A regressão recupera $\widehat Y_i=1+2X_{1i}+3X_{2i}$, a regra que gerou $Y$.
+
+\begin{block}{Exercício}
+Multiplique $\mathbf X'\mathbf X$ por $(\mathbf X'\mathbf X)^{-1}$ e confira que o resultado é $\mathbf I_3$.
+
+\smallskip
+No R: \texttt{solve(t(X) \%*\% X) \%*\% t(X) \%*\% Y}
+\end{block}
+
+# BLP em forma matricial
+
+Na população, reúna o intercepto e os preditores no vetor $\mathbf x=(1,X_1,X_2)'$ e os coeficientes
+em $\boldsymbol\beta=(\alpha,\beta_1,\beta_2)'$. As três condições de primeira ordem do BLP são
+\[
+E[\mathbf x\varepsilon]=\mathbf 0
+\;\Longrightarrow\;
+E[\mathbf x(Y-\mathbf x'\boldsymbol\beta)]=\mathbf 0
+\;\Longrightarrow\;
+\boldsymbol\beta=E[\mathbf x\mathbf x']^{-1}E[\mathbf xY].
+\]
+
+\begin{block}{Plug-in}
+Com $\mathbf x_i=(1,X_{1i},X_{2i})'$, a linha $i$ de $\mathbf X$ escrita em coluna:
+\[
+E[\mathbf x\mathbf x']\mapsto\frac1n\sum_i\mathbf x_i\mathbf x_i'=\frac1n\mathbf X'\mathbf X,
+\qquad
+E[\mathbf xY]\mapsto\frac1n\sum_i\mathbf x_iY_i=\frac1n\mathbf X'\mathbf Y.
+\]
+Os fatores $1/n$ se cancelam, e o plug-in dá $\widehat{\boldsymbol\beta}=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y$.
+\end{block}
+
+# Interpretação condicional
+
+Compare dois perfis com o mesmo $X_2$ e valores de $X_1$ que diferem em uma unidade:
+\[
+\boxed{\widehat Y(x_1+1,x_2)-\widehat Y(x_1,x_2)=\widehat\beta_1.}
+\]
+
+\begin{itemize}
+\item A diferença é a mesma para quaisquer $x_1$ e $x_2$: o modelo é linear em $X_1$ e
+não tem interação entre $X_1$ e $X_2$.
+\item A unidade de $\widehat\beta_1$ é unidade de $Y$ por unidade de $X_1$, como na Aula 5.
+\end{itemize}
+
+\bigskip
+
+A decomposição do coeficiente mostra quais comparações nos dados determinam $\widehat\beta_1$.
+
+# Decomposição do coeficiente
+
+Regressão de $X_1$ nos demais preditores, com intercepto. Com dois preditores:
+\[
+X_{1i}=\widehat\pi_0+\widehat\pi_2X_{2i}+\widehat r_i.
+\]
+
+O resíduo $\widehat r_i$ é a parte de $X_{1i}$ que os demais preditores não preveem linearmente.
+
+\begin{block}{Resultado}
+\[
+\widehat\beta_1=\frac{\sum_i\widehat r_iY_i}{\sum_i\widehat r_i^2}
+=(\widehat{\mathbf r}'\widehat{\mathbf r})^{-1}\widehat{\mathbf r}'\mathbf Y.
+\]
+O coeficiente de $X_1$ na regressão longa é a inclinação da regressão simples de $Y$ em $\widehat r$.
+\end{block}
+
+\vfill
+
+\scriptsize
+Teorema de Frisch--Waugh--Lovell. Na população, o mesmo resultado vale com esperanças
+no lugar das somas (Hansen, seção 2.23); a versão amostral está na seção 3.18.
+
+# Decomposição com somatórios
+
+Multiplique $Y_i=\widehat\alpha+\widehat\beta_1X_{1i}+\widehat\beta_2X_{2i}+\widehat e_i$
+por $\widehat r_i$ e some em $i$:
+\[
+\sum_i\widehat r_iY_i
+=\widehat\alpha\sum_i\widehat r_i
++\widehat\beta_1\sum_i\widehat r_iX_{1i}
++\widehat\beta_2\sum_i\widehat r_iX_{2i}
++\sum_i\widehat r_i\widehat e_i.
+\]
 
 \begin{enumerate}
-\item Por que o coeficiente do campo comercial muda de \(+0{,}80\)
-em M1 para \(+1{,}69\) em M4?
-\item O que significa a referência "outras regiões" no coeficiente
-de América Latina?
-\item Uma taxa baseada em cinco pares válidos merece a mesma
-confiança descritiva que outra baseada em 113? Explique.
-\item Que informação adicional seria necessária para defender
-uma leitura causal da associação comercial?
+\item $\sum_i\widehat r_i=0$ e $\sum_i\widehat r_iX_{2i}=0$: equações normais da regressão de $X_1$ em $X_2$.
+\item $\sum_i\widehat r_i\widehat e_i=0$: $\widehat r_i=X_{1i}-\widehat\pi_0-\widehat\pi_2X_{2i}$
+combina $1$, $X_1$ e $X_2$, e $\widehat e$ é ortogonal aos três.
+\item $\sum_i\widehat r_iX_{1i}=\sum_i\widehat r_i(\widehat\pi_0+\widehat\pi_2X_{2i}+\widehat r_i)
+=\sum_i\widehat r_i^2$, pelo item 1.
 \end{enumerate}
 
-Entregue uma tabela curta, uma figura, o script e um parágrafo
-de interpretação associacional.
+Logo,
+\[
+\sum_i\widehat r_iY_i=\widehat\beta_1\sum_i\widehat r_i^2.
+\]
+
+\scriptsize
+Com três ou quatro preditores, a regressão de $X_1$ tem mais coeficientes, e cada passo ganha
+mais somas.
+
+# Matriz de resíduos
+
+Separe as colunas de $\mathbf X$ em $\mathbf X=[\mathbf X_1\;\,\mathbf Z]$: $\mathbf X_1$ é a coluna de $X_1$,
+e $\mathbf Z$ reúne as demais (o intercepto e os outros preditores; com dois preditores,
+$\mathbf Z=[\mathbf 1_n\;\,\mathbf X_2]$).
+
+Regressão de um vetor $\mathbf v$ ($n\times1$) em $\mathbf Z$:
+\[
+\text{ajustados: }\mathbf P_Z\mathbf v,\quad\mathbf P_Z=\mathbf Z(\mathbf Z'\mathbf Z)^{-1}\mathbf Z';
+\qquad
+\text{resíduos: }\mathbf M_Z\mathbf v,\quad\mathbf M_Z=\mathbf I_n-\mathbf P_Z.
+\]
+
+\begin{block}{Três propriedades}
+\begin{enumerate}
+\item $\mathbf M_Z\mathbf Z=\mathbf Z-\mathbf Z(\mathbf Z'\mathbf Z)^{-1}\mathbf Z'\mathbf Z=\mathbf 0$.
+\item $\mathbf M_Z'=\mathbf M_Z$ e $\mathbf M_Z\mathbf M_Z=\mathbf M_Z$, porque
+$\mathbf P_Z'=\mathbf P_Z$ e $\mathbf P_Z\mathbf P_Z=\mathbf P_Z$.
+\item Se $\mathbf Z'\mathbf v=\mathbf 0$, então $\mathbf M_Z\mathbf v=\mathbf v$.
+\end{enumerate}
+\end{block}
+
+O resíduo da regressão de $X_1$ nos demais preditores é $\widehat{\mathbf r}=\mathbf M_Z\mathbf X_1$.
+
+# Decomposição com matrizes
+
+As equações normais da regressão longa, $\mathbf X'\widehat{\mathbf e}=\mathbf 0$, dão
+$\mathbf X_1'\widehat{\mathbf e}=0$ e $\mathbf Z'\widehat{\mathbf e}=\mathbf 0$. Com $\widehat{\boldsymbol\theta}$
+os coeficientes das colunas de $\mathbf Z$, multiplique
+$\mathbf Y=\mathbf X_1\widehat\beta_1+\mathbf Z\widehat{\boldsymbol\theta}+\widehat{\mathbf e}$
+por $\widehat{\mathbf r}'=\mathbf X_1'\mathbf M_Z$:
+\[
+\widehat{\mathbf r}'\mathbf Y
+=\widehat{\mathbf r}'\mathbf X_1\widehat\beta_1
++\widehat{\mathbf r}'\mathbf Z\widehat{\boldsymbol\theta}
++\widehat{\mathbf r}'\widehat{\mathbf e}.
+\]
+
+\begin{enumerate}
+\item $\widehat{\mathbf r}'\mathbf Z=\mathbf X_1'\mathbf M_Z\mathbf Z=\mathbf 0'$ (propriedade 1).
+\item $\widehat{\mathbf r}'\widehat{\mathbf e}=\mathbf X_1'\mathbf M_Z\widehat{\mathbf e}=\mathbf X_1'\widehat{\mathbf e}=0$
+(propriedade 3, com $\mathbf v=\widehat{\mathbf e}$).
+\item $\widehat{\mathbf r}'\mathbf X_1=\mathbf X_1'\mathbf M_Z'\mathbf M_Z\mathbf X_1=\widehat{\mathbf r}'\widehat{\mathbf r}$
+(propriedade 2).
+\end{enumerate}
+
+\[
+\boxed{\widehat\beta_1=(\widehat{\mathbf r}'\widehat{\mathbf r})^{-1}\widehat{\mathbf r}'\mathbf Y.}
+\]
+
+Os mesmos três passos dos somatórios, com qualquer número de colunas em $\mathbf Z$.
+
+# Exemplo: quatro unidades
+
+\begin{center}
+\begin{tabular}{crrrr}
+\toprule
+Unidade & $X_1$ & $X_2$ & $Y=1+2X_1+3X_2$ & $\widehat r$\\
+\midrule
+A & 0 & 0 & 1 & $0$\\
+B & 0 & 1 & 4 & $-0{,}5$\\
+C & 1 & 1 & 6 & $0{,}5$\\
+D & 1 & 2 & 9 & $0$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Regressão de $X_1$ em $X_2$: $\widehat X_1=0{,}5X_2$, e $\widehat{\mathbf r}=\mathbf M_Z\mathbf X_1$ é a última coluna. Então
+\[
+\widehat\beta_1=\frac{(-0{,}5)(4)+(0{,}5)(6)}{(-0{,}5)^2+(0{,}5)^2}=\frac{1}{0{,}5}=2.
+\]
+
+Só B e C, que têm o mesmo $X_2$, têm resíduo diferente de zero: $\widehat\beta_1$
+compara B e C.
+
+\begin{block}{Perguntas}
+Sem $X_2$ na regressão, qual é a inclinação de $Y$ em $X_1$? Por que ela difere de 2?
+\end{block}
+
+# Regressão curta e regressão longa
+
+Longa: $Y=\alpha+\beta_1X_1+\beta_2X_2+\varepsilon$.
+Curta: $\gamma_1=\operatorname{Cov}(X_1,Y)/{\operatorname{V}}(X_1)$.
+
+Substitua $Y$ na covariância:
+\[
+\operatorname{Cov}(X_1,Y)
+=\beta_1\operatorname{V}(X_1)+\beta_2\operatorname{Cov}(X_1,X_2)+\operatorname{Cov}(X_1,\varepsilon),
+\]
+e $\operatorname{Cov}(X_1,\varepsilon)=E[X_1\varepsilon]-E[X_1]E[\varepsilon]=0$. Logo:
+\[
+\boxed{\gamma_1=\beta_1+\beta_2\,\delta,}
+\qquad
+\delta=\frac{\operatorname{Cov}(X_1,X_2)}{\operatorname{V}(X_1)}.
+\]
+
+$\delta$ é a inclinação da regressão de $X_2$ em $X_1$. Na amostra, com intercepto nas três
+regressões e as mesmas observações, a identidade é exata:
+$\widehat\gamma_1=\widehat\beta_1+\widehat\beta_2\widehat\delta$.
+No exemplo, $\widehat X_2=0{,}5+X_1$, logo $\widehat\delta=1$ e $5=2+3\times1$.
+
+\vfill
+
+\scriptsize
+Os rótulos "curta" e "longa" são de Goldberger (1991); ver Hansen, seção 2.24.
+
+# Sinal da diferença
+
+\[
+\gamma_1-\beta_1=\beta_2\,\delta
+\]
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+ & $\delta>0$ & $\delta<0$\\
+\midrule
+$\beta_2>0$ & $\gamma_1>\beta_1$ & $\gamma_1<\beta_1$\\
+$\beta_2<0$ & $\gamma_1<\beta_1$ & $\gamma_1>\beta_1$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+As duas inclinações coincidem quando $\beta_2=0$ ou $\delta=0$.
+
+\begin{block}{Perguntas}
+Em um artigo que você leu, qual variável ficou fora da regressão?
+Quais seriam os sinais de $\beta_2$ e $\delta$?
+\end{block}
+
+# Ano e agenda da AGNU
+
+\begin{itemize}
+\item Unidade: resolução votada por Brasil e China, 1997--2016 (1.762 resoluções).
+\item $Y_i$: 100 quando os votos coincidem e 0 quando divergem.
+\item $X_{1i}$: anos desde 1997. $X_{2i}$: 1 quando a resolução está classificada no tema
+conflito palestino (pacote unvotes).
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Regressão & Preditores & Coeficientes\\
+\midrule
+Curta & $X_1$ & $\widehat\gamma_1=`r numero_m(gamma_1)`$ p.p. por ano\\
+Longa & $X_1$, $X_2$ & $\widehat\beta_1=`r numero_m(beta_1)`$ p.p. por ano; $\widehat\beta_2=`r numero_m(beta_2, 1)`$ p.p.\\
+Auxiliar & $X_2$ em $X_1$ & $\widehat\delta=`r numero_m(delta, 4)`$ por ano\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\[
+`r numero_m(gamma_1)`=`r numero_m(beta_1)`+`r numero_m(beta_2, 1)`\times(`r numero_m(delta, 4)`).
+\]
+
+\vfill
+
+\scriptsize
+Na Aula 5, a unidade era o ano (20 pontos), e a inclinação, 0,39 p.p. por ano.
+Fonte: votações nominais da AGNU (pacote unvotes).
+
+# Resoluções sobre o conflito palestino
+
+```{r figura-agenda, fig.width=7.6, fig.height=3.3, out.width="70%", fig.cap=paste0("Participação das resoluções sobre o conflito palestino nas votações de cada ano, 1997–2016, e reta de MQO ponderada pelo número de votações do ano (inclinação: ", numero(100 * delta), "\u00a0p.p. por ano). Fonte: votações nominais da AGNU (pacote unvotes).")}
+ggplot(agenda_anual, aes(x = ano, y = participacao)) +
+  geom_point(size = 2.6, color = "#0F172A") +
+  geom_smooth(
+    aes(weight = votacoes),
+    method = "lm", formula = y ~ x, se = FALSE,
+    color = "#C2410C", linewidth = 1.2
+  ) +
+  scale_x_continuous(breaks = c(1997, 2000, 2003, 2006, 2009, 2012, 2016)) +
+  scale_y_continuous(labels = function(valor) paste0(valor, "%")) +
+  coord_cartesian(ylim = c(0, 40)) +
+  labs(x = "Ano da votação", y = "Resoluções sobre\no conflito palestino") +
+  theme_minimal(base_size = 14) +
+  theme(panel.grid.minor = element_blank())
+```
+
+\small
+Convergência: `r numero(convergencia_palestina, 1)`\% nessas resoluções e
+`r numero(convergencia_demais, 1)`\% nas demais. Participação na agenda:
+`r numero(participacao_antes, 1)`\% em 1997--2008 e `r numero(participacao_depois, 1)`\% em
+2009--2016. Com $\widehat\beta_2>0$ e $\widehat\delta<0$, a inclinação curta fica abaixo da longa.
+
+# Preditor categórico
+
+$Y_i$: convergência dos votos do país $i$ com os da China na AGNU em 2016, em \% dos pares de
+votos válidos. O continente tem quatro categorias. Com intercepto, entram três indicadoras;
+a categoria sem indicadora é a referência (África):
+\[
+\widehat Y_i=\widehat\alpha
++\widehat\beta_{\mathrm{Am}}D_{\mathrm{Am},i}
++\widehat\beta_{\mathrm{As}}D_{\mathrm{As},i}
++\widehat\beta_{\mathrm{Eu}}D_{\mathrm{Eu},i}.
+\]
+
+\begin{itemize}
+\item África: $\widehat Y=\widehat\alpha$.
+\item Américas: $\widehat Y=\widehat\alpha+\widehat\beta_{\mathrm{Am}}$.
+\item Ásia e Oceania: $\widehat Y=\widehat\alpha+\widehat\beta_{\mathrm{As}}$.
+\item Europa: $\widehat Y=\widehat\alpha+\widehat\beta_{\mathrm{Eu}}$.
+\end{itemize}
+
+\vfill
+
+\scriptsize
+Países: Brasil e 95 países em que a China não foi o principal destino das exportações de bens
+em nenhum ano de 1997--2016 e com série completa. Fonte: votações nominais da AGNU (pacote unvotes).
+
+# Médias por grupo
+
+\begin{center}
+\begin{tabular}{lrrl}
+\toprule
+Continente & Países & Média de $Y$ (\%) & Coeficiente\\
+\midrule
+África & `r medias_continente$paises[1]` & `r numero(medias_continente$media[1])` & $\widehat\alpha=`r numero_m(coef_africa[1])`$\\
+Américas & `r medias_continente$paises[2]` & `r numero(medias_continente$media[2])` & $\widehat\beta_{\mathrm{Am}}=`r numero_m(coef_africa[2])`$\\
+Ásia e Oceania & `r medias_continente$paises[3]` & `r numero(medias_continente$media[3])` & $\widehat\beta_{\mathrm{As}}=`r numero_m(coef_africa[3])`$\\
+Europa & `r medias_continente$paises[4]` & `r numero(medias_continente$media[4])` & $\widehat\beta_{\mathrm{Eu}}=`r numero_m(coef_africa[4])`$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+
+Só com as indicadoras, os valores ajustados são as médias de cada grupo:
+a regressão é saturada, como as indicadoras de ano na Aula 3.
+
+\vfill
+
+\scriptsize
+Coeficientes calculados antes do arredondamento das médias.
+
+# Indicadoras e colinearidade
+
+Com as quatro indicadoras e o intercepto:
+\[
+D_{\mathrm{Af},i}+D_{\mathrm{Am},i}+D_{\mathrm{As},i}+D_{\mathrm{Eu},i}=1
+\quad\text{para todo } i.
+\]
+
+A coluna do intercepto é a soma exata das indicadoras. $\mathbf X'\mathbf X$ não tem
+inversa, e \texttt{lm()} devolve \texttt{NA} para uma delas.
+
+\begin{block}{Troca da referência}
+Com as Américas como referência:
+$\widehat\alpha=`r numero_m(coef_americas[1])`$;
+África $`r numero_m(coef_americas[2], sinal = TRUE)`$;
+Ásia e Oceania $`r numero_m(coef_americas[3], sinal = TRUE)`$;
+Europa $`r numero_m(coef_americas[4], sinal = TRUE)`$.
+Os coeficientes mudam, e os valores ajustados continuam iguais às médias por grupo.
+\end{block}
+
+# Categoria e preditor contínuo
+
+```{r figura-continente, fig.width=8.4, fig.height=3.6, out.width="78%", fig.cap="Convergência dos votos com a China e exportações para a China em 2016, 96 países, com as retas de MQO do modelo com continente. Fontes: votações nominais da AGNU (pacote unvotes); ITPD-E, release 3 (USITC)."}
+ggplot(paises_2016, aes(x = exportacoes_china_pct, y = convergencia, color = continente)) +
+  geom_point(size = 2.3, alpha = 0.85) +
+  geom_line(
+    data = linhas_continente,
+    aes(y = ajuste, linetype = continente),
+    linewidth = 1.1
+  ) +
+  annotate(
+    "text",
+    x = brasil_2016$exportacoes_china_pct, y = brasil_2016$convergencia + 4,
+    label = "Brasil", color = "#047857", fontface = "bold", size = 4.2
+  ) +
+  scale_color_manual(values = cores_continente) +
+  scale_linetype_manual(values = c(
+    "África" = "solid", "Américas" = "solid",
+    "Ásia e Oceania" = "22", "Europa" = "solid"
+  )) +
+  scale_y_continuous(labels = function(valor) paste0(valor, "%")) +
+  labs(
+    x = "Exportações para a China (% das exportações do país)",
+    y = "Convergência com a China",
+    color = NULL,
+    linetype = NULL
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(panel.grid.minor = element_blank(), legend.position = "right")
+```
+
+\small
+Mesma inclinação nos quatro continentes: $\widehat\beta_1=`r numero_m(inclinacao_com_continente)`$
+p.p. de convergência por p.p. de exportações. Na regressão curta, sem continente,
+$\widehat\gamma_1=`r numero_m(inclinacao_sem_continente)`=`r numero_m(inclinacao_com_continente)`+\sum_g\widehat\beta_g\widehat\delta_g$,
+uma parcela por indicadora omitida. Inclinações diferentes por continente exigem interação (Aula 11).
+
+# MQO no R
+
+```{r, eval=FALSE, echo=TRUE}
+curta <- lm(convergencia ~ anos_desde_1997, data = resolucoes)
+longa <- lm(convergencia ~ anos_desde_1997 + palestina, data = resolucoes)
+auxiliar <- lm(palestina ~ anos_desde_1997, data = resolucoes)
+
+paises_2016$continente <- relevel(paises_2016$continente, ref = "Américas")
+lm(convergencia ~ exportacoes_china_pct + continente, data = paises_2016)
+
+residuo <- residuals(lm(exportacoes_china_pct ~ continente, data = paises_2016))
+lm(convergencia ~ residuo, data = paises_2016)
+```
+
+\begin{block}{Escopo}
+Nesta aula lemos só os coeficientes, com \texttt{coef()}. Erros-padrão, valores-p e
+intervalos entram nas Aulas 9 e 10.
+\end{block}
+
+# Laboratório
+
+Roteiro: \texttt{scripts/09\_laboratorio\_aula6\_regressao\_multipla.R}, em duplas ou trios.
+
+\begin{enumerate}
+\item \textbf{Base de 2016:} juntar votos e covariáveis pela chave país-ano; descrever a amostra.
+\item \textbf{Continente:} médias por grupo, coeficientes, \texttt{relevel()} e a armadilha das indicadoras.
+\item \textbf{Europa omitida:} regressões curta, longa e auxiliar; conferir
+$\widehat\gamma_1=\widehat\beta_1+\widehat\beta_2\widehat\delta$.
+\item \textbf{Decomposição:} resíduo da regressão das exportações para a China no continente;
+comparar com M2 (exportações e continente).
+\item \textbf{Modelos progressivos:} comércio com China e EUA, hiato de poder em relação aos EUA
+e controles econômicos.
+\end{enumerate}
+
+\begin{block}{Entrega}
+Script, Tabela 3 do roteiro e um parágrafo que interpreta o coeficiente das exportações
+para a China no último modelo, com unidades.
+\end{block}
 
 # Síntese
 
 \begin{enumerate}
-\item Um coeficiente múltiplo compara valores ajustados quando os
-demais preditores do modelo ficam iguais.
-\item Categorias entram por contraste com uma referência explícita.
-\item Omitir um preditor associado a \(X\) e a \(Y\) pode mudar o
-coeficiente de \(X\); a mudança sozinha não estabelece causalidade.
+\item O MQO resolve $\mathbf X'\widehat{\mathbf e}=\mathbf 0$:
+$\widehat{\boldsymbol\beta}=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y$, a mesma expressão para
+qualquer número de preditores e o plug-in de $\boldsymbol\beta=E[\mathbf x\mathbf x']^{-1}E[\mathbf xY]$.
+\item $\widehat\beta_1=(\widehat{\mathbf r}'\widehat{\mathbf r})^{-1}\widehat{\mathbf r}'\mathbf Y$:
+a inclinação da regressão de $Y$ na parte de $X_1$ que os demais preditores não preveem linearmente.
+\item Regressões curta e longa: $\gamma_1=\beta_1+\beta_2\delta$.
+\item Um preditor categórico com $G$ categorias entra com $G-1$ indicadoras; cada coeficiente é a
+diferença de valor ajustado em relação à referência, com os demais preditores fixos.
 \end{enumerate}
 
-No projeto da AGNU, a unidade, a escala e o denominador determinam
-como devemos ler cada número.
+# Referências
 
-# Leituras e fontes
+\begin{block}{Leituras}
+Hansen, Bruce E. \textit{Econometrics} (2022), seções 2.21--2.25; notação matricial:
+seções 3.10--3.12; decomposição na amostra: seções 3.16 e 3.18.
 
-\small
-Hansen, Bruce E. \textit{Econometrics} (2022), seções 2.21--2.25.
+Shalizi, Cosma R. \textit{The Truth About Linear Regression}, capítulo 12 e seção 14.3.
 
-\smallskip
-Shalizi, Cosma R. \textit{The Truth About Linear Regression},
-capítulo 12 e seção 14.3:
-\url{https://www.stat.cmu.edu/~cshalizi/TALR/}.
+Goldberger, Arthur S. 1991. \textit{A Course in Econometrics}. Harvard University Press.
+\end{block}
 
-\smallskip
-Painel didático país--ano da AGNU (1997--2016), dicionário e
-manifesto local de dados no projeto do curso. Fontes preservadas:
-votações nominais do pacote \texttt{unvotes} e
-\texttt{synth\_data.rds}.
+\begin{block}{Aplicações}
+Flores-Macías, Gustavo A., e Sarah E. Kreps. 2013. ``The Foreign Policy Consequences of Trade:
+China's Commercial Relations with Africa and Latin America, 1992--2006.''
+\textit{The Journal of Politics} 75(2): 357--371.
+\end{block}
 
-\smallskip
-Os resultados numéricos destes slides são reproduzidos e verificados
-em \texttt{scripts/09\_laboratorio\_aula6\_regressao\_multipla.R}.
+\scriptsize
+Dados: votações nominais da Assembleia Geral das Nações Unidas (pacote unvotes), 1997--2016;
+exportações por destino: International Trade and Production Database for Estimation (ITPD-E),
+release 3, USITC.

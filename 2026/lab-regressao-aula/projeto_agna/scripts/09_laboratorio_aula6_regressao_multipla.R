@@ -1,262 +1,258 @@
-# Aula 6: regressão múltipla nas votações da AGNU.
+# Aula 6: regressão múltipla — laboratório
 #
-# Abra lab-regressao-aula-2026.Rproj no RStudio e execute bloco a bloco.
-# Cada linha usada nos modelos representa um país em 2016.
-# Pergunta: como a taxa de convergência de votos com a China varia entre
-# países, condicionalmente aos preditores incluídos em cada modelo?
-# Os coeficientes descrevem associação, sem leitura causal.
+# Abra lab-regressao-aula-2026.Rproj no RStudio e execute bloco a bloco,
+# em duplas ou trios.
+# Unidade de análise: país em 2016.
+# Variável resposta: convergência dos votos do país com os da China na AGNU,
+# em % dos pares de votos válidos.
+#
+# Partes (cerca de 90 minutos):
+# 1. Base de 2016 ..................................... 10 min
+# 2. Continente como preditor categórico .............. 15 min
+# 3. Europa como variável omitida ..................... 20 min
+# 4. Decomposição do coeficiente ...................... 20 min
+# 5. Modelos progressivos ............................. 25 min
 
-options(scipen = 999)
 library(data.table)
 library(dplyr)
 library(ggplot2)
 library(here)
 
-# 1. Ler e conhecer os dados --------------------------------------------
+# 1. Base de 2016 ---------------------------------------------------------
 
-painel <- data.table::fread(
-  here::here(
-    "projeto_agna", "data", "processed",
-    "painel_pais_ano_1997_2016.csv"
-  )
+# Painel país-ano de votos na AGNU: uma linha por país e ano, 1997-2016.
+painel_votos <- data.table::fread(
+  here::here("projeto_agna", "data", "processed", "painel_pais_ano_1997_2016.csv")
 )
 
-# Uma linha do arquivo original representa um par país-ano.
-dim(painel)
-data.table::uniqueN(painel$pais_iso3)
-range(painel$ano)
+# Covariáveis país-ano em escala original: continente, exportações para a
+# China e para os EUA (% das exportações do país), hiato de poder em relação
+# aos EUA, PIB per capita (mil US$) e conta corrente (% do PIB).
+# Proveniência: data/processed/PROVENIENCIA_covariaveis.md.
+covariaveis <- data.table::fread(
+  here::here("projeto_agna", "data", "processed", "covariaveis_pais_ano_1997_2016.csv"),
+  encoding = "UTF-8"
+)
 
-# Agora mudamos para um corte transversal: uma linha por país em 2016.
-dados_2016 <- painel |>
+# paises_2016: votos e covariáveis juntos pela chave país-ano, só em 2016.
+paises_2016 <- painel_votos |>
+  dplyr::select(pais_iso3, pais_nome, ano, taxa_convergencia_china) |>
+  dplyr::inner_join(covariaveis, by = c("pais_iso3", "ano")) |>
   dplyr::filter(ano == 2016) |>
-  dplyr::select(
-    pais_iso3, ano, n_votacoes, n_pares_validos,
-    n_convergentes_china, n_divergentes_china,
-    taxa_convergencia_china, perc_trade_with_china,
-    perc_trade_with_us, us_power_gap, latin_america,
-    pci_cur, CA_GDP
-  ) |>
-  dplyr::arrange(pais_iso3)
+  dplyr::mutate(convergencia = 100 * taxa_convergencia_china)
 
-# 2. Checagens antes de estimar ------------------------------------------
+# São 96 países: o Brasil e 95 países em que a China não foi o principal
+# destino das exportações de bens em nenhum ano de 1997-2016.
+nrow(paises_2016)
+summary(paises_2016$convergencia)
+summary(paises_2016$exportacoes_china_pct)
 
-# A taxa é n_convergentes_china / n_pares_validos: o denominador conta
-# somente pares em que o voto do país e o da China estão observados.
-validacao_2016 <- data.frame(
-  medida = c(
-    "Países", "Países da América Latina", "Votações em 2016",
-    "Menor denominador válido", "Mediana do denominador válido",
-    "Maior denominador válido", "Ausências nas variáveis do modelo"
+# O Brasil tem a maior participação da China nas exportações da amostra.
+# Os EUA estão na amostra, com hiato de poder zero.
+paises_2016 |>
+  dplyr::filter(pais_iso3 %in% c("BRA", "USA")) |>
+  dplyr::select(pais_nome, convergencia, exportacoes_china_pct, hiato_poder_eua)
+
+# 2. Continente como preditor categórico ----------------------------------
+
+# factor() fixa a ordem das categorias. A primeira, África, é a referência.
+paises_2016 <- paises_2016 |>
+  dplyr::mutate(
+    continente = factor(
+      continente,
+      levels = c("África", "Américas", "Ásia e Oceania", "Europa")
+    )
+  )
+
+# Tabela 1. Convergência média com a China por continente, 2016
+# (% dos pares de votos válidos; 96 países).
+tabela_1 <- paises_2016 |>
+  dplyr::group_by(continente) |>
+  dplyr::summarise(
+    paises = dplyr::n(),
+    convergencia_media = mean(convergencia)
+  )
+tabela_1
+
+# Regressão só com o continente. Intercepto: média da África.
+# Cada coeficiente: média do continente menos a média da África.
+modelo_continente <- lm(convergencia ~ continente, data = paises_2016)
+coef(modelo_continente)
+
+# Referência nas Américas: os coeficientes mudam.
+modelo_americas <- lm(
+  convergencia ~ relevel(continente, ref = "Américas"),
+  data = paises_2016
+)
+coef(modelo_americas)
+
+# Os valores ajustados continuam iguais às médias por continente.
+all.equal(fitted(modelo_continente), fitted(modelo_americas))
+
+# Armadilha das indicadoras: as quatro indicadoras e o intercepto.
+paises_2016 <- paises_2016 |>
+  dplyr::mutate(
+    africa = as.integer(continente == "África"),
+    americas = as.integer(continente == "Américas"),
+    asia_oceania = as.integer(continente == "Ásia e Oceania"),
+    europa = as.integer(continente == "Europa")
+  )
+
+modelo_armadilha <- lm(
+  convergencia ~ africa + americas + asia_oceania + europa,
+  data = paises_2016
+)
+coef(modelo_armadilha)
+# Um coeficiente sai NA: as quatro indicadoras somam 1, que é a coluna
+# do intercepto.
+
+# 3. Europa como variável omitida -----------------------------------------
+
+# Regressão curta: convergência em exportações para a China.
+regressao_curta <- lm(convergencia ~ exportacoes_china_pct, data = paises_2016)
+
+# Regressão longa: acrescenta a indicadora de Europa.
+regressao_longa <- lm(
+  convergencia ~ exportacoes_china_pct + europa,
+  data = paises_2016
+)
+
+# Regressão auxiliar: indicadora de Europa em exportações para a China.
+regressao_auxiliar <- lm(europa ~ exportacoes_china_pct, data = paises_2016)
+
+coef_curto <- coef(regressao_curta)[["exportacoes_china_pct"]]
+coef_longo <- coef(regressao_longa)[["exportacoes_china_pct"]]
+coef_europa <- coef(regressao_longa)[["europa"]]
+inclinacao_auxiliar <- coef(regressao_auxiliar)[["exportacoes_china_pct"]]
+
+# Tabela 2. Regressões curta, longa e auxiliar (96 países, 2016).
+# Unidades: p.p. de convergência por p.p. de exportações (linhas 1 e 2);
+# p.p. de convergência (linha 3); variação da indicadora de Europa por p.p.
+# de exportações (linha 4).
+tabela_2 <- data.frame(
+  termo = c(
+    "gamma_1: exportações, regressão curta",
+    "beta_1: exportações, regressão longa",
+    "beta_2: Europa, regressão longa",
+    "delta: exportações, regressão auxiliar",
+    "beta_1 + beta_2 * delta"
   ),
   valor = c(
-    nrow(dados_2016), sum(dados_2016$latin_america),
-    unique(dados_2016$n_votacoes), min(dados_2016$n_pares_validos),
-    median(dados_2016$n_pares_validos), max(dados_2016$n_pares_validos),
-    sum(is.na(dados_2016))
+    coef_curto,
+    coef_longo,
+    coef_europa,
+    inclinacao_auxiliar,
+    coef_longo + coef_europa * inclinacao_auxiliar
   )
 )
-validacao_2016
+tabela_2
+# A primeira e a última linha são iguais: gamma_1 = beta_1 + beta_2 * delta.
 
-ausentes_2016 <- colSums(is.na(dados_2016))
-ausentes_2016
+# Exportações médias para a China na Europa (1) e nos demais continentes (0).
+paises_2016 |>
+  dplyr::group_by(europa) |>
+  dplyr::summarise(exportacoes_china_media = mean(exportacoes_china_pct))
 
-stopifnot(
-  nrow(dados_2016) == 96,
-  !anyDuplicated(dados_2016$pais_iso3),
-  all(dados_2016$n_pares_validos > 0),
-  all(dados_2016$n_pares_validos <= dados_2016$n_votacoes),
-  all(dados_2016$n_convergentes_china +
-        dados_2016$n_divergentes_china == dados_2016$n_pares_validos),
-  max(abs(
-    dados_2016$taxa_convergencia_china -
-      dados_2016$n_convergentes_china / dados_2016$n_pares_validos
-  )) < 1e-12
+# 4. Decomposição do coeficiente ------------------------------------------
+
+# M2: exportações para a China e continente.
+modelo_m2 <- lm(
+  convergencia ~ exportacoes_china_pct + continente,
+  data = paises_2016
 )
 
-# 3. Escala dos preditores -----------------------------------------------
-
-# O campo de comércio está transformado na fonte; a unidade original
-# da transformação não foi documentada. Para interpretá-lo com segurança,
-# usamos a média e o desvio-padrão DOS 96 PAÍSES DE 2016.
-# scale() subtrai a média e divide pelo desvio-padrão amostral.
-dados_2016$z_trade_china <- as.numeric(scale(
-  dados_2016$perc_trade_with_china
-))
-dados_2016$z_trade_eua <- as.numeric(scale(
-  dados_2016$perc_trade_with_us
-))
-dados_2016$z_pares_validos <- as.numeric(scale(
-  dados_2016$n_pares_validos
-))
-dados_2016$z_hiato_poder <- as.numeric(scale(
-  dados_2016$us_power_gap
-))
-dados_2016$z_pci <- as.numeric(scale(
-  dados_2016$pci_cur
-))
-dados_2016$z_ca <- as.numeric(scale(
-  dados_2016$CA_GDP
-))
-
-# A primeira categoria será a referência da regressão.
-dados_2016$regiao <- factor(
-  ifelse(dados_2016$latin_america, "América Latina", "Outras regiões"),
-  levels = c("Outras regiões", "América Latina")
-)
-table(dados_2016$regiao)
-
-# 4. Modelos progressivos: mesmos 96 países -----------------------------
-
-# M1: associação bivariada.
-modelo_1 <- lm(
-  taxa_convergencia_china ~ z_trade_china,
-  data = dados_2016
+# Passo 1: parte das exportações para a China que o continente não prevê.
+# Com um preditor categórico, é a diferença em relação à média do continente.
+paises_2016$residuo_exportacoes <- residuals(
+  lm(exportacoes_china_pct ~ continente, data = paises_2016)
 )
 
-# M2: adiciona cobertura da votação e a categoria geográfica.
-modelo_2 <- lm(
-  taxa_convergencia_china ~ z_trade_china + z_pares_validos + regiao,
-  data = dados_2016
+# Passo 2: regressão simples da convergência nesse resíduo.
+modelo_residuo <- lm(convergencia ~ residuo_exportacoes, data = paises_2016)
+
+# Os dois coeficientes são iguais.
+coef(modelo_residuo)[["residuo_exportacoes"]]
+coef(modelo_m2)[["exportacoes_china_pct"]]
+
+# Figura 1. Convergência com a China e exportações para a China menos a
+# média do continente, 2016 (96 países), com a reta de MQO.
+figura_1 <- ggplot(
+  paises_2016,
+  aes(x = residuo_exportacoes, y = convergencia)
+) +
+  geom_point(aes(color = continente), size = 2.4) +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, color = "#C2410C") +
+  labs(
+    title = "Figura 1. Convergência e resíduo das exportações para a China, 2016",
+    x = "Exportações para a China menos a média do continente (p.p.)",
+    y = "Convergência com a China (%)",
+    color = NULL,
+    caption = paste(
+      "Fontes: votações nominais da AGNU (pacote unvotes);",
+      "ITPD-E, release 3 (USITC)."
+    )
+  ) +
+  theme_minimal(base_size = 12)
+figura_1
+
+# 5. Modelos progressivos -------------------------------------------------
+
+# M1: exportações para a China.
+modelo_m1 <- lm(convergencia ~ exportacoes_china_pct, data = paises_2016)
+
+# M2: M1 + continente (estimado na parte 4).
+
+# M3: M2 + exportações para os EUA e hiato de poder em relação aos EUA.
+# O hiato é |GPI dos EUA - GPI do país|: vale 0 para os EUA e perto de 0,25
+# para os países pequenos. Um coeficiente de 180 equivale a 1,8 p.p. de
+# convergência por 0,01 de hiato.
+modelo_m3 <- lm(
+  convergencia ~ exportacoes_china_pct + continente +
+    exportacoes_eua_pct + hiato_poder_eua,
+  data = paises_2016
 )
 
-# M3: adiciona comércio com EUA e hiato de poder em relação aos EUA.
-modelo_3 <- lm(
-  taxa_convergencia_china ~ z_trade_china + z_pares_validos + regiao +
-    z_trade_eua + z_hiato_poder,
-  data = dados_2016
+# M4: M3 + PIB per capita (mil US$) e conta corrente (% do PIB).
+modelo_m4 <- lm(
+  convergencia ~ exportacoes_china_pct + continente +
+    exportacoes_eua_pct + hiato_poder_eua +
+    pib_per_capita_mil_usd + conta_corrente_pct_pib,
+  data = paises_2016
 )
 
-# M4: adiciona dois controles econômicos, também padronizados.
-modelo_4 <- lm(
-  taxa_convergencia_china ~ z_trade_china + z_pares_validos + regiao +
-    z_trade_eua + z_hiato_poder + z_pci + z_ca,
-  data = dados_2016
-)
+coef(modelo_m3)
+coef(modelo_m4)
 
-# Olhe só os coeficientes. A saída de summary() contém inferência
-# que será estudada nas Aulas 9 e 10.
-coef(modelo_1)
-coef(modelo_2)
-coef(modelo_3)
-coef(modelo_4)
-
-# A taxa Y está entre 0 e 1. Multiplicar seu coeficiente por 100
-# converte proporção em pontos percentuais da taxa de convergência.
-# Para o comércio, X vale um desvio-padrão do campo transformado.
-tabela_modelos <- data.frame(
+# Tabela 3. Coeficiente das exportações para a China em quatro modelos
+# (p.p. de convergência por p.p. de exportações; 96 países, 2016).
+tabela_3 <- data.frame(
   modelo = c("M1", "M2", "M3", "M4"),
-  n_paises = c(nobs(modelo_1), nobs(modelo_2),
-               nobs(modelo_3), nobs(modelo_4)),
-  r2_amostral = c(
-    summary(modelo_1)$r.squared, summary(modelo_2)$r.squared,
-    summary(modelo_3)$r.squared, summary(modelo_4)$r.squared
+  preditores = c(
+    "exportações para a China",
+    "M1 + continente",
+    "M2 + exportações para os EUA + hiato de poder",
+    "M3 + PIB per capita + conta corrente"
   ),
-  china_trade_pp_por_dp = 100 * c(
-    coef(modelo_1)[["z_trade_china"]],
-    coef(modelo_2)[["z_trade_china"]],
-    coef(modelo_3)[["z_trade_china"]],
-    coef(modelo_4)[["z_trade_china"]]
-  ),
-  regiao_latina_pp = 100 * c(
-    NA_real_,
-    coef(modelo_2)[["regiaoAmérica Latina"]],
-    coef(modelo_3)[["regiaoAmérica Latina"]],
-    coef(modelo_4)[["regiaoAmérica Latina"]]
+  coef_exportacoes_china = c(
+    coef(modelo_m1)[["exportacoes_china_pct"]],
+    coef(modelo_m2)[["exportacoes_china_pct"]],
+    coef(modelo_m3)[["exportacoes_china_pct"]],
+    coef(modelo_m4)[["exportacoes_china_pct"]]
   )
 )
-tabela_modelos
+tabela_3
 
-# 5. Dois perfis hipotéticos, mudando somente a categoria ---------------
+# 6. Perguntas ------------------------------------------------------------
 
-# Zero nos preditores padronizados = média de 2016. Os perfis são
-# previsões da reta ajustada, e não dois países emparelhados.
-perfis <- data.frame(
-  z_trade_china = c(0, 0),
-  z_pares_validos = c(0, 0),
-  regiao = factor(
-    c("Outras regiões", "América Latina"),
-    levels = levels(dados_2016$regiao)
-  ),
-  z_trade_eua = c(0, 0),
-  z_hiato_poder = c(0, 0),
-  z_pci = c(0, 0),
-  z_ca = c(0, 0)
-)
-perfis$taxa_ajustada_percentual <- 100 * as.numeric(
-  predict(modelo_4, newdata = perfis)
-)
-perfis
-
-# 6. Duas figuras para discutir em sala ---------------------------------
-
-figura_1 <- ggplot2::ggplot(
-  dados_2016,
-  ggplot2::aes(
-    x = z_trade_china, y = 100 * taxa_convergencia_china,
-    color = regiao, shape = regiao
-  )
-) +
-  ggplot2::geom_point(size = 2.8, alpha = 0.85) +
-  ggplot2::geom_smooth(
-    mapping = ggplot2::aes(
-      x = z_trade_china, y = 100 * taxa_convergencia_china, group = 1
-    ),
-    inherit.aes = FALSE,
-    method = "lm", formula = y ~ x, se = FALSE,
-    color = "#C2410C", linewidth = 1.1
-  ) +
-  ggplot2::scale_color_manual(values = c(
-    "Outras regiões" = "#1D4ED8", "América Latina" = "#047857"
-  )) +
-  ggplot2::labs(
-    title = "Figura 1. Comércio transformado e convergência de votos, 2016",
-    x = "Campo de comércio com a China (desvios-padrão na amostra)",
-    y = "Convergência com a China (% dos pares válidos)",
-    color = NULL, shape = NULL,
-    caption = paste(
-      "Unidade: país (96); denominador por país: 5 a 113 pares válidos.",
-      "Fonte: painel didático da AGNU e synth_data.rds. Associação, sem leitura causal."
-    )
-  ) +
-  ggplot2::theme_minimal(base_size = 12) +
-  ggplot2::theme(
-    panel.grid.minor = ggplot2::element_blank(),
-    legend.position = "bottom",
-    plot.title = ggplot2::element_text(face = "bold"),
-    plot.caption = ggplot2::element_text(size = 9, hjust = 0)
-  )
-if (interactive()) print(figura_1)
-
-figura_2 <- ggplot2::ggplot(
-  tabela_modelos,
-  ggplot2::aes(x = modelo, y = china_trade_pp_por_dp, group = 1)
-) +
-  ggplot2::geom_hline(yintercept = 0, color = "#94A3B8") +
-  ggplot2::geom_line(color = "#1D4ED8", linewidth = 0.9) +
-  ggplot2::geom_point(color = "#1D4ED8", size = 3.2) +
-  ggplot2::scale_y_continuous(limits = c(0, 2), breaks = seq(0, 2, 0.5)) +
-  ggplot2::labs(
-    title = "Figura 2. Coeficiente do campo de comércio com a China",
-    x = "Especificação (mesmos 96 países)",
-    y = "Pontos percentuais da taxa por 1 desvio-padrão",
-    caption = paste(
-      "M1: comércio China; M2: + cobertura e região;",
-      "M3: + comércio EUA e hiato de poder; M4: + controles econômicos.",
-      "Fonte: painel didático da AGNU e synth_data.rds."
-    )
-  ) +
-  ggplot2::theme_minimal(base_size = 12) +
-  ggplot2::theme(
-    panel.grid.minor = ggplot2::element_blank(),
-    plot.title = ggplot2::element_text(face = "bold"),
-    plot.caption = ggplot2::element_text(size = 9, hjust = 0)
-  )
-if (interactive()) print(figura_2)
-
-# 7. Perguntas para a dupla ---------------------------------------------
-
-# a) Como muda o coeficiente do comércio com a China de M1 para M4?
-# b) Qual é a categoria de referência para América Latina?
-# c) Quais valores foram mantidos iguais nos dois perfis?
-# d) Como o menor denominador (5 pares) limita a leitura da taxa?
-# e) Por que os quatro modelos não estabelecem efeitos causais?
+# 1. Na Tabela 1 e em coef(modelo_continente), onde está a média da Europa?
+# 2. Na Tabela 2, por que o coeficiente das exportações muda de sinal da
+#    regressão curta para a longa? Use os sinais de coef_europa e de
+#    inclinacao_auxiliar.
+# 3. Na Figura 1, qual é a inclinação da reta? Compare com o coeficiente
+#    das exportações em modelo_m2.
+# 4. Escreva um parágrafo que interprete o coeficiente das exportações para
+#    a China em M4 (Tabela 3), com as unidades de X e de Y.
+# 5. (Opcional) Estime M3 sem os EUA. O que acontece com o coeficiente do
+#    hiato de poder?
+#
+# Entrega: script, Tabela 3 e o parágrafo da pergunta 4.

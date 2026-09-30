@@ -1,5 +1,7 @@
 # Aula 6: entrega e validação
 
+> **Versão vigente: seção "Reestruturação de 29 de setembro de 2026" ao final.** As seções intermediárias descrevem a primeira entrega (26 páginas), preservada na tag Git `aula06-v1` (`git show aula06-v1:2026/lab-regressao-aula/projeto_agna/output/pdf/slides_aula_06_regressao_multipla.pdf`).
+
 **Data da aula:** 30 de setembro de 2026. **Escopo:** regressão múltipla, interpretação condicional, preditor categórico e variável omitida. A aula parte de MQO bivariado (Aula 5) e encerra antes de pressupostos, inferência e interações, previstos para aulas posteriores.
 
 ## Arquivos
@@ -38,3 +40,51 @@ Avisos do runtime R: dplyr e ggplot2 foram compilados em R 4.4.3, enquanto a ses
 ## Conferência independente de 29/09/2026
 
 O roteiro discente e o validador docente foram executados novamente a partir da pasta do curso. O validador retornou `VALIDACAO_AULA6_OK`. As figuras do roteiro passam a ser impressas apenas em sessão interativa, para aparecerem no RStudio sem criar `Rplots.pdf` durante a execução em lote. O PDF foi recompilado após essa alteração; manteve 26 páginas, e as Figuras 1 e 2 foram conferidas na versão final. SHA-256 do PDF final: `ea79a1effe4374e068dc3d9da46ad4cd2fc93b55390383e089fec514f694c6eb`. Não há `Rplots.pdf` residual.
+
+## Reestruturação de 29 de setembro de 2026
+
+Parecer que motivou a revisão: `quality_reports/2026-09-29_revisao-aula06-slides.md`. Plano aprovado: `quality_reports/plans/2026-09-29_aula06-reestruturacao.md`. Formato do encontro: 2 h de teoria e 1h30 de laboratório.
+
+### Slides (21 páginas)
+
+1. Roteiro; da Aula 5 à Aula 6 (notação: $\alpha$, $\beta_j$, $\varepsilon$, $\widehat e_i$, til nos candidatos).
+2. BLP com dois preditores e equações normais na população e na amostra (plug-in), forma matricial e posto completo.
+3. Interpretação condicional e decomposição do coeficiente (Frisch–Waugh–Lovell), com derivação a partir das equações normais e o exemplo de quatro unidades (resíduos 0; −0,5; 0,5; 0; $\widehat\beta_1=2$).
+4. Regressão curta e longa: $\gamma_1=\beta_1+\beta_2\delta$, derivação, tabela de sinais e aplicação com as 1.762 resoluções Brasil–China: inclinação do ano de 0,31 p.p./ano na regressão curta e 0,45 com a indicadora de conflito palestino; $\widehat\beta_2=23{,}2$ p.p.; $\widehat\delta=-0{,}0060$ por ano.
+5. Preditor categórico com continente (96 países, 2016): médias por grupo, saturação, armadilha das indicadoras, `relevel()` e retas paralelas com exportações para a China.
+6. `lm()`, laboratório, síntese e referências (Hansen 2.21–2.25 e 3.18; Shalizi cap. 12 e 14.3; Flores-Macías e Kreps 2013).
+
+Os números são calculados no próprio Rmd, sem `source()` do roteiro dos alunos. Os slides não trazem R², avisos causais, "AGNA" ou `synth_data.rds`.
+
+### Dados novos
+
+`data/processed/covariaveis_pais_ano_1997_2016.csv`, gerado por `scripts/11_extrair_covariaveis_originais.R` a partir do objeto `final_df` do pipeline do projeto RDD Trade. Traz as covariáveis em escala original (exportações para a China e para os EUA em % das exportações, ITPD-E R03; hiato de poder |GPI dos EUA − GPI do país|; PIB per capita; conta corrente) e o continente. A padronização por `arm::rescale()` dessas variáveis reproduz o painel do curso com erro menor que 10⁻⁸. Proveniência em `data/processed/PROVENIENCIA_covariaveis.md`. Os arquivos processados antigos, o dicionário e o `SHA256SUMS` não foram alterados.
+
+### Laboratório (90 minutos)
+
+`scripts/09_laboratorio_aula6_regressao_multipla.R`: base de 2016 (10 min); continente, `relevel()` e armadilha das indicadoras (15); Europa como variável omitida, com a identidade 0,187 = −0,129 + (−17,38)(−0,0182) (20); decomposição do coeficiente em M2 (20); modelos progressivos M1–M4 (25). Coeficiente das exportações para a China, em p.p. de convergência por p.p. de exportações: 0,19 (M1), −0,11 (M2), 0,03 (M3), 0,05 (M4). Sem R², sem `summary()` e sem perguntas causais.
+
+### Amostra
+
+Brasil e 95 países em que a China não foi o principal destino das exportações de bens em nenhum ano de 1997–2016 (grupo de comparação do controle sintético). Os EUA estão na amostra, com hiato de poder zero; o laboratório registra isso e propõe, como exercício opcional, estimar M3 sem os EUA.
+
+### Verificação
+
+- Compilação XeLaTeX sem erro; 21 páginas; todas renderizadas e inspecionadas.
+- `scripts/10_validar_aula6_regressao_multipla.R`: `VALIDACAO_AULA6_OK` (identidades de variável omitida e de decomposição, médias por grupo, `relevel()`, `NA` na armadilha, solução matricial e equações normais em M1–M4, reescala das covariáveis e números dos slides). Nenhum `Rplots.pdf` gerado.
+- Busca no texto do PDF por causal, identifica, confundidor, associacional, AGNA, synth, R² e desfecho: nenhuma ocorrência.
+
+### Revisão independente e correções
+
+Um revisor independente apontou 17 problemas (8 relevantes e 9 menores). A adjudicação (`quality_reports/adjudication/aula06-slides/4fd0f98258af/`) confirmou 15, classificou 3 como parciais e reservou 1 ao professor (chamar cada votação nominal de "resolução", como no syllabus; há 1.762 votações e 1.468 símbolos de resolução). Correções aplicadas: reta anual ponderada pelo número de votações (a legenda e a figura passam a ter a mesma inclinação, −0,60 p.p. por ano); médias e coeficientes com duas casas; $\widehat\delta=1$ explícito no exemplo; "regressão de X1 em X2" no lugar de "auxiliar" na decomposição; laboratório compara a decomposição com M2; $G$ categorias no lugar de $k$ e cláusula "demais preditores fixos"; condição da identidade amostral; definição de $Y$ e dos vetores; fórmula com três indicadoras omitidas ($0{,}19=-0{,}11+0{,}30$); retas distinguíveis na Figura 2; Goldberger (1991) nas referências.
+
+### Ajustes pedidos pelo professor (29/09/2026, noite)
+
+- Slide "Roteiro" removido.
+- "BLP com dois preditores" mostra a derivada em relação a $\widetilde\beta_1$ e explica que $E[\varepsilon]=0$ e $E[X_j\varepsilon]=0$ valem por construção (condições de primeira ordem), sem hipótese sobre $X$ e $\varepsilon$.
+- "Equações normais" fica em somatórios e mostra a solução de $\widehat\beta_1$ com dois preditores ($S_{jl}$), como motivação para a notação matricial.
+- Bloco novo de notação matricial (9 slides): vetores e matrizes; transposta; produto; somas em forma matricial; SQR; equações normais $\mathbf X'\widehat{\mathbf e}=\mathbf 0$; inversa e $\widehat{\boldsymbol\beta}=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y$; exemplo das quatro unidades ($\mathbf X'\mathbf X$, $\mathbf X'\mathbf Y$, inversa, $\widehat{\boldsymbol\beta}=(1,2,3)'$); BLP em forma matricial e plug-in.
+- Decomposição do coeficiente: a versão com somatórios fica como ilustração; entram a matriz de resíduos $\mathbf M_Z$ e a derivação matricial $\widehat\beta_1=(\widehat{\mathbf r}'\widehat{\mathbf r})^{-1}\widehat{\mathbf r}'\mathbf Y$, válida para qualquer número de preditores.
+- Regressão curta e longa continua em notação escalar.
+- Transposta com linha ($\mathbf X'$) em todo o deck.
+- Resultado: 31 páginas; compilação sem erro; `VALIDACAO_AULA6_OK`; números do exemplo matricial conferidos por `stopifnot()` no Rmd.

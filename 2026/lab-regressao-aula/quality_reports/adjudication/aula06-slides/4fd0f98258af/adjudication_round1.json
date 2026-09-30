@@ -1,0 +1,445 @@
+{
+  "schema_version": "1.0",
+  "adjudication_id": "aula06-slides:4fd0f98258af:round1",
+  "source": {
+    "reviewed_artifact": "projeto_agna/laboratorios/slides_aula_06_regressao_multipla.Rmd",
+    "sha256": "4fd0f98258af11b55d2014976e82c49fc57ba3788f0e77b76a8b86c3abdde5e6",
+    "artifact_intact": true
+  },
+  "contract": {
+    "required": false,
+    "path": null,
+    "sha256": null,
+    "contract_id": null,
+    "artifact_sha256": null,
+    "status": null,
+    "stale": false
+  },
+  "review_sources": [
+    {
+      "review_id": "R1",
+      "path": "quality_reports/2026-09-29_revisao-independente-aula06-v2.md",
+      "sha256": "a49172d90afee340c2d29409ba7d2ce912071429e43158466d43c423666d41b4"
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "R1-F001",
+      "source_review": "R1",
+      "quoted_finding": "p13, caption ≠ plot: caption −0,60 p.p./ano; geom_smooth não ponderado dá −0,57.",
+      "type": "false_statement",
+      "severity": "major",
+      "scientific_dimension": "fidelidade de implementação",
+      "held_decision": false,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "p. 13, Figura 1 e legenda; Rmd, chunk figura-agenda"
+      ],
+      "defect_evidence": [
+        "A reta desenhada é MQO não ponderado sobre 20 participações anuais."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [
+        "lm(share ~ ano) não ponderado: −0,569; ponderado por votações/ano: −0,600; 100·δ̂ na base por resolução: −0,600"
+      ],
+      "reasoning": "A legenda descreve a inclinação da regressão por resolução; a figura traça outra reta. Ponderar pelo número de votações por ano reproduz −0,60 exatamente.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "Ponderar geom_smooth pelo número de votações do ano; espaço inseparável antes de p.p."
+    },
+    {
+      "finding_id": "R1-F002",
+      "source_review": "R1",
+      "quoted_finding": "pp15–16: médias arredondadas contradizem coeficientes (−4,1 vs −4,2 etc.).",
+      "type": "exposition",
+      "severity": "major",
+      "scientific_dimension": "exposição",
+      "held_decision": false,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "p. 15, tabela; p. 16, bloco Troca da referência"
+      ],
+      "defect_evidence": [
+        "70,0 e 65,9 dão −4,1; o slide mostra −4,2; relevel: +4,1/−0,6/−15,9 vs +4,2/−0,5/−15,8."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [
+        "médias: 70,02/65,86/65,33/50,03; diferenças: −4,16/−4,70/−19,99"
+      ],
+      "reasoning": "O slide ensina que coeficiente = diferença de médias; com uma casa decimal a conta do aluno não fecha.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "Duas casas decimais nas médias e nos coeficientes."
+    },
+    {
+      "finding_id": "R1-F003",
+      "source_review": "R1",
+      "quoted_finding": "p10: 5 = 2 + 3×1 exige δ̂ = 1, que não aparece; p9 mostra X̂1 = 0,5X2.",
+      "type": "logic_or_proof",
+      "severity": "major",
+      "scientific_dimension": "exposição",
+      "held_decision": false,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "p. 10, última linha; p. 9"
+      ],
+      "defect_evidence": [
+        "Nenhum slide mostra a regressão de X2 em X1."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [
+        "lm(x2 ~ x1): intercepto 0,5, inclinação 1"
+      ],
+      "reasoning": "O aluno pode usar 0,5 (regressão de X1 em X2) no lugar de δ̂ e obter 3,5.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "Acrescentar: no exemplo, X̂2 = 0,5 + X1, logo δ̂ = 1."
+    },
+    {
+      "finding_id": "R1-F004",
+      "source_review": "R1",
+      "quoted_finding": "'Regressão auxiliar' nomeia duas regressões (X1 em X2 nas pp7, 9; X2 em X1 nas pp12, 18, 19).",
+      "type": "scope_or_consistency",
+      "severity": "minor",
+      "scientific_dimension": "exposição",
+      "held_decision": false,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "Rmd linhas 352, 386, 413 (X1 em X2); p. 12 tabela, p. 18 código, p. 19 item 3 (X2 em X1)"
+      ],
+      "defect_evidence": [
+        "O mesmo rótulo designa regressões em direções opostas."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [
+        "grep 'auxiliar' no Rmd"
+      ],
+      "reasoning": "A ambiguidade atinge justamente a distinção entre π̂2 e δ̂.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "Nas pp7–9, 'regressão de X1 em X2'; 'auxiliar' fica só para X2 em X1."
+    },
+    {
+      "finding_id": "R1-F005",
+      "source_review": "R1",
+      "quoted_finding": "p19 item 4: 'comparar com a regressão longa' aponta para o modelo com Europa; o resíduo por continente reproduz M2.",
+      "type": "scope_or_consistency",
+      "severity": "major",
+      "scientific_dimension": "fidelidade de implementação",
+      "held_decision": false,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "p. 19, item 4; roteiro, parte 4 (modelo_m2)"
+      ],
+      "defect_evidence": [
+        "O roteiro compara com modelo_m2 (−0,112), não com a regressão longa da parte 3 (−0,129)."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [
+        "coef(modelo_residuo) = coef(modelo_m2) = −0,112"
+      ],
+      "reasoning": "O slide manda comparar com o modelo errado.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "'comparar com M2 (exportações e continente)'."
+    },
+    {
+      "finding_id": "R1-F006",
+      "source_review": "R1",
+      "quoted_finding": "p20 item 4: k já conta preditores (p3); falta 'com os demais preditores fixos'.",
+      "type": "overclaim",
+      "severity": "major",
+      "scientific_dimension": "escopo",
+      "held_decision": false,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "p. 20, item 4; p. 3"
+      ],
+      "defect_evidence": [
+        "k tem dois significados; a frase vale só para o modelo sem outros preditores."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [
+        "grep 'k\\$ níveis' e p. 3"
+      ],
+      "reasoning": "Conflito de notação e afirmação sem a condição que a torna verdadeira com outros preditores.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "Usar G categorias e G−1 indicadoras; acrescentar 'com os demais preditores fixos'."
+    },
+    {
+      "finding_id": "R1-F007",
+      "source_review": "R1",
+      "quoted_finding": "p14 nota: '(grupo de comparação de um desenho de controle sintético)' é linguagem causal.",
+      "type": "scope_or_consistency",
+      "severity": "minor",
+      "scientific_dimension": "mensuração",
+      "held_decision": false,
+      "status": "PARTIAL",
+      "source_locations": [
+        "p. 14, nota de rodapé"
+      ],
+      "defect_evidence": [
+        "Jargão não ensinado; a nota omite a exigência de série completa (PROVENIENCIA)."
+      ],
+      "refuting_evidence": [
+        "A frase descreve a origem da amostra; não é aviso sobre interpretação causal, que é o objeto da regra do professor."
+      ],
+      "mechanical_checks": [],
+      "reasoning": "Não viola a regra sobre avisos causais, mas o jargão não ajuda o aluno e a descrição da amostra fica incompleta.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "Remover o parêntese e acrescentar 'e com série completa'."
+    },
+    {
+      "finding_id": "R1-F008",
+      "source_review": "R1",
+      "quoted_finding": "p12: as linhas são votações nominais (1.762 rcid; ~1.467 símbolos), não resoluções.",
+      "type": "method",
+      "severity": "minor",
+      "scientific_dimension": "mensuração",
+      "held_decision": true,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "p. 12, primeiro item"
+      ],
+      "defect_evidence": [
+        "1.762 rcid e 1.468 símbolos distintos (6 vazios)."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [
+        "uniqueN(rcid) = 1762; uniqueN(simbolo_resolucao) = 1468"
+      ],
+      "reasoning": "A imprecisão existe, mas o syllabus define 'a unidade de análise será a resolução votada' e as Aulas 2–5 contam 'resoluções'; mudar só na Aula 6 criaria inconsistência.",
+      "proposed_fix_assessment": "owner_decision",
+      "disposition": "Manter a convenção do curso; registrar para o professor."
+    },
+    {
+      "finding_id": "R1-F009",
+      "source_review": "R1",
+      "quoted_finding": "p12: 22% das votações não têm tema; X2 = 0 não significa 'não trata do conflito palestino'.",
+      "type": "method",
+      "severity": "minor",
+      "scientific_dimension": "mensuração",
+      "held_decision": false,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "p. 12, terceiro item"
+      ],
+      "defect_evidence": [
+        "22,3% das linhas têm 'Sem codificacao tematica'."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [
+        "mean(tema == 'Sem codificacao tematica') = 0,223"
+      ],
+      "reasoning": "X2 mede a classificação do unvotes, não o conteúdo da resolução.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "'X2i: 1 quando a resolução está classificada no tema conflito palestino (pacote unvotes)'."
+    },
+    {
+      "finding_id": "R1-F010",
+      "source_review": "R1",
+      "quoted_finding": "p10: qualificar 'a identidade é exata' (intercepto nas três regressões, mesmas observações).",
+      "type": "overclaim",
+      "severity": "minor",
+      "scientific_dimension": "escopo",
+      "held_decision": false,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "p. 10"
+      ],
+      "defect_evidence": [
+        "A identidade amostral usa intercepto nas três regressões e a mesma amostra."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [],
+      "reasoning": "Condição essencial omitida.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "Acrescentar a condição."
+    },
+    {
+      "finding_id": "R1-F011",
+      "source_review": "R1",
+      "quoted_finding": "p6: 'aditivo' explica só a invariância em x2.",
+      "type": "logic_or_proof",
+      "severity": "minor",
+      "scientific_dimension": "exposição",
+      "held_decision": false,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "p. 6, primeiro item"
+      ],
+      "defect_evidence": [
+        "A invariância em x1 vem da linearidade em X1."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [],
+      "reasoning": "A justificativa está incompleta.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "'o modelo é linear em X1 e não tem interação entre X1 e X2'."
+    },
+    {
+      "finding_id": "R1-F012",
+      "source_review": "R1",
+      "quoted_finding": "p17: com três indicadoras omitidas, γ̂1 = β̂1 + Σg β̂g δ̂g; p3 diz 'qualquer k'.",
+      "type": "exposition",
+      "severity": "minor",
+      "scientific_dimension": "escopo",
+      "held_decision": false,
+      "status": "PARTIAL",
+      "source_locations": [
+        "p. 17, texto; p. 10; p. 3"
+      ],
+      "defect_evidence": [
+        "O slide compara 0,19 e −0,11 sem a generalização da fórmula."
+      ],
+      "refuting_evidence": [
+        "Nenhuma afirmação da p. 17 é falsa; a fórmula da p. 10 é enunciada para uma variável omitida."
+      ],
+      "mechanical_checks": [
+        "0,1873 = −0,1121 + 0,2994 (soma de β̂g δ̂g)"
+      ],
+      "reasoning": "Acrescentar a linha liga o bloco categórico ao de variável omitida.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "Uma linha: 0,19 = −0,11 + Σg β̂g δ̂g, com Σ = 0,30."
+    },
+    {
+      "finding_id": "R1-F013",
+      "source_review": "R1",
+      "quoted_finding": "p5: definir Y, X1, X2 em negrito (na Aula 5, X em negrito era o vetor n×1).",
+      "type": "exposition",
+      "severity": "minor",
+      "scientific_dimension": "exposição",
+      "held_decision": false,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "p. 5"
+      ],
+      "defect_evidence": [
+        "Vetores em negrito usados sem definição."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [],
+      "reasoning": "Continuidade com a Aula 5.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "Definir os vetores com as n observações."
+    },
+    {
+      "finding_id": "R1-F014",
+      "source_review": "R1",
+      "quoted_finding": "pp4, 10: '/\\operatorname{V}' cria espaço fino.",
+      "type": "artifact",
+      "severity": "minor",
+      "scientific_dimension": "exposição",
+      "held_decision": false,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "Rmd linhas 289 e 428"
+      ],
+      "defect_evidence": [
+        "Espaço visível depois da barra no PDF."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [],
+      "reasoning": "Tipografia.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "Usar {\\operatorname{V}}."
+    },
+    {
+      "finding_id": "R1-F015",
+      "source_review": "R1",
+      "quoted_finding": "p17: retas de Américas e Ásia (0,5 p.p.) se sobrepõem.",
+      "type": "exposition",
+      "severity": "minor",
+      "scientific_dimension": "exposição",
+      "held_decision": false,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "p. 17, Figura 2"
+      ],
+      "defect_evidence": [
+        "Interceptos diferem 0,53 p.p.; as retas coincidem visualmente."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [],
+      "reasoning": "Uma das retas some.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "Tipo de linha distinto por continente."
+    },
+    {
+      "finding_id": "R1-F016",
+      "source_review": "R1",
+      "quoted_finding": "p14: o novo Y só é definido em nota de rodapé.",
+      "type": "exposition",
+      "severity": "minor",
+      "scientific_dimension": "exposição",
+      "held_decision": false,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "p. 14"
+      ],
+      "defect_evidence": [
+        "Y muda de significado entre p12 e p14 e só a nota o define."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [],
+      "reasoning": "Definição central em corpo miúdo.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "Definir Y no corpo do slide."
+    },
+    {
+      "finding_id": "R1-F017",
+      "source_review": "R1",
+      "quoted_finding": "Goldberger (1991) fora das referências; 'país–ano' → 'país-ano'; 'sobre' → 'em' (pp19–20).",
+      "type": "artifact",
+      "severity": "minor",
+      "scientific_dimension": "exposição",
+      "held_decision": false,
+      "status": "CONFIRMED",
+      "source_locations": [
+        "p. 10 nota; p. 21; p. 19 item 1 e 4; p. 20 item 2"
+      ],
+      "defect_evidence": [
+        "Citação sem referência; travessão em composto; preposição inconsistente com p. 7."
+      ],
+      "refuting_evidence": [],
+      "mechanical_checks": [],
+      "reasoning": "Consistência editorial.",
+      "proposed_fix_assessment": "safe",
+      "disposition": "Corrigir os três pontos."
+    },
+    {
+      "finding_id": "R1-F018",
+      "source_review": "R1",
+      "quoted_finding": "Aula 3 usou δk para coeficientes de indicadoras; p15 cita a Aula 3 enquanto δ é a inclinação auxiliar.",
+      "type": "scope_or_consistency",
+      "severity": "minor",
+      "scientific_dimension": "exposição",
+      "held_decision": false,
+      "status": "PARTIAL",
+      "source_locations": [
+        "Aula 3, Rmd linha 825; Aula 6, p. 15"
+      ],
+      "defect_evidence": [
+        "A Aula 3 escreve g_sat(X) = α + Σ δk 1{X = xk}."
+      ],
+      "refuting_evidence": [
+        "A p. 15 cita o conceito de saturação, sem o símbolo; na Aula 6, δ tem um único significado."
+      ],
+      "mechanical_checks": [],
+      "reasoning": "Diferença entre aulas, sem conflito dentro da Aula 6.",
+      "proposed_fix_assessment": "not_provided",
+      "disposition": "Sem alteração."
+    }
+  ],
+  "summary": {
+    "total": 18,
+    "confirmed": 15,
+    "partial": 3,
+    "refuted": 0,
+    "unresolved": 0,
+    "held_decisions": 1
+  },
+  "adjudication": {
+    "verdict": "READY_FOR_IMPLEMENTATION",
+    "checked_at": "2026-09-29T16:40:00-03:00",
+    "reasons": [
+      "15 achados confirmados e 3 parciais, todos com correção segura, exceto R1-F008 (convenção do curso, decisão do professor) e R1-F018 (sem alteração)",
+      "Nenhum achado não resolvido; contrato não exigido para deck de aula"
+    ]
+  }
+}
