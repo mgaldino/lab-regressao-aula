@@ -544,26 +544,31 @@ Multiplique $\mathbf X'\mathbf X$ por $(\mathbf X'\mathbf X)^{-1}$ e confira que
 No R: \texttt{solve(t(X) \%*\% X) \%*\% t(X) \%*\% Y}
 \end{block}
 
-# BLP em forma matricial
+# BLP e MQO: duas rotas
 
-Na população, reúna o intercepto e os preditores no vetor $\mathbf x=(1,X_1,X_2)'$ e os coeficientes
-em $\boldsymbol\beta=(\alpha,\beta_1,\beta_2)'$. As três condições de primeira ordem do BLP são
+Na população, $\mathbf x=(1,X_1,X_2)'$ e o BLP escolhe os coeficientes $\boldsymbol\beta$ para minimizar
+o erro quadrático esperado:
 \[
-E[\mathbf x\varepsilon]=\mathbf 0
-\;\Longrightarrow\;
-E[\mathbf x(Y-\mathbf x'\boldsymbol\beta)]=\mathbf 0
-\;\Longrightarrow\;
-\boldsymbol\beta=E[\mathbf x\mathbf x']^{-1}E[\mathbf xY].
+\boldsymbol\beta=\arg\min_{\mathbf b}E[(Y-\mathbf x'\mathbf b)^2],
+\qquad E[\mathbf x(Y-\mathbf x'\boldsymbol\beta)]=\mathbf 0.
 \]
 
-\begin{block}{Plug-in}
-Com $\mathbf x_i=(1,X_{1i},X_{2i})'$, a linha $i$ de $\mathbf X$ escrita em coluna:
+Na amostra, o plug-in troca a esperança pela média, com $\mathbf x_i=(1,X_{1i},X_{2i})'$:
 \[
-E[\mathbf x\mathbf x']\mapsto\frac1n\sum_i\mathbf x_i\mathbf x_i'=\frac1n\mathbf X'\mathbf X,
-\qquad
-E[\mathbf xY]\mapsto\frac1n\sum_i\mathbf x_iY_i=\frac1n\mathbf X'\mathbf Y.
+\widehat{\boldsymbol\beta}_{\mathrm{plug\text{-}in}}
+=\arg\min_{\mathbf b}\underbrace{\frac1n\sum_{i=1}^n(Y_i-\mathbf x_i'\mathbf b)^2}_{\mathrm{SQR}(\mathbf b)/n}.
 \]
-Os fatores $1/n$ se cancelam, e o plug-in dá $\widehat{\boldsymbol\beta}=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y$.
+
+\begin{block}{Por que reaparece a fórmula de MQO?}
+Dividir a SQR por $n>0$ não muda o minimizador. Logo, o plug-in resolve o mesmo problema de MQO
+dos slides 9--11. Sua condição amostral é
+\[
+\frac1n\mathbf X'(\mathbf Y-\mathbf X\widehat{\boldsymbol\beta})=\mathbf 0
+\;\Longleftrightarrow\;
+\mathbf X'\mathbf X\widehat{\boldsymbol\beta}=\mathbf X'\mathbf Y
+\;\Longrightarrow\;
+\widehat{\boldsymbol\beta}=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y.
+\]
 \end{block}
 
 # Interpretação condicional
