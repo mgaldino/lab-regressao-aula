@@ -81,11 +81,15 @@ tabela_1
 modelo_continente <- lm(convergencia ~ continente, data = paises_2016)
 coef(modelo_continente)
 
-# Referência nas Américas: os coeficientes mudam.
-modelo_americas <- lm(
-  convergencia ~ relevel(continente, ref = "Américas"),
-  data = paises_2016
-)
+# Referência nas Américas: relevel() muda a primeira categoria do fator no
+# banco. Criamos um banco novo para manter a África como referência no resto
+# do roteiro.
+paises_2016_americas <- paises_2016 |>
+  dplyr::mutate(continente = relevel(continente, ref = "Américas"))
+levels(paises_2016_americas$continente)
+
+# Mesma regressão, no banco com a nova referência: os coeficientes mudam.
+modelo_americas <- lm(convergencia ~ continente, data = paises_2016_americas)
 coef(modelo_americas)
 
 # Os valores ajustados continuam iguais às médias por continente.

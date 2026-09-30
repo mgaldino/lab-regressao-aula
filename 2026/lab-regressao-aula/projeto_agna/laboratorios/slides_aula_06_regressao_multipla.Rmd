@@ -85,19 +85,20 @@ numero_m <- function(valor, digitos = 2, sinal = FALSE) {
   gsub(",", "{,}", texto, fixed = TRUE)
 }
 
-# Exemplo de quatro observações com resíduos MQO não nulos.
+# Exemplo de quatro observações construídas com erro aditivo u.
 exemplo <- data.frame(
   unidade = c("A", "B", "C", "D"),
   x1 = c(0, 0, 1, 1),
   x2 = c(0, 1, 1, 2)
 )
-exemplo$y <- c(2, 3, 5, 10)
+exemplo$erro <- c(1, -1, -1, 1)
+exemplo$y <- 1 + 2 * exemplo$x1 + 3 * exemplo$x2 + exemplo$erro
 ajuste_exemplo <- lm(y ~ x1 + x2, data = exemplo)
 exemplo$residuo_x1 <- as.numeric(residuals(lm(x1 ~ x2, data = exemplo)))
 
 stopifnot(
   isTRUE(all.equal(as.numeric(fitted(ajuste_exemplo)), c(1, 4, 6, 9))),
-  isTRUE(all.equal(as.numeric(residuals(ajuste_exemplo)), c(1, -1, -1, 1))),
+  isTRUE(all.equal(as.numeric(residuals(ajuste_exemplo)), exemplo$erro)),
   isTRUE(all.equal(exemplo$residuo_x1, c(0, -0.5, 0.5, 0))),
   isTRUE(all.equal(
     sum(exemplo$residuo_x1 * exemplo$y) / sum(exemplo$residuo_x1^2), 2
@@ -116,6 +117,7 @@ matriz_x <- cbind(1, exemplo$x1, exemplo$x2)
 xtx <- crossprod(matriz_x)
 xty <- crossprod(matriz_x, exemplo$y)
 stopifnot(
+  isTRUE(all.equal(as.numeric(crossprod(matriz_x, exemplo$erro)), c(0, 0, 0))),
   isTRUE(all.equal(as.numeric(crossprod(matriz_x, residuals(ajuste_exemplo))), c(0, 0, 0))),
   isTRUE(all.equal(unname(xtx), matrix(c(4, 2, 4, 2, 2, 3, 4, 3, 6), 3))),
   isTRUE(all.equal(as.numeric(xty), c(20, 15, 28))),
@@ -379,15 +381,16 @@ uma linha por unidade e uma coluna por coeficiente:
 \mathbf X=\begin{bmatrix}1&0&0\\1&0&1\\1&1&1\\1&1&2\end{bmatrix}.
 \]
 \[
-\begin{array}{c|rrr}
-i&Y_i&\widehat Y_i&\widehat e_i\\ \hline
-A&2&1&1\\
-B&3&4&-1\\
-C&5&6&-1\\
-D&10&9&1
+\begin{array}{c|rr}
+i&u_i&Y_i\\ \hline
+A&1&2\\
+B&-1&3\\
+C&-1&5\\
+D&1&10
 \end{array}
 \]
-\scriptsize $\widehat Y_i=1+2X_{1i}+3X_{2i}$; $\widehat e_i=Y_i-\widehat Y_i$.
+\scriptsize Construção: $Y_i=1+2X_{1i}+3X_{2i}+u_i$. O erro $u_i$ entra antes do ajuste;
+o resíduo $\widehat e_i$ é calculado pelo MQO.
 \end{block}
 \end{columns}
 
@@ -530,8 +533,9 @@ Nas quatro unidades:
 =\begin{bmatrix}1\\2\\3\end{bmatrix}.
 \]
 
-A regressão ajusta $\widehat Y_i=1+2X_{1i}+3X_{2i}$; os resíduos são $(1,-1,-1,1)'$.
-Eles não são todos zero, mas $\mathbf X'\widehat{\mathbf e}=\mathbf 0$.
+O erro escolhido satisfaz $\mathbf X'\mathbf u=\mathbf 0$. Por isso, o MQO recupera
+$\widehat{\boldsymbol\beta}=(1,2,3)'$ e $\widehat{\mathbf e}=\mathbf u$ neste exemplo.
+Em geral, erro e resíduo não coincidem.
 
 \begin{block}{Exercício}
 Multiplique $\mathbf X'\mathbf X$ por $(\mathbf X'\mathbf X)^{-1}$ e confira que o resultado é $\mathbf I_3$.
@@ -708,8 +712,8 @@ Regressão de $X_1$ em $X_2$: $\widehat X_1=0{,}5X_2$, e $\widehat{\mathbf r}=\m
 \widehat\beta_1=\frac{(-0{,}5)(3)+(0{,}5)(5)}{(-0{,}5)^2+(0{,}5)^2}=\frac{1}{0{,}5}=2.
 \]
 
-Só B e C têm $\widehat r_i\ne0$ na regressão auxiliar de $X_1$ em $X_2$; são resíduos
-diferentes de $\widehat e_i$, do modelo de $Y$. Por isso, $\widehat\beta_1$ compara B e C.
+Aqui $\widehat r_i$ é o resíduo da regressão auxiliar de $X_1$ em $X_2$, não o erro
+$u_i$ adicionado a $Y$. Só B e C têm $\widehat r_i\ne0$; por isso $\widehat\beta_1$ compara essas unidades.
 
 Residualizar só $Y$ em $X_2$ e manter $X_1$ original dá inclinação 1: quem precisa ser
 residualizado é o preditor do eixo horizontal (Hull, 2018).
