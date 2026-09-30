@@ -9,9 +9,10 @@
 # Partes (cerca de 90 minutos):
 # 1. Base de 2016 ..................................... 10 min
 # 2. Continente como preditor categórico .............. 15 min
-# 3. Europa como variável omitida ..................... 20 min
+# 3. Europa como variável omitida ..................... 15 min
 # 4. Decomposição do coeficiente ...................... 20 min
-# 5. Modelos progressivos ............................. 25 min
+# 5. Modelos progressivos ............................. 20 min
+# 6. MQO em forma matricial ........................... 10 min
 
 library(data.table)
 library(dplyr)
@@ -155,36 +156,47 @@ paises_2016 |>
 
 # 4. Decomposição do coeficiente ------------------------------------------
 
-# M2: exportações para a China e continente.
-modelo_m2 <- lm(
-  convergencia ~ exportacoes_china_pct + continente,
-  data = paises_2016
-)
+# Objetivo: recuperar, só com regressões simples, o coeficiente das
+# exportações na regressão longa da parte 3 (coef_longo), e ver no gráfico
+# o que muda quando a indicadora de Europa é retirada de X1 e de Y.
+# X1: exportações para a China. X2: indicadora de Europa.
 
-# Passo 1: parte das exportações para a China que o continente não prevê.
-# Com um preditor categórico, é a diferença em relação à média do continente.
-paises_2016$residuo_exportacoes <- residuals(
-  lm(exportacoes_china_pct ~ continente, data = paises_2016)
-)
+# grupo: rótulo da indicadora de Europa para os gráficos.
+paises_2016$grupo <- ifelse(paises_2016$europa == 1, "Europa", "Demais países")
 
-# Passo 2: regressão simples da convergência nesse resíduo.
-modelo_residuo <- lm(convergencia ~ residuo_exportacoes, data = paises_2016)
+# Médias de X1 e de Y em cada grupo. Com X2 binária, residualizar em X2 é
+# subtrair essas médias.
+medias_grupo <- paises_2016 |>
+  dplyr::group_by(grupo) |>
+  dplyr::summarise(
+    exportacoes_china_pct = mean(exportacoes_china_pct),
+    convergencia = mean(convergencia)
+  )
+medias_grupo
 
-# Os dois coeficientes são iguais.
-coef(modelo_residuo)[["residuo_exportacoes"]]
-coef(modelo_m2)[["exportacoes_china_pct"]]
+cores_grupo <- c("Demais países" = "#1D4ED8", "Europa" = "#7C3AED")
 
-# Figura 1. Convergência com a China e exportações para a China menos a
-# média do continente, 2016 (96 países), com a reta de MQO.
+# Figura 1. Relação sem controle, 2016 (96 países). A reta é a regressão
+# simples (coef_curto); os X marcam as médias de cada grupo.
 figura_1 <- ggplot(
   paises_2016,
-  aes(x = residuo_exportacoes, y = convergencia)
+  aes(x = exportacoes_china_pct, y = convergencia, color = grupo)
 ) +
-  geom_point(aes(color = continente), size = 2.4) +
-  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, color = "#C2410C") +
+  geom_point(size = 2.4, alpha = 0.8) +
+  geom_point(data = medias_grupo, shape = 4, size = 6, stroke = 2, show.legend = FALSE) +
+  geom_smooth(
+    aes(group = 1), method = "lm", formula = y ~ x, se = FALSE,
+    color = "#C2410C"
+  ) +
+  scale_color_manual(values = cores_grupo) +
   labs(
-    title = "Figura 1. Convergência e resíduo das exportações para a China, 2016",
-    x = "Exportações para a China menos a média do continente (p.p.)",
+    title = "Figura 1. Convergência e exportações para a China, 2016",
+    subtitle = paste(
+      "Sem controle: inclinação de",
+      format(round(coef_curto, 2), decimal.mark = ","),
+      "p.p. por p.p.; X = média de cada grupo"
+    ),
+    x = "Exportações para a China (% das exportações do país)",
     y = "Convergência com a China (%)",
     color = NULL,
     caption = paste(
@@ -195,12 +207,109 @@ figura_1 <- ggplot(
   theme_minimal(base_size = 12)
 figura_1
 
+# Passo 1: regressão de X1 em X2. O resíduo é a parte das exportações para
+# a China que a indicadora de Europa não prevê linearmente.
+paises_2016$residuo_exportacoes <- residuals(
+  lm(exportacoes_china_pct ~ europa, data = paises_2016)
+)
+
+# Passo 2: regressão de Y em X2. O resíduo é a parte da convergência que a
+# indicadora de Europa não prevê linearmente.
+paises_2016$residuo_convergencia <- residuals(
+  lm(convergencia ~ europa, data = paises_2016)
+)
+
+# Passo 3: regressão simples de um resíduo no outro. O intercepto é zero,
+# porque os dois resíduos têm média zero.
+modelo_residuos <- lm(
+  residuo_convergencia ~ residuo_exportacoes,
+  data = paises_2016
+)
+coef(modelo_residuos)
+
+# A inclinação é igual ao coeficiente das exportações na regressão longa.
+coef(modelo_residuos)[["residuo_exportacoes"]]
+coef_longo
+
+# Os resíduos também são os mesmos da regressão longa.
+all.equal(
+  as.numeric(residuals(modelo_residuos)),
+  as.numeric(residuals(regressao_longa))
+)
+
+# Cuidado: a decomposição exige residualizar X1, o preditor do eixo
+# horizontal. Residualizar só Y e manter X1 original não recupera
+# coef_longo: a inclinação encolhe pela fração da variância de X1 que
+# sobra no resíduo.
+coef(lm(residuo_convergencia ~ exportacoes_china_pct, data = paises_2016))
+fracao_variancia <- sum(paises_2016$residuo_exportacoes^2) /
+  sum((paises_2016$exportacoes_china_pct - mean(paises_2016$exportacoes_china_pct))^2)
+fracao_variancia
+coef_longo * fracao_variancia
+# Aqui a diferença é pequena porque a indicadora de Europa explica pouco das
+# exportações (fracao_variancia perto de 1). No exemplo de quatro unidades
+# dos slides, a inclinação cai de 2 para 1. Com vários preditores e só Y
+# residualizado, os coeficientes misturam os da regressão múltipla e podem
+# até trocar de sinal (Hull, 2018, "On Residualized Outcome Regressions").
+
+# Correlação parcial entre convergência e exportações, dada a indicadora de
+# Europa: a correlação entre os dois resíduos. Compare com a correlação
+# simples, sem controle.
+correlacao_parcial <- cor(
+  paises_2016$residuo_convergencia,
+  paises_2016$residuo_exportacoes
+)
+correlacao_parcial
+cor(paises_2016$convergencia, paises_2016$exportacoes_china_pct)
+
+# Como na Aula 5, inclinação = correlação x dp(Y) / dp(X), agora com os
+# resíduos no lugar de Y e X.
+correlacao_parcial *
+  sd(paises_2016$residuo_convergencia) / sd(paises_2016$residuo_exportacoes)
+
+# Figura 2. Relação com a indicadora de Europa retirada de X1 e de Y, 2016
+# (96 países). Cada grupo foi deslocado para ter média zero nos dois eixos;
+# a reta é a regressão dos resíduos (coef_longo).
+figura_2 <- ggplot(
+  paises_2016,
+  aes(x = residuo_exportacoes, y = residuo_convergencia, color = grupo)
+) +
+  geom_hline(yintercept = 0, color = "#94A3B8") +
+  geom_vline(xintercept = 0, color = "#94A3B8") +
+  geom_point(size = 2.4, alpha = 0.8) +
+  geom_smooth(
+    aes(group = 1), method = "lm", formula = y ~ x, se = FALSE,
+    color = "#C2410C"
+  ) +
+  scale_color_manual(values = cores_grupo) +
+  labs(
+    title = "Figura 2. Resíduos da convergência e das exportações para a China, 2016",
+    subtitle = paste(
+      "Com a indicadora de Europa: inclinação de",
+      format(round(coef(modelo_residuos)[["residuo_exportacoes"]], 2), decimal.mark = ","),
+      "p.p. por p.p."
+    ),
+    x = "Exportações para a China: resíduo na indicadora de Europa (p.p.)",
+    y = "Convergência: resíduo na indicadora de Europa (p.p.)",
+    color = NULL,
+    caption = paste(
+      "Fontes: votações nominais da AGNU (pacote unvotes);",
+      "ITPD-E, release 3 (USITC)."
+    )
+  ) +
+  theme_minimal(base_size = 12)
+figura_2
+
 # 5. Modelos progressivos -------------------------------------------------
 
 # M1: exportações para a China.
 modelo_m1 <- lm(convergencia ~ exportacoes_china_pct, data = paises_2016)
 
-# M2: M1 + continente (estimado na parte 4).
+# M2: M1 + continente.
+modelo_m2 <- lm(
+  convergencia ~ exportacoes_china_pct + continente,
+  data = paises_2016
+)
 
 # M3: M2 + exportações para os EUA e hiato de poder em relação aos EUA.
 # O hiato é |GPI dos EUA - GPI do país|: vale 0 para os EUA e perto de 0,25
@@ -242,17 +351,53 @@ tabela_3 <- data.frame(
 )
 tabela_3
 
-# 6. Perguntas ------------------------------------------------------------
+# 6. MQO em forma matricial -----------------------------------------------
+
+# matriz_x: uma linha por país e uma coluna por coeficiente de M4 (a coluna
+# de uns do intercepto, as exportações, as três indicadoras de continente e
+# os demais preditores). model.matrix() monta a matriz a partir do modelo.
+matriz_x <- model.matrix(modelo_m4)
+dim(matriz_x)
+head(matriz_x)
+
+# vetor_y: a convergência dos 96 países, em coluna.
+vetor_y <- paises_2016$convergencia
+
+# X'X e X'Y: t() transpõe e %*% multiplica matrizes.
+x_linha_x <- t(matriz_x) %*% matriz_x
+x_linha_y <- t(matriz_x) %*% vetor_y
+
+# (X'X)^{-1} X'Y: solve() calcula a inversa.
+beta_chapeu <- solve(x_linha_x) %*% x_linha_y
+
+# Tabela 4. Coeficientes de M4 pela fórmula matricial e por lm().
+tabela_4 <- data.frame(
+  coeficiente = colnames(matriz_x),
+  formula_matricial = as.numeric(beta_chapeu),
+  lm = as.numeric(coef(modelo_m4))
+)
+tabela_4
+
+# Equações normais: X'e é um vetor de zeros (a menos de erro numérico).
+t(matriz_x) %*% residuals(modelo_m4)
+
+# 7. Perguntas ------------------------------------------------------------
 
 # 1. Na Tabela 1 e em coef(modelo_continente), onde está a média da Europa?
 # 2. Na Tabela 2, por que o coeficiente das exportações muda de sinal da
 #    regressão curta para a longa? Use os sinais de coef_europa e de
 #    inclinacao_auxiliar.
-# 3. Na Figura 1, qual é a inclinação da reta? Compare com o coeficiente
-#    das exportações em modelo_m2.
+# 3. Compare as Figuras 1 e 2. Onde estão os países europeus em cada uma?
+#    Por que a inclinação passa de positiva a negativa? Por que a
+#    inclinação da Figura 2 é igual a coef_longo? Compare também
+#    correlacao_parcial com a correlação simples. Por que um gráfico com
+#    o resíduo de Y e as exportações originais no eixo horizontal daria
+#    outra inclinação?
 # 4. Escreva um parágrafo que interprete o coeficiente das exportações para
 #    a China em M4 (Tabela 3), com as unidades de X e de Y.
-# 5. (Opcional) Estime M3 sem os EUA. O que acontece com o coeficiente do
+# 5. Quais são as dimensões de matriz_x e de x_linha_x? Por que matriz_x
+#    tem nove colunas?
+# 6. (Opcional) Estime M3 sem os EUA. O que acontece com o coeficiente do
 #    hiato de poder?
 #
 # Entrega: script, Tabela 3 e o parágrafo da pergunta 4.

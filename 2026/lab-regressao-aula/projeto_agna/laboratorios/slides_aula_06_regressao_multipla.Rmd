@@ -106,6 +106,10 @@ stopifnot(
   isTRUE(all.equal(unname(coef(lm(x2 ~ x1, data = exemplo))[2]), 1))
 )
 
+# Residualizar só Y no exemplo: inclinação 1, e não 2.
+residuo_y_exemplo <- as.numeric(residuals(lm(y ~ x2, data = exemplo)))
+stopifnot(isTRUE(all.equal(unname(coef(lm(residuo_y_exemplo ~ exemplo$x1))[2]), 1)))
+
 # Exemplo em matrizes: X'X, X'Y, inversa e coeficientes mostrados nos slides.
 matriz_x <- cbind(1, exemplo$x1, exemplo$x2)
 xtx <- crossprod(matriz_x)
@@ -580,6 +584,10 @@ O resíduo $\widehat r_i$ é a parte de $X_{1i}$ que os demais preditores não p
 O coeficiente de $X_1$ na regressão longa é a inclinação da regressão simples de $Y$ em $\widehat r$.
 \end{block}
 
+Residualizar também $Y$ nos demais preditores não muda $\widehat\beta_1$, e a regressão de um
+resíduo no outro tem os mesmos resíduos da regressão longa. A correlação entre os dois resíduos
+é a correlação parcial entre $Y$ e $X_1$, dados os demais preditores.
+
 \vfill
 
 \scriptsize
@@ -665,7 +673,8 @@ por $\widehat{\mathbf r}'=\mathbf X_1'\mathbf M_Z$:
 \boxed{\widehat\beta_1=(\widehat{\mathbf r}'\widehat{\mathbf r})^{-1}\widehat{\mathbf r}'\mathbf Y.}
 \]
 
-Os mesmos três passos dos somatórios, com qualquer número de colunas em $\mathbf Z$.
+Os mesmos três passos dos somatórios, com qualquer número de colunas em $\mathbf Z$. Com $Y$ também
+residualizado, $\widehat{\mathbf r}'\mathbf M_Z\mathbf Y=\mathbf X_1'\mathbf M_Z\mathbf M_Z\mathbf Y=\widehat{\mathbf r}'\mathbf Y$: o mesmo $\widehat\beta_1$.
 
 # Exemplo: quatro unidades
 
@@ -689,6 +698,9 @@ Regressão de $X_1$ em $X_2$: $\widehat X_1=0{,}5X_2$, e $\widehat{\mathbf r}=\m
 
 Só B e C, que têm o mesmo $X_2$, têm resíduo diferente de zero: $\widehat\beta_1$
 compara B e C.
+
+Residualizar só $Y$ em $X_2$ e manter $X_1$ original dá inclinação 1: quem precisa ser
+residualizado é o preditor do eixo horizontal (Hull, 2018).
 
 \begin{block}{Perguntas}
 Sem $X_2$ na regressão, qual é a inclinação de $Y$ em $X_1$? Por que ela difere de 2?
@@ -907,25 +919,6 @@ p.p. de convergência por p.p. de exportações. Na regressão curta, sem contin
 $\widehat\gamma_1=`r numero_m(inclinacao_sem_continente)`=`r numero_m(inclinacao_com_continente)`+\sum_g\widehat\beta_g\widehat\delta_g$,
 uma parcela por indicadora omitida. Inclinações diferentes por continente exigem interação (Aula 11).
 
-# MQO no R
-
-```{r, eval=FALSE, echo=TRUE}
-curta <- lm(convergencia ~ anos_desde_1997, data = resolucoes)
-longa <- lm(convergencia ~ anos_desde_1997 + palestina, data = resolucoes)
-auxiliar <- lm(palestina ~ anos_desde_1997, data = resolucoes)
-
-paises_2016$continente <- relevel(paises_2016$continente, ref = "Américas")
-lm(convergencia ~ exportacoes_china_pct + continente, data = paises_2016)
-
-residuo <- residuals(lm(exportacoes_china_pct ~ continente, data = paises_2016))
-lm(convergencia ~ residuo, data = paises_2016)
-```
-
-\begin{block}{Escopo}
-Nesta aula lemos só os coeficientes, com \texttt{coef()}. Erros-padrão, valores-p e
-intervalos entram nas Aulas 9 e 10.
-\end{block}
-
 # Laboratório
 
 Roteiro: \texttt{scripts/09\_laboratorio\_aula6\_regressao\_multipla.R}, em duplas ou trios.
@@ -935,10 +928,12 @@ Roteiro: \texttt{scripts/09\_laboratorio\_aula6\_regressao\_multipla.R}, em dupl
 \item \textbf{Continente:} médias por grupo, coeficientes, \texttt{relevel()} e a armadilha das indicadoras.
 \item \textbf{Europa omitida:} regressões curta, longa e auxiliar; conferir
 $\widehat\gamma_1=\widehat\beta_1+\widehat\beta_2\widehat\delta$.
-\item \textbf{Decomposição:} resíduo da regressão das exportações para a China no continente;
-comparar com M2 (exportações e continente).
+\item \textbf{Decomposição:} residualizar a convergência e as exportações na indicadora de Europa,
+com gráficos antes e depois; a regressão de um resíduo no outro recupera o coeficiente da regressão longa.
 \item \textbf{Modelos progressivos:} comércio com China e EUA, hiato de poder em relação aos EUA
 e controles econômicos.
+\item \textbf{Forma matricial:} montar $\mathbf X$ de M4, calcular
+$(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y$ e comparar com \texttt{lm()}.
 \end{enumerate}
 
 \begin{block}{Entrega}
@@ -968,6 +963,8 @@ seções 3.10--3.12; decomposição na amostra: seções 3.16 e 3.18.
 Shalizi, Cosma R. \textit{The Truth About Linear Regression}, capítulo 12 e seção 14.3.
 
 Goldberger, Arthur S. 1991. \textit{A Course in Econometrics}. Harvard University Press.
+
+Hull, Peter. 2018. ``On Residualized Outcome Regressions.'' Nota, 30 de março.
 \end{block}
 
 \begin{block}{Aplicações}

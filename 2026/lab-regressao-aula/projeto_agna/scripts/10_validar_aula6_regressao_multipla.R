@@ -70,9 +70,25 @@ stopifnot(
 
 # Decomposição do coeficiente --------------------------------------------------
 
+# Residualização dupla (X1 e Y na indicadora de Europa) recupera a regressão
+# longa da parte 3: mesma inclinação, intercepto zero e mesmos resíduos.
 stopifnot(
-  abs(coef(modelo_residuo)[["residuo_exportacoes"]] -
-        coef(modelo_m2)[["exportacoes_china_pct"]]) < 1e-10
+  abs(coef(modelo_residuos)[["residuo_exportacoes"]] - coef_longo) < 1e-10,
+  abs(coef(modelo_residuos)[["(Intercept)"]]) < 1e-10,
+  max(abs(residuals(modelo_residuos) - residuals(regressao_longa))) < 1e-10,
+  abs(correlacao_parcial *
+        sd(paises_2016$residuo_convergencia) / sd(paises_2016$residuo_exportacoes) -
+        coef_longo) < 1e-10,
+  correlacao_parcial < 0,
+  abs(coef(lm(residuo_convergencia ~ exportacoes_china_pct, data = paises_2016))[[2]] -
+        coef_longo * fracao_variancia) < 1e-10,
+  fracao_variancia < 1,
+  nrow(ggplot2::ggplot_build(figura_1)$data[[1]]) == 96L,
+  nrow(ggplot2::ggplot_build(figura_2)$data[[3]]) == 96L,
+  isTRUE(all.equal(
+    medias_grupo$convergencia[medias_grupo$grupo == "Europa"],
+    mean(paises_2016$convergencia[paises_2016$europa == 1])
+  ))
 )
 
 # Solução matricial e equações normais nos quatro modelos ---------------------
@@ -88,6 +104,15 @@ for (modelo in list(modelo_m1, modelo_m2, modelo_m3, modelo_m4)) {
   )
 }
 stopifnot(identical(tabela_3$modelo, c("M1", "M2", "M3", "M4")))
+
+# Parte 6 do roteiro: MQO em forma matricial ------------------------------------
+
+stopifnot(
+  identical(dim(matriz_x), c(96L, 9L)),
+  identical(dim(x_linha_x), c(9L, 9L)),
+  max(abs(tabela_4$formula_matricial - tabela_4$lm)) < 1e-8,
+  max(abs(t(matriz_x) %*% residuals(modelo_m4))) < 1e-8
+)
 
 # Números dos slides -----------------------------------------------------------
 
