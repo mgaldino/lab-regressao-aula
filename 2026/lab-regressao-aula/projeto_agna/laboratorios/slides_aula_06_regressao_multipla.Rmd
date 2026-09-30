@@ -100,6 +100,7 @@ stopifnot(
   isTRUE(all.equal(as.numeric(fitted(ajuste_exemplo)), c(1, 4, 6, 9))),
   isTRUE(all.equal(as.numeric(residuals(ajuste_exemplo)), exemplo$erro)),
   isTRUE(all.equal(exemplo$residuo_x1, c(0, -0.5, 0.5, 0))),
+  isTRUE(all.equal(unname(coef(lm(x1 ~ x2, data = exemplo))), c(0, 0.5))),
   isTRUE(all.equal(
     sum(exemplo$residuo_x1 * exemplo$y) / sum(exemplo$residuo_x1^2), 2
   )),
@@ -640,29 +641,55 @@ Logo,
 Com três ou quatro preditores, a regressão de $X_1$ tem mais coeficientes, e cada passo ganha
 mais somas.
 
+# Resíduo de $X_1$
+
+Com dois preditores, a regressão de $X_1$ em $X_2$ era
+$X_{1i}=\widehat\pi_0+\widehat\pi_2X_{2i}+\widehat r_i$. Em matrizes, chame de $\mathbf X_1$ a coluna de
+$X_1$ e reúna em $\mathbf Z$ o intercepto e os demais preditores (com dois preditores,
+$\mathbf Z=[\mathbf 1_n\;\,\mathbf X_2]$):
+\[
+\mathbf X_1=\mathbf Z\widehat{\boldsymbol\pi}+\widehat{\mathbf r}.
+\]
+
+\begin{enumerate}
+\item \textbf{Coeficientes:} a fórmula do MQO, com $\mathbf X_1$ no papel de $\mathbf Y$ e $\mathbf Z$ no papel
+de $\mathbf X$: $\widehat{\boldsymbol\pi}=(\mathbf Z'\mathbf Z)^{-1}\mathbf Z'\mathbf X_1$.
+\item \textbf{Valores ajustados:}
+$\widehat{\mathbf X}_1=\mathbf Z\widehat{\boldsymbol\pi}
+=\underbrace{\mathbf Z(\mathbf Z'\mathbf Z)^{-1}\mathbf Z'}_{\mathbf P_Z}\mathbf X_1$.
+\item \textbf{Resíduo}, ou $X_1$ limpo de $\mathbf Z$:
+$\widehat{\mathbf r}=\mathbf X_1-\widehat{\mathbf X}_1
+=\underbrace{(\mathbf I_n-\mathbf P_Z)}_{\mathbf M_Z}\mathbf X_1$.
+\end{enumerate}
+
+\begin{block}{Exemplo: quatro unidades}
+$\widehat{\boldsymbol\pi}=(0;\;0{,}5)'$, \quad
+$\widehat{\mathbf X}_1=(0;\;0{,}5;\;0{,}5;\;1)'$ \quad e \quad
+$\widehat{\mathbf r}=(0;\;-0{,}5;\;0{,}5;\;0)'$.
+\end{block}
+
 # Matriz de resíduos
 
-Separe as colunas de $\mathbf X$ em $\mathbf X=[\mathbf X_1\;\,\mathbf Z]$: $\mathbf X_1$ é a coluna de $X_1$,
-e $\mathbf Z$ reúne as demais (o intercepto e os outros preditores; com dois preditores,
-$\mathbf Z=[\mathbf 1_n\;\,\mathbf X_2]$).
-
-Regressão de um vetor $\mathbf v$ ($n\times1$) em $\mathbf Z$:
 \[
-\text{ajustados: }\mathbf P_Z\mathbf v,\quad\mathbf P_Z=\mathbf Z(\mathbf Z'\mathbf Z)^{-1}\mathbf Z';
-\qquad
-\text{resíduos: }\mathbf M_Z\mathbf v,\quad\mathbf M_Z=\mathbf I_n-\mathbf P_Z.
+\mathbf M_Z=\mathbf I_n-\mathbf Z(\mathbf Z'\mathbf Z)^{-1}\mathbf Z'
 \]
+depende só de $\mathbf Z$. Multiplicar uma variável por $\mathbf M_Z$ dá o resíduo da regressão dessa
+variável em $\mathbf Z$: $\mathbf M_Z\mathbf X_1=\widehat{\mathbf r}$ é $X_1$ limpo de $\mathbf Z$, e
+$\mathbf M_Z\mathbf Y$ é $Y$ limpo de $\mathbf Z$.
 
 \begin{block}{Três propriedades}
 \begin{enumerate}
-\item $\mathbf M_Z\mathbf Z=\mathbf Z-\mathbf Z(\mathbf Z'\mathbf Z)^{-1}\mathbf Z'\mathbf Z=\mathbf 0$.
-\item $\mathbf M_Z'=\mathbf M_Z$ e $\mathbf M_Z\mathbf M_Z=\mathbf M_Z$, porque
-$\mathbf P_Z'=\mathbf P_Z$ e $\mathbf P_Z\mathbf P_Z=\mathbf P_Z$.
-\item Se $\mathbf Z'\mathbf v=\mathbf 0$, então $\mathbf M_Z\mathbf v=\mathbf v$.
+\item $\mathbf M_Z\mathbf Z=\mathbf 0$: limpar de $\mathbf Z$ as próprias colunas de $\mathbf Z$ não deixa nada,
+porque $\mathbf Z(\mathbf Z'\mathbf Z)^{-1}\mathbf Z'\mathbf Z=\mathbf Z$.
+\item $\mathbf M_Z'=\mathbf M_Z$ e $\mathbf M_Z\mathbf M_Z=\mathbf M_Z$: limpar duas vezes é o mesmo que
+limpar uma.
+\item $\mathbf M_Z\widehat{\mathbf e}=\widehat{\mathbf e}$: o resíduo da regressão múltipla já é ortogonal a
+$\mathbf Z$ ($\mathbf Z'\widehat{\mathbf e}=\mathbf 0$), e limpá-lo não muda nada.
 \end{enumerate}
 \end{block}
 
-O resíduo da regressão de $X_1$ nos demais preditores é $\widehat{\mathbf r}=\mathbf M_Z\mathbf X_1$.
+\scriptsize
+$\mathbf P_Z$ é a matriz de projeção e $\mathbf M_Z$, a matriz aniquiladora (Hansen, seções 3.11 e 3.12).
 
 # Decomposição com matrizes
 
@@ -681,7 +708,7 @@ por $\widehat{\mathbf r}'=\mathbf X_1'\mathbf M_Z$:
 \begin{enumerate}
 \item $\widehat{\mathbf r}'\mathbf Z=\mathbf X_1'\mathbf M_Z\mathbf Z=\mathbf 0'$ (propriedade 1).
 \item $\widehat{\mathbf r}'\widehat{\mathbf e}=\mathbf X_1'\mathbf M_Z\widehat{\mathbf e}=\mathbf X_1'\widehat{\mathbf e}=0$
-(propriedade 3, com $\mathbf v=\widehat{\mathbf e}$).
+(propriedade 3).
 \item $\widehat{\mathbf r}'\mathbf X_1=\mathbf X_1'\mathbf M_Z'\mathbf M_Z\mathbf X_1=\widehat{\mathbf r}'\widehat{\mathbf r}$
 (propriedade 2).
 \end{enumerate}
