@@ -602,12 +602,8 @@ O resíduo $\widehat r_i$ é a parte de $X_{1i}$ que os demais preditores não p
 \widehat\beta_1=\frac{\sum_i\widehat r_iY_i}{\sum_i\widehat r_i^2}
 =(\widehat{\mathbf r}'\widehat{\mathbf r})^{-1}\widehat{\mathbf r}'\mathbf Y.
 \]
-O coeficiente de $X_1$ na regressão longa é a inclinação da regressão simples de $Y$ em $\widehat r$.
+O coeficiente de $X_1$ na regressão múltipla é a inclinação da regressão simples de $Y$ em $\widehat r$.
 \end{block}
-
-Residualizar também $Y$ nos demais preditores não muda $\widehat\beta_1$, e a regressão de um
-resíduo no outro tem os mesmos resíduos da regressão longa. A correlação entre os dois resíduos
-é a correlação parcial entre $Y$ e $X_1$, dados os demais preditores.
 
 \vfill
 
@@ -670,7 +666,7 @@ O resíduo da regressão de $X_1$ nos demais preditores é $\widehat{\mathbf r}=
 
 # Decomposição com matrizes
 
-As equações normais da regressão longa, $\mathbf X'\widehat{\mathbf e}=\mathbf 0$, dão
+As equações normais da regressão múltipla, $\mathbf X'\widehat{\mathbf e}=\mathbf 0$, dão
 $\mathbf X_1'\widehat{\mathbf e}=0$ e $\mathbf Z'\widehat{\mathbf e}=\mathbf 0$. Com $\widehat{\boldsymbol\theta}$
 os coeficientes das colunas de $\mathbf Z$, multiplique
 $\mathbf Y=\mathbf X_1\widehat\beta_1+\mathbf Z\widehat{\boldsymbol\theta}+\widehat{\mathbf e}$
@@ -694,8 +690,7 @@ por $\widehat{\mathbf r}'=\mathbf X_1'\mathbf M_Z$:
 \boxed{\widehat\beta_1=(\widehat{\mathbf r}'\widehat{\mathbf r})^{-1}\widehat{\mathbf r}'\mathbf Y.}
 \]
 
-Os mesmos três passos dos somatórios, com qualquer número de colunas em $\mathbf Z$. Com $Y$ também
-residualizado, $\widehat{\mathbf r}'\mathbf M_Z\mathbf Y=\mathbf X_1'\mathbf M_Z\mathbf M_Z\mathbf Y=\widehat{\mathbf r}'\mathbf Y$: o mesmo $\widehat\beta_1$.
+Os mesmos três passos dos somatórios, com qualquer número de colunas em $\mathbf Z$.
 
 # Exemplo: quatro unidades
 
@@ -720,12 +715,31 @@ Regressão de $X_1$ em $X_2$: $\widehat X_1=0{,}5X_2$, e $\widehat{\mathbf r}=\m
 Aqui $\widehat r_i$ é o resíduo da regressão auxiliar de $X_1$ em $X_2$, não o erro
 $u_i$ adicionado a $Y$. Só B e C têm $\widehat r_i\ne0$; por isso $\widehat\beta_1$ compara essas unidades.
 
-Residualizar só $Y$ em $X_2$ e manter $X_1$ original dá inclinação 1: quem precisa ser
-residualizado é o preditor do eixo horizontal (Hull, 2018).
-
 \begin{block}{Perguntas}
 Sem $X_2$ na regressão, qual é a inclinação de $Y$ em $X_1$? Por que ela difere de 2?
 \end{block}
+
+# Resíduo de Y
+
+Seja $\mathbf M_Z\mathbf Y$ o resíduo de $Y$ nos demais preditores.
+
+\begin{itemize}
+\item \textbf{Mesmo $\widehat\beta_1$:}
+$\widehat{\mathbf r}'\mathbf M_Z\mathbf Y=\mathbf X_1'\mathbf M_Z\mathbf M_Z\mathbf Y=\widehat{\mathbf r}'\mathbf Y$.
+A parte de $Y$ prevista pelos demais preditores é combinação das colunas de $\mathbf Z$, e
+$\widehat{\mathbf r}'\mathbf Z=\mathbf 0'$: ela não altera a inclinação.
+\item \textbf{Mesmos resíduos:} a regressão de $\mathbf M_Z\mathbf Y$ em $\widehat{\mathbf r}$ tem os resíduos
+$\widehat{\mathbf e}$ da regressão múltipla. A de $\mathbf Y$ em $\widehat{\mathbf r}$ tem resíduos maiores,
+porque inclui a parte de $Y$ que $\mathbf Z$ prevê.
+\item \textbf{Correlação parcial:} a correlação entre $\mathbf M_Z\mathbf Y$ e $\widehat{\mathbf r}$ é a correlação
+parcial entre $Y$ e $X_1$, dados os demais preditores.
+\end{itemize}
+
+\begin{alertblock}{Só $Y$ residualizado}
+Com $X_1$ original, a inclinação de $\mathbf M_Z\mathbf Y$ em $X_1$ é
+$\widehat\beta_1\sum_i\widehat r_i^2/\sum_i(X_{1i}-\bar X_1)^2$, mais perto de zero: no exemplo, 1 em vez de 2.
+Com vários preditores, os coeficientes se misturam e podem trocar de sinal (Hull, 2018).
+\end{alertblock}
 
 # Regressão curta e regressão longa
 
