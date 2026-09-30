@@ -923,22 +923,24 @@ uma parcela por indicadora omitida. Inclinações diferentes por continente exig
 
 Roteiro: \texttt{scripts/09\_laboratorio\_aula6\_regressao\_multipla.R}, em duplas ou trios.
 
+\small
 \begin{enumerate}
 \item \textbf{Base de 2016:} juntar votos e covariáveis pela chave país-ano; descrever a amostra.
 \item \textbf{Continente:} médias por grupo, coeficientes, \texttt{relevel()} e a armadilha das indicadoras.
 \item \textbf{Europa omitida:} regressões curta, longa e auxiliar; conferir
 $\widehat\gamma_1=\widehat\beta_1+\widehat\beta_2\widehat\delta$.
-\item \textbf{Decomposição:} residualizar a convergência e as exportações na indicadora de Europa,
-com gráficos antes e depois; a regressão de um resíduo no outro recupera o coeficiente da regressão longa.
+\item \textbf{Decomposição:} residualizar convergência e exportações na indicadora de Europa;
+gráficos antes e depois; a regressão dos resíduos recupera o coeficiente da regressão longa.
 \item \textbf{Modelos progressivos:} comércio com China e EUA, hiato de poder em relação aos EUA
 e controles econômicos.
 \item \textbf{Forma matricial:} montar $\mathbf X$ de M4, calcular
 $(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y$ e comparar com \texttt{lm()}.
+\item \textbf{Simulação com três preditores:} residualizar só $Y$ troca o sinal de
+$\widehat\beta_1$; o gráfico correto residualiza $Y$ e $X_1$ nos demais preditores.
 \end{enumerate}
 
 \begin{block}{Entrega}
-Script, Tabela 3 do roteiro e um parágrafo que interpreta o coeficiente das exportações
-para a China no último modelo, com unidades.
+Script, Tabela 3 e um parágrafo que interpreta o coeficiente das exportações em M4, com unidades.
 \end{block}
 
 # Síntese

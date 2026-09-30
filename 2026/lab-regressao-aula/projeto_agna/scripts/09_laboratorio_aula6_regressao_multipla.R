@@ -8,11 +8,12 @@
 #
 # Partes (cerca de 90 minutos):
 # 1. Base de 2016 ..................................... 10 min
-# 2. Continente como preditor categórico .............. 15 min
+# 2. Continente como preditor categórico .............. 10 min
 # 3. Europa como variável omitida ..................... 15 min
 # 4. Decomposição do coeficiente ...................... 20 min
-# 5. Modelos progressivos ............................. 20 min
+# 5. Modelos progressivos ............................. 15 min
 # 6. MQO em forma matricial ........................... 10 min
+# 7. Erro comum com três preditores (simulação) ....... 10 min
 
 library(data.table)
 library(dplyr)
@@ -381,7 +382,87 @@ tabela_4
 # Equações normais: X'e é um vetor de zeros (a menos de erro numérico).
 t(matriz_x) %*% residuals(modelo_m4)
 
-# 7. Perguntas ------------------------------------------------------------
+# 7. Erro comum com três preditores (simulação) ---------------------------
+
+# Dados simulados: conhecemos a regra que gera Y. X1 e X2 são independentes
+# entre si, e os dois têm correlação 0,6 com X3, o controle.
+set.seed(6183)
+n <- 1000
+simulacao <- data.frame(x1 = rnorm(n), x2 = rnorm(n))
+simulacao$x3 <- 0.6 * simulacao$x1 + 0.6 * simulacao$x2 + sqrt(0.28) * rnorm(n)
+simulacao$y <- 1 * simulacao$x1 + 3 * simulacao$x2 - 2 * simulacao$x3 + rnorm(n)
+
+round(cor(simulacao[, c("x1", "x2", "x3")]), 2)
+
+# Regressão múltipla: coeficientes próximos de 1, 3 e -2.
+modelo_completo <- lm(y ~ x1 + x2 + x3, data = simulacao)
+coef(modelo_completo)
+
+# Erro comum: residualizar só Y no controle X3 e regredir esse resíduo em X1
+# e X2 originais. O coeficiente de X1 troca de sinal.
+simulacao$y_res_x3 <- residuals(lm(y ~ x3, data = simulacao))
+modelo_errado <- lm(y_res_x3 ~ x1 + x2, data = simulacao)
+coef(modelo_errado)
+
+# Forma correta: residualizar também X1 e X2 em X3. Os coeficientes voltam a
+# ser os da regressão múltipla.
+simulacao$x1_res_x3 <- residuals(lm(x1 ~ x3, data = simulacao))
+simulacao$x2_res_x3 <- residuals(lm(x2 ~ x3, data = simulacao))
+modelo_certo <- lm(y_res_x3 ~ x1_res_x3 + x2_res_x3, data = simulacao)
+coef(modelo_certo)
+
+# Por que o sinal troca (Hull, 2018): coeficientes errados = Omega x
+# coeficientes certos, com Omega = (D'D)^{-1} D' D_til. D reúne X1 e X2
+# centrados; D_til reúne X1 e X2 residualizados em X3. Os termos fora da
+# diagonal de Omega misturam o coeficiente de X2, que é grande, no de X1.
+matriz_d <- scale(as.matrix(simulacao[, c("x1", "x2")]), scale = FALSE)
+matriz_d_til <- as.matrix(simulacao[, c("x1_res_x3", "x2_res_x3")])
+omega <- solve(t(matriz_d) %*% matriz_d) %*% t(matriz_d) %*% matriz_d_til
+omega
+omega %*% coef(modelo_completo)[c("x1", "x2")]
+
+# Figura 3. Gráfico com o erro comum: Y residualizado em X3 contra X1
+# original. A reta desce, embora o coeficiente de X1 seja positivo.
+figura_3 <- ggplot(simulacao, aes(x = x1, y = y_res_x3)) +
+  geom_point(alpha = 0.3, color = "#334155") +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, color = "#B91C1C") +
+  labs(
+    title = "Figura 3. Erro comum: só Y residualizado",
+    subtitle = paste0(
+      "Y residualizado em X3 contra X1 original: inclinação de ",
+      format(round(coef(lm(y_res_x3 ~ x1, data = simulacao))[["x1"]], 2), decimal.mark = ",")
+    ),
+    x = "X1 original",
+    y = "Y residualizado em X3",
+    caption = "Dados simulados (n = 1.000); na regra que gera Y, o coeficiente de X1 é 1."
+  ) +
+  theme_minimal(base_size = 12)
+figura_3
+
+# Gráfico correto: residualizar Y e X1 em todos os outros preditores (X2 e
+# X3). A inclinação é o coeficiente de X1 na regressão múltipla.
+simulacao$x1_res_x2x3 <- residuals(lm(x1 ~ x2 + x3, data = simulacao))
+simulacao$y_res_x2x3 <- residuals(lm(y ~ x2 + x3, data = simulacao))
+
+# Figura 4. Forma correta: Y e X1 residualizados em X2 e X3.
+figura_4 <- ggplot(simulacao, aes(x = x1_res_x2x3, y = y_res_x2x3)) +
+  geom_point(alpha = 0.3, color = "#334155") +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, color = "#047857") +
+  labs(
+    title = "Figura 4. Forma correta: Y e X1 residualizados em X2 e X3",
+    subtitle = paste0(
+      "Inclinação de ",
+      format(round(coef(modelo_completo)[["x1"]], 2), decimal.mark = ","),
+      ", igual ao coeficiente de X1 na regressão múltipla"
+    ),
+    x = "X1 residualizado em X2 e X3",
+    y = "Y residualizado em X2 e X3",
+    caption = "Dados simulados (n = 1.000)."
+  ) +
+  theme_minimal(base_size = 12)
+figura_4
+
+# 8. Perguntas ------------------------------------------------------------
 
 # 1. Na Tabela 1 e em coef(modelo_continente), onde está a média da Europa?
 # 2. Na Tabela 2, por que o coeficiente das exportações muda de sinal da
@@ -397,7 +478,10 @@ t(matriz_x) %*% residuals(modelo_m4)
 #    a China em M4 (Tabela 3), com as unidades de X e de Y.
 # 5. Quais são as dimensões de matriz_x e de x_linha_x? Por que matriz_x
 #    tem nove colunas?
-# 6. (Opcional) Estime M3 sem os EUA. O que acontece com o coeficiente do
+# 6. Na simulação (parte 7), por que o coeficiente de X1 troca de sinal em
+#    modelo_errado? Use omega. Qual das Figuras 3 e 4 mostra a relação
+#    entre X1 e Y com X2 e X3 fixos?
+# 7. (Opcional) Estime M3 sem os EUA. O que acontece com o coeficiente do
 #    hiato de poder?
 #
 # Entrega: script, Tabela 3 e o parágrafo da pergunta 4.

@@ -114,6 +114,22 @@ stopifnot(
   max(abs(t(matriz_x) %*% residuals(modelo_m4))) < 1e-8
 )
 
+# Parte 7 do roteiro: erro comum com três preditores ----------------------------
+
+stopifnot(
+  coef(modelo_completo)[["x1"]] > 0,
+  coef(modelo_errado)[["x1"]] < 0,
+  max(abs(coef(modelo_certo)[c("x1_res_x3", "x2_res_x3")] -
+            coef(modelo_completo)[c("x1", "x2")])) < 1e-10,
+  max(abs(as.numeric(omega %*% coef(modelo_completo)[c("x1", "x2")]) -
+            as.numeric(coef(modelo_errado)[c("x1", "x2")]))) < 1e-10,
+  abs(coef(lm(y_res_x2x3 ~ x1_res_x2x3, data = simulacao))[[2]] -
+        coef(modelo_completo)[["x1"]]) < 1e-10,
+  coef(lm(y_res_x3 ~ x1, data = simulacao))[[2]] < 0,
+  nrow(ggplot2::ggplot_build(figura_3)$data[[1]]) == 1000L,
+  nrow(ggplot2::ggplot_build(figura_4)$data[[1]]) == 1000L
+)
+
 # Números dos slides -----------------------------------------------------------
 
 # Exemplo de quatro unidades.
