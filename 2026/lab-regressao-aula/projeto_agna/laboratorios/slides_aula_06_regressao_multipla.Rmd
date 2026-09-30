@@ -708,8 +708,8 @@ Regressão de $X_1$ em $X_2$: $\widehat X_1=0{,}5X_2$, e $\widehat{\mathbf r}=\m
 \widehat\beta_1=\frac{(-0{,}5)(3)+(0{,}5)(5)}{(-0{,}5)^2+(0{,}5)^2}=\frac{1}{0{,}5}=2.
 \]
 
-Só B e C, que têm o mesmo $X_2$, têm resíduo diferente de zero: $\widehat\beta_1$
-compara B e C.
+Só B e C têm $\widehat r_i\ne0$ na regressão auxiliar de $X_1$ em $X_2$; são resíduos
+diferentes de $\widehat e_i$, do modelo de $Y$. Por isso, $\widehat\beta_1$ compara B e C.
 
 Residualizar só $Y$ em $X_2$ e manter $X_1$ original dá inclinação 1: quem precisa ser
 residualizado é o preditor do eixo horizontal (Hull, 2018).
