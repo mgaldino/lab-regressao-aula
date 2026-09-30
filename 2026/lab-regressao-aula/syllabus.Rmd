@@ -142,9 +142,9 @@ O calendário abaixo é preliminar. As leituras do livro principal referem-se a 
 21/10 & 8 & Análise de resíduos, checagem dos pressupostos e diagnóstico do modelo & Hansen, seções 4.10 a 4.15; Shalizi, seções 6.1 e 6.5 \\
 28/10 & -- & \textbf{Não haverá aula: Dia do Servidor Público} & -- \\
 04/11 & 9 & Inferência I: distribuição amostral, normalidade assintótica, erros-padrão convencionais e robustos e bootstrap & Cap. 3, seções 3.2.4 a 3.2.6; cap. 4, seção 4.2.2 \\
-11/11 & 10 & Inferência II: intervalos de confiança, testes de hipóteses, valores-p, testes t e testes conjuntos & Cap. 3, seções 3.4.1 e 3.4.2; cap. 4, seção 4.2.1; Hansen, seções 7.12, 7.13 e 7.16 a 7.18 \\
-18/11 & 11 & Termos de interação: interpretação, modificação de efeito, interação causal e implementação no R & Cap. 4, seção 4.3.3; Shalizi, cap. 17 \\
-25/11 & 12 & Modelos lineares generalizados (GLM) & Cap. 5, seção 5.1 \\
+11/11 & -- & \textbf{Não haverá aula: seminário discente da pós-graduação} & -- \\
+18/11 & 10 & Inferência II: intervalos de confiança, testes de hipóteses, valores-p, testes t e testes conjuntos & Cap. 3, seções 3.4.1 e 3.4.2; cap. 4, seção 4.2.1; Hansen, seções 7.12, 7.13 e 7.16 a 7.18 \\
+25/11 & 11 & Termos de interação: interpretação, modificação de efeito, interação causal e implementação no R & Cap. 4, seção 4.3.3; Shalizi, cap. 17 \\
 02/12 & -- & \textbf{Prova} & -- \\
 \hline
 \end{longtable}
@@ -179,7 +179,6 @@ O calendário abaixo é preliminar. As leituras do livro principal referem-se a 
 9 & Erros-padrão & Comparação entre erros-padrão convencionais, HC3 e bootstrap. \\
 10 & Intervalos e testes & Intervalos de confiança, testes de hipóteses e conclusão calibrada. \\
 11 & Interações & Heterogeneidade descritiva por tema e período, com figura de previsões. \\
-12 & Modelos lineares generalizados & Regressão logística para convergência e comparação de probabilidades preditas com o MQO. \\
 \hline
 \end{longtable}
 \endgroup
