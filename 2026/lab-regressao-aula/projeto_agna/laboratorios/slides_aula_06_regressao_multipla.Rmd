@@ -85,23 +85,24 @@ numero_m <- function(valor, digitos = 2, sinal = FALSE) {
   gsub(",", "{,}", texto, fixed = TRUE)
 }
 
-# Exemplo de quatro unidades: Y foi gerado por 1 + 2 X1 + 3 X2, sem erro.
+# Exemplo de quatro observações com resíduos MQO não nulos.
 exemplo <- data.frame(
   unidade = c("A", "B", "C", "D"),
   x1 = c(0, 0, 1, 1),
   x2 = c(0, 1, 1, 2)
 )
-exemplo$y <- 1 + 2 * exemplo$x1 + 3 * exemplo$x2
+exemplo$y <- c(2, 3, 5, 10)
+ajuste_exemplo <- lm(y ~ x1 + x2, data = exemplo)
 exemplo$residuo_x1 <- as.numeric(residuals(lm(x1 ~ x2, data = exemplo)))
 
 stopifnot(
+  isTRUE(all.equal(as.numeric(fitted(ajuste_exemplo)), c(1, 4, 6, 9))),
+  isTRUE(all.equal(as.numeric(residuals(ajuste_exemplo)), c(1, -1, -1, 1))),
   isTRUE(all.equal(exemplo$residuo_x1, c(0, -0.5, 0.5, 0))),
   isTRUE(all.equal(
     sum(exemplo$residuo_x1 * exemplo$y) / sum(exemplo$residuo_x1^2), 2
   )),
-  isTRUE(all.equal(
-    unname(coef(lm(y ~ x1 + x2, data = exemplo))), c(1, 2, 3)
-  )),
+  isTRUE(all.equal(unname(coef(ajuste_exemplo)), c(1, 2, 3))),
   isTRUE(all.equal(unname(coef(lm(y ~ x1, data = exemplo))[2]), 5)),
   isTRUE(all.equal(unname(coef(lm(x2 ~ x1, data = exemplo))[2]), 1))
 )
@@ -115,6 +116,7 @@ matriz_x <- cbind(1, exemplo$x1, exemplo$x2)
 xtx <- crossprod(matriz_x)
 xty <- crossprod(matriz_x, exemplo$y)
 stopifnot(
+  isTRUE(all.equal(as.numeric(crossprod(matriz_x, residuals(ajuste_exemplo))), c(0, 0, 0))),
   isTRUE(all.equal(unname(xtx), matrix(c(4, 2, 4, 2, 2, 3, 4, 3, 6), 3))),
   isTRUE(all.equal(as.numeric(xty), c(20, 15, 28))),
   isTRUE(all.equal(
@@ -370,13 +372,22 @@ uma linha por unidade e uma coluna por coeficiente:
 \mathbf X=\begin{bmatrix}1&X_{11}&X_{21}\\ 1&X_{12}&X_{22}\\ \vdots&\vdots&\vdots\\ 1&X_{1n}&X_{2n}\end{bmatrix}\quad(n\times3).
 \]
 \column{0.44\textwidth}
-\begin{block}{Exemplo: quatro unidades}
+\begin{block}{Exemplo: quatro observações}
 \[
-\mathbf Y=\begin{bmatrix}1\\4\\6\\9\end{bmatrix},
+\mathbf Y=\begin{bmatrix}2\\3\\5\\10\end{bmatrix},
 \qquad
 \mathbf X=\begin{bmatrix}1&0&0\\1&0&1\\1&1&1\\1&1&2\end{bmatrix}.
 \]
-Os valores de $Y$ seguem $Y=1+2X_1+3X_2$, sem erro.
+\[
+\begin{array}{c|rrr}
+i&Y_i&\widehat Y_i&\widehat e_i\\ \hline
+A&2&1&1\\
+B&3&4&-1\\
+C&5&6&-1\\
+D&10&9&1
+\end{array}
+\]
+\scriptsize $\widehat Y_i=1+2X_{1i}+3X_{2i}$; $\widehat e_i=Y_i-\widehat Y_i$.
 \end{block}
 \end{columns}
 
@@ -395,7 +406,7 @@ $(j,i)$ de $\mathbf A$. Uma matriz $m\times n$ vira $n\times m$.
 \]
 
 \begin{itemize}
-\item O vetor coluna $\mathbf Y$ ($4\times1$) vira o vetor linha $\mathbf Y'=(1\;\;4\;\;6\;\;9)$ ($1\times4$).
+\item O vetor coluna $\mathbf Y$ ($4\times1$) vira o vetor linha $\mathbf Y'=(2\;\;3\;\;5\;\;10)$ ($1\times4$).
 \item Transposta do produto: $(\mathbf A\mathbf B)'=\mathbf B'\mathbf A'$.
 \item $\mathbf A$ é simétrica quando $\mathbf A'=\mathbf A$.
 \end{itemize}
@@ -519,7 +530,8 @@ Nas quatro unidades:
 =\begin{bmatrix}1\\2\\3\end{bmatrix}.
 \]
 
-A regressão recupera $\widehat Y_i=1+2X_{1i}+3X_{2i}$, a regra que gerou $Y$.
+A regressão ajusta $\widehat Y_i=1+2X_{1i}+3X_{2i}$; os resíduos são $(1,-1,-1,1)'$.
+Eles não são todos zero, mas $\mathbf X'\widehat{\mathbf e}=\mathbf 0$.
 
 \begin{block}{Exercício}
 Multiplique $\mathbf X'\mathbf X$ por $(\mathbf X'\mathbf X)^{-1}$ e confira que o resultado é $\mathbf I_3$.
@@ -681,19 +693,19 @@ residualizado, $\widehat{\mathbf r}'\mathbf M_Z\mathbf Y=\mathbf X_1'\mathbf M_Z
 \begin{center}
 \begin{tabular}{crrrr}
 \toprule
-Unidade & $X_1$ & $X_2$ & $Y=1+2X_1+3X_2$ & $\widehat r$\\
+Unidade & $X_1$ & $X_2$ & $Y$ & $\widehat r$\\
 \midrule
-A & 0 & 0 & 1 & $0$\\
-B & 0 & 1 & 4 & $-0{,}5$\\
-C & 1 & 1 & 6 & $0{,}5$\\
-D & 1 & 2 & 9 & $0$\\
+A & 0 & 0 & 2 & $0$\\
+B & 0 & 1 & 3 & $-0{,}5$\\
+C & 1 & 1 & 5 & $0{,}5$\\
+D & 1 & 2 & 10 & $0$\\
 \bottomrule
 \end{tabular}
 \end{center}
 
 Regressão de $X_1$ em $X_2$: $\widehat X_1=0{,}5X_2$, e $\widehat{\mathbf r}=\mathbf M_Z\mathbf X_1$ é a última coluna. Então
 \[
-\widehat\beta_1=\frac{(-0{,}5)(4)+(0{,}5)(6)}{(-0{,}5)^2+(0{,}5)^2}=\frac{1}{0{,}5}=2.
+\widehat\beta_1=\frac{(-0{,}5)(3)+(0{,}5)(5)}{(-0{,}5)^2+(0{,}5)^2}=\frac{1}{0{,}5}=2.
 \]
 
 Só B e C, que têm o mesmo $X_2$, têm resíduo diferente de zero: $\widehat\beta_1$
@@ -918,30 +930,6 @@ Mesma inclinação nos quatro continentes: $\widehat\beta_1=`r numero_m(inclinac
 p.p. de convergência por p.p. de exportações. Na regressão curta, sem continente,
 $\widehat\gamma_1=`r numero_m(inclinacao_sem_continente)`=`r numero_m(inclinacao_com_continente)`+\sum_g\widehat\beta_g\widehat\delta_g$,
 uma parcela por indicadora omitida. Inclinações diferentes por continente exigem interação (Aula 11).
-
-# Laboratório
-
-Roteiro: \texttt{scripts/09\_laboratorio\_aula6\_regressao\_multipla.R}, em duplas ou trios.
-
-\small
-\begin{enumerate}
-\item \textbf{Base de 2016:} juntar votos e covariáveis pela chave país-ano; descrever a amostra.
-\item \textbf{Continente:} médias por grupo, coeficientes, \texttt{relevel()} e a armadilha das indicadoras.
-\item \textbf{Europa omitida:} regressões curta, longa e auxiliar; conferir
-$\widehat\gamma_1=\widehat\beta_1+\widehat\beta_2\widehat\delta$.
-\item \textbf{Decomposição:} residualizar convergência e exportações na indicadora de Europa;
-gráficos antes e depois; a regressão dos resíduos recupera o coeficiente da regressão longa.
-\item \textbf{Modelos progressivos:} comércio com China e EUA, hiato de poder em relação aos EUA
-e controles econômicos.
-\item \textbf{Forma matricial:} montar $\mathbf X$ de M4, calcular
-$(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y$ e comparar com \texttt{lm()}.
-\item \textbf{Simulação com três preditores:} residualizar só $Y$ troca o sinal de
-$\widehat\beta_1$; o gráfico correto residualiza $Y$ e $X_1$ nos demais preditores.
-\end{enumerate}
-
-\begin{block}{Entrega}
-Script, Tabela 3 e um parágrafo que interpreta o coeficiente das exportações em M4, com unidades.
-\end{block}
 
 # Síntese
 
