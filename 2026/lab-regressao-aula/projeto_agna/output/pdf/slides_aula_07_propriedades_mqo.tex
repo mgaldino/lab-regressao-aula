@@ -1,0 +1,649 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+  ignorenonframetext,
+  brazilian,
+  aspectratio=169,
+  10pt]{beamer}
+\newif\ifbibliography
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% remove section numbering
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{section title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{subsection title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\usetheme[]{Madrid}
+\usefonttheme[]{professionalfonts}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\ifLuaTeX
+\usepackage[bidi=basic,shorthands=off,]{babel}
+\else
+\usepackage[bidi=default,shorthands=off,]{babel}
+\fi
+\ifLuaTeX
+  \usepackage{selnolig} % disable illegal ligatures
+\fi
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\definecolor{AzulAula}{HTML}{1D4ED8}
+\definecolor{AzulEscuro}{HTML}{0F172A}
+\definecolor{CinzaTexto}{HTML}{334155}
+\definecolor{VerdeAula}{HTML}{047857}
+\setbeamercolor{structure}{fg=AzulAula}
+\setbeamercolor{title}{fg=white,bg=AzulEscuro}
+\setbeamercolor{frametitle}{fg=white,bg=AzulEscuro}
+\setbeamercolor{normal text}{fg=CinzaTexto,bg=white}
+\setbeamercolor{block title}{fg=white,bg=AzulAula}
+\setbeamercolor{block body}{fg=AzulEscuro,bg=blue!5}
+\setbeamercolor{alertblock title}{fg=white,bg=red!75!black}
+\setbeamercolor{alertblock body}{fg=AzulEscuro,bg=red!5}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{footline}[frame number]
+\setbeamerfont{caption}{size=\scriptsize}
+\setlength{\abovecaptionskip}{2pt}
+\setlength{\belowcaptionskip}{0pt}
+\renewcommand{\tablename}{Tabela}
+\renewcommand{\figurename}{Figura}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Aula 7: propriedades do estimador de MQO},
+  pdfauthor={FLS 6183 - Métodos Quantitativos de Pesquisa II},
+  pdflang={pt-BR},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Aula 7: propriedades do estimador de MQO}
+\subtitle{Distribuição amostral, viés, consistência, Gauss--Markov e
+bootstrap}
+\author{FLS 6183 - Métodos Quantitativos de Pesquisa II}
+\date{14 de outubro de 2026}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}{BLP e MQO}
+\protect\phantomsection\label{blp-e-mqo}
+Na população, \(\mathbf x=(1,X_1,\ldots,X_k)'\) e
+\(\boldsymbol\beta=(\alpha,\beta_1,\ldots,\beta_k)'\): \[
+Y=\mathbf x'\boldsymbol\beta+\varepsilon,
+\qquad E[\mathbf x\varepsilon]=\mathbf 0,
+\qquad
+\boldsymbol\beta=E[\mathbf x\mathbf x']^{-1}E[\mathbf xY].
+\]
+
+Na amostra, \(\mathbf X\) tem as linhas \(\mathbf x_i'\) e
+\(\mathbf Y=(Y_1,\ldots,Y_n)'\): \[
+\widehat{\boldsymbol\beta}=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y,
+\qquad
+\widehat{\mathbf e}=\mathbf Y-\mathbf X\widehat{\boldsymbol\beta}.
+\]
+
+\begin{block}{Estimador e estimativa}
+$\widehat{\boldsymbol\beta}$ é uma função da amostra aleatória.
+Cada amostra observada produz uma estimativa dos mesmos coeficientes populacionais.
+\end{block}
+\end{frame}
+
+\begin{frame}{Nova amostra, nova reta}
+\protect\phantomsection\label{nova-amostra-nova-reta}
+População conhecida: \(X\sim N(10,3^2)\), \(\varepsilon\sim N(0,2^2)\)
+independente de \(X\), \(Y=5+1{,}5X+\varepsilon\).
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.88\linewidth]{../output/aula_07/figuras/01_duas_amostras} 
+
+}
+
+\caption{Duas amostras independentes de 40 pares (X,Y) da mesma população. A linha contínua é o MQO da amostra e a tracejada é o BLP populacional. Fonte: dados sintéticos do processo descrito.}\label{fig:duas-amostras}
+\end{figure}
+
+\small
+
+Inclinações estimadas: \(1{,}514\) e \(1{,}552\). O coeficiente
+populacional é \(\beta=1{,}5\).
+\end{frame}
+
+\begin{frame}{Distribuição amostral}
+\protect\phantomsection\label{distribuiuxe7uxe3o-amostral}
+Repetimos a amostragem e o ajuste de MQO 5.000 vezes, sempre com
+\(n=40\).
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.88\linewidth]{../output/aula_07/figuras/02_distribuicao_amostral} 
+
+}
+
+\caption{Histograma em escala de densidade de 5.000 inclinações de MQO. Cada valor vem de uma amostra independente de tamanho 40. A linha tracejada marca beta = 1,5. Fonte: simulação da população conhecida.}\label{fig:distribuicao-amostral}
+\end{figure}
+
+\small
+
+A média das estimativas, \(1{,}502\), aproxima \(E[\widehat\beta]\). O
+desvio-padrão, \(0{,}107\), aproxima a dispersão amostral.
+\end{frame}
+
+\begin{frame}{Viés do estimador}
+\protect\phantomsection\label{viuxe9s-do-estimador}
+Para explicitar o tamanho da amostra, escrevemos \(\widehat\beta_n\): \[
+\boxed{\operatorname{Viés}_n(\widehat\beta_n)=E[\widehat\beta_n]-\beta.}
+\] A esperança considera todas as amostras possíveis de tamanho \(n\) da
+mesma população.
+
+\begin{block}{Não viés para um tamanho de amostra fixo}
+$E[\widehat\beta_n]=\beta$. A definição usa a distribuição amostral do estimador
+e não exige tomar o limite quando $n$ cresce.
+\end{block}
+
+\begin{block}{Erro de uma estimativa observada}
+Na primeira amostra, $\widehat\beta-\beta=
+1{,}514-1{,}5$.
+Essa diferença é o erro de estimação daquela amostra.
+O viés descreve sua média na distribuição amostral.
+\end{block}
+\end{frame}
+
+\begin{frame}{Variância e erro quadrático médio}
+\protect\phantomsection\label{variuxe2ncia-e-erro-quadruxe1tico-muxe9dio}
+A variância amostral descreve a dispersão do estimador: \[
+\operatorname{V}(\widehat\beta_n)
+=E\!\left[(\widehat\beta_n-E[\widehat\beta_n])^2\right].
+\]
+
+O erro quadrático médio (EQM) considera a distância ao parâmetro: \[
+\boxed{\operatorname{EQM}(\widehat\beta_n)
+=E[(\widehat\beta_n-\beta)^2]
+=\operatorname{V}(\widehat\beta_n)+\operatorname{Viés}_n(\widehat\beta_n)^2.}
+\]
+
+\begin{block}{Não viés e precisão}
+Quando o viés é zero, o EQM é igual à variância amostral.
+Um estimador não viesado ainda pode produzir estimativas muito dispersas.
+\end{block}
+
+\small
+
+O desvio-padrão da distribuição amostral,
+\(\sqrt{\operatorname{V}(\widehat\beta_n)}\), é o erro-padrão do
+estimador.
+\end{frame}
+
+\begin{frame}{Consistência}
+\protect\phantomsection\label{consistuxeancia}
+\(\widehat\beta_n\) é consistente para \(\beta\) se, para todo
+\(\delta>0\), \[
+\boxed{\Pr\bigl(|\widehat\beta_n-\beta|>\delta\bigr)\longrightarrow 0
+\quad\text{quando } n\longrightarrow\infty.}
+\] Escrevemos \(\widehat\beta_n\xrightarrow{p}\beta\): convergência em
+probabilidade.
+
+\begin{block}{O papel de $n$}
+Consistência descreve uma sequência de estimadores conforme a amostra cresce.
+Não viés descreve a esperança do estimador para um $n$ fixo.
+\end{block}
+
+\small
+
+Exemplo com \(Y_i\) i.i.d., \(E[Y_i]=\mu\neq0\) e
+\(0<\operatorname{V}(Y_i)<\infty\):
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Estimador de $\mu$ & Não viesado & Consistente \\
+\midrule
+$Y_1$, qualquer que seja $n$ & Sim & Não \\
+$\dfrac{n}{n+1}\bar Y$ & Não & Sim \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}{Condições para estimar o BLP}
+\protect\phantomsection\label{condiuxe7uxf5es-para-estimar-o-blp}
+\begin{enumerate}
+\item Os pares $(Y_i,\mathbf x_i)$ são independentes e identicamente distribuídos (i.i.d.).
+\item $Y$ e os preditores têm segundos momentos finitos.
+\item $\mathbf Q=E[\mathbf x\mathbf x']$ tem inversa: nenhuma combinação linear não nula
+das colunas de $\mathbf x$ é zero com probabilidade um.
+\end{enumerate}
+
+\begin{block}{Alvo populacional}
+\[
+\boldsymbol\beta=\mathbf Q^{-1}E[\mathbf xY].
+\]
+Essas condições permitem estabelecer a consistência do MQO para os coeficientes do BLP.
+\end{block}
+
+\small
+
+Em uma amostra concreta, calcular a fórmula de MQO exige que
+\(\mathbf X'\mathbf X\) tenha inversa. As condições acima asseguram que
+a probabilidade de posto completo tende a um.
+\end{frame}
+
+\begin{frame}{Consistência do MQO}
+\protect\phantomsection\label{consistuxeancia-do-mqo}
+Dividindo os dois produtos por \(n\): \[
+\widehat{\boldsymbol\beta}
+=\left(\frac1n\sum_{i=1}^n\mathbf x_i\mathbf x_i'\right)^{-1}
+\left(\frac1n\sum_{i=1}^n\mathbf x_iY_i\right).
+\]
+
+Pela lei dos grandes números, nas condições anteriores: \[
+\frac1n\sum_i\mathbf x_i\mathbf x_i'\xrightarrow{p}\mathbf Q,
+\qquad
+\frac1n\sum_i\mathbf x_iY_i\xrightarrow{p}E[\mathbf xY].
+\]
+
+\begin{block}{A mesma lógica do plug-in}
+A inversão e a multiplicação são contínuas quando a matriz limite tem inversa. Logo,
+\[
+\boxed{\widehat{\boldsymbol\beta}\xrightarrow{p}
+\mathbf Q^{-1}E[\mathbf xY]=\boldsymbol\beta.}
+\]
+\end{block}
+\end{frame}
+
+\begin{frame}{Média condicional do erro}
+\protect\phantomsection\label{muxe9dia-condicional-do-erro}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.47\textwidth}
+\begin{block}{Erro do BLP}
+\[
+E[\mathbf x\varepsilon]=\mathbf 0.
+\]
+Ortogonalidade por construção: as condições de primeira ordem da projeção linear.
+\end{block}
+\end{column}
+\begin{column}{0.49\textwidth}
+\begin{block}{Condição adicional}
+\[
+E[\varepsilon\mid\mathbf x]=0.
+\]
+A esperança condicional de $Y$ é linear:
+$E[Y\mid\mathbf x]=\mathbf x'\boldsymbol\beta$.
+\end{block}
+\end{column}
+\end{columns}
+
+\medskip
+
+Média condicional zero implica ortogonalidade, pela lei da esperança
+iterada. A implicação inversa não vale em geral.
+
+\begin{block}{Exemplo}
+Se $X\sim N(0,1)$ e $\varepsilon=X^2-1$,
+$E[\varepsilon]=E[X\varepsilon]=0$, mas $E[\varepsilon\mid X]=X^2-1$.
+\end{block}
+\end{frame}
+
+\begin{frame}{Não viés do MQO}
+\protect\phantomsection\label{nuxe3o-viuxe9s-do-mqo}
+Sob amostragem i.i.d. e média condicional zero,
+\(E[\boldsymbol\varepsilon\mid\mathbf X]=\mathbf 0\), com
+\(\boldsymbol\varepsilon=(\varepsilon_1,\ldots,\varepsilon_n)'\).
+
+Substituindo
+\(\mathbf Y=\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon\): \[
+\widehat{\boldsymbol\beta}
+=\boldsymbol\beta+(\mathbf X'\mathbf X)^{-1}\mathbf X'\boldsymbol\varepsilon.
+\] Ao condicionar em \(\mathbf X\), a matriz dos preditores fica fixa:
+\[
+E[\widehat{\boldsymbol\beta}\mid\mathbf X]
+=\boldsymbol\beta+(\mathbf X'\mathbf X)^{-1}\mathbf X'
+\underbrace{E[\boldsymbol\varepsilon\mid\mathbf X]}_{\mathbf 0}
+=\boldsymbol\beta.
+\]
+
+\begin{block}{Esperança na distribuição amostral}
+Com posto completo e momentos do estimador existentes,
+$E[\widehat{\boldsymbol\beta}]=\boldsymbol\beta$ pela lei da esperança iterada.
+O resultado vale para $n$ fixo. A homocedasticidade não é necessária para esse não viés.
+\end{block}
+\end{frame}
+
+\begin{frame}{Variância do MQO}
+\protect\phantomsection\label{variuxe2ncia-do-mqo}
+Com média condicional zero e observações independentes, defina
+\(\mathbf D=\operatorname{V}(\boldsymbol\varepsilon\mid\mathbf X)
+=\operatorname{diag}(\sigma_1^2,\ldots,\sigma_n^2)\), onde
+\(\sigma_i^2=\operatorname{V}(\varepsilon_i\mid\mathbf x_i)\). \[
+\operatorname{V}(\widehat{\boldsymbol\beta}\mid\mathbf X)
+=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf D\mathbf X(\mathbf X'\mathbf X)^{-1}.
+\]
+
+\begin{block}{Homocedasticidade}
+Se $\sigma_i^2=\sigma^2$ para todas as observações, $\mathbf D=\sigma^2\mathbf I_n$ e
+\[
+\boxed{\operatorname{V}(\widehat{\boldsymbol\beta}\mid\mathbf X)
+=\sigma^2(\mathbf X'\mathbf X)^{-1}.}
+\]
+\end{block}
+
+\small
+
+Com um preditor e intercepto,
+\(\operatorname{V}(\widehat\beta\mid\mathbf X)=
+\sigma^2/\sum_i(X_i-\bar X)^2\). Maior ruído aumenta a variância. Maior
+variação do preditor reduz a variância.
+\end{frame}
+
+\begin{frame}{Teorema de Gauss--Markov}
+\protect\phantomsection\label{teorema-de-gaussmarkov}
+Considere
+\(\mathbf Y=\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon\), com
+posto completo, \[
+E[\boldsymbol\varepsilon\mid\mathbf X]=\mathbf 0,
+\qquad
+\operatorname{V}(\boldsymbol\varepsilon\mid\mathbf X)=\sigma^2\mathbf I_n.
+\]
+
+\begin{block}{Versão clássica}
+O MQO tem a menor variância entre os estimadores lineares em $\mathbf Y$
+e não viesados condicionalmente em $\mathbf X$.
+\end{block}
+
+\begin{itemize}
+\item Linear em $\mathbf Y$: $\widehat{\boldsymbol\beta}^{\,a}=\mathbf A\mathbf Y$,
+com $\mathbf A$ dependendo apenas de $\mathbf X$.
+\item Não viés para todo $\boldsymbol\beta$:
+$E[\widehat{\boldsymbol\beta}^{\,a}\mid\mathbf X]=\boldsymbol\beta$.
+\item A comparação vale para cada coeficiente e para qualquer combinação linear dos coeficientes.
+\end{itemize}
+
+\small
+
+BLUE: \textit{best linear unbiased estimator}, ou melhor estimador
+linear não viesado. O teorema dispensa a normalidade dos erros.
+\end{frame}
+
+\begin{frame}{Comparação entre estimadores}
+\protect\phantomsection\label{comparauxe7uxe3o-entre-estimadores}
+O MQO usa \(\mathbf A_0=(\mathbf X'\mathbf X)^{-1}\mathbf X'\). Um
+estimador alternativo \(\mathbf A\mathbf Y\) é não viesado para todo
+\(\boldsymbol\beta\) quando \(\mathbf A\mathbf X=\mathbf I_{k+1}\).
+
+Escreva \(\mathbf A=\mathbf A_0+\mathbf C\). Então
+\(\mathbf C\mathbf X=\mathbf 0\) e \(\mathbf A_0\mathbf C'=\mathbf 0\).
+\[
+\begin{aligned}
+\operatorname{V}(\mathbf A\mathbf Y\mid\mathbf X)
+&=\sigma^2(\mathbf A_0+\mathbf C)(\mathbf A_0+\mathbf C)'\\
+&=\sigma^2\mathbf A_0\mathbf A_0'+\sigma^2\mathbf C\mathbf C'.
+\end{aligned}
+\]
+
+\begin{block}{A parcela adicional tem variância não negativa}
+Para qualquer vetor $\mathbf a$ de pesos dos coeficientes,
+\[
+\operatorname{V}(\mathbf a'\mathbf A\mathbf Y\mid\mathbf X)
+-\operatorname{V}(\mathbf a'\widehat{\boldsymbol\beta}\mid\mathbf X)
+=\sigma^2(\mathbf C'\mathbf a)'(\mathbf C'\mathbf a)\geq0.
+\]
+\end{block}
+\end{frame}
+
+\begin{frame}{Monte Carlo: tamanho da amostra}
+\protect\phantomsection\label{monte-carlo-tamanho-da-amostra}
+Mesmo processo gerador: \(Y=5+1{,}5X+\varepsilon\), com \(\sigma=2\).
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.88\linewidth]{../output/aula_07/figuras/03_tamanho_amostra} 
+
+}
+
+\caption{Distribuições de inclinações em 5.000 amostras independentes por tamanho n. Mesmos eixos e mesma largura de classe nos três painéis. A linha tracejada marca beta = 1,5. Fonte: simulação com X normal e erro independente.}\label{fig:tamanho-amostra}
+\end{figure}
+
+\small
+
+Desvios-padrão: \(0{,}107\) (\(n=40\)), \(0{,}053\) (\(n=160\)) e
+\(0{,}026\) (\(n=640\)). A redução da dispersão ilustra a consistência
+demonstrada anteriormente.
+\end{frame}
+
+\begin{frame}{Monte Carlo: ruído e heterocedasticidade}
+\protect\phantomsection\label{monte-carlo-ruuxeddo-e-heterocedasticidade}
+Nos três cenários, \(n=40\) e \(E[\varepsilon\mid X]=0\). No terceiro,
+\(\operatorname{V}(\varepsilon\mid X)=2[1+((X-10)/3)^2]\).
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.88\linewidth]{../output/aula_07/figuras/04_ruido_heterocedasticidade} 
+
+}
+
+\caption{Distribuições de 5.000 inclinações por cenário, com eixos comuns. Nos painéis 1 e 3, a variância incondicional do erro é 4. No painel 2, é 36. A linha tracejada marca beta = 1,5. Fonte: simulação do mesmo BLP.}\label{fig:ruido-hetero}
+\end{figure}
+
+\small
+
+Desvios-padrão: \(0{,}107\), \(0{,}330\) e \(0{,}149\). O MQO continua
+não viesado nos três cenários. Com heterocedasticidade, a garantia
+clássica de Gauss--Markov deixa de se aplicar.
+\end{frame}
+
+\begin{frame}{Parâmetro da regra e coeficiente do BLP}
+\protect\phantomsection\label{paruxe2metro-da-regra-e-coeficiente-do-blp}
+Agora, \(Y=5+1{,}5X+u\), com \(u=0{,}8(X-10)+v\) e \(E[v\mid X]=0\). \[
+E[u\mid X]=0{,}8(X-10),\qquad
+Y=-3+2{,}3X+v.
+\]
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.84\linewidth]{../output/aula_07/figuras/05_parametro_e_blp} 
+
+}
+
+\caption{Inclinações em 5.000 amostras por n da nova regra geradora. A linha pontilhada marca 1,5 e a tracejada marca o coeficiente do BLP, 2,3. Fonte: dados sintéticos, com X normal e v independente.}\label{fig:parametro-blp}
+\end{figure}
+
+\small
+
+O MQO é consistente para o BLP, cujo coeficiente é \(2{,}3\). \(u\) é o
+erro da regra original. O erro da projeção linear é \(\varepsilon=v\).
+Recuperar o parâmetro \(1{,}5\) da regra original exige condições
+adicionais.
+\end{frame}
+
+\begin{frame}{Monte Carlo e bootstrap}
+\protect\phantomsection\label{monte-carlo-e-bootstrap}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.47\textwidth}
+\begin{block}{Monte Carlo}
+Conhecemos a população e a regra geradora.
+
+\medskip
+Geramos novas amostras independentes e calculamos o estimador em cada uma.
+
+\medskip
+Podemos comparar as estimativas com o parâmetro conhecido.
+\end{block}
+\end{column}
+\begin{column}{0.49\textwidth}
+\begin{block}{Bootstrap}
+Temos uma amostra observada da população.
+
+\medskip
+Reamostramos suas unidades e calculamos o estimador em cada reamostra.
+
+\medskip
+Usamos a distribuição empírica como aproximação da população.
+\end{block}
+\end{column}
+\end{columns}
+
+\bigskip
+
+O bootstrap aplica a lógica do plug-in à distribuição amostral do
+estimador.
+\end{frame}
+
+\begin{frame}{Bootstrap de pares}
+\protect\phantomsection\label{bootstrap-de-pares}
+Cada unidade é um par \((X_i,Y_i)\). Para uma amostra de \(n\) unidades:
+
+\begin{enumerate}
+\item Sorteamos $n$ pares da amostra, com reposição.
+\item Ajustamos o MQO e guardamos a inclinação $\widehat\beta^{*(b)}$.
+\item Repetimos o procedimento $B$ vezes.
+\item Calculamos o desvio-padrão das $B$ inclinações.
+\end{enumerate}
+
+\begin{block}{Estimativa bootstrap do erro-padrão}
+\[
+\widehat{\operatorname{EP}}_{\mathrm{boot}}(\widehat\beta)
+=\sqrt{\frac{1}{B-1}\sum_{b=1}^{B}
+\left(\widehat\beta^{*(b)}-\overline{\widehat\beta^{*}}\right)^2},
+\qquad
+\overline{\widehat\beta^{*}}=\frac1B\sum_{b=1}^{B}\widehat\beta^{*(b)}.
+\]
+\end{block}
+
+\small
+
+O asterisco identifica uma estimativa em reamostra. O bootstrap de pares
+usual pressupõe unidades i.i.d. e condições de regularidade. O sorteio
+mantém \(X_i\) e \(Y_i\) da mesma unidade juntos.
+\end{frame}
+
+\begin{frame}{Distribuição bootstrap}
+\protect\phantomsection\label{distribuiuxe7uxe3o-bootstrap}
+Usamos a primeira amostra de 40 pares, com \(\widehat\beta=
+1{,}514\), e fazemos \(B=5.000\) reamostras.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.88\linewidth]{../output/aula_07/figuras/06_bootstrap} 
+
+}
+
+\caption{Monte Carlo com 5.000 novas amostras (esquerda) e bootstrap com 5.000 reamostras de uma única amostra (direita). A linha tracejada marca beta = 1,5 à esquerda e a estimativa original à direita. Fonte: dados sintéticos.}\label{fig:distribuicao-bootstrap}
+\end{figure}
+
+\small
+
+Dispersão Monte Carlo: \(0{,}107\). Erro-padrão bootstrap: \(0{,}084\).
+O bootstrap aproxima a incerteza usando a amostra disponível. O
+erro-padrão bootstrap também é uma estimativa e varia entre amostras.
+\end{frame}
+
+\begin{frame}{Síntese}
+\protect\phantomsection\label{suxedntese}
+\begin{itemize}
+\item O viés compara a esperança do estimador com o parâmetro.
+O EQM combina viés ao quadrado e variância amostral.
+\item A consistência descreve a aproximação ao parâmetro conforme $n$ cresce.
+O MQO é consistente para o BLP sob amostragem i.i.d., momentos finitos e matriz populacional invertível.
+\item A média condicional zero permite demonstrar o não viés do MQO.
+A homocedasticidade acrescenta a garantia clássica de eficiência entre estimadores lineares não viesados.
+\item O bootstrap usa a distribuição empírica para aproximar a distribuição amostral
+e estimar o erro-padrão.
+\end{itemize}
+
+\bigskip
+
+Na próxima aula: análise de resíduos e diagnóstico do modelo.
+\end{frame}
+
+\begin{frame}{Leituras}
+\protect\phantomsection\label{leituras}
+\begin{block}{Leituras previstas no programa}
+Aronow, Peter M., e Benjamin T. Miller. 2019.
+\textit{Foundations of Agnostic Statistics}. Cambridge University Press.
+Capítulo 3, seção 3.2.2: teoria da estimação, pp. 102--105.
+
+\medskip
+Hansen, Bruce E. 2022. \textit{Econometrics}. Princeton University Press.
+Capítulo 4, seções 4.4--4.8: modelo linear, esperança e variância do MQO,
+momentos incondicionais e Gauss--Markov.
+Capítulo 7, seção 7.2: consistência do MQO.
+\end{block}
+
+\begin{block}{Complemento para a introdução ao bootstrap}
+Aronow e Miller, capítulo 3, seção 3.4.3, pp. 130--132.
+\end{block}
+
+\scriptsize
+
+As figuras usam dados sintéticos. As aproximações de Monte Carlo e
+bootstrap usam 5.000 repetições por cenário. Os resultados teóricos
+dependem das condições indicadas nos slides.
+\end{frame}
+
+\end{document}

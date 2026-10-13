@@ -1,0 +1,43 @@
+VALIDACAO_AULA7_OK
+  cenario media_mc alvo_blp  ep_media_mc segundo_momento_mc variancia_teorica
+1     n40 1.501866      1.5 0.0015184753       0.0115300137       0.012012012
+2    n160 1.499310      1.5 0.0007487461       0.0028030191       0.002830856
+3    n640 1.499098      1.5 0.0003714914       0.0006907046       0.000697715
+4   ruido 1.500904      1.5 0.0046703047       0.1090377325       0.108108108
+5  hetero 1.500202      1.5 0.0021128694       0.0223166617                NA
+6  alvo40 2.301296      2.3 0.0015650494       0.0122461277       0.012012012
+7 alvo640 2.299415      2.3 0.0003654268       0.0006678924       0.000697715
+
+Covariância condicional teórica:
+            (Intercept)            x
+(Intercept)  1.04294199 -0.091796989
+x           -0.09179699  0.008936591
+
+Covariância condicional simulada:
+           alpha         beta
+alpha  1.0736417 -0.094595697
+beta  -0.0945957  0.009158214
+
+Gauss--Markov: autovalores da diferença de covariâncias:
+[1] 0.11112425 0.08477969
+
+Sessão R:
+R version 4.4.2 (2024-10-31)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sonoma 14.7.3
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+
+locale:
+[1] pt_BR.UTF-8/pt_BR.UTF-8/pt_BR.UTF-8/C/pt_BR.UTF-8/pt_BR.UTF-8
+
+time zone: America/Sao_Paulo
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+[1] compiler_4.4.2
