@@ -153,10 +153,54 @@ figura_2 <- ggplot(mc_base, aes(beta_estimado)) +
   theme_minimal(base_size = 12)
 if (interactive()) print(figura_2)
 
+# Amostras pequenas: mantemos a população e comparamos n = 10 com n = 40.
+# São 1.000 novas amostras para CADA n, com o mesmo erro de desvio-padrão 2.
+set.seed(618315)
+mc_n10 <- simular_mqo(n = 10L, sigma = sigma_base, R_mc = R_mc)
+comparacao_pequenas <- bind_rows(mc_n10, mc_base) |>
+  mutate(painel = factor(paste0("n = ", n), levels = c("n = 10", "n = 40")))
+
+# Tabela 1b. Centro e dispersão da inclinação nos dois tamanhos de amostra.
+tabela_1b <- comparacao_pequenas |>
+  group_by(n) |>
+  summarise(repeticoes = n(), media_estimativas = mean(beta_estimado),
+            vies_aproximado = mean(beta_estimado) - beta_pop,
+            erro_padrao_mc = sd(beta_estimado), .groups = "drop")
+print(tabela_1b, width = Inf)
+centros_pequenas <- tabela_1b |>
+  mutate(painel = factor(paste0("n = ", n), levels = c("n = 10", "n = 40")))
+
+# Figura 2b. A média próxima do alvo pode coexistir com estimativas dispersas.
+# Usamos os mesmos eixos e a mesma largura de classe nos dois painéis.
+figura_2b <- ggplot(comparacao_pequenas, aes(beta_estimado)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 0.025,
+                 boundary = beta_pop, fill = "#1D4ED8", color = "white") +
+  geom_vline(data = centros_pequenas,
+             aes(xintercept = beta_pop, color = "Parâmetro populacional",
+                 linetype = "Parâmetro populacional"), linewidth = 1) +
+  geom_vline(data = centros_pequenas,
+             aes(xintercept = media_estimativas, color = "Média das estimativas",
+                 linetype = "Média das estimativas"), linewidth = 0.9) +
+  scale_color_manual(name = NULL,
+    values = c("Parâmetro populacional" = "#047857", "Média das estimativas" = "#B45309")) +
+  scale_linetype_manual(name = NULL,
+    values = c("Parâmetro populacional" = "22", "Média das estimativas" = "dotted")) +
+  facet_wrap(~painel, nrow = 1) +
+  scale_x_continuous(breaks = seq(0, 3, by = 0.5)) +
+  labs(title = "Figura 2b. Amostras pequenas e não viés",
+       subtitle = paste(R_mc, "amostras por tamanho n; coeficiente populacional =", beta_pop),
+       x = "Inclinação estimada (unidades de Y por unidade de X)", y = "Densidade",
+       caption = "Fonte: mesma população sintética; erro independente de X, com desvio-padrão 2.") +
+  theme_minimal(base_size = 12) + theme(legend.position = "bottom")
+if (interactive()) print(figura_2b)
+
 # Pergunta 3. Qual é a unidade representada por uma linha de mc_base?
 # Por que temos 1.000 linhas se cada regressão usa somente 40 observações?
 # Explique por que vies_mc diferente de zero não demonstra, por si só,
 # que o estimador é viesado.
+# Na Figura 2b, compare o centro e a dispersão em n = 10 e n = 40.
+# Como a média das estimativas pode ficar perto de 1,5 mesmo quando as
+# estimativas individuais variam bastante entre amostras pequenas?
 
 # R_mc afeta a precisão da aproximação de Monte Carlo. Compare as primeiras
 # 50 estimativas com as 1.000; o tamanho de CADA amostra continua sendo 40.
@@ -315,6 +359,7 @@ tabela_3
 saida_lab <- here::here("projeto_agna", "output", "aula_07", "laboratorio")
 dir.create(saida_lab, recursive = TRUE, showWarnings = FALSE)
 write.csv(tabela_1, file.path(saida_lab, "tabela_01_monte_carlo.csv"), row.names = FALSE)
+write.csv(tabela_1b, file.path(saida_lab, "tabela_01b_amostras_pequenas.csv"), row.names = FALSE)
 write.csv(tabela_2, file.path(saida_lab, "tabela_02_cenarios.csv"), row.names = FALSE)
 write.csv(tabela_3, file.path(saida_lab, "tabela_03_monte_carlo_bootstrap.csv"), row.names = FALSE)
 
@@ -323,14 +368,17 @@ resultados_lab <- list(
                     dp_x = dp_x_pop, n = n_base, sigma = sigma_base,
                     R_mc = R_mc, B_boot = B_boot),
   dados = dados, beta_observado = beta_observado,
-  mc = comparacao_mc, bootstrap = bootstrap, indices_boot = indices_boot,
-  tabelas = list(tabela_1 = tabela_1, tabela_2 = tabela_2, tabela_3 = tabela_3)
+  mc = comparacao_mc, mc_n10 = mc_n10, bootstrap = bootstrap, indices_boot = indices_boot,
+  tabelas = list(tabela_1 = tabela_1, tabela_1b = tabela_1b,
+                 tabela_2 = tabela_2, tabela_3 = tabela_3)
 )
 saveRDS(resultados_lab, file.path(saida_lab, "resultados_laboratorio_aula_07.rds"))
-saveRDS(list(figura_1 = figura_1, figura_2 = figura_2, figura_3 = figura_3,
+saveRDS(list(figura_1 = figura_1, figura_2 = figura_2, figura_2b = figura_2b, figura_3 = figura_3,
              figura_4 = figura_4), file.path(saida_lab, "figuras_laboratorio_aula_07.rds"))
 
 # ggsave() exporta sem abrir uma janela gráfica durante a execução em lote.
+ggsave(file.path(saida_lab, "figura_02b_amostras_pequenas.pdf"), figura_2b,
+        width = 9, height = 4.8, units = "in", device = grDevices::pdf, useDingbats = FALSE)
 ggsave(file.path(saida_lab, "figura_03_cenarios.pdf"), figura_3,
         width = 9, height = 6, units = "in", device = grDevices::pdf, useDingbats = FALSE)
 ggsave(file.path(saida_lab, "figura_04_bootstrap.pdf"), figura_4,

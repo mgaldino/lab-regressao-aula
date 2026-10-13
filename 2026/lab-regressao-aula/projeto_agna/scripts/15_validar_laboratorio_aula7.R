@@ -28,7 +28,13 @@ mc <- a$mc
 stopifnot(nrow(mc) == 4 * p$R_mc, !anyNA(mc),
           !anyDuplicated(mc[c("cenario", "repeticao")]),
           all(is.finite(mc$beta_estimado)), all(is.finite(mc$alpha_estimado)))
-checagens <- lapply(split(mc, mc$cenario), function(cenario) {
+pequena <- a$mc_n10
+stopifnot(nrow(pequena) == p$R_mc, all(pequena$n == 10L),
+          all(pequena$sigma == p$sigma), !anyNA(pequena),
+          !anyDuplicated(pequena$repeticao))
+pequena$cenario <- "n = 10, sigma = 2"
+mc_validacao <- rbind(mc, pequena)
+checagens <- lapply(split(mc_validacao, mc_validacao$cenario), function(cenario) {
   stopifnot(nrow(cenario) == p$R_mc,
             length(unique(cenario$n)) == 1, length(unique(cenario$sigma)) == 1)
   n <- unique(cenario$n)
@@ -75,9 +81,10 @@ stopifnot(erro_max_boot < 1e-10,
           abs(a$tabelas$tabela_3$erro_padrao_aproximado[2] -
               sd(a$bootstrap$beta_estimado)) < 1e-12)
 
-for (f in c("tabela_01_monte_carlo.csv", "tabela_02_cenarios.csv",
+for (f in c("tabela_01_monte_carlo.csv", "tabela_01b_amostras_pequenas.csv", "tabela_02_cenarios.csv",
             "tabela_03_monte_carlo_bootstrap.csv", "figura_03_cenarios.pdf",
-            "figura_04_bootstrap.pdf", "figuras_laboratorio_aula_07.rds")) {
+            "figura_04_bootstrap.pdf", "figura_02b_amostras_pequenas.pdf",
+            "figuras_laboratorio_aula_07.rds")) {
   caminho <- file.path(saida, f)
   stopifnot(file.exists(caminho), file.info(caminho)$size > 0)
 }

@@ -4,11 +4,13 @@ VALIDACAO_LAB_AULA7_OK
 2 n = 160, sigma = 2 160     2 1.500449 0.0016948513       0.0028698497
 3 n = 640, sigma = 2 640     2 1.500367 0.0008400354       0.0007050886
 4  n = 40, sigma = 6  40     6 1.496734 0.0103853781       0.1077588917
+5  n = 10, sigma = 2  10     2 1.496551 0.0079739814       0.0635326908
   variancia_teorica
 1       0.012012012
 2       0.002830856
 3       0.000697715
 4       0.108108108
+5       0.063492063
 
 Maior erro entre bootstrap e solução matricial: 2.68674e-14 
         procedimento                                origem repeticoes

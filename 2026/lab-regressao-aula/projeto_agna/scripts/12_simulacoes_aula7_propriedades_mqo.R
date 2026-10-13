@@ -53,17 +53,19 @@ retas$estimada <- coef_amostras[retas$indice, "alpha"] +
 retas$populacional <- parametros$alpha + parametros$beta * retas$x
 
 cenarios <- data.frame(
-  cenario = c("n40", "n160", "n640", "ruido", "hetero", "alvo40", "alvo640"),
-  n = c(40L, 160L, 640L, 40L, 40L, 40L, 640L),
-  sigma = c(2, 2, 2, 6, 2, 2, 2),
-  hetero = c(FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE),
-  deslocamento = c(FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE),
-  alvo_blp = c(1.5, 1.5, 1.5, 1.5, 1.5, 2.3, 2.3)
+  cenario = c("n40", "n160", "n640", "ruido", "hetero", "alvo40", "alvo640", "n10"),
+  n = c(40L, 160L, 640L, 40L, 40L, 40L, 640L, 10L),
+  sigma = c(2, 2, 2, 6, 2, 2, 2, 2),
+  hetero = c(FALSE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE),
+  deslocamento = c(FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE),
+  alvo_blp = c(1.5, 1.5, 1.5, 1.5, 1.5, 2.3, 2.3, 1.5)
 )
 
 set.seed(618308)
 simulacoes <- bind_rows(lapply(seq_len(nrow(cenarios)), function(j) {
   cenario <- cenarios[j, ]
+  # Semente própria para n = 10: preserva as simulações dos outros cenários.
+  if (cenario$cenario == "n10") set.seed(618315)
   coeficientes <- replicate(parametros$repeticoes,
     ajustar(gerar(cenario$n, cenario$sigma, cenario$hetero,
                  cenario$deslocamento)))
@@ -148,6 +150,32 @@ histograma <- function(dados, largura_classe = 0.025) {
 }
 exportar(histograma(filter(simulacoes, cenario == "n40")),
          "02_distribuicao_amostral", largura = 8.0)
+
+# Mesmo histograma de n = 40, agora comparado a n = 10 com eixos comuns.
+g_pequenas <- simulacoes |>
+  filter(cenario %in% c("n10", "n40")) |>
+  mutate(painel = factor(paste0("n = ", n), levels = c("n = 10", "n = 40")))
+centros_pequenas <- resumo |>
+  filter(cenario %in% c("n10", "n40")) |>
+  mutate(painel = factor(paste0("n = ", n), levels = c("n = 10", "n = 40")))
+g_pequenas <- ggplot(g_pequenas, aes(beta)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 0.025,
+                 boundary = 1.5, fill = azul, color = "white", linewidth = 0.1) +
+  geom_vline(data = centros_pequenas,
+             aes(xintercept = alvo, color = "Parâmetro populacional",
+                 linetype = "Parâmetro populacional"), linewidth = 1) +
+  geom_vline(data = centros_pequenas,
+             aes(xintercept = media, color = "Média das estimativas",
+                 linetype = "Média das estimativas"), linewidth = 0.9) +
+  scale_color_manual(name = NULL,
+    values = c("Parâmetro populacional" = verde, "Média das estimativas" = "#B45309")) +
+  scale_linetype_manual(name = NULL,
+    values = c("Parâmetro populacional" = "22", "Média das estimativas" = "dotted")) +
+  facet_wrap(~painel, nrow = 1) +
+  scale_x_continuous(breaks = seq(0, 3, by = 0.5), labels = decimais) +
+  labs(x = "Inclinação estimada (unidades de Y por unidade de X)",
+       y = "Densidade") + tema
+exportar(g_pequenas, "07_amostras_pequenas_n10_n40")
 
 g_tamanhos <- simulacoes |>
   filter(cenario %in% c("n40", "n160", "n640")) |>

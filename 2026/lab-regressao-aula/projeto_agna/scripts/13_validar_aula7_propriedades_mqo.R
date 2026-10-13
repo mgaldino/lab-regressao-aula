@@ -88,7 +88,8 @@ eqm_shrinkage <- (n / (n + 1))^2 * tau2 / n + vies_shrinkage^2
 stopifnot(all(diff(eqm_shrinkage) < 0))
 
 figuras <- c("01_duas_amostras", "02_distribuicao_amostral", "03_tamanho_amostra",
-             "04_ruido_heterocedasticidade", "05_parametro_e_blp", "06_bootstrap")
+             "04_ruido_heterocedasticidade", "05_parametro_e_blp", "06_bootstrap",
+             "07_amostras_pequenas_n10_n40")
 for (nome in figuras) {
   for (ext in c("pdf", "png")) {
     f <- file.path(saida, "figuras", paste0(nome, ".", ext))
