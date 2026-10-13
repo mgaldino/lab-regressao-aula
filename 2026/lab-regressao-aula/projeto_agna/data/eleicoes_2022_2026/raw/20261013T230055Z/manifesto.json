@@ -1,0 +1,26 @@
+[
+  {
+    "id": "metadados_tse_2022",
+    "url": "https://dadosabertos.tse.jus.br/api/3/action/package_show?id=resultados-2022",
+    "arquivo": "raw/20261013T230055Z/metadados_tse_2022.json",
+    "acesso_utc": "2026-10-13T23:00:56.157429+00:00",
+    "bytes": 31469,
+    "sha256": "bf140406e8b14f02145739cbf11194edf297f2de705cb60124ad0170885ae3f0"
+  },
+  {
+    "id": "metadados_tse_2026",
+    "url": "https://dadosabertos.tse.jus.br/api/3/action/package_show?id=resultados-2026",
+    "arquivo": "raw/20261013T230055Z/metadados_tse_2026.json",
+    "acesso_utc": "2026-10-13T23:00:56.652317+00:00",
+    "bytes": 53437,
+    "sha256": "ad15553431c8a49f966a3a8f97d5e4100fc2671ba7909957cc16618c34da3c85"
+  },
+  {
+    "id": "presidente_nacional_2026_t1",
+    "url": "https://resultados.tse.jus.br/oficial/ele2026/6257/dados/br/br-c0001-e006257-u.json",
+    "arquivo": "raw/20261013T230055Z/presidente_nacional_2026_t1.json",
+    "acesso_utc": "2026-10-13T23:00:56.961845+00:00",
+    "bytes": 9349,
+    "sha256": "2866703eb4fc0ad6f17f0e081a00ab1175490b0786325e700cff1d8b40d25bca"
+  }
+]

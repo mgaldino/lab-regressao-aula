@@ -89,3 +89,36 @@ O laboratório inclui a Figura 2b e a Tabela 1b, com 1.000 amostras por tamanho 
 Reexecutados os scripts 12 e 14 e os validadores 13 e 15. Ambos os validadores passaram, inclusive a comparação da variância simulada em n = 10 com a variância teórica exata. Os sete cenários anteriores foram comparados ao resumo anterior salvo no Git e permaneceram iguais; o PNG do histograma original de n = 40 também permaneceu idêntico. As páginas 4 e 5 do PDF atualizado e a nova figura do laboratório foram renderizadas e inspecionadas. O ajuste final encurtou a frase de interpretação e reduziu ligeiramente a largura da figura para assegurar que todo o conteúdo do slide 5 ficasse visível.
 
 SHA-256 do PDF atualizado: `7f4f7d4a31c249347b050136040ce85cbe02cecc7d02d9ebf390b13212d47944`.
+
+## Laboratório eleitoral por zona, versão principal
+
+Preparado em 13/10/2026 após a escolha do professor por resultados eleitorais, unidade de zona eleitoral e porcentagem de votos válidos. O script principal passa a ser `projeto_agna/scripts/18_laboratorio_aula7_previsao_eleitoral.R`. O script 14 de Monte Carlo continua disponível como complemento, com duração própria, fora dos 75 minutos da atividade eleitoral. Os slides não foram alterados por esta aplicação.
+
+| Parte | Tempo previsto | Atividade |
+|---|---:|---|
+| 1 | 10 min | Unidade UF + zona e denominadores dos percentuais nos dois turnos |
+| 2 | 20 min | Porcentagem de Lula em 2022: regressão simples e regressão com UF |
+| 3 | 20 min | Aplicação a 2026, previsão do adversário por complemento e agregação ponderada |
+| 4 | 15 min | 500 reamostras de pares dentro de UF, mantendo entradas de 2026 fixas |
+| 5 | 10 min | Interpretação, hipóteses de aplicação e entrega das respostas |
+
+Treino: 2.636 zonas nas 27 UFs brasileiras, com Lula e Jair Bolsonaro nos dois turnos de 2022. Aplicação: 2.640 zonas, com Lula e Flávio Bolsonaro no primeiro turno de 2026. Cada zona soma votos de todas as seções e municípios abrangidos por ela. A porcentagem é calculada sobre todos os votos válidos do turno. Exterior (ZZ) é excluído. Os dois CSVs de entrada somam aproximadamente 555 KiB.
+
+O ajuste é `pct_lula_t2 ~ pct_lula_t1 + uf`, com peso igual para cada zona. A previsão de Flávio Bolsonaro é 100 menos a previsão de Lula, pois há dois candidatos no segundo turno. A agregação por UF e nas 27 UFs usa votos válidos do primeiro turno de 2026 como pesos. Ela depende da estabilidade da distribuição relativa desses votos entre as zonas. Transportar os coeficientes de 2022 para 2026 depende de outra hipótese: estabilidade da relação entre os turnos. O exercício usa 2022 para estimar e 2026 para aplicar, sem exigir um painel de territórios fixos.
+
+Fontes públicas do TSE, metadados e JSONs oficiais foram consultados em 13/10/2026. Os Parquets por seção, preparados em 05/10/2026 no projeto local electoralFraud, foram preservados por cópia. O snapshot de BUs de 2026 tinha 15 seções ausentes no Brasil, com 3.935 votos válidos. As listas oficiais identificaram todas as ausências de cada município em uma única zona: Betim, MG 319, e Carapicuíba, SP 388. Diferenças com os totais municipais oficiais completaram as somas dessas zonas sem rateio entre zonas nem imputação por seção. Os 12 totais de candidatos e os votos válidos, antes da exclusão de ZZ, fecharam com o JSON nacional oficial. A transformação está registrada no dicionário, no relatório de coleta e em uma tabela de complementos.
+
+Resultado didático do modelo com UF, condicionado aos pesos de 2026 T1: Lula 47,295511% e Flávio Bolsonaro 52,704489% nas 27 UFs. O modelo simples resulta em Lula 47,101481%. Nenhuma previsão de zona ficou fora de 0 a 100. Há 93 zonas de aplicação fora da faixa de porcentagens observada em sua UF no treino. São pontos de discussão no script. O desvio-padrão bootstrap da previsão agregada é 0,030194 p.p. Esse número mede sensibilidade à reamostragem das zonas de treino, condicionando em UF e nos dados de aplicação. Não inclui mudanças entre eleições, dependência entre zonas nem a variabilidade do resultado futuro, portanto não é toda a incerteza da previsão.
+
+Os scripts 17 e 18 executaram integralmente em sessões novas do R. O validador 19 retornou `VALIDACAO_LAB_ELEITORAL_OK`: conferiu chaves, ausências, denominadores, somas de seções e complementos, equações normais, agregação ponderada e todos os 500 sorteios. Calculou coeficientes e previsões por centralização de X e Y dentro de UF, sem usar `lm()` ou `predict()`. A maior diferença entre as previsões bootstrap foi 6,4 × 10^-13 p.p. Os dois gráficos PDF foram renderizados e examinados, com títulos, eixos e captions legíveis.
+
+O script Python 20 produz manifestos e o ZIP discente, com os CSVs, scripts 18 e 14, projeto RStudio e documentação. Verificou a integridade do ZIP e a igualdade dos arquivos empacotados aos originais. O script 18 também foi executado a partir do pacote extraído em uma pasta temporária, e todos os CSVs de resultados permaneceram idênticos aos da execução no curso. Os hashes dos snapshots foram comparados às cópias de origem, e os JSONs brutos foram conferidos contra seus recibos. O pacote ocupa cerca de 282 KiB. A duração prevista ainda não foi observada em sala. A validade preditiva entre eleições não foi estabelecida por esses checks.
+
+Reprodução, a partir da pasta do curso:
+
+```sh
+LC_ALL=pt_BR.UTF-8 LANG=pt_BR.UTF-8 Rscript --vanilla projeto_agna/scripts/17_preparar_dados_eleicoes.R
+LC_ALL=pt_BR.UTF-8 LANG=pt_BR.UTF-8 Rscript --vanilla projeto_agna/scripts/18_laboratorio_aula7_previsao_eleitoral.R
+LC_ALL=pt_BR.UTF-8 LANG=pt_BR.UTF-8 Rscript --vanilla projeto_agna/scripts/19_validar_laboratorio_eleitoral.R
+python3 projeto_agna/scripts/20_empacotar_laboratorio_eleitoral.py
+```

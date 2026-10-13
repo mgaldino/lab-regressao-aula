@@ -1,0 +1,12 @@
+VALIDACAO_LAB_ELEITORAL_OK
+Unidades, ausências, duplicidades e denominadores conferidos.
+CSV de zonas igual à soma das seções, com os complementos oficiais documentados de 2026.
+Inclinação e previsões conferidas por centralização dentro de UF, sem lm()/predict().
+Equações normais e agregações ponderadas de zonas e UFs conferidas.
+500 sorteios: números de zonas por UF preservados, coeficientes e previsões conferidos.
+Maior diferença de inclinação bootstrap: 1.687539e-14
+Maior diferença de previsão bootstrap: 6.394885e-13
+Previsões de zona fora de 0-100: 0
+Zonas 2026 fora da faixa de X de sua UF em 2022: 93
+Previsão didática de Lula, 27 UFs, pesos 2026 T1: 47.29551124
+Estes checks validam dados e cálculos. Não testam a estabilidade da relação entre eleições.
