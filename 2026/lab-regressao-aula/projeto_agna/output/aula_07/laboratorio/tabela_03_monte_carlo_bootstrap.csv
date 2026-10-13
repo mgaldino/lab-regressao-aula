@@ -1,0 +1,3 @@
+"procedimento","origem","repeticoes","media_estimativas","erro_padrao_aproximado"
+"Monte Carlo","Novas amostras da população conhecida",1000,1.50498073035287,0.109428071931031
+"Bootstrap de pares","Reamostras de 40 pares observados",1000,1.50805803807169,0.0838009671477673

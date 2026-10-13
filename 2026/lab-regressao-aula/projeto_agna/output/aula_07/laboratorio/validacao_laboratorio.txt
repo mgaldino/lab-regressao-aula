@@ -1,0 +1,40 @@
+VALIDACAO_LAB_AULA7_OK
+             cenario   n sigma media_mc  ep_media_mc segundo_momento_mc
+1  n = 40, sigma = 2  40     2 1.504981 0.0034604195       0.0119873361
+2 n = 160, sigma = 2 160     2 1.500449 0.0016948513       0.0028698497
+3 n = 640, sigma = 2 640     2 1.500367 0.0008400354       0.0007050886
+4  n = 40, sigma = 6  40     6 1.496734 0.0103853781       0.1077588917
+  variancia_teorica
+1       0.012012012
+2       0.002830856
+3       0.000697715
+4       0.108108108
+
+Maior erro entre bootstrap e solução matricial: 2.68674e-14 
+        procedimento                                origem repeticoes
+1        Monte Carlo Novas amostras da população conhecida       1000
+2 Bootstrap de pares     Reamostras de 40 pares observados       1000
+  media_estimativas erro_padrao_aproximado
+1          1.504981             0.10942807
+2          1.508058             0.08380097
+
+Sessão R:
+R version 4.4.2 (2024-10-31)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sonoma 14.7.3
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+
+locale:
+[1] pt_BR.UTF-8/pt_BR.UTF-8/pt_BR.UTF-8/C/pt_BR.UTF-8/pt_BR.UTF-8
+
+time zone: America/Sao_Paulo
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+[1] compiler_4.4.2
