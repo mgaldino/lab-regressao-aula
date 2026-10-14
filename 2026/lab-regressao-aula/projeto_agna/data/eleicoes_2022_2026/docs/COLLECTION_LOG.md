@@ -1,6 +1,6 @@
 # Relatório de coleta e preparação
 
-Gerado automaticamente em 2026-10-14T15:31:22.512780+00:00.
+Gerado automaticamente em 2026-10-14T15:39:38.285395+00:00.
 Última consulta oficial registrada: 2026-10-13T23:15:37.727803+00:00.
 
 ## Cobertura obtida

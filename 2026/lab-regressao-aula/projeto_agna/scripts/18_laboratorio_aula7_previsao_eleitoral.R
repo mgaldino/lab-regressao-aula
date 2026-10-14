@@ -2,18 +2,19 @@
 # FLS 6183 - Métodos Quantitativos de Pesquisa II, 14/10/2026
 #
 # Abra lab-regressao-aula-2026.Rproj no RStudio. Execute por blocos em duplas.
-# Unidade: UF + zona eleitoral. Uma zona pode abranger vários municípios.
+# Unidade: UF/Exterior + zona eleitoral. Uma zona pode abranger vários municípios;
+# o Exterior (ZZ) aparece como uma única zona agregada.
 # Escala: porcentagem de TODOS os votos válidos do respectivo turno (0 a 100).
 # Treino: Lula versus Jair Bolsonaro, nos dois turnos de 2022.
 # Aplicação: primeiro turno de 2026 para prever Lula versus Flávio Bolsonaro.
 # Dados reais do TSE. As entradas já estão preparadas, sem download em sala.
-# São 2.636 zonas de treino e 2.640 zonas de aplicação nas 27 UFs, sem exterior.
+# São 2.637 zonas de treino e 2.641 de aplicação nas 27 UFs e no Exterior (ZZ).
 #
 # Atividade (75 minutos previstos):
 # 1. Dados e porcentagens ...................................... 10 min
 # 2. Regressão simples e regressão com UF ....................... 20 min
 # 3. Previsões por zona e agregação para 2026 .................... 20 min
-# 4. Bootstrap de pares dentro de cada UF ....................... 15 min
+# 4. Bootstrap de pares dentro de cada categoria ............... 15 min
 # 5. Interpretação e entrega .................................... 10 min
 #
 # O modelo estima a porcentagem de Lula. No segundo turno com dois candidatos,
@@ -30,9 +31,9 @@ options(scipen = 999)
 # 1. Dados e porcentagens (10 min) ---------------------------------------
 
 diretorio_dados <- here::here("projeto_agna", "data", "eleicoes_2022_2026", "processed")
-dados_2022 <- as_tibble(read.csv(file.path(diretorio_dados, "presidente_2022_zonas.csv"),
+dados_2022 <- as_tibble(read.csv(file.path(diretorio_dados, "presidente_2022_zonas_com_exterior.csv"),
                                 encoding = "UTF-8"))
-dados_2026 <- as_tibble(read.csv(file.path(diretorio_dados, "presidente_2026_t1_zonas.csv"),
+dados_2026 <- as_tibble(read.csv(file.path(diretorio_dados, "presidente_2026_t1_zonas_com_exterior.csv"),
                                 encoding = "UTF-8"))
 
 # Conferência de um exemplo: primeiro some os votos da zona, depois divida.
@@ -74,12 +75,12 @@ coef(modelo_simples)
 coef(modelo_uf)
 
 # Y_i = alpha + beta_1 X_i + soma_j beta_j D_ij + epsilon_i.
-# X_i e Y_i são porcentagens de Lula. AC é a UF de referência.
+# X_i e Y_i são porcentagens de Lula. AC é a categoria de referência.
 # beta_1: variação prevista em pontos percentuais (p.p.) no segundo turno
 # por 1 p.p. a mais no primeiro, mantendo UF fixa.
-# Uma indicadora de UF desloca o intercepto em p.p., mantendo X fixa.
+# Uma indicadora de UF/Exterior desloca o intercepto em p.p., mantendo X fixa.
 
-# Tabela 1. Coeficientes do modelo com UF.
+# Tabela 1. Coeficientes do modelo com UF/Exterior.
 tabela_1 <- tibble(termo = names(coef(modelo_uf)),
                    estimativa = unname(coef(modelo_uf)))
 print(tabela_1, n = Inf)
@@ -89,7 +90,7 @@ treino$e_hat <- resid(modelo_uf)
 
 # Erro de ajuste em 2022. Esta comparação usa os próprios dados do treino.
 # Ela não avalia a capacidade de prever uma eleição diferente.
-erro_ajuste <- tibble(modelo = c("Somente primeiro turno", "Primeiro turno e UF"),
+erro_ajuste <- tibble(modelo = c("Somente primeiro turno", "Primeiro turno e UF/Exterior"),
   raiz_erro_quadratico_medio_pp = c(
     sqrt(mean((treino$pct_lula_t2 - treino$ajustado_simples)^2)),
     sqrt(mean(treino$e_hat^2))))
@@ -103,7 +104,7 @@ figura_1 <- ggplot(treino, aes(pct_lula_t1, pct_lula_t2)) +
               color = "#1D4ED8", linewidth = 0.8) +
   coord_cartesian(xlim = c(0, 100), ylim = c(0, 100)) +
   labs(title = "Figura 1. Porcentagem de Lula por zona eleitoral, 2022",
-       subtitle = "2.636 zonas nas 27 UFs; linha: regressão simples",
+       subtitle = "2.637 zonas nas 27 UFs e no Exterior; linha: regressão simples",
        x = "Primeiro turno (% dos votos válidos)",
        y = "Segundo turno (% dos votos válidos)",
        caption = "Fonte: TSE. Cada porcentagem usa todos os votos válidos do respectivo turno.") +
@@ -135,9 +136,9 @@ aplicacao <- left_join(aplicacao, faixas_2022, by = "uf") |>
   mutate(fora_faixa_treino_uf = pct_lula_t1 < min_x | pct_lula_t1 > max_x)
 sum(aplicacao$fora_faixa_treino_uf)
 
-# Tabela 2. Exemplos de zonas, uma em cada UF selecionada.
+# Tabela 2. Exemplos de zonas, uma em cada categoria selecionada.
 tabela_2 <- aplicacao |>
-  filter(uf %in% c("AC", "DF", "PE", "SP")) |>
+  filter(uf %in% c("AC", "DF", "PE", "SP", "ZZ")) |>
   group_by(uf) |>
   slice_min(zona, n = 1, with_ties = FALSE) |>
   ungroup() |>
@@ -153,7 +154,7 @@ print(tabela_2, width = Inf)
 # Exemplo: zonas com 10% e 90%, e pesos 100 e 900, resultam em 82%, não 50%.
 weighted.mean(c(10, 90), c(100, 900))
 
-# Tabela 3. Previsões agregadas por UF, com pesos de 2026 T1.
+# Tabela 3. Previsões agregadas por UF/Exterior, com pesos de 2026 T1.
 tabela_3 <- aplicacao |>
   group_by(uf) |>
   summarise(zonas = n(), total_validos_t1 = sum(validos_t1),
@@ -163,9 +164,9 @@ tabela_3 <- aplicacao |>
   mutate(pct_flavio_t2_prevista = 100 - pct_lula_t2_prevista)
 print(tabela_3, n = Inf, width = Inf)
 
-# Tabela 4. Previsão agregada nas 27 UFs. Votos no exterior não entram.
+# Tabela 4. Previsão agregada nas 27 UFs e no Exterior (ZZ).
 previsao_agregada <- weighted.mean(aplicacao$pct_lula_t2_prevista, aplicacao$validos_t1)
-tabela_4 <- tibble(modelo = c("Somente primeiro turno", "Primeiro turno e UF"),
+tabela_4 <- tibble(modelo = c("Somente primeiro turno", "Primeiro turno e UF/Exterior"),
   pct_lula_t2_prevista = c(
     weighted.mean(aplicacao$pct_lula_t2_simples, aplicacao$validos_t1), previsao_agregada)) |>
   mutate(pct_flavio_t2_prevista = 100 - pct_lula_t2_prevista)
@@ -176,13 +177,14 @@ tabela_4
 # Qual hipótese adicional é usada para agregar as porcentagens previstas?
 # Examine também as zonas fora da faixa de X observada em sua UF no treino.
 
-# 4. Bootstrap de pares dentro de cada UF (15 min) -----------------------
+# 4. Bootstrap de pares dentro de cada categoria (15 min) ---------------
 
-# Reamostramos linhas de 2022, mantendo (X, Y, UF) juntos. Dentro de cada UF,
+# Reamostramos linhas de 2022, mantendo (X, Y, UF/Exterior) juntos. Por categoria,
 # sorteamos com reposição o mesmo número de zonas que ela tinha no treino.
+# ZZ tem uma só linha e, por isso, permanece fixa em todas as reamostras.
 # Os preditores e os pesos de 2026 permanecem fixos em todas as repetições.
 # Temos todas as zonas de 2022: este bootstrap é um exercício de sensibilidade
-# do ajuste à composição do treino, sob a reamostragem de zonas dentro de UF.
+# do ajuste à composição do treino, sob a reamostragem de zonas por categoria.
 indices_por_uf <- split(seq_len(nrow(treino)), treino$uf)
 B_boot <- 500L
 beta_boot <- numeric(B_boot)
@@ -205,7 +207,7 @@ bootstrap <- tibble(reamostra = seq_len(B_boot), inclinacao = beta_boot,
                     pct_flavio_t2_prevista = 100 - previsao_boot)
 
 # Tabela 5. Dispersão da inclinação e da previsão agregada sob o bootstrap.
-tabela_5 <- tibble(medida = c("Inclinação (p.p. por p.p.)", "Previsão de Lula, 27 UFs (%)"),
+tabela_5 <- tibble(medida = c("Inclinação (p.p. por p.p.)", "Previsão de Lula, 27 UFs + ZZ (%)"),
   estimativa_original = c(coef(modelo_uf)[["pct_lula_t1"]], previsao_agregada),
   media_bootstrap = c(mean(beta_boot), mean(previsao_boot)),
   desvio_padrao_bootstrap = c(sd(beta_boot), sd(previsao_boot)))
@@ -218,8 +220,8 @@ figura_2 <- ggplot(bootstrap, aes(pct_lula_t2_prevista)) +
               linewidth = 1) +
   scale_x_continuous(labels = scales::label_number(decimal.mark = ",", accuracy = 0.01)) +
   labs(title = "Figura 2. Previsão agregada nas reamostras de 2022",
-       subtitle = "500 reamostras de zonas dentro de UF; entradas de 2026 fixas",
-       x = "Lula no segundo turno de 2026 (% previsto, 27 UFs)", y = "Reamostras",
+       subtitle = "500 reamostras de zonas por categoria; entradas de 2026 fixas",
+       x = "Lula no segundo turno de 2026 (% previsto, 27 UFs + ZZ)", y = "Reamostras",
        caption = paste("Fonte: TSE e cálculo didático. Linha: previsão do ajuste original.",
                        "Pesos: votos válidos de 2026 T1. A dispersão mede sensibilidade à reamostragem.",
                        sep = "\n")) +
