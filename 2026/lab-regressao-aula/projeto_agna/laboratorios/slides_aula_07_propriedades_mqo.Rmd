@@ -610,9 +610,10 @@ O bootstrap aplica a lógica do plug-in à distribuição amostral do estimador.
 Cada unidade é um par $(X_i,Y_i)$. Para uma amostra de $n$ unidades:
 
 \begin{enumerate}
-\item Sorteamos $n$ pares da amostra, com reposição.
+\item Em cada reamostra, sorteamos $n$ vezes entre os $n$ pares originais,
+com reposição. Alguns pares se repetem; outros ficam de fora.
 \item Ajustamos o MQO e guardamos a inclinação $\widehat\beta^{*(b)}$.
-\item Repetimos o procedimento $B$ vezes.
+\item Repetimos sorteio e ajuste $B$ vezes, sempre a partir da amostra original.
 \item Calculamos o desvio-padrão das $B$ inclinações.
 \end{enumerate}
 
@@ -633,8 +634,9 @@ O sorteio mantém $X_i$ e $Y_i$ da mesma unidade juntos.
 
 # Distribuição bootstrap
 
-Usamos a primeira amostra de 40 pares, com $\widehat\beta=
-`r numero_m(a$resumo_boot$beta_original)`$, e fazemos $B=5.000$ reamostras.
+Fixamos a primeira amostra de 40 pares ($\widehat\beta=
+`r numero_m(a$resumo_boot$beta_original)`$). Em cada uma das $B=5.000$
+reamostras, sorteamos 40 pares com reposição: alguns se repetem, outros ficam de fora.
 
 ```{r distribuicao-bootstrap, fig.cap="Monte Carlo com 5.000 novas amostras (esquerda) e bootstrap com 5.000 reamostras de uma única amostra (direita). A linha tracejada marca beta = 1,5 à esquerda e a estimativa original à direita. Fonte: dados sintéticos."}
 knitr::include_graphics(figura("06_bootstrap"))
@@ -643,8 +645,6 @@ knitr::include_graphics(figura("06_bootstrap"))
 \small
 Dispersão Monte Carlo: $`r numero_m(resumo("n40")$dp_mc)`$.
 Erro-padrão bootstrap: $`r numero_m(a$resumo_boot$ep_boot)`$.
-O bootstrap aproxima a incerteza usando a amostra disponível.
-O erro-padrão bootstrap também é uma estimativa e varia entre amostras.
 
 # Síntese
 
