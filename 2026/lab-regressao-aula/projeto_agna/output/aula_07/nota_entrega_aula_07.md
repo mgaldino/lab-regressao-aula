@@ -5,20 +5,20 @@ Preparação: 13/10/2026. Data da aula: 14/10/2026.
 ## Arquivos
 
 - Fonte dos slides: `projeto_agna/laboratorios/slides_aula_07_propriedades_mqo.Rmd`.
-- PDF: `projeto_agna/output/pdf/slides_aula_07_propriedades_mqo.pdf`, 25 páginas, 16:9.
+- PDF: `projeto_agna/output/pdf/slides_aula_07_propriedades_mqo.pdf`, 26 páginas, 16:9.
 - Cálculos e figuras: `projeto_agna/scripts/12_simulacoes_aula7_propriedades_mqo.R`.
 - Verificação analítica: `projeto_agna/scripts/13_validar_aula7_propriedades_mqo.R`.
 - Resultados, amostras, estimativas e figuras: nesta pasta. O Rmd lê os resultados e importa as figuras. Os cálculos permanecem no script R.
 
 ## Conteúdo e notação
 
-Sequência: BLP e estimador de MQO; duas amostras da mesma população; distribuição amostral; viés; variância e EQM; consistência; cálculo do MQO na amostra e unicidade dos coeficientes; reescrita da fórmula conhecida por divisão dos dois produtos por n; produtos matriciais como somas e médias, com ligação à fórmula escalar; demonstração da consistência e alvo populacional; média condicional zero; demonstração do não viés; variância condicional sob variância constante; versão clássica de Gauss–Markov; segunda prova do não viés do MQO por $\mathbf A_0\mathbf X=\mathbf I$; estimador alternativo e comparação de variâncias; Monte Carlo com diferentes tamanhos de amostra; alvo populacional da projeção; bootstrap de pares; síntese e leituras.
+Sequência: BLP e estimador de MQO; duas amostras da mesma população; distribuição amostral; viés; variância e EQM; consistência; cálculo do MQO na amostra e unicidade dos coeficientes; reescrita da fórmula conhecida por divisão dos dois produtos por n; produtos matriciais como somas e médias, com ligação à fórmula escalar; demonstração da consistência e alvo populacional; média condicional zero e exemplo político de gasto de campanha; demonstração do não viés; variância condicional sob variância constante; versão clássica de Gauss–Markov; segunda prova do não viés do MQO por $\mathbf A_0\mathbf X=\mathbf I$; estimador alternativo e comparação de variâncias; Monte Carlo com diferentes tamanhos de amostra; alvo populacional da projeção; bootstrap de pares; síntese e leituras.
 
 Os slides 6–8 esclarecem que o viés é definido pela esperança na distribuição amostral do estimador. A expressão “não viés para n fixo” significa que essa esperança coincide com o parâmetro sem tomar um limite assintótico. O erro de uma estimativa observada é uma realização da diferença entre estimador e parâmetro. A consistência descreve uma sequência quando n cresce.
 
-Notação preservada: `alpha`, `beta_j` e o vetor de coeficientes contendo o intercepto; `epsilon` como erro da projeção linear; `e_hat` como resíduo amostral; transposta com linha. O erro `u` da regra geradora no slide 20 é explicitamente distinto do erro da projeção linear. O MQO converge para o coeficiente do BLP, 2,3, nesse cenário, enquanto a regra original inclui o parâmetro 1,5.
+Notação preservada: `alpha`, `beta_j` e o vetor de coeficientes contendo o intercepto; `epsilon` como erro da projeção linear; `e_hat` como resíduo amostral; transposta com linha. O erro `u` do exemplo causal no slide 14 e da regra geradora no slide 21 é explicitamente distinto do erro da projeção linear. O MQO converge para o coeficiente do BLP, 2,3, no segundo cenário, enquanto a regra original inclui o parâmetro 1,5.
 
-O tema Madrid, as cores, a tipografia, os blocos e o rodapé foram copiados do YAML vigente da Aula 6. A revisão didática de 14/10 dividiu a passagem sobre consistência em três slides. A revisão seguinte retirou o slide de Monte Carlo sobre heterocedasticidade e simplificou o slide de variância. O slide 17 começa pelo MQO, deriva $E[\widehat{\boldsymbol\beta}\mid\mathbf X]=\mathbf A_0\mathbf X\boldsymbol\beta$ e verifica $\mathbf A_0\mathbf X=\mathbf I$; o slide 18 introduz o estimador alternativo antes da comparação de variâncias. O PDF tem 25 páginas. O laboratório posterior está documentado na seção “Laboratório de 75 minutos”, ao final.
+O tema Madrid, as cores, a tipografia, os blocos e o rodapé foram copiados do YAML vigente da Aula 6. A revisão didática de 14/10 dividiu a passagem sobre consistência em três slides. A revisão seguinte retirou o slide de Monte Carlo sobre heterocedasticidade e simplificou o slide de variância. O novo slide 14 adapta o exemplo de independência na média de Cunningham para gastos de campanha e distingue a hipótese substantiva $E[u\mid G]=E[u]$ da normalização $E[u]=0$. O slide 18 começa pelo MQO, deriva $E[\widehat{\boldsymbol\beta}\mid\mathbf X]=\mathbf A_0\mathbf X\boldsymbol\beta$ e verifica $\mathbf A_0\mathbf X=\mathbf I$; o slide 19 introduz o estimador alternativo antes da comparação de variâncias. O PDF tem 26 páginas. O laboratório posterior está documentado na seção “Laboratório de 75 minutos”, ao final.
 
 ## Simulações
 
@@ -31,6 +31,8 @@ As médias e dispersões de Monte Carlo são aproximações. A variância amostr
 ## Fontes
 
 Programa vigente, entrada da Aula 7 em `syllabus.Rmd`. Aronow e Miller (2019), *Foundations of Agnostic Statistics*, seção 3.2.2, pp. 102–105; complemento para bootstrap, seção 3.4.3, pp. 130–132. Hansen, *Econometrics*, seções 4.4–4.8 e 7.2, com a seção 4.7 sustentando a ressalva sobre existência dos momentos do estimador. Conteúdo conferido nas cópias locais dos livros em Downloads em 13/10/2026. A apresentação usa a versão clássica do teorema de Gauss–Markov, restrita a estimadores lineares e não viesados, e a identifica expressamente.
+
+O slide 14 adapta a lógica do exemplo de escolaridade e salários de Cunningham, [*Causal Inference: The Mixtape*, seção 2.12](https://mixtape-1ed.netlify.app/02-probability_and_regression#eq-exog1), consultada em 14/10/2026. Os níveis de gasto são hipotéticos e não representam dados eleitorais observados.
 
 ## Reprodução
 

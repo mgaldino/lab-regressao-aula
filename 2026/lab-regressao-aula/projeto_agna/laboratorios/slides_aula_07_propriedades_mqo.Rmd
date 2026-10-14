@@ -345,6 +345,35 @@ A relação com $X$ pode ter curvatura.
 Média condicional zero implica ortogonalidade, pela lei da esperança iterada.
 A implicação inversa não vale em geral.
 
+# Exemplo político: gasto de campanha e votos
+
+Considere candidatos a prefeito. Queremos interpretar $\tau$ como efeito do gasto:
+\[
+Y_i=\alpha+\tau G_i+u_i.
+\]
+$Y_i$ é a porcentagem de votos; $G_i$ é o gasto de campanha em R\$ por eleitor;
+$u_i$ reúne fatores não medidos, como a força eleitoral prévia.
+
+\begin{block}{O que exige independência na média?}
+Entre candidatos que gastam R\$ 2, R\$ 5 ou R\$ 10 por eleitor, a média de $u$
+precisaria ser a mesma:
+\[
+E[u\mid G=2]=E[u\mid G=5]=E[u\mid G=10]=E[u].
+\]
+\end{block}
+
+Candidatos previamente mais fortes podem atrair mais doações e gastar mais.
+Isso pode fazer a média de $u$ variar com $G$.
+
+\small
+Centrar o erro para que $E[u]=0$ é uma normalização.
+Só com independência na média obtemos $E[u\mid G]=0$.
+
+\scriptsize
+Exemplo hipotético adaptado da lógica de Cunningham,
+\textit{Causal Inference: The Mixtape}, seção 2.12.
+Aqui $u$ é o erro do modelo causal proposto, distinto do erro $\varepsilon$ do BLP.
+
 # Não viés do MQO
 
 Reunimos os erros do modelo em $\boldsymbol\varepsilon=(\varepsilon_1,\ldots,\varepsilon_n)'$.
