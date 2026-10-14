@@ -19,4 +19,4 @@ O script 17 aceita `--incluir-exterior` e grava arquivos com o sufixo `_com_exte
 
 Resultado: `VALIDACAO_DADOS_COM_EXTERIOR_OK`. O relatório está em `validacao_dados_com_exterior.txt`. Os hashes estão em `checksums_com_exterior.sha256`, na raiz do diretório de dados.
 
-Essa entrega é uma ampliação da cobertura dos dados observados. Os modelos, suas previsões e o ZIP do laboratório original não foram recalculados com essa versão.
+Essa entrega ampliou inicialmente apenas a cobertura dos dados observados. Em 14/10/2026, o laboratório principal passou a ler as duas bases `_com_exterior.csv`, e seus modelos, previsões e pacote discente foram recalculados com ZZ. As bases anteriores, restritas às 27 UFs, permanecem preservadas.
