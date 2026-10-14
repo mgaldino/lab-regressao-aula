@@ -5,20 +5,20 @@ Preparação: 13/10/2026. Data da aula: 14/10/2026.
 ## Arquivos
 
 - Fonte dos slides: `projeto_agna/laboratorios/slides_aula_07_propriedades_mqo.Rmd`.
-- PDF: `projeto_agna/output/pdf/slides_aula_07_propriedades_mqo.pdf`, 23 páginas, 16:9.
+- PDF: `projeto_agna/output/pdf/slides_aula_07_propriedades_mqo.pdf`, 25 páginas, 16:9.
 - Cálculos e figuras: `projeto_agna/scripts/12_simulacoes_aula7_propriedades_mqo.R`.
 - Verificação analítica: `projeto_agna/scripts/13_validar_aula7_propriedades_mqo.R`.
 - Resultados, amostras, estimativas e figuras: nesta pasta. O Rmd lê os resultados e importa as figuras. Os cálculos permanecem no script R.
 
 ## Conteúdo e notação
 
-Sequência: BLP e estimador de MQO; duas amostras da mesma população; distribuição amostral; viés; variância e EQM; consistência; cálculo do MQO na amostra e unicidade dos coeficientes; demonstração da consistência e hipóteses suficientes; média condicional zero; demonstração do não viés; variância condicional; versão clássica de Gauss–Markov e prova; Monte Carlo com diferentes tamanhos de amostra e estruturas do erro; alvo populacional da projeção; bootstrap de pares; síntese e leituras.
+Sequência: BLP e estimador de MQO; duas amostras da mesma população; distribuição amostral; viés; variância e EQM; consistência; cálculo do MQO na amostra e unicidade dos coeficientes; reescrita da fórmula conhecida por divisão dos dois produtos por n; produtos matriciais como somas e médias, com ligação à fórmula escalar; demonstração da consistência e alvo populacional; média condicional zero; demonstração do não viés; variância condicional; versão clássica de Gauss–Markov e prova; Monte Carlo com diferentes tamanhos de amostra e estruturas do erro; alvo populacional da projeção; bootstrap de pares; síntese e leituras.
 
 Os slides 6–8 esclarecem que o viés é definido pela esperança na distribuição amostral do estimador. A expressão “não viés para n fixo” significa que essa esperança coincide com o parâmetro sem tomar um limite assintótico. O erro de uma estimativa observada é uma realização da diferença entre estimador e parâmetro. A consistência descreve uma sequência quando n cresce.
 
-Notação preservada: `alpha`, `beta_j` e o vetor de coeficientes contendo o intercepto; `epsilon` como erro da projeção linear; `e_hat` como resíduo amostral; transposta com linha. O erro `u` da regra geradora no slide 18 é explicitamente distinto do erro da projeção linear. O MQO converge para o coeficiente do BLP, 2,3, nesse cenário, enquanto a regra original inclui o parâmetro 1,5.
+Notação preservada: `alpha`, `beta_j` e o vetor de coeficientes contendo o intercepto; `epsilon` como erro da projeção linear; `e_hat` como resíduo amostral; transposta com linha. O erro `u` da regra geradora no slide 20 é explicitamente distinto do erro da projeção linear. O MQO converge para o coeficiente do BLP, 2,3, nesse cenário, enquanto a regra original inclui o parâmetro 1,5.
 
-O tema Madrid, as cores, a tipografia, os blocos e o rodapé foram copiados do YAML vigente da Aula 6. O número de páginas considera a nota sobre o ritmo observado em 30/09: meta de até 20–22 páginas para conteúdo misto. O laboratório posterior está documentado na seção “Laboratório de 75 minutos”, ao final.
+O tema Madrid, as cores, a tipografia, os blocos e o rodapé foram copiados do YAML vigente da Aula 6. A revisão didática de 14/10 dividiu a passagem sobre consistência em três slides e levou o PDF a 25 páginas. O laboratório posterior está documentado na seção “Laboratório de 75 minutos”, ao final.
 
 ## Simulações
 
@@ -142,3 +142,19 @@ Conferência conceitual: Hansen, Econometrics, capítulo 2 sobre a projeção li
 O Rmd foi recompilado com XeLaTeX. O PDF continua com 23 páginas. As páginas 9, 10 e 22 foram renderizadas e inspecionadas. A comparação do texto de todas as páginas com o PDF anterior no Git identificou mudanças somente nessas três páginas. A conferência das coordenadas de todas as palavras encontrou zero palavras fora das páginas. Os dados, scripts de simulação e figuras não foram alterados. Não foram executadas novas simulações, pois a revisão afeta a exposição das condições. O diff passou sem espaços finais nas linhas alteradas.
 
 SHA-256 do PDF desta revisão: `2c55cee1aa3526a646c74d035e0bfed996bcca40e1ee068106de36e8606a2ba6`.
+
+## Passagem didática da fórmula de MQO à consistência, 14/10/2026
+
+Após o comentário do professor sobre a introdução abrupta de somatórios matriciais e da notação Q, o antigo slide 10 foi substituído por três etapas. O PDF passou de 23 para 25 páginas.
+
+1. Slide 10: parte da fórmula conhecida `(X'X)^(-1)X'Y`, explica que dividir X'X por n multiplica sua inversa por n e mostra o cancelamento dos fatores ao dividir também X'Y por n. Explicita que a motivação é escrever o estimador em termos de médias amostrais para aplicar a lei dos grandes números.
+2. Slide 11: escreve X'X e X'Y como uma matriz e um vetor de somas no caso de um preditor com intercepto. A divisão por n transforma essas entradas em médias. Define a média dos quadrados e a média dos produtos e liga essas quantidades à inclinação dada por covariância amostral dividida pela variância amostral.
+3. Slide 12: aplica a lei dos grandes números aos produtos normalizados e apresenta o limite na notação de esperanças já usada para o BLP. Distingue os coeficientes definidos pela população da estimativa calculada por MQO na amostra. As hipóteses i.i.d. e de momentos finitos permanecem qualificadas como suficientes.
+
+As letras Q e q foram retiradas da apresentação. A ponte usa os produtos matriciais que os alunos já estudaram. Conferência conceitual nas seções 3.3, 3.4 e 7.2 de Hansen, na cópia local do curso. A sequência mostra primeiro a equivalência algébrica, depois a interpretação das entradas e só então o limite probabilístico.
+
+Verificação numérica das identidades com os pares `x = (1,2,4,5)` e `y = (2,1,5,7)`: a fórmula matricial e sua versão normalizada por n produziram os mesmos coeficientes. As expansões de X'X e X'Y e a igualdade da inclinação com as razões de momentos e de covariância/variância foram conferidas com tolerância de 10^-12. Resultado: `IDENTIDADES_ALGEBRICAS_MQO_OK`. Não houve nova simulação de Monte Carlo.
+
+O Rmd foi recompilado com XeLaTeX. Os três novos slides foram renderizados e examinados, inclusive a versão final do slide 11 com as definições das médias. A comparação de texto confirmou que os 22 slides fora dessa sequência permanecem iguais, descontada a mudança de numeração. A conferência de coordenadas encontrou zero palavras fora das páginas. O diff passou sem espaços finais nas linhas alteradas.
+
+SHA-256 do PDF desta revisão: `004a3fa931b1fa1b1993b18d3d7504021a35c0d12c3f8813ad16cce1f2bea102`.

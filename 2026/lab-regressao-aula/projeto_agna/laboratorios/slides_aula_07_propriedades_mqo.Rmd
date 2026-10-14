@@ -221,36 +221,97 @@ Segundos momentos populacionais finitos também não são uma exigência desse c
 \small
 Sem posto completo, o problema de minimização tem soluções, mas os coeficientes não são únicos.
 
-# Consistência do MQO
+# MQO: reescrever a fórmula conhecida
 
-Para o alvo populacional $\mathbf Q=E[\mathbf x\mathbf x']$ invertível e
-$\mathbf q=E[\mathbf xY]$, escreva
+Começamos com a fórmula que já estudamos:
 \[
-\widehat{\boldsymbol\beta}
-=\widehat{\mathbf Q}_n^{-1}\widehat{\mathbf q}_n,
-\qquad
-\widehat{\mathbf Q}_n=\frac1n\sum_i\mathbf x_i\mathbf x_i',
-\quad
-\widehat{\mathbf q}_n=\frac1n\sum_i\mathbf x_iY_i.
+\widehat{\boldsymbol\beta}=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y.
 \]
 
-Se os momentos amostrais convergem para esses momentos populacionais,
-\[
-\widehat{\mathbf Q}_n\xrightarrow{p}\mathbf Q,
-\qquad \widehat{\mathbf q}_n\xrightarrow{p}\mathbf q,
-\quad\text{então}\quad
-\boxed{\widehat{\boldsymbol\beta}\xrightarrow{p}\mathbf Q^{-1}\mathbf q=\boldsymbol\beta.}
-\]
+A lei dos grandes números trata da convergência de médias.
+Vamos escrever o MQO em termos dessas médias.
 
-\begin{block}{Um conjunto de hipóteses suficientes}
-Amostragem i.i.d. e segundos momentos finitos de $Y$ e dos preditores
-permitem essas convergências pela lei dos grandes números.
-A convergência também pode ocorrer sob dependência ou distribuições distintas,
-com condições próprias.
-\end{block}
+Dividir uma matriz por $n$ multiplica sua inversa por $n$:
+\[
+\left(\frac{\mathbf X'\mathbf X}{n}\right)^{-1}
+=n(\mathbf X'\mathbf X)^{-1}.
+\]
+Por isso, dividir os dois produtos por $n$ preserva o resultado:
+\[
+\begin{aligned}
+\left(\frac{\mathbf X'\mathbf X}{n}\right)^{-1}
+\left(\frac{\mathbf X'\mathbf Y}{n}\right)
+&=n(\mathbf X'\mathbf X)^{-1}\frac{\mathbf X'\mathbf Y}{n}\\
+&=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y
+=\widehat{\boldsymbol\beta}.
+\end{aligned}
+\]
 
 \small
-A inversão e a multiplicação são contínuas quando a matriz limite tem inversa.
+A reescrita conserva exatamente a estimativa calculada na mesma amostra.
+
+# Os produtos matriciais contêm somas
+
+Com um único preditor, cada linha de $\mathbf X$ é $(1,X_i)$.
+A multiplicação de matrizes produz
+\[
+\mathbf X'\mathbf X=
+\begin{pmatrix}
+n & \sum_i X_i\\
+\sum_i X_i & \sum_i X_i^2
+\end{pmatrix},
+\qquad
+\mathbf X'\mathbf Y=
+\begin{pmatrix}\sum_i Y_i\\\sum_i X_iY_i\end{pmatrix}.
+\]
+Dividindo por $n$, cada soma se torna uma média.
+$\overline{X^2}$ é a média dos quadrados e $\overline{XY}$ a média dos produtos:
+\[
+\frac{\mathbf X'\mathbf X}{n}=
+\begin{pmatrix}1 & \bar X\\\bar X & \overline{X^2}\end{pmatrix},
+\qquad
+\frac{\mathbf X'\mathbf Y}{n}=
+\begin{pmatrix}\bar Y\\\overline{XY}\end{pmatrix}.
+\]
+
+\begin{block}{Ligação com a fórmula da inclinação}
+São as mesmas médias que aparecem na fórmula escalar:
+\[
+\widehat\beta_1=
+\frac{\overline{XY}-\bar X\bar Y}{\overline{X^2}-\bar X^2}
+=\frac{\widehat{\operatorname{Cov}}(X,Y)}{\widehat{\operatorname{V}}(X)}.
+\]
+\end{block}
+
+# Consistência: médias e alvo populacional
+
+Cada entrada dos produtos divididos por $n$ é uma média amostral.
+Com vários preditores, a mesma lógica vale.
+
+Sob amostragem i.i.d. e segundos momentos finitos, a lei dos grandes números dá
+\[
+\frac{\mathbf X'\mathbf X}{n}\xrightarrow{p}E[\mathbf x\mathbf x'],
+\qquad
+\frac{\mathbf X'\mathbf Y}{n}\xrightarrow{p}E[\mathbf xY].
+\]
+Se $E[\mathbf x\mathbf x']$ tem inversa, a continuidade da inversão e da multiplicação implica
+\[
+\widehat{\boldsymbol\beta}
+=\left(\frac{\mathbf X'\mathbf X}{n}\right)^{-1}
+\left(\frac{\mathbf X'\mathbf Y}{n}\right)
+\xrightarrow{p}
+\underbrace{E[\mathbf x\mathbf x']^{-1}E[\mathbf xY]}_{\boldsymbol\beta:\ \text{coeficientes do BLP}}.
+\]
+
+\begin{block}{O que está sendo estimado?}
+$\boldsymbol\beta$ é definido pela população.
+O MQO calcula $\widehat{\boldsymbol\beta}$ na amostra para estimar esses coeficientes.
+Consistência descreve sua aproximação ao alvo populacional quando $n$ cresce.
+\end{block}
+
+\scriptsize
+As hipóteses i.i.d. e de momentos finitos são suficientes para essas convergências.
+Outras condições podem assegurá-las com dependência ou distribuições distintas.
 
 # Média condicional do erro
 
