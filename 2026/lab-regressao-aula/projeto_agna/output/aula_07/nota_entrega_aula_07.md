@@ -12,7 +12,7 @@ Preparação: 13/10/2026. Data da aula: 14/10/2026.
 
 ## Conteúdo e notação
 
-Sequência: BLP e estimador de MQO; duas amostras da mesma população; distribuição amostral; viés; variância e EQM; consistência; condições para estimar o BLP; demonstração da consistência; média condicional zero; demonstração do não viés; variância condicional; versão clássica de Gauss–Markov e prova; Monte Carlo com diferentes tamanhos de amostra e estruturas do erro; alvo populacional da projeção; bootstrap de pares; síntese e leituras.
+Sequência: BLP e estimador de MQO; duas amostras da mesma população; distribuição amostral; viés; variância e EQM; consistência; cálculo do MQO na amostra e unicidade dos coeficientes; demonstração da consistência e hipóteses suficientes; média condicional zero; demonstração do não viés; variância condicional; versão clássica de Gauss–Markov e prova; Monte Carlo com diferentes tamanhos de amostra e estruturas do erro; alvo populacional da projeção; bootstrap de pares; síntese e leituras.
 
 Os slides 6–8 esclarecem que o viés é definido pela esperança na distribuição amostral do estimador. A expressão “não viés para n fixo” significa que essa esperança coincide com o parâmetro sem tomar um limite assintótico. O erro de uma estimativa observada é uma realização da diferença entre estimador e parâmetro. A consistência descreve uma sequência quando n cresce.
 
@@ -88,7 +88,7 @@ O laboratório inclui a Figura 2b e a Tabela 1b, com 1.000 amostras por tamanho 
 
 Reexecutados os scripts 12 e 14 e os validadores 13 e 15. Ambos os validadores passaram, inclusive a comparação da variância simulada em n = 10 com a variância teórica exata. Os sete cenários anteriores foram comparados ao resumo anterior salvo no Git e permaneceram iguais; o PNG do histograma original de n = 40 também permaneceu idêntico. As páginas 4 e 5 do PDF atualizado e a nova figura do laboratório foram renderizadas e inspecionadas. O ajuste final encurtou a frase de interpretação e reduziu ligeiramente a largura da figura para assegurar que todo o conteúdo do slide 5 ficasse visível.
 
-SHA-256 do PDF atualizado: `7f4f7d4a31c249347b050136040ce85cbe02cecc7d02d9ebf390b13212d47944`.
+SHA-256 do PDF atualizado em 13/10/2026: `7f4f7d4a31c249347b050136040ce85cbe02cecc7d02d9ebf390b13212d47944`.
 
 ## Laboratório eleitoral por zona, versão principal
 
@@ -130,3 +130,15 @@ Em 13/10/2026, o script 17 recebeu a opção `--incluir-exterior`, que prepara d
 O novo script 21 verifica os dados sem ajustar regressões. Retornou `VALIDACAO_DADOS_COM_EXTERIOR_OK`, conferindo chaves, ausências, denominadores, somas do exterior e igualdade da parte das 27 UFs com os CSVs anteriores. O total válido de 2026, incluindo exterior, coincide com a totalização nacional oficial. Relatório e reprodução em `data/eleicoes_2022_2026/docs/INCLUSAO_EXTERIOR.md`.
 
 Esta adição abrange apenas a preparação e a validação dos dados observados. Não recalcula a modelagem nem as previsões. O laboratório e o ZIP anteriores continuam correspondendo à versão de 27 UFs.
+
+## Revisão das condições de cálculo e consistência, 14/10/2026
+
+O slide 9, antes intitulado “Condições para estimar o BLP”, foi substituído por “Calcular MQO na amostra”. Agora apresenta o critério de mínimos quadrados em dados observados finitos e distingue a existência de soluções da unicidade dos coeficientes. Posto completo de X permite usar a inversa de X'X. Observações i.i.d. e momentos populacionais finitos não são exigências para esse cálculo. Sem posto completo, há minimizadores, mas os coeficientes não são únicos.
+
+O slide 10 apresenta a consistência a partir da convergência dos momentos amostrais Q_hat e q_hat para o alvo populacional Q e q, com Q invertível. Amostragem i.i.d. e segundos momentos finitos aparecem como um conjunto de hipóteses suficientes para essas convergências, pela lei dos grandes números. O texto explicita que elas também podem ocorrer com dependência ou distribuições distintas, sob condições próprias. A síntese, no slide 22, usa a mesma qualificação de suficiência. A formulação continua distinguindo o coeficiente populacional do BLP e a estimativa calculada na amostra.
+
+Conferência conceitual: Hansen, Econometrics, capítulo 2 sobre a projeção linear, seção 3.24 sobre unicidade e colinearidade e seção 7.2 sobre consistência, na cópia local do curso. Para a extensão além de amostragem i.i.d., consultado Hansen e Lee (2019), “Asymptotic Theory for Clustered Samples”, Journal of Econometrics, DOI 10.1016/j.jeconom.2019.02.001, texto dos autores em https://arxiv.org/abs/1902.01497. Essa extensão fundamenta a ressalva do slide, sem acrescentar um novo tópico ao programa.
+
+O Rmd foi recompilado com XeLaTeX. O PDF continua com 23 páginas. As páginas 9, 10 e 22 foram renderizadas e inspecionadas. A comparação do texto de todas as páginas com o PDF anterior no Git identificou mudanças somente nessas três páginas. A conferência das coordenadas de todas as palavras encontrou zero palavras fora das páginas. Os dados, scripts de simulação e figuras não foram alterados. Não foram executadas novas simulações, pois a revisão afeta a exposição das condições. O diff passou sem espaços finais nas linhas alteradas.
+
+SHA-256 do PDF desta revisão: `2c55cee1aa3526a646c74d035e0bfed996bcca40e1ee068106de36e8606a2ba6`.

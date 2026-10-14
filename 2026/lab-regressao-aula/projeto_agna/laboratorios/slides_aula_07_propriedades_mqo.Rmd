@@ -198,49 +198,59 @@ $\dfrac{n}{n+1}\bar Y$ & Não & Sim \\
 \end{tabular}
 \end{center}
 
-# Condições para estimar o BLP
+# Calcular MQO na amostra
 
-\begin{enumerate}
-\item Os pares $(Y_i,\mathbf x_i)$ são independentes e identicamente distribuídos (i.i.d.).
-\item $Y$ e os preditores têm segundos momentos finitos.
-\item $\mathbf Q=E[\mathbf x\mathbf x']$ tem inversa: nenhuma combinação linear não nula
-das colunas de $\mathbf x$ é zero com probabilidade um.
-\end{enumerate}
-
-\begin{block}{Alvo populacional}
+Com dados observados finitos, o MQO minimiza
 \[
-\boldsymbol\beta=\mathbf Q^{-1}E[\mathbf xY].
+S(\mathbf b)=(\mathbf Y-\mathbf X\mathbf b)'(\mathbf Y-\mathbf X\mathbf b).
 \]
-Essas condições permitem estabelecer a consistência do MQO para os coeficientes do BLP.
+
+\begin{block}{Condição para coeficientes únicos}
+$\mathbf X$ tem posto completo: suas $k+1$ colunas são linearmente independentes.
+Assim, $\mathbf X'\mathbf X$ tem inversa e
+\[
+\widehat{\boldsymbol\beta}=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y.
+\]
+\end{block}
+
+\begin{block}{Independência não é exigida para calcular}
+Podemos calcular o MQO com observações dependentes ou de distribuições distintas.
+Segundos momentos populacionais finitos também não são uma exigência desse cálculo.
 \end{block}
 
 \small
-Em uma amostra concreta, calcular a fórmula de MQO exige que $\mathbf X'\mathbf X$ tenha inversa.
-As condições acima asseguram que a probabilidade de posto completo tende a um.
+Sem posto completo, o problema de minimização tem soluções, mas os coeficientes não são únicos.
 
 # Consistência do MQO
 
-Dividindo os dois produtos por $n$:
+Para o alvo populacional $\mathbf Q=E[\mathbf x\mathbf x']$ invertível e
+$\mathbf q=E[\mathbf xY]$, escreva
 \[
 \widehat{\boldsymbol\beta}
-=\left(\frac1n\sum_{i=1}^n\mathbf x_i\mathbf x_i'\right)^{-1}
-\left(\frac1n\sum_{i=1}^n\mathbf x_iY_i\right).
-\]
-
-Pela lei dos grandes números, nas condições anteriores:
-\[
-\frac1n\sum_i\mathbf x_i\mathbf x_i'\xrightarrow{p}\mathbf Q,
+=\widehat{\mathbf Q}_n^{-1}\widehat{\mathbf q}_n,
 \qquad
-\frac1n\sum_i\mathbf x_iY_i\xrightarrow{p}E[\mathbf xY].
+\widehat{\mathbf Q}_n=\frac1n\sum_i\mathbf x_i\mathbf x_i',
+\quad
+\widehat{\mathbf q}_n=\frac1n\sum_i\mathbf x_iY_i.
 \]
 
-\begin{block}{A mesma lógica do plug-in}
-A inversão e a multiplicação são contínuas quando a matriz limite tem inversa. Logo,
+Se os momentos amostrais convergem para esses momentos populacionais,
 \[
-\boxed{\widehat{\boldsymbol\beta}\xrightarrow{p}
-\mathbf Q^{-1}E[\mathbf xY]=\boldsymbol\beta.}
+\widehat{\mathbf Q}_n\xrightarrow{p}\mathbf Q,
+\qquad \widehat{\mathbf q}_n\xrightarrow{p}\mathbf q,
+\quad\text{então}\quad
+\boxed{\widehat{\boldsymbol\beta}\xrightarrow{p}\mathbf Q^{-1}\mathbf q=\boldsymbol\beta.}
 \]
+
+\begin{block}{Um conjunto de hipóteses suficientes}
+Amostragem i.i.d. e segundos momentos finitos de $Y$ e dos preditores
+permitem essas convergências pela lei dos grandes números.
+A convergência também pode ocorrer sob dependência ou distribuições distintas,
+com condições próprias.
 \end{block}
+
+\small
+A inversão e a multiplicação são contínuas quando a matriz limite tem inversa.
 
 # Média condicional do erro
 
@@ -497,7 +507,8 @@ O erro-padrão bootstrap também é uma estimativa e varia entre amostras.
 \item O viés compara a esperança do estimador com o parâmetro.
 O EQM combina viés ao quadrado e variância amostral.
 \item A consistência descreve a aproximação ao parâmetro conforme $n$ cresce.
-O MQO é consistente para o BLP sob amostragem i.i.d., momentos finitos e matriz populacional invertível.
+Para o BLP, amostragem i.i.d., segundos momentos finitos e matriz populacional invertível
+formam um conjunto de hipóteses suficientes para a consistência.
 \item A média condicional zero permite demonstrar o não viés do MQO.
 A homocedasticidade acrescenta a garantia clássica de eficiência entre estimadores lineares não viesados.
 \item O bootstrap usa a distribuição empírica para aproximar a distribuição amostral
