@@ -493,8 +493,15 @@ A mesma conta dá $E[\widehat{\boldsymbol\beta}^{\,a}\mid\mathbf X]
 =\mathbf A\mathbf X\boldsymbol\beta$.
 Para não viés para todo $\boldsymbol\beta$, $\mathbf A\mathbf X=\mathbf I_{k+1}$.
 
-Escreva $\mathbf A=\mathbf A_0+\mathbf C$. Então
-$\mathbf C\mathbf X=\mathbf 0$ e $\mathbf A_0\mathbf C'=\mathbf 0$.
+Escreva $\mathbf A=\mathbf A_0+\mathbf C$.
+Como $\mathbf A\mathbf X=\mathbf A_0\mathbf X=\mathbf I_{k+1}$,
+segue $\mathbf C\mathbf X=\mathbf 0$.
+Transpondo e usando $\mathbf A_0=(\mathbf X'\mathbf X)^{-1}\mathbf X'$:
+\[
+\mathbf X'\mathbf C'=(\mathbf C\mathbf X)'=\mathbf 0,
+\qquad
+\mathbf A_0\mathbf C'=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf C'=\mathbf 0.
+\]
 \[
 \begin{aligned}
 \operatorname{V}(\mathbf A\mathbf Y\mid\mathbf X)
