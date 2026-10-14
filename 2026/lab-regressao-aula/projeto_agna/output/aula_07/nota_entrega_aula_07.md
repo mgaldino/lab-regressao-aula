@@ -166,3 +166,11 @@ O slide 12 passou a apresentar, antes da lei dos grandes números, um bloco “S
 O Rmd foi recompilado com XeLaTeX. O PDF continua com 25 páginas. A comparação do texto com o PDF anterior identificou mudança somente no slide 12. A página final foi renderizada e examinada. A conferência das coordenadas de todas as palavras encontrou zero palavras fora das páginas, e o diff passou sem espaços finais nas linhas alteradas.
 
 SHA-256 do PDF desta revisão: `cbf870c6000d31b5e18ce18970336804bf2f601999a0166cc2fb0f1e9b27f911`.
+
+## Propriedade e suposição no slide 13, 14/10/2026
+
+Os títulos das duas caixas passaram a ser “Propriedade do erro do BLP”, com E[x epsilon] = 0, e “Suposição chave para o não viés”, com E[epsilon | x] = 0. A frase explicativa sobre ortogonalidade por construção foi retirada, conforme a orientação de deixar essa explicação para a exposição oral. A suposição permanece no slide 13, antes da demonstração de não viés no slide 14.
+
+O Rmd foi recompilado com XeLaTeX. O PDF continua com 25 páginas. A comparação de texto identificou alteração somente no slide 13. A página foi renderizada e examinada, com os títulos das duas caixas legíveis. A conferência das coordenadas de todas as palavras encontrou zero palavras fora das páginas, e o diff passou sem espaços finais nas linhas alteradas.
+
+SHA-256 do PDF desta revisão: `8835be06991f3fb65646071e04ab8bfbded6e245c889d15580a49c32452d9c85`.

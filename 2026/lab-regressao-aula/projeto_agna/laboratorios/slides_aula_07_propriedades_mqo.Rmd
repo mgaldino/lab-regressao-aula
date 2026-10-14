@@ -314,15 +314,14 @@ Se $E[\mathbf x\mathbf x']$ tem inversa, a continuidade da inversão e da multip
 
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.47\textwidth}
-\begin{block}{Erro do BLP}
+\begin{block}{Propriedade do erro do BLP}
 \[
 E[\mathbf x\varepsilon]=\mathbf 0.
 \]
-Ortogonalidade por construção: as condições de primeira ordem da projeção linear.
 \end{block}
 \end{column}
 \begin{column}{0.49\textwidth}
-\begin{block}{Condição adicional}
+\begin{block}{Suposição chave para o não viés}
 \[
 E[\varepsilon\mid\mathbf x]=0.
 \]
