@@ -288,7 +288,14 @@ São as mesmas médias que aparecem na fórmula escalar:
 Cada entrada dos produtos divididos por $n$ é uma média amostral.
 Com vários preditores, a mesma lógica vale.
 
-Sob amostragem i.i.d. e segundos momentos finitos, a lei dos grandes números dá
+\begin{block}{Suposições da demonstração}
+\begin{itemize}
+\item Amostragem i.i.d.: os pares $(Y_i,\mathbf x_i)$ são independentes e identicamente distribuídos.
+\item Segundos momentos finitos de $Y$ e de cada preditor.
+\end{itemize}
+\end{block}
+
+Pela lei dos grandes números,
 \[
 \frac{\mathbf X'\mathbf X}{n}\xrightarrow{p}E[\mathbf x\mathbf x'],
 \qquad
@@ -302,16 +309,6 @@ Se $E[\mathbf x\mathbf x']$ tem inversa, a continuidade da inversão e da multip
 \xrightarrow{p}
 \underbrace{E[\mathbf x\mathbf x']^{-1}E[\mathbf xY]}_{\boldsymbol\beta:\ \text{coeficientes do BLP}}.
 \]
-
-\begin{block}{O que está sendo estimado?}
-$\boldsymbol\beta$ é definido pela população.
-O MQO calcula $\widehat{\boldsymbol\beta}$ na amostra para estimar esses coeficientes.
-Consistência descreve sua aproximação ao alvo populacional quando $n$ cresce.
-\end{block}
-
-\scriptsize
-As hipóteses i.i.d. e de momentos finitos são suficientes para essas convergências.
-Outras condições podem assegurá-las com dependência ou distribuições distintas.
 
 # Média condicional do erro
 

@@ -158,3 +158,11 @@ Verificação numérica das identidades com os pares `x = (1,2,4,5)` e `y = (2,1
 O Rmd foi recompilado com XeLaTeX. Os três novos slides foram renderizados e examinados, inclusive a versão final do slide 11 com as definições das médias. A comparação de texto confirmou que os 22 slides fora dessa sequência permanecem iguais, descontada a mudança de numeração. A conferência de coordenadas encontrou zero palavras fora das páginas. O diff passou sem espaços finais nas linhas alteradas.
 
 SHA-256 do PDF desta revisão: `004a3fa931b1fa1b1993b18d3d7504021a35c0d12c3f8813ad16cce1f2bea102`.
+
+## Destaque das suposições no slide 12, 14/10/2026
+
+O slide 12 passou a apresentar, antes da lei dos grandes números, um bloco “Suposições da demonstração” com amostragem i.i.d. e segundos momentos finitos de Y e de cada preditor. A caixa “O que está sendo estimado?” e a nota final sobre outras condições foram removidas. As equações de convergência dos momentos e de consistência foram mantidas.
+
+O Rmd foi recompilado com XeLaTeX. O PDF continua com 25 páginas. A comparação do texto com o PDF anterior identificou mudança somente no slide 12. A página final foi renderizada e examinada. A conferência das coordenadas de todas as palavras encontrou zero palavras fora das páginas, e o diff passou sem espaços finais nas linhas alteradas.
+
+SHA-256 do PDF desta revisão: `cbf870c6000d31b5e18ce18970336804bf2f601999a0166cc2fb0f1e9b27f911`.
