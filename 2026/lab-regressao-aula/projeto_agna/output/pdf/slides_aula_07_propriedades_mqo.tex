@@ -418,28 +418,39 @@ E[\mathbf x\varepsilon]=\mathbf 0.
 \[
 E[\varepsilon\mid\mathbf x]=0.
 \]
-A esperança condicional de $Y$ é linear:
-$E[Y\mid\mathbf x]=\mathbf x'\boldsymbol\beta$.
 \end{block}
 \end{column}
 \end{columns}
 
-\medskip
+\begin{block}{Linear nos parâmetros}
+Na equação $Y=\mathbf x'\boldsymbol\beta+\varepsilon$, a suposição implica
+$E[Y\mid\mathbf x]=\mathbf x'\boldsymbol\beta$.
+
+Por exemplo, com $\mathbf x=(1,X,X^2)'$,
+\[
+E[Y\mid X]=\alpha+\beta_1X+\beta_2X^2.
+\]
+A linearidade é em $\alpha,\beta_1,\beta_2$.
+A relação com $X$ pode ter curvatura.
+\end{block}
+
+\small
 
 Média condicional zero implica ortogonalidade, pela lei da esperança
 iterada. A implicação inversa não vale em geral.
-
-\begin{block}{Exemplo}
-Se $X\sim N(0,1)$ e $\varepsilon=X^2-1$,
-$E[\varepsilon]=E[X\varepsilon]=0$, mas $E[\varepsilon\mid X]=X^2-1$.
-\end{block}
 \end{frame}
 
 \begin{frame}{Não viés do MQO}
 \protect\phantomsection\label{nuxe3o-viuxe9s-do-mqo}
-Sob amostragem i.i.d. e média condicional zero,
-\(E[\boldsymbol\varepsilon\mid\mathbf X]=\mathbf 0\), com
+Reunimos os erros do modelo em
 \(\boldsymbol\varepsilon=(\varepsilon_1,\ldots,\varepsilon_n)'\).
+
+\begin{block}{Suposição chave para o não viés}
+Sob amostragem i.i.d., $E[\varepsilon_i\mid\mathbf x_i]=0$ implica
+\[
+\boxed{E[\boldsymbol\varepsilon\mid\mathbf X]=\mathbf 0.}
+\]
+\end{block}
 
 Substituindo
 \(\mathbf Y=\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon\): \[
@@ -453,11 +464,12 @@ E[\widehat{\boldsymbol\beta}\mid\mathbf X]
 =\boldsymbol\beta.
 \]
 
-\begin{block}{Esperança na distribuição amostral}
-Com posto completo e momentos do estimador existentes,
-$E[\widehat{\boldsymbol\beta}]=\boldsymbol\beta$ pela lei da esperança iterada.
-O resultado vale para $n$ fixo. A homocedasticidade não é necessária para esse não viés.
-\end{block}
+\small
+
+Com posto completo e esperança do estimador existente, a lei da
+esperança iterada dá \(E[\widehat{\boldsymbol\beta}]=\boldsymbol\beta\).
+O resultado vale para \(n\) fixo. A homocedasticidade não é necessária
+para esse não viés.
 \end{frame}
 
 \begin{frame}{Variância do MQO}

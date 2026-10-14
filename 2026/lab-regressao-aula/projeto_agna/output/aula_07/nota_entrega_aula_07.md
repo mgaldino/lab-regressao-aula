@@ -174,3 +174,15 @@ Os títulos das duas caixas passaram a ser “Propriedade do erro do BLP”, com
 O Rmd foi recompilado com XeLaTeX. O PDF continua com 25 páginas. A comparação de texto identificou alteração somente no slide 13. A página foi renderizada e examinada, com os títulos das duas caixas legíveis. A conferência das coordenadas de todas as palavras encontrou zero palavras fora das páginas, e o diff passou sem espaços finais nas linhas alteradas.
 
 SHA-256 do PDF desta revisão: `8835be06991f3fb65646071e04ab8bfbded6e245c889d15580a49c32452d9c85`.
+
+## Linearidade nos parâmetros e destaque da hipótese de não viés, 14/10/2026
+
+No slide 13, a afirmação sobre a esperança condicional passou a explicitar linearidade nos parâmetros. A caixa da suposição contém apenas E[epsilon | x] = 0. Uma caixa separada, “Linear nos parâmetros”, liga essa hipótese à equação populacional e apresenta x = (1, X, X²)', com E[Y | X] = alpha + beta_1 X + beta_2 X². O texto distingue a linearidade nos coeficientes da possível curvatura em X. Esse exemplo substitui o exemplo anterior de erro quadrático. A afirmação de que ortogonalidade não implica média condicional zero permanece no slide.
+
+No slide 14, a hipótese ganhou uma caixa própria antes da demonstração. Sob amostragem i.i.d., a média condicional zero de cada erro implica E[epsilon_vetor | X_matriz] = 0. A prova continua indicando por uma chave o termo que se anula. O fechamento sobre a esperança incondicional, tamanho de amostra fixo e dispensa de homocedasticidade foi mantido em texto compacto, permitindo destacar a hipótese e preservar espaço para o rodapé.
+
+Conferência conceitual em Hansen, Econometrics, seção 2.16, “Linear CEF with Nonlinear Effects”, p. 31, e na demonstração de não viés da cópia local do curso. A distinção se aplica a transformações incluídas como preditores, como X².
+
+O Rmd foi recompilado com XeLaTeX. O PDF continua com 25 páginas. As páginas 13 e 14 foram renderizadas e examinadas. A comparação de texto identificou alteração somente nesses dois slides. A conferência de coordenadas encontrou zero palavras fora das páginas, e o diff passou sem espaços finais nas linhas alteradas. Não houve mudança nos cálculos ou simulações.
+
+SHA-256 do PDF desta revisão: `e0fc8b9a90facae6c915bcf62473d959ebd7b7823f8f90bb763f3f3dde57383a`.
