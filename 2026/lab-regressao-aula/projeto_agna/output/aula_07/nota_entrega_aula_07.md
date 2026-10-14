@@ -186,3 +186,11 @@ Conferência conceitual em Hansen, Econometrics, seção 2.16, “Linear CEF wit
 O Rmd foi recompilado com XeLaTeX. O PDF continua com 25 páginas. As páginas 13 e 14 foram renderizadas e examinadas. A comparação de texto identificou alteração somente nesses dois slides. A conferência de coordenadas encontrou zero palavras fora das páginas, e o diff passou sem espaços finais nas linhas alteradas. Não houve mudança nos cálculos ou simulações.
 
 SHA-256 do PDF desta revisão: `e0fc8b9a90facae6c915bcf62473d959ebd7b7823f8f90bb763f3f3dde57383a`.
+
+## Substituição e distributiva na prova de não viés, 14/10/2026
+
+O slide 14 passou a identificar onde se faz a substituição: na fórmula de MQO, Y é substituído por X beta + epsilon. A primeira linha da demonstração apresenta a fórmula original do estimador e a substituição. A segunda mostra a distributiva, com os termos (X'X)^(-1)(X'X) beta e (X'X)^(-1)X' epsilon. A terceira simplifica o primeiro termo para beta. A suposição chave de média condicional zero continua destacada no bloco azul, com a equação na mesma linha da implicação para acomodar as etapas algébricas.
+
+O Rmd foi recompilado com XeLaTeX. O PDF continua com 25 páginas. A comparação do texto com o PDF anterior no Git identificou alteração somente no slide 14. A página foi renderizada e examinada, incluindo as três linhas da demonstração e o espaço para o rodapé. A conferência de coordenadas encontrou zero palavras fora das páginas, e o diff passou sem espaços finais nas linhas alteradas.
+
+SHA-256 do PDF desta revisão: `20702abc0c0dce952c7ff18edb2be8641c17e5bd7de23690582ee8700a883642`.

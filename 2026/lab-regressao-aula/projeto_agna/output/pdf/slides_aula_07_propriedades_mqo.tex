@@ -447,15 +447,20 @@ Reunimos os erros do modelo em
 
 \begin{block}{Suposição chave para o não viés}
 Sob amostragem i.i.d., $E[\varepsilon_i\mid\mathbf x_i]=0$ implica
-\[
-\boxed{E[\boldsymbol\varepsilon\mid\mathbf X]=\mathbf 0.}
-\]
+$\boxed{E[\boldsymbol\varepsilon\mid\mathbf X]=\mathbf 0.}$
 \end{block}
 
-Substituindo
-\(\mathbf Y=\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon\): \[
+Na fórmula de MQO, substituímos \(\mathbf Y\) por
+\(\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon\) e aplicamos a
+distributiva: \[
+\begin{aligned}
 \widehat{\boldsymbol\beta}
-=\boldsymbol\beta+(\mathbf X'\mathbf X)^{-1}\mathbf X'\boldsymbol\varepsilon.
+&=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y
+=(\mathbf X'\mathbf X)^{-1}\mathbf X'(\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon)\\
+&=(\mathbf X'\mathbf X)^{-1}(\mathbf X'\mathbf X)\boldsymbol\beta
++(\mathbf X'\mathbf X)^{-1}\mathbf X'\boldsymbol\varepsilon\\
+&=\boldsymbol\beta+(\mathbf X'\mathbf X)^{-1}\mathbf X'\boldsymbol\varepsilon.
+\end{aligned}
 \] Ao condicionar em \(\mathbf X\), a matriz dos preditores fica fixa:
 \[
 E[\widehat{\boldsymbol\beta}\mid\mathbf X]
