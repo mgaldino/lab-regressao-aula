@@ -626,6 +626,31 @@ Para qualquer vetor $\mathbf a$ de pesos dos coeficientes,
 \end{block}
 \end{frame}
 
+\begin{frame}{Exemplo: variância da inclinação}
+\protect\phantomsection\label{exemplo-variuxe2ncia-da-inclinauxe7uxe3o}
+Com intercepto e um preditor, \(Y_i=\beta_0+\beta_1X_i+\varepsilon_i\).
+Considere outro estimador linear e não viesado
+\(\widehat{\boldsymbol\beta}^{\,a}=\mathbf A\mathbf Y\), com
+\(\mathbf A\mathbf X=\mathbf I_2\).
+
+Para comparar apenas a inclinação, escolha os pesos dos coeficientes: \[
+\mathbf a=\begin{pmatrix}0\\1\end{pmatrix},\qquad
+\mathbf a'\widehat{\boldsymbol\beta}^{\,a}=\widehat\beta^{\,a}_1,
+\qquad
+\mathbf a'\widehat{\boldsymbol\beta}=\widehat\beta_1.
+\]
+
+A desigualdade do slide anterior se torna \[
+\operatorname{V}(\widehat\beta^{\,a}_1\mid\mathbf X)
+-\operatorname{V}(\widehat\beta_1\mid\mathbf X)
+=\sigma^2(\mathbf C'\mathbf a)'(\mathbf C'\mathbf a)\geq0.
+\]
+
+Logo, a inclinação de MQO tem variância condicional menor ou igual.
+\(\mathbf A\) define o estimador; \(\mathbf a=(0,1)'\) seleciona a
+inclinação.
+\end{frame}
+
 \begin{frame}{Monte Carlo: tamanho da amostra}
 \protect\phantomsection\label{monte-carlo-tamanho-da-amostra}
 Mesmo processo gerador: \(Y=5+1{,}5X+\varepsilon\), com \(\sigma=2\).
