@@ -1,8 +1,8 @@
 ---
 title: "Lista 2: enxergar e estimar uma regressão"
-subtitle: "Scatterplot, lm(), escalas, intercepto e simulação"
+subtitle: "Scatterplot, lm(), escalas, intercepto, simulação e notação matricial"
 author: "FLS 6183 - Métodos Quantitativos de Pesquisa II"
-date: "Aula 5 | 2026"
+date: "Aulas 5 a 7 | 2026"
 lang: pt-BR
 output:
   pdf_document:
@@ -27,14 +27,15 @@ header-includes:
 Esta lista concentra-se no uso e na interpretação de **regressão bivariada**.
 Você fará um gráfico de dispersão (*scatterplot*), ajustará retas com `lm()`,
 mudará a origem e a escala das variáveis, examinará resíduos e simulará dados
-cuja relação populacional é conhecida. O conjunto aplicado resume a
+cuja relação populacional é conhecida. Você também mostrará como os
+produtos matriciais da fórmula de MQO produzem somas. O conjunto aplicado resume a
 convergência dos votos de Brasil e China na Assembleia Geral das Nações
 Unidas (AGNU), de 1997 a 2016.
 
 ## Organização e entrega
 
-- Resolva os **quatro exercícios**. Tempo de trabalho sugerido:
-  35 + 40 + 35 + 50 minutos, aproximadamente 2h40 no total. O roteiro é
+- Resolva os **cinco exercícios**. Tempo de trabalho sugerido:
+  35 + 40 + 35 + 50 + 15 minutos, aproximadamente 2h55 no total. O roteiro é
   deliberadamente mais curto que a Lista 1.
 - Entregue pelo Moodle um PDF, a fonte `.Rmd` ou `.qmd` e o script `.R` dos
   cálculos. O documento deve importar os resultados do script. Consulte o
@@ -172,3 +173,58 @@ d. Neste processo, $X=0$ fica longe do centro da distribuição de $X$.
    intercepto populacional e qual é sua interpretação? Diga quando
    você preferiria comunicar coeficientes em unidades originais
    e quando acrescentaria uma versão padronizada.
+
+\newpage
+
+# 5. De onde vêm as somas nos produtos matriciais?
+
+*Tempo sugerido: 15 minutos.*
+
+Considere uma amostra de $n$ pares $(X_i,Y_i)$ e uma regressão com
+intercepto e um único preditor. A matriz dos preditores e o vetor de
+resultados são
+
+\[
+\mathbf X=
+\begin{pmatrix}
+1 & X_1\\
+1 & X_2\\
+\vdots & \vdots\\
+1 & X_n
+\end{pmatrix},
+\qquad
+\mathbf Y=
+\begin{pmatrix}
+Y_1\\Y_2\\\vdots\\Y_n
+\end{pmatrix}.
+\]
+
+a. Escreva a transposta $\mathbf X'$ e indique as dimensões de
+   $\mathbf X$, $\mathbf X'$, $\mathbf Y$, $\mathbf X'\mathbf X$ e
+   $\mathbf X'\mathbf Y$.
+b. Faça a multiplicação $\mathbf X'\mathbf X$. Calcule suas **quatro
+   entradas**, mostrando em cada uma o produto escalar entre a linha de
+   $\mathbf X'$ e a coluna correspondente de $\mathbf X$. Demonstre que
+
+   \[
+   \mathbf X'\mathbf X=
+   \begin{pmatrix}
+   n & \displaystyle\sum_{i=1}^n X_i\\[6pt]
+   \displaystyle\sum_{i=1}^n X_i & \displaystyle\sum_{i=1}^n X_i^2
+   \end{pmatrix}.
+   \]
+
+c. Faça a multiplicação $\mathbf X'\mathbf Y$. Calcule suas **duas
+   entradas**, mostrando o produto escalar entre cada linha de
+   $\mathbf X'$ e o vetor $\mathbf Y$. Demonstre que
+
+   \[
+   \mathbf X'\mathbf Y=
+   \begin{pmatrix}
+   \displaystyle\sum_{i=1}^n Y_i\\[6pt]
+   \displaystyle\sum_{i=1}^n X_iY_i
+   \end{pmatrix}.
+   \]
+
+Apresente as etapas da multiplicação. O objetivo é explicar de onde vem
+cada soma na fórmula matricial de MQO.
