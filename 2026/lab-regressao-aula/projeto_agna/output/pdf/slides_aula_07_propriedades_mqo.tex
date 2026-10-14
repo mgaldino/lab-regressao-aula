@@ -473,27 +473,17 @@ E[\widehat{\boldsymbol\beta}\mid\mathbf X]
 
 Com posto completo e esperança do estimador existente, a lei da
 esperança iterada dá \(E[\widehat{\boldsymbol\beta}]=\boldsymbol\beta\).
-O resultado vale para \(n\) fixo. A homocedasticidade não é necessária
-para esse não viés.
+O resultado vale para \(n\) fixo.
 \end{frame}
 
 \begin{frame}{Variância do MQO}
 \protect\phantomsection\label{variuxe2ncia-do-mqo}
-Com média condicional zero e observações independentes, defina
-\(\mathbf D=\operatorname{V}(\boldsymbol\varepsilon\mid\mathbf X)
-=\operatorname{diag}(\sigma_1^2,\ldots,\sigma_n^2)\), onde
-\(\sigma_i^2=\operatorname{V}(\varepsilon_i\mid\mathbf x_i)\). \[
-\operatorname{V}(\widehat{\boldsymbol\beta}\mid\mathbf X)
-=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf D\mathbf X(\mathbf X'\mathbf X)^{-1}.
-\]
-
-\begin{block}{Homocedasticidade}
-Se $\sigma_i^2=\sigma^2$ para todas as observações, $\mathbf D=\sigma^2\mathbf I_n$ e
-\[
+Suponha
+\(\operatorname{V}(\boldsymbol\varepsilon\mid\mathbf X)=\sigma^2\mathbf I_n\).
+Então: \[
 \boxed{\operatorname{V}(\widehat{\boldsymbol\beta}\mid\mathbf X)
 =\sigma^2(\mathbf X'\mathbf X)^{-1}.}
 \]
-\end{block}
 
 \small
 
@@ -576,27 +566,6 @@ Mesmo processo gerador: \(Y=5+1{,}5X+\varepsilon\), com \(\sigma=2\).
 Desvios-padrão: \(0{,}107\) (\(n=40\)), \(0{,}053\) (\(n=160\)) e
 \(0{,}026\) (\(n=640\)). A redução da dispersão ilustra a consistência
 demonstrada anteriormente.
-\end{frame}
-
-\begin{frame}{Monte Carlo: ruído e heterocedasticidade}
-\protect\phantomsection\label{monte-carlo-ruuxeddo-e-heterocedasticidade}
-Nos três cenários, \(n=40\) e \(E[\varepsilon\mid X]=0\). No terceiro,
-\(\operatorname{V}(\varepsilon\mid X)=2[1+((X-10)/3)^2]\).
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.88\linewidth]{../output/aula_07/figuras/04_ruido_heterocedasticidade} 
-
-}
-
-\caption{Distribuições de 5.000 inclinações por cenário, com eixos comuns. Nos painéis 1 e 3, a variância incondicional do erro é 4. No painel 2, é 36. A linha tracejada marca beta = 1,5. Fonte: simulação do mesmo BLP.}\label{fig:ruido-hetero}
-\end{figure}
-
-\small
-
-Desvios-padrão: \(0{,}107\), \(0{,}330\) e \(0{,}149\). O MQO continua
-não viesado nos três cenários. Com heterocedasticidade, a garantia
-clássica de Gauss--Markov deixa de se aplicar.
 \end{frame}
 
 \begin{frame}{Parâmetro da regra e coeficiente do BLP}
@@ -714,7 +683,8 @@ O EQM combina viés ao quadrado e variância amostral.
 Para o BLP, amostragem i.i.d., segundos momentos finitos e matriz populacional invertível
 formam um conjunto de hipóteses suficientes para a consistência.
 \item A média condicional zero permite demonstrar o não viés do MQO.
-A homocedasticidade acrescenta a garantia clássica de eficiência entre estimadores lineares não viesados.
+Sob as hipóteses da versão clássica de Gauss–Markov, o MQO tem a menor variância
+entre estimadores lineares não viesados.
 \item O bootstrap usa a distribuição empírica para aproximar a distribuição amostral
 e estimar o erro-padrão.
 \end{itemize}

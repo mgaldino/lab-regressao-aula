@@ -5,20 +5,20 @@ Preparação: 13/10/2026. Data da aula: 14/10/2026.
 ## Arquivos
 
 - Fonte dos slides: `projeto_agna/laboratorios/slides_aula_07_propriedades_mqo.Rmd`.
-- PDF: `projeto_agna/output/pdf/slides_aula_07_propriedades_mqo.pdf`, 25 páginas, 16:9.
+- PDF: `projeto_agna/output/pdf/slides_aula_07_propriedades_mqo.pdf`, 24 páginas, 16:9.
 - Cálculos e figuras: `projeto_agna/scripts/12_simulacoes_aula7_propriedades_mqo.R`.
 - Verificação analítica: `projeto_agna/scripts/13_validar_aula7_propriedades_mqo.R`.
 - Resultados, amostras, estimativas e figuras: nesta pasta. O Rmd lê os resultados e importa as figuras. Os cálculos permanecem no script R.
 
 ## Conteúdo e notação
 
-Sequência: BLP e estimador de MQO; duas amostras da mesma população; distribuição amostral; viés; variância e EQM; consistência; cálculo do MQO na amostra e unicidade dos coeficientes; reescrita da fórmula conhecida por divisão dos dois produtos por n; produtos matriciais como somas e médias, com ligação à fórmula escalar; demonstração da consistência e alvo populacional; média condicional zero; demonstração do não viés; variância condicional; versão clássica de Gauss–Markov e prova; Monte Carlo com diferentes tamanhos de amostra e estruturas do erro; alvo populacional da projeção; bootstrap de pares; síntese e leituras.
+Sequência: BLP e estimador de MQO; duas amostras da mesma população; distribuição amostral; viés; variância e EQM; consistência; cálculo do MQO na amostra e unicidade dos coeficientes; reescrita da fórmula conhecida por divisão dos dois produtos por n; produtos matriciais como somas e médias, com ligação à fórmula escalar; demonstração da consistência e alvo populacional; média condicional zero; demonstração do não viés; variância condicional sob variância constante; versão clássica de Gauss–Markov e prova; Monte Carlo com diferentes tamanhos de amostra; alvo populacional da projeção; bootstrap de pares; síntese e leituras.
 
 Os slides 6–8 esclarecem que o viés é definido pela esperança na distribuição amostral do estimador. A expressão “não viés para n fixo” significa que essa esperança coincide com o parâmetro sem tomar um limite assintótico. O erro de uma estimativa observada é uma realização da diferença entre estimador e parâmetro. A consistência descreve uma sequência quando n cresce.
 
-Notação preservada: `alpha`, `beta_j` e o vetor de coeficientes contendo o intercepto; `epsilon` como erro da projeção linear; `e_hat` como resíduo amostral; transposta com linha. O erro `u` da regra geradora no slide 20 é explicitamente distinto do erro da projeção linear. O MQO converge para o coeficiente do BLP, 2,3, nesse cenário, enquanto a regra original inclui o parâmetro 1,5.
+Notação preservada: `alpha`, `beta_j` e o vetor de coeficientes contendo o intercepto; `epsilon` como erro da projeção linear; `e_hat` como resíduo amostral; transposta com linha. O erro `u` da regra geradora no slide 19 é explicitamente distinto do erro da projeção linear. O MQO converge para o coeficiente do BLP, 2,3, nesse cenário, enquanto a regra original inclui o parâmetro 1,5.
 
-O tema Madrid, as cores, a tipografia, os blocos e o rodapé foram copiados do YAML vigente da Aula 6. A revisão didática de 14/10 dividiu a passagem sobre consistência em três slides e levou o PDF a 25 páginas. O laboratório posterior está documentado na seção “Laboratório de 75 minutos”, ao final.
+O tema Madrid, as cores, a tipografia, os blocos e o rodapé foram copiados do YAML vigente da Aula 6. A revisão didática de 14/10 dividiu a passagem sobre consistência em três slides. A revisão seguinte retirou o slide de Monte Carlo sobre heterocedasticidade e simplificou o slide de variância, deixando o PDF com 24 páginas. O laboratório posterior está documentado na seção “Laboratório de 75 minutos”, ao final.
 
 ## Simulações
 
