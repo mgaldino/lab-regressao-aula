@@ -522,29 +522,30 @@ BLUE: \textit{best linear unbiased estimator}, ou melhor estimador
 linear não viesado. O teorema dispensa a normalidade dos erros.
 \end{frame}
 
-\begin{frame}{De onde vem \(\mathbf A\mathbf X=\mathbf I\)?}
-\protect\phantomsection\label{de-onde-vem-mathbf-amathbf-xmathbf-i}
-Considere
-\(\mathbf Y=\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon\), com
-\(E[\boldsymbol\varepsilon\mid\mathbf X]=\mathbf 0\). Para um estimador
-\(\widetilde{\boldsymbol\beta}=\mathbf A\mathbf Y\), em que
-\(\mathbf A\) depende apenas de \(\mathbf X\): \[
+\begin{frame}{Outra prova do não viés do MQO}
+\protect\phantomsection\label{outra-prova-do-nuxe3o-viuxe9s-do-mqo}
+Defina \(\mathbf A_0=(\mathbf X'\mathbf X)^{-1}\mathbf X'\). Como
+\(\mathbf A_0\) depende apenas de \(\mathbf X\),
+\(\widehat{\boldsymbol\beta}=\mathbf A_0\mathbf Y\). Com
+\(\mathbf Y=\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon\) e
+\(E[\boldsymbol\varepsilon\mid\mathbf X]=\mathbf 0\): \[
 \begin{aligned}
-E[\widetilde{\boldsymbol\beta}\mid\mathbf X]
-&=\mathbf A E[\mathbf Y\mid\mathbf X]\\
-&=\mathbf A(\mathbf X\boldsymbol\beta+E[\boldsymbol\varepsilon\mid\mathbf X])\\
-&=\mathbf A\mathbf X\boldsymbol\beta.
+E[\widehat{\boldsymbol\beta}\mid\mathbf X]
+&=E[\mathbf A_0\mathbf Y\mid\mathbf X]\\
+&=\mathbf A_0 E[\mathbf Y\mid\mathbf X]\\
+&=\mathbf A_0(\mathbf X\boldsymbol\beta
++E[\boldsymbol\varepsilon\mid\mathbf X])\\
+&=\mathbf A_0\mathbf X\boldsymbol\beta.
 \end{aligned}
 \]
 
 \begin{block}{Condição de não viés}
 Para que essa média seja $\boldsymbol\beta$ para todo vetor de coeficientes,
-$\mathbf A\mathbf X=\mathbf I_{k+1}$.
-A matriz identidade deixa $\boldsymbol\beta$ inalterado.
+precisamos de $\mathbf A_0\mathbf X=\mathbf I_{k+1}$:
+a identidade deixa $\boldsymbol\beta$ inalterado.
 \end{block}
 
-No MQO, \(\mathbf A_0=(\mathbf X'\mathbf X)^{-1}\mathbf X'\), se
-\(\mathbf X'\mathbf X\) for invertível. Assim: \[
+Como \(\mathbf X'\mathbf X\) é invertível: \[
 \mathbf A_0\mathbf X=(\mathbf X'\mathbf X)^{-1}(\mathbf X'\mathbf X)
 =\mathbf I_{k+1}.
 \]
@@ -558,9 +559,13 @@ exige variância constante.
 
 \begin{frame}{Comparação entre estimadores}
 \protect\phantomsection\label{comparauxe7uxe3o-entre-estimadores}
-O MQO usa \(\mathbf A_0=(\mathbf X'\mathbf X)^{-1}\mathbf X'\).
-Considere outro estimador linear e não viesado \(\mathbf A\mathbf Y\),
-para o qual \(\mathbf A\mathbf X=\mathbf I_{k+1}\).
+Agora considere outro estimador linear
+\(\widehat{\boldsymbol\beta}^{\,a}
+=\mathbf A\mathbf Y\), com \(\mathbf A\) dependendo apenas de
+\(\mathbf X\). A mesma conta dá
+\(E[\widehat{\boldsymbol\beta}^{\,a}\mid\mathbf X]
+=\mathbf A\mathbf X\boldsymbol\beta\). Para não viés para todo
+\(\boldsymbol\beta\), \(\mathbf A\mathbf X=\mathbf I_{k+1}\).
 
 Escreva \(\mathbf A=\mathbf A_0+\mathbf C\). Então
 \(\mathbf C\mathbf X=\mathbf 0\) e \(\mathbf A_0\mathbf C'=\mathbf 0\).
