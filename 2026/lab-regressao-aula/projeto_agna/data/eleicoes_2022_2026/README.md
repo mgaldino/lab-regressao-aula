@@ -1,6 +1,22 @@
 # Dados eleitorais da Aula 7
 
-Uma linha representa uma zona eleitoral, identificada por **UF + número da zona**. Somam-se os votos de todas as seções e municípios abrangidos por ela antes de calcular as porcentagens. O laboratório cobre as 27 UFs brasileiras. Votos no exterior, identificados por ZZ, são excluídos.
+Uma linha representa uma zona eleitoral, identificada por **UF + número da zona**. Somam-se os votos de todas as seções e municípios abrangidos por ela antes de calcular as porcentagens. A versão original do laboratório cobre as 27 UFs brasileiras. Uma versão adicional de dados observados, preparada em 13/10/2026, inclui o exterior, identificado por ZZ.
+
+## Versão de dados que inclui o exterior
+
+| Arquivo | Linhas | Cobertura |
+|---|---:|---|
+| `processed/presidente_2022_zonas_com_exterior.csv` | 2.637 | Dois turnos de 2022, 27 UFs e ZZ |
+| `processed/presidente_2026_t1_zonas_com_exterior.csv` | 2.641 | Primeiro turno de 2026, 27 UFs e ZZ |
+
+Há uma zona do exterior por ano e turno nas bases. ZZ é uma categoria geográfica adicional, e não uma UF brasileira. Os percentuais usam todos os votos válidos do turno. Essa preparação não calcula modelos ou previsões.
+
+```sh
+LC_ALL=pt_BR.UTF-8 LANG=pt_BR.UTF-8 Rscript --vanilla projeto_agna/scripts/17_preparar_dados_eleicoes.R --incluir-exterior
+LC_ALL=pt_BR.UTF-8 LANG=pt_BR.UTF-8 Rscript --vanilla projeto_agna/scripts/21_validar_dados_com_exterior.R
+```
+
+Detalhes da conferência: `docs/INCLUSAO_EXTERIOR.md`. Integridade dessa versão: `checksums_com_exterior.sha256`.
 
 ## Entradas prontas para o laboratório
 

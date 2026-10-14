@@ -3,6 +3,7 @@
 # Executar na pasta 2026/lab-regressao-aula, depois do script Python 16.
 # Os snapshots incluídos permitem reproduzir esta preparação sem rede.
 # Argumento opcional: diretório de origem dos snapshots para a importação.
+# --incluir-exterior prepara uma versão adicional com ZZ, sem calcular modelos.
 
 library(here)
 library(dplyr)
@@ -13,7 +14,9 @@ for (pasta in c("raw", "processed", "docs")) {
   dir.create(file.path(diretorio, pasta), recursive = TRUE, showWarnings = FALSE)
 }
 argumentos <- commandArgs(trailingOnly = TRUE)
-origem <- if (length(argumentos)) argumentos[1] else
+incluir_exterior <- "--incluir-exterior" %in% argumentos
+argumentos_origem <- argumentos[argumentos != "--incluir-exterior"]
+origem <- if (length(argumentos_origem)) argumentos_origem[1] else
   "/Users/manoelgaldino/Documents/DCP/Papers/electoralFraud/quality_reports/results/eleicao2026_t1/data"
 nomes <- c("section_votes_2022_T1.parquet", "section_votes_2022_T2.parquet",
            "section_votes_2026_T1_bu.parquet", "section_votes_2026_T1_bu_cobertura.csv")
@@ -30,6 +33,8 @@ secoes <- lapply(nomes[1:3], function(nome) {
 ufs <- c("AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS",
          "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC",
          "SE", "SP", "TO")
+ufs_escopo <- if (incluir_exterior) c(ufs, "ZZ") else ufs
+sufixo <- if (incluir_exterior) "_com_exterior" else ""
 
 # Cada seção aparece uma vez: o denominador não é repetido por candidato.
 for (d in secoes) {
@@ -116,15 +121,15 @@ stopifnot(sum(secoes[[3]]$validos) + sum(correcoes$validos) == as.numeric(nacion
 # abrangidos pela zona. Somar porcentagens municipais daria outro resultado.
 agregar <- function(d, turno) {
   z <- d |>
-    filter(uf %in% ufs) |>
+    filter(uf %in% ufs_escopo) |>
     group_by(uf, zona) |>
     summarise(lula = sum(c13), adversario = sum(c22), validos = sum(validos),
               brancos = sum(brancos), nulos = sum(nulos),
               secoes = n(), municipios = n_distinct(cd_mun), .groups = "drop") |>
     arrange(uf, zona)
   stopifnot(!anyNA(z), all(z$validos > 0),
-            sum(z$lula) == sum(d$c13[d$uf %in% ufs]),
-            sum(z$validos) == sum(d$validos[d$uf %in% ufs]))
+            sum(z$lula) == sum(d$c13[d$uf %in% ufs_escopo]),
+            sum(z$validos) == sum(d$validos[d$uf %in% ufs_escopo]))
   names(z)[-(1:2)] <- paste0(names(z)[-(1:2)], "_", turno)
   z
 }
@@ -157,28 +162,31 @@ aplicacao <- z2026 |>
          pct_flavio_t1 = 100 * flavio_t1 / validos_t1)
 for (d in list(treino, aplicacao)) {
   stopifnot(!anyDuplicated(d[c("uf", "zona")]), !anyNA(d),
-            setequal(d$uf, ufs),
+            setequal(d$uf, ufs_escopo),
             all(as.matrix(dplyr::select(d, starts_with("pct_"))) >= 0),
             all(as.matrix(dplyr::select(d, starts_with("pct_"))) <= 100))
 }
 stopifnot(all(abs(treino$pct_lula_t2 + treino$pct_bolsonaro_t2 - 100) < 1e-10))
-write.csv(treino, file.path(diretorio, "processed", "presidente_2022_zonas.csv"),
+write.csv(treino, file.path(diretorio, "processed", paste0("presidente_2022_zonas", sufixo, ".csv")),
           row.names = FALSE, fileEncoding = "UTF-8")
-write.csv(aplicacao, file.path(diretorio, "processed", "presidente_2026_t1_zonas.csv"),
+write.csv(aplicacao, file.path(diretorio, "processed", paste0("presidente_2026_t1_zonas", sufixo, ".csv")),
           row.names = FALSE, fileEncoding = "UTF-8")
 chaves <- full_join(mutate(dplyr::select(treino, uf, zona), em_2022 = TRUE),
                    mutate(dplyr::select(aplicacao, uf, zona), em_2026 = TRUE),
                    by = c("uf", "zona")) |>
   mutate(em_2022 = coalesce(em_2022, FALSE), em_2026 = coalesce(em_2026, FALSE))
 write.csv(filter(chaves, !em_2022 | !em_2026),
-          file.path(diretorio, "docs", "zonas_com_chave_em_apenas_um_ano.csv"), row.names = FALSE)
+          file.path(diretorio, "docs", paste0("zonas_com_chave_em_apenas_um_ano", sufixo, ".csv")),
+          row.names = FALSE)
 cobertura <- read.csv(file.path(diretorio, "raw", nomes[4]))
 stopifnot(all(cobertura$selecionadas + cobertura$sem_bu == cobertura$secoes_lista),
           all(cobertura$conflitos == 0), all(cobertura$erros_decodificacao == 0))
 relatorio <- c(
   "VALIDACAO_DADOS_ELEITORAIS_OK",
-  paste("Zonas 2022:", nrow(treino), "| Zonas 2026:", nrow(aplicacao), "| UFs: 27"),
-  "Unidade: UF + zona eleitoral. Exterior (ZZ) excluído das entradas do laboratório.",
+  paste("Zonas 2022:", nrow(treino), "| Zonas 2026:", nrow(aplicacao),
+        "| Categorias geográficas:", length(ufs_escopo)),
+  if (incluir_exterior) "Unidade: UF + zona eleitoral. Inclui 27 UFs e Exterior (ZZ)." else
+    "Unidade: UF + zona eleitoral. Exterior (ZZ) excluído das entradas do laboratório.",
   "2022: chaves de zona iguais nos dois turnos, sem perdas no cruzamento.",
   "2026: após complemento de duas zonas, os 12 totais de candidatos e votos válidos igualam o JSON nacional.",
   paste("Seções sem BU no recibo de 2026:", sum(cobertura$sem_bu[cobertura$uf != "ZZ"]),
@@ -187,5 +195,5 @@ relatorio <- c(
   "Os complementos provêm de totais municipais oficiais. As listas de seções fixam sua única zona possível.",
   paste("Chaves presentes em apenas um ano:", sum(!chaves$em_2022 | !chaves$em_2026)),
   "Coincidência de código entre anos não garante território idêntico. Não é um painel de zonas fixas.")
-writeLines(relatorio, file.path(diretorio, "docs", "validacao_preparacao.txt"))
+writeLines(relatorio, file.path(diretorio, "docs", paste0("validacao_preparacao", sufixo, ".txt")))
 cat(paste(relatorio, collapse = "\n"), "\n")

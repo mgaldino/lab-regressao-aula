@@ -122,3 +122,11 @@ LC_ALL=pt_BR.UTF-8 LANG=pt_BR.UTF-8 Rscript --vanilla projeto_agna/scripts/18_la
 LC_ALL=pt_BR.UTF-8 LANG=pt_BR.UTF-8 Rscript --vanilla projeto_agna/scripts/19_validar_laboratorio_eleitoral.R
 python3 projeto_agna/scripts/20_empacotar_laboratorio_eleitoral.py
 ```
+
+## Bases adicionais com exterior
+
+Em 13/10/2026, o script 17 recebeu a opção `--incluir-exterior`, que prepara dados observados de 27 UFs e ZZ. Os arquivos adicionais em `data/eleicoes_2022_2026/processed/` têm o sufixo `_com_exterior.csv`. São 2.637 zonas em 2022 e 2.641 em 2026. A preparação soma a zona do exterior e calcula seus percentuais sobre todos os votos válidos do turno.
+
+O novo script 21 verifica os dados sem ajustar regressões. Retornou `VALIDACAO_DADOS_COM_EXTERIOR_OK`, conferindo chaves, ausências, denominadores, somas do exterior e igualdade da parte das 27 UFs com os CSVs anteriores. O total válido de 2026, incluindo exterior, coincide com a totalização nacional oficial. Relatório e reprodução em `data/eleicoes_2022_2026/docs/INCLUSAO_EXTERIOR.md`.
+
+Esta adição abrange apenas a preparação e a validação dos dados observados. Não recalcula a modelagem nem as previsões. O laboratório e o ZIP anteriores continuam correspondendo à versão de 27 UFs.

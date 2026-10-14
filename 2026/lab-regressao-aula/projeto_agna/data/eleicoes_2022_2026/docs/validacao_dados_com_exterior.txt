@@ -1,0 +1,7 @@
+VALIDACAO_DADOS_COM_EXTERIOR_OK
+Zonas 2022: 2637 | Zonas 2026: 2641
+Cobertura: 27 UFs e Exterior (ZZ). Uma observação ZZ por ano/turno.
+Sem ausências ou duplicidades de chave. Denominadores positivos.
+Votos, denominadores e percentuais do exterior conferidos diretamente nas seções.
+Dados observados das 27 UFs preservados. Total de votos válidos igual ao TSE.
+Validação de dados observados. Não inclui estimação ou previsão eleitoral.

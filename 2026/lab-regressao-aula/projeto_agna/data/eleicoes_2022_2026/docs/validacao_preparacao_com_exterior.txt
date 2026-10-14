@@ -1,0 +1,10 @@
+VALIDACAO_DADOS_ELEITORAIS_OK
+Zonas 2022: 2637 | Zonas 2026: 2641 | Categorias geográficas: 28
+Unidade: UF + zona eleitoral. Inclui 27 UFs e Exterior (ZZ).
+2022: chaves de zona iguais nos dois turnos, sem perdas no cruzamento.
+2026: após complemento de duas zonas, os 12 totais de candidatos e votos válidos igualam o JSON nacional.
+Seções sem BU no recibo de 2026: 15 no Brasil e 41 no exterior.
+As 15 seções do Brasil ausentes nos BUs somam 3.935 votos válidos, recuperados sem rateio entre zonas.
+Os complementos provêm de totais municipais oficiais. As listas de seções fixam sua única zona possível.
+Chaves presentes em apenas um ano: 6
+Coincidência de código entre anos não garante território idêntico. Não é um painel de zonas fixas.

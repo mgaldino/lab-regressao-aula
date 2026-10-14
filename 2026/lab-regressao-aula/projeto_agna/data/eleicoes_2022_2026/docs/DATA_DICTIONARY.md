@@ -6,7 +6,7 @@ Os dois CSVs usam UTF-8, vírgula como separador e ponto decimal. `t1` designa p
 
 | Variável | Tipo | Descrição e unidade | Valores | Fonte |
 |---|---|---|---|---|
-| `uf` | texto | Sigla da unidade da Federação | 27 UFs, exclui ZZ | TSE |
+| `uf` | texto | Categoria geográfica registrada pelo TSE | 27 UFs na versão original. Nas versões `_com_exterior`, inclui também ZZ (Exterior) | TSE |
 | `zona` | inteiro | Número da zona dentro da UF | Positivo, identificador único apenas com UF | TSE |
 | `lula_t1` | número inteiro de votos | Votos válidos de Lula no primeiro turno | Não negativo | `tse_2022_secoes_snapshot` ou `tse_2026_bu_snapshot` + `tse_2026_json_oficial` |
 | `validos_t1` | número inteiro de votos | Soma dos votos válidos de todos os candidatos no primeiro turno | Positivo | Mesmas fontes |
@@ -40,6 +40,10 @@ Fontes: `tse_2026_bu_snapshot` e `tse_2026_json_oficial`. Inclui as variáveis c
 | `secoes_completadas_por_total_municipal_t1` | inteiro | Quantidade de seções cujo complemento de votos foi recuperado no total da zona por diferença com o total municipal oficial | 0, 3 ou 12 |
 
 Este arquivo contém resultados observados do primeiro turno. Não contém resultados observados do segundo turno de 2026. As previsões são exportadas em outro diretório, `output/aula_07/laboratorio_eleitoral/`.
+
+## Versões `_com_exterior.csv`
+
+Os arquivos `presidente_2022_zonas_com_exterior.csv` e `presidente_2026_t1_zonas_com_exterior.csv` têm as mesmas colunas das versões acima e adicionam a zona ZZ. Contêm apenas dados observados. ZZ possui uma observação por ano/turno após a soma das seções. Não é uma vigésima oitava UF. É a categoria geográfica Exterior.
 
 ## Auditorias em `docs/`
 
