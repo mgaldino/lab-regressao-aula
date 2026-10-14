@@ -522,11 +522,45 @@ BLUE: \textit{best linear unbiased estimator}, ou melhor estimador
 linear não viesado. O teorema dispensa a normalidade dos erros.
 \end{frame}
 
+\begin{frame}{De onde vem \(\mathbf A\mathbf X=\mathbf I\)?}
+\protect\phantomsection\label{de-onde-vem-mathbf-amathbf-xmathbf-i}
+Considere
+\(\mathbf Y=\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon\), com
+\(E[\boldsymbol\varepsilon\mid\mathbf X]=\mathbf 0\). Para um estimador
+\(\widetilde{\boldsymbol\beta}=\mathbf A\mathbf Y\), em que
+\(\mathbf A\) depende apenas de \(\mathbf X\): \[
+\begin{aligned}
+E[\widetilde{\boldsymbol\beta}\mid\mathbf X]
+&=\mathbf A E[\mathbf Y\mid\mathbf X]\\
+&=\mathbf A(\mathbf X\boldsymbol\beta+E[\boldsymbol\varepsilon\mid\mathbf X])\\
+&=\mathbf A\mathbf X\boldsymbol\beta.
+\end{aligned}
+\]
+
+\begin{block}{Condição de não viés}
+Para que essa média seja $\boldsymbol\beta$ para todo vetor de coeficientes,
+$\mathbf A\mathbf X=\mathbf I_{k+1}$.
+A matriz identidade deixa $\boldsymbol\beta$ inalterado.
+\end{block}
+
+No MQO, \(\mathbf A_0=(\mathbf X'\mathbf X)^{-1}\mathbf X'\), se
+\(\mathbf X'\mathbf X\) for invertível. Assim: \[
+\mathbf A_0\mathbf X=(\mathbf X'\mathbf X)^{-1}(\mathbf X'\mathbf X)
+=\mathbf I_{k+1}.
+\]
+
+\small
+
+\(\mathbf I_{k+1}\) tem uma linha e uma coluna por coeficiente,
+incluindo o intercepto. A conclusão usa média condicional zero; não
+exige variância constante.
+\end{frame}
+
 \begin{frame}{Comparação entre estimadores}
 \protect\phantomsection\label{comparauxe7uxe3o-entre-estimadores}
-O MQO usa \(\mathbf A_0=(\mathbf X'\mathbf X)^{-1}\mathbf X'\). Um
-estimador alternativo \(\mathbf A\mathbf Y\) é não viesado para todo
-\(\boldsymbol\beta\) quando \(\mathbf A\mathbf X=\mathbf I_{k+1}\).
+O MQO usa \(\mathbf A_0=(\mathbf X'\mathbf X)^{-1}\mathbf X'\).
+Considere outro estimador linear e não viesado \(\mathbf A\mathbf Y\),
+para o qual \(\mathbf A\mathbf X=\mathbf I_{k+1}\).
 
 Escreva \(\mathbf A=\mathbf A_0+\mathbf C\). Então
 \(\mathbf C\mathbf X=\mathbf 0\) e \(\mathbf A_0\mathbf C'=\mathbf 0\).
