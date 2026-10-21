@@ -1,0 +1,526 @@
+---
+title: "Aula 8: resíduos e diagnóstico do modelo"
+subtitle: "CEF, projeção linear, diagnóstico e previsão"
+author: "FLS 6183 - Métodos Quantitativos de Pesquisa II"
+date: "21 de outubro de 2026"
+lang: pt-BR
+output:
+  beamer_presentation:
+    latex_engine: xelatex
+    theme: Madrid
+    colortheme: default
+    fonttheme: professionalfonts
+    incremental: false
+classoption:
+  - aspectratio=169
+  - 10pt
+header-includes:
+  - \usepackage{amsmath}
+  - \usepackage{amssymb}
+  - \usepackage{booktabs}
+  - \usepackage{xcolor}
+  - \definecolor{AzulAula}{HTML}{1D4ED8}
+  - \definecolor{AzulEscuro}{HTML}{0F172A}
+  - \definecolor{CinzaTexto}{HTML}{334155}
+  - \definecolor{VerdeAula}{HTML}{047857}
+  - \setbeamercolor{structure}{fg=AzulAula}
+  - \setbeamercolor{title}{fg=white,bg=AzulEscuro}
+  - \setbeamercolor{frametitle}{fg=white,bg=AzulEscuro}
+  - \setbeamercolor{normal text}{fg=CinzaTexto,bg=white}
+  - \setbeamercolor{block title}{fg=white,bg=AzulAula}
+  - \setbeamercolor{block body}{fg=AzulEscuro,bg=blue!5}
+  - \setbeamercolor{alertblock title}{fg=white,bg=red!75!black}
+  - \setbeamercolor{alertblock body}{fg=AzulEscuro,bg=red!5}
+  - \setbeamertemplate{navigation symbols}{}
+  - \setbeamertemplate{caption}[numbered]
+  - \setbeamertemplate{footline}[frame number]
+  - \setbeamerfont{caption}{size=\scriptsize}
+  - \setlength{\abovecaptionskip}{2pt}
+  - \setlength{\belowcaptionskip}{0pt}
+  - \renewcommand{\tablename}{Tabela}
+  - \renewcommand{\figurename}{Figura}
+---
+
+```{r setup, include=FALSE}
+options(encoding = "UTF-8", scipen = 999)
+here::i_am("projeto_agna/laboratorios/slides_aula_08_diagnosticos.Rmd")
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
+                      fig.align = "center", out.width = "82%")
+saida <- here::here("projeto_agna", "output", "aula_08")
+arquivo_resultados <- file.path(saida, "resultados_aula_08.rds")
+if (!file.exists(arquivo_resultados)) {
+  stop("Execute primeiro projeto_agna/scripts/23_preparar_aula8_diagnosticos.R")
+}
+a <- readRDS(arquivo_resultados)
+numero <- function(x, digitos = 3) {
+  x[abs(x) < 0.5 * 10^(-digitos)] <- 0
+  sub("^-", "\u2212", formatC(x, format = "f", digits = digitos, decimal.mark = ","))
+}
+numero_m <- function(x, digitos = 3) {
+  x[abs(x) < 0.5 * 10^(-digitos)] <- 0
+  gsub(",", "{,}", formatC(x, format = "f", digits = digitos, decimal.mark = ","), fixed = TRUE)
+}
+figura <- function(nome) file.path(saida, "figuras", paste0(nome, ".pdf"))
+```
+
+# Finalidade do diagnóstico
+
+Um diagnóstico informa se a análise sustenta o resultado que queremos produzir.
+
+\begin{table}
+\centering
+\caption{Objetivo da análise e pergunta de diagnóstico}
+\begin{tabular}{p{0.23\textwidth}p{0.66\textwidth}}
+\toprule
+Objetivo & Pergunta relevante \\
+\midrule
+Prever $Y$ & As previsões funcionam para novas observações? \\
+Resumir uma relação & A projeção linear é um resumo útil? De quais observações depende? \\
+Quantificar incerteza & Os erros-padrão acomodam a dispersão e a dependência dos dados? \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+O mesmo padrão nos resíduos pode ter consequências diferentes para cada objetivo.
+
+# Erro populacional e resíduo amostral
+
+Na representação $Y_i=\mathbf x_i'\boldsymbol\beta+\varepsilon_i$:
+\[
+\underbrace{\varepsilon_i=Y_i-\mathbf x_i'\boldsymbol\beta}_{\text{erro populacional}},
+\qquad
+\underbrace{\hat e_i=Y_i-\mathbf x_i'\widehat{\boldsymbol\beta}}_{\text{resíduo amostral}}.
+\]
+
+$\boldsymbol\beta$ é o vetor de parâmetros populacionais; $\mathbf x_i'\boldsymbol\beta$ é o valor previsto com esses parâmetros.
+
+\begin{block}{O que observamos e o que calculamos}
+Observamos $Y_i$ e $\mathbf x_i$. Em geral, o parâmetro populacional $\boldsymbol\beta$ é desconhecido, por isso não podemos calcular o erro $\varepsilon_i$.
+
+Depois de estimar $\widehat{\boldsymbol\beta}$, calculamos o resíduo $\hat e_i$ com os dados observados e os coeficientes estimados.
+\end{block}
+
+Se $\boldsymbol\beta$ é conhecido, o erro é calculável. Isso ocorre em simulações com parâmetros conhecidos e na projeção linear de uma população finita inteiramente observada em um censo.
+
+# Por que o resíduo difere do erro?
+
+Substituímos $Y_i=\mathbf x_i'\boldsymbol\beta+\varepsilon_i$ na definição do resíduo:
+\[
+\begin{aligned}
+\hat e_i
+&=Y_i-\mathbf x_i'\widehat{\boldsymbol\beta}\\
+&=\mathbf x_i'\boldsymbol\beta+\varepsilon_i-\mathbf x_i'\widehat{\boldsymbol\beta}\\
+&=\varepsilon_i-\mathbf x_i'(\widehat{\boldsymbol\beta}-\boldsymbol\beta).
+\end{aligned}
+\]
+
+\begin{block}{A diferença vem da estimação dos coeficientes}
+O resíduo incorpora o termo $-\mathbf x_i'(\widehat{\boldsymbol\beta}-\boldsymbol\beta)$.
+Se conhecêssemos $\boldsymbol\beta$, poderíamos calcular o erro. Se $\widehat{\boldsymbol\beta}=\boldsymbol\beta$, resíduos e erros coincidiriam.
+\end{block}
+
+A identidade vale também quando $\boldsymbol\beta$ é o coeficiente do BLP. Ela não exige uma CEF linear.
+
+# Erro no BLP
+
+A minimização do EQM populacional define o coeficiente e o erro de projeção:
+\[
+\boldsymbol\beta=\arg\min_{\mathbf b}E[(Y-\mathbf x'\mathbf b)^2],
+\qquad
+\varepsilon_i=Y_i-\mathbf x_i'\boldsymbol\beta.
+\]
+
+Esse erro soma o erro da CEF $u_i$ à diferença entre a CEF e o BLP:
+\[
+\varepsilon_i=
+\underbrace{Y_i-m(\mathbf x_i)}_{u_i}
++\underbrace{m(\mathbf x_i)-\mathbf x_i'\boldsymbol\beta}_{\text{erro de aproximação}}.
+\]
+
+\begin{block}{Propriedade do erro de projeção}
+$E[\mathbf x_i\varepsilon_i]=\mathbf 0$, mas $E[\varepsilon_i\mid\mathbf x_i]$ pode ser diferente de zero. Se a CEF é linear na especificação escolhida, o erro do BLP coincide com o erro da CEF.
+\end{block}
+
+MQO minimiza o critério na amostra, estima $\boldsymbol\beta$ e produz os resíduos $\hat e_i=Y_i-\mathbf x_i'\widehat{\boldsymbol\beta}$.
+
+\scriptsize Hansen, seção 2.18: definição populacional do BLP e do erro de projeção.
+
+# Propriedades por construção
+
+Com intercepto e MQO, as equações normais garantem, para cada regressor incluído:
+\[
+\sum_{i=1}^n\hat e_i=0,
+\qquad
+\sum_{i=1}^n X_{ij}\hat e_i=0.
+\]
+
+Essas igualdades valem mesmo quando a CEF tem outra forma.
+
+\begin{block}{O que é zero por construção}
+Regredir os resíduos nos mesmos regressores produz valores ajustados zero.
+Isso não garante média condicional zero dos resíduos: uma suavização pode revelar curvatura.
+\end{block}
+
+Essas identidades amostrais não testam $E[\varepsilon_i\mid\mathbf x_i]=0$.
+
+# Curvatura na esperança condicional
+
+Exemplo sintético: $X\sim U[-2,2]$, $u\sim N(0,0{,}6^2)$ independente de $X$ e
+\[
+Y=2+1{,}5X-0{,}8(X^2-4/3)+u.
+\]
+
+```{r curvatura, out.width="74%", fig.cap="CEF quadrática (verde) e MQO simples estimado na amostra (azul). Fonte: 450 observações sintéticas."}
+knitr::include_graphics(figura("01_curvatura"))
+```
+
+\small
+Aqui, $E[X^2]=4/3$ e $\operatorname{Cov}(X,X^2)=0$ dão BLP $2+1{,}5X$.
+Esses coeficientes foram preservados por construção. Em geral, não basta retirar o termo quadrático da CEF para obter o BLP.
+
+# Curvatura nos resíduos
+
+Usamos os resíduos da regressão simples do exemplo anterior.
+
+```{r residuos-curvatura, fig.cap="Resíduos contra X, com reta de MQO e suavização local (loess). A reta horizontal decorre das equações normais. A curva mostra a estrutura que o modelo simples deixou nos resíduos. Fonte: mesmos 450 dados sintéticos."}
+knitr::include_graphics(figura("02_residuos_curvatura"))
+```
+
+\begin{block}{Interpretação}
+A curvatura indica uma aproximação incompleta da CEF. O coeficiente do BLP continua definido.
+\end{block}
+
+# Consequências da curvatura
+
+- **Previsão:** o modelo pode errar sistematicamente em regiões de $X$. Uma especificação mais flexível precisa ser avaliada em novos dados.
+- **Resumo linear:** o coeficiente continua resumindo a relação na população e no suporte considerados.
+
+\begin{block}{Linearidade nos coeficientes}
+$Y=\alpha+\beta_1X+\beta_2X^2+\varepsilon$ continua sendo uma regressão linear nos coeficientes. Termos quadráticos, splines e interações permitem maior flexibilidade.
+\end{block}
+
+# Heterocedasticidade
+
+Agora a CEF é linear: $Y=1+1{,}5X+u$, com $X\sim U[0,4]$,
+$u=(0{,}25+0{,}5X)Z$ e $Z\sim N(0,1)$ independente de $X$.
+
+```{r heterocedasticidade, fig.cap="Resíduos em 600 observações sintéticas. A variância do erro aumenta com X; a CEF permanece linear. A linha verde é uma suavização local e a azul marca zero. Fonte: processo gerador descrito."}
+knitr::include_graphics(figura("03_heterocedasticidade"))
+```
+
+\small
+A mudança da dispersão e a curvatura da média são aspectos diferentes do diagnóstico.
+
+# Heterocedasticidade: o caso geral
+
+A formulação geral permite que a variância do erro dependa dos regressores:
+\[
+\operatorname{Var}(\varepsilon_i\mid\mathbf x_i)=\sigma^2(\mathbf x_i).
+\]
+
+A homocedasticidade é o caso particular em que $\sigma^2(\mathbf x_i)=\sigma^2$ para todos os valores dos regressores.
+
+\begin{block}{Consequência para os erros-padrão}
+Os erros-padrão convencionais usam a hipótese de variância constante.
+Com heterocedasticidade, podem subestimar ou superestimar a incerteza dos coeficientes.
+\end{block}
+
+- Erros-padrão robustos à heterocedasticidade acomodam variâncias diferentes entre observações.
+- Com observações independentes e condições usuais para amostras grandes, podem ser usados tanto com heterocedasticidade quanto com homocedasticidade.
+
+\scriptsize Hansen, seções 4.13--4.15. Na aula 9: comparação entre erros-padrão convencionais, HC3 e bootstrap.
+
+# Da estimativa de MQO à matriz hat
+
+Partimos da fórmula de MQO, com $\mathbf X'\mathbf X$ inversível:
+\[
+\widehat{\boldsymbol\beta}=(\mathbf X'\mathbf X)^{-1}\mathbf X'\mathbf Y.
+\]
+
+Substituímos $\mathbf Y=\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon$:
+\[
+\begin{aligned}
+\widehat{\boldsymbol\beta}
+&=(\mathbf X'\mathbf X)^{-1}\mathbf X'(\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon)\\
+&=\boldsymbol\beta+(\mathbf X'\mathbf X)^{-1}\mathbf X'\boldsymbol\varepsilon.
+\end{aligned}
+\]
+
+Multiplicando por $\mathbf X$, obtemos os valores ajustados:
+\[
+\widehat{\mathbf Y}=\mathbf X\widehat{\boldsymbol\beta}
+=\mathbf X\boldsymbol\beta+
+\underbrace{\mathbf X(\mathbf X'\mathbf X)^{-1}\mathbf X'}_{\mathbf H}
+\boldsymbol\varepsilon.
+\]
+
+A matriz $\mathbf H$ leva $\mathbf Y$ a $\widehat{\mathbf Y}$: $\widehat{\mathbf Y}=\mathbf H\mathbf Y$.
+Por isso é chamada de matriz \textit{hat} ou matriz de projeção.
+
+# Alavancagem e variância dos resíduos
+
+Defina a matriz de projeção e sua diagonal:
+\[
+\mathbf H=\mathbf X(\mathbf X'\mathbf X)^{-1}\mathbf X',
+\qquad h_{ii}=\mathbf x_i'(\mathbf X'\mathbf X)^{-1}\mathbf x_i.
+\]
+
+$h_{ii}$ mede o quanto a observação é incomum no conjunto dos regressores.
+Com $p=k+1$ coeficientes, $0\le h_{ii}\le1$ e $\sum_i h_{ii}=p$.
+
+\begin{block}{Erros homocedásticos e não correlacionados}
+\[
+\operatorname{Var}(\boldsymbol\varepsilon\mid\mathbf X)=\sigma^2\mathbf I
+\quad\Longrightarrow\quad
+\operatorname{Var}(\hat e_i\mid\mathbf X)=(1-h_{ii})\sigma^2.
+\]
+Mesmo com erros homocedásticos, os resíduos brutos podem ter variâncias diferentes.
+\end{block}
+
+Para $h_{ii}<1$, dividir $\hat e_i$ por $\sqrt{1-h_{ii}}$ corrige essa diferença de escala sob essas condições.
+
+\scriptsize Hansen, seções 3.19 e 4.10. Alavancagem depende de todos os regressores, inclusive indicadoras.
+
+# Alavancagem e influência
+
+Cada painel acrescenta um ponto aos mesmos 35 dados de base.
+
+```{r influencia, fig.cap="Triângulo: observação acrescentada. Linha contínua: ajuste com o ponto; tracejada: ajuste sem ele. Um resíduo grande e uma alavancagem alta podem ocorrer separadamente. Fonte: dados sintéticos, mesmos eixos nos painéis."}
+knitr::include_graphics(figura("04_alavancagem_influencia"))
+```
+
+\small
+Uma observação é influente para um resultado quando sua retirada o altera de forma substantivamente relevante.
+
+# Sensibilidade a uma observação
+
+A inclinação é medida em unidades de $Y$ por unidade de $X$.
+
+```{r tabela-influencia}
+t <- a$influencia[c("cenario", "h", "residuo", "delta_beta")]
+names(t) <- c("Ponto acrescentado", "$h_{ii}$", "Resíduo", "$\\hat\\beta_1-\\hat\\beta_{1(-i)}$")
+t[-1] <- lapply(t[-1], numero, digitos = 3)
+knitr::kable(t, format = "latex", booktabs = TRUE, escape = FALSE,
+             row.names = FALSE, caption = "Sensibilidade da inclinação nos exemplos sintéticos", align = c("l", "r", "r", "r"))
+```
+
+\begin{block}{O que investigar}
+Conferir registro e unidade de análise; compreender a observação; comparar os resultados com e sem ela e justificar a decisão substantiva.
+\end{block}
+
+Uma observação incomum pode conter informação relevante. Um limiar de diagnóstico não determina sua exclusão.
+
+\scriptsize Hansen, seções 3.20--3.21. A influência depende do coeficiente ou previsão de interesse.
+
+# Dependência na ordem dos dados
+
+Exemplo sintético: $Y_t=2+1{,}5X_t+u_t$, com $X_t$ independente do erro e
+$u_t=0{,}8u_{t-1}+v_t$, $v_t\sim N(0,1)$ independente ao longo do tempo.
+
+```{r dependencia, fig.cap="Mesmos 220 resíduos na ordem temporal e em uma ordem aleatória. Reordenar as linhas mantém o ajuste de MQO e pode ocultar a estrutura serial. Fonte: dados sintéticos."}
+knitr::include_graphics(figura("05_dependencia"))
+```
+
+\small
+Diagnósticos temporais e espaciais exigem uma ordem ou distância com significado. Um identificador numérico não constitui uma coordenada geográfica.
+
+# Dependência dos resíduos: exemplo com intercepto
+
+Considere uma regressão apenas com intercepto, com erros independentes de média zero:
+\[
+Y_i=\mu+\varepsilon_i.
+\]
+
+MQO estima o intercepto pela média amostral:
+\[
+\widehat\mu=\bar Y=\mu+\bar\varepsilon.
+\]
+
+Substituindo na definição do resíduo:
+\[
+\begin{aligned}
+\hat e_i&=Y_i-\bar Y\\
+&=(\mu+\varepsilon_i)-(\mu+\bar\varepsilon)\\
+&=\varepsilon_i-\bar\varepsilon.
+\end{aligned}
+\]
+
+\begin{block}{A dependência é criada pelo ajuste}
+Todos os resíduos compartilham a mesma $\bar\varepsilon$ e somam zero.
+Com vários regressores, $\widehat{\mathbf e}=(\mathbf I-\mathbf H)\boldsymbol\varepsilon$.
+Essa dependência, por si só, não exige erros-padrão agrupados.
+\end{block}
+
+# Dependência nos erros e inferência
+
+No exemplo $u_t=0{,}8u_{t-1}+v_t$, um choque pode persistir por vários períodos.
+HC3 acomoda heterocedasticidade, mas não essa dependência serial.
+
+\begin{block}{Série temporal: erros-padrão HAC, como Newey--West}
+HAC significa consistentes sob heterocedasticidade e autocorrelação.
+Eles incorporam covariâncias entre períodos, sob condições de dependência fraca e amostras grandes.
+O ajuste de MQO é mantido; mudam os erros-padrão e os intervalos.
+\end{block}
+
+- **Ordem e defasagens:** ordene os dados pelo tempo. Escolha quantas defasagens considerar e examine a sensibilidade a essa escolha.
+- **Outras estruturas:** com dependência dentro de grupos, use erros-padrão agrupados. Na reamostragem, use grupos inteiros ou blocos de períodos consecutivos.
+
+Em R, para um modelo ajustado com os dados em ordem temporal, com seleção automática de defasagens:
+
+```{r codigo-newey-west, echo=TRUE, eval=FALSE}
+sqrt(diag(sandwich::NeweyWest(m)))  # erros-padrão
+```
+
+\scriptsize Fonte: documentação de \href{https://sandwich.r-forge.r-project.org/reference/NeweyWest.html}{NeweyWest} e \href{https://sandwich.r-forge.r-project.org/reference/vcovCL.html}{vcovCL}, pacote \texttt{sandwich}.
+
+# Aplicação: eleições de 2022
+
+Retomamos a base da aula 7. Uma linha representa uma zona eleitoral.
+
+\begin{block}{Variáveis e comparação}
+$Y_i$: porcentagem de Lula no segundo turno.
+$X_i$: porcentagem de Lula no primeiro turno.
+Cada percentual usa todos os votos válidos do respectivo turno.
+\end{block}
+
+Comparamos os modelos $Y_i=\alpha+\beta_1X_i+\varepsilon_i$ e
+\[
+Y_i=\alpha+\beta_1X_i+\sum_{g\ne AC}\gamma_g\,1\{UF_i=g\}+\varepsilon_i.
+\]
+
+Os gráficos usam as mesmas 2.636 zonas das 27 UFs, com peso igual no ajuste.
+A observação agregada do Exterior (ZZ) será examinada separadamente.
+
+\small
+Objetivo descritivo e preditivo.
+
+\scriptsize Fonte: dados TSE preservados e documentados para o laboratório da aula 7.
+
+# Resíduos e valores ajustados
+
+```{r eleitoral-residuos, fig.cap="Resíduos dos dois modelos nas mesmas 2.636 zonas das 27 UFs, eleição de 2022. Azul: zero; verde: suavização local. Eixos comuns. Resíduos em pontos percentuais. Fonte: TSE, base preservada do curso."}
+knitr::include_graphics(figura("08_eleitoral_residuos"))
+```
+
+\begin{block}{Leitura do gráfico}
+Onde há regiões com resíduos predominantemente positivos ou negativos?
+Como a inclusão de UF altera a estrutura visível e a dispersão?
+\end{block}
+
+# Magnitude dos resíduos
+
+```{r eleitoral-dispersao, fig.cap="Valor absoluto dos resíduos contra os valores ajustados, nas mesmas zonas e modelos da figura anterior. Verde: suavização local. Eixos comuns; magnitudes em pontos percentuais. Fonte: TSE, eleição de 2022."}
+knitr::include_graphics(figura("09_eleitoral_dispersao"))
+```
+
+\small
+Uma mudança na magnitude dos resíduos pode refletir variância condicional variável e também erro de aproximação da média. A leitura conjunta dos dois gráficos ajuda a distinguir essas possibilidades.
+
+# Influência na inclinação eleitoral
+
+Modelo com UF. Calculamos a inclinação novamente ao excluir cada zona.
+
+\small
+```{r tabela-eleitoral-influencia}
+t <- head(a$sensibilidade, 4)[c("uf", "zona", "h", "residuo", "delta_beta")]
+names(t) <- c("UF", "Zona", "$h_{ii}$", "Resíduo (p.p.)", "$\\Delta\\hat\\beta_1$")
+t$`$h_{ii}$` <- numero(t$`$h_{ii}$`, 3)
+t$`Resíduo (p.p.)` <- numero(t$`Resíduo (p.p.)`, 2)
+t$`$\\Delta\\hat\\beta_1$` <- numero(t$`$\\Delta\\hat\\beta_1$`, 5)
+knitr::kable(t, format = "latex", booktabs = TRUE, escape = FALSE,
+             row.names = FALSE, caption = "Quatro maiores mudanças absolutas na inclinação ao excluir uma zona",
+             align = c("l", "r", "r", "r", "r"))
+```
+
+$\Delta\hat\beta_1=\hat\beta_1-\hat\beta_{1(-i)}$.
+Inclinação com todas as zonas: $`r numero_m(a$coef_uf["pct_lula_t1"], 4)`$
+p.p. de $Y$ por 1 p.p. de $X$.
+
+A relevância da mudança depende do uso do modelo. Uma zona pode ser importante para uma previsão específica e pouco importante para essa inclinação comum.
+
+# Exterior: ajuste perfeito de uma observação
+
+Incluindo ZZ na regressão com categorias geográficas, há 2.637 linhas.
+Uma única observação pertence à categoria Exterior.
+
+\begin{block}{Consequência da indicadora exclusiva}
+O intercepto da categoria ajusta exatamente sua observação:
+$\hat e_{ZZ}\simeq0$ e $h_{ZZ}=1$.
+A variância do erro nessa categoria não pode ser estimada a partir de variação interna.
+\end{block}
+
+- O resíduo zero decorre da flexibilidade do ajuste para essa observação.
+- As correções por $1-h_{ii}$ ficam indefinidas nesse ponto; HC2, HC3 e exclusão da observação exigem cuidado.
+- Nos gráficos anteriores usamos as 27 UFs para comparar modelos na mesma amostra. ZZ permanece preservada e explicitamente discutida.
+
+\scriptsize Hansen, seção 4.16, sobre indicadoras raras. Ajuste perfeito não garante precisão para a previsão de outro ano.
+
+# Avaliação de novas zonas da mesma eleição
+
+Divisão única, aleatória dentro de UF: `r a$avaliacao$n_treino[1]` zonas de treino e
+`r a$avaliacao$n_teste[1]` de teste. As especificações foram fixadas antes da comparação.
+
+\small
+```{r tabela-previsao}
+t <- a$avaliacao[c("modelo", "rmse_treino", "rmse_teste", "mae_teste")]
+names(t) <- c("Modelo", "REQM treino", "REQM teste", "EAM teste")
+t[-1] <- lapply(t[-1], numero, digitos = 2)
+knitr::kable(t, format = "latex", booktabs = TRUE, row.names = FALSE,
+             caption = "Erros de previsão em pontos percentuais, eleição de 2022",
+             align = c("l", "r", "r", "r"))
+```
+
+REQM: raiz do erro quadrático médio. EAM: erro absoluto médio. Cada zona tem peso igual.
+
+Esta divisão avalia zonas reservadas de 2022. Uma única divisão tem variabilidade e pode aproveitar semelhanças entre zonas. Ela não avalia dependência espacial nem demonstra capacidade de transportar o modelo para 2026.
+
+# Diagnóstico e consequência para a análise
+
+\small
+\begin{table}
+\centering
+\caption{Aspectos do diagnóstico e decisões pertinentes}
+\begin{tabular}{p{0.26\textwidth}p{0.64\textwidth}}
+\toprule
+Aspecto & Consequência a avaliar \\
+\midrule
+Curvatura & Aproximação da CEF e previsão fora da amostra. \\
+Dispersão variável & Estimação da variância e intervalos compatíveis com heterocedasticidade. \\
+Dependência & Unidade de informação, grupos e ordem temporal ou espacial. \\
+Influência & Qualidade dos registros e sensibilidade do resultado de interesse. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Um padrão merece investigação quando pode comprometer o objetivo ou delimitar a interpretação do resultado.
+
+# Exploração no R
+
+O mesmo modelo permite examinar média dos resíduos, magnitude e alavancagem.
+
+```{r codigo-diagnostico, echo=TRUE, eval=FALSE}
+m <- lm(pct_lula_t2 ~ pct_lula_t1 + uf, data = brasil)
+plot(fitted(m), resid(m), xlab = "Valor ajustado (%)",
+     ylab = "Resíduo (p.p.)")
+abline(h = 0, col = "blue")
+lines(lowess(fitted(m), resid(m)), col = "darkgreen")
+head(sort(hatvalues(m), decreasing = TRUE))
+```
+
+Para uma zona relevante, compare o coeficiente ou a previsão com e sem sua observação. Registre o diagnóstico, sua consequência e a justificativa da decisão.
+
+# Leituras
+
+\begin{block}{Leituras previstas no programa}
+Hansen, Bruce E. \textit{Econometrics}. Seções 4.10--4.15:
+resíduos, variância do erro, previsão e erros-padrão.
+
+Shalizi, Cosma R. \textit{The Truth about Linear Regression}.
+Seções 6.1 e 6.5: diagnósticos dos resíduos e projeção sob especificação incorreta.
+\end{block}
+
+\small
+Complementos: Hansen, seções 3.19--3.21 (alavancagem e influência) e 4.16 (indicadoras raras);
+Galdino, \textit{Regressão}, capítulo “Checagem”.
+
+Na aula 9: distribuição amostral, erros-padrão convencionais e robustos e bootstrap.

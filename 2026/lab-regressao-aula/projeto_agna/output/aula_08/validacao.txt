@@ -1,0 +1,41 @@
+VALIDACAO_AULA8_OK
+Inclinação eleitoral, cálculo independente dentro de UF: 1.011057 
+Diferença binária observada: 0.1528665 ; ATE populacional: 0.12 
+Média MC da inclinação: 1.499656 ; parâmetro: 1.5
+                cenario          h       residuo beta_sem  beta_com
+36...1   Resíduo grande 0.02777778  5.809075e+00 1.342762 1.3427620
+210    Alavancagem alta 0.48133919 -5.381338e-16 1.342762 1.3427620
+36...3            Ambos 0.48133919 -3.495132e+00 1.342762 0.7140082
+          delta_beta
+36...1  2.220446e-16
+210     0.000000e+00
+36...3 -6.287539e-01
+                                   modelo n_treino n_teste rmse_treino
+simples                    Primeiro turno     2121     515    1.506600
+uf                    Primeiro turno + UF     2121     515    1.204913
+quadratico Primeiro turno + quadrado + UF     2121     515    1.201279
+           rmse_teste mae_teste minimo_teste maximo_teste
+simples      1.394471 1.0446317     17.73118     89.57991
+uf           1.141295 0.8468642     16.98996     88.82269
+quadratico   1.142658 0.8480642     16.52998     88.55556
+     n h      residuo observado ajustado
+2637 1 1 1.127819e-15  51.28132 51.28132
+R version 4.4.2 (2024-10-31)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sonoma 14.7.3
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+
+locale:
+[1] pt_BR.UTF-8/pt_BR.UTF-8/pt_BR.UTF-8/C/pt_BR.UTF-8/pt_BR.UTF-8
+
+time zone: America/Sao_Paulo
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+[1] compiler_4.4.2 tools_4.4.2   
