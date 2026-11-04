@@ -1,0 +1,516 @@
+---
+title: "Intervalos e testes na regressão"
+subtitle: "Aula 10: Inferência II"
+author: "FLS 6183 - Métodos Quantitativos de Pesquisa II"
+date: "18 de novembro de 2026"
+lang: pt-BR
+output:
+  beamer_presentation:
+    latex_engine: xelatex
+    theme: default
+    fonttheme: professionalfonts
+    incremental: false
+    keep_tex: true
+classoption:
+  - aspectratio=169
+  - 12pt
+header-includes:
+  - \usepackage{amsmath,amssymb,booktabs}
+  - \definecolor{Azul}{HTML}{245F85}
+  - \definecolor{Texto}{HTML}{17212B}
+  - \definecolor{Cinza}{HTML}{53616D}
+  - \setbeamercolor{normal text}{fg=Texto,bg=white}
+  - \setbeamercolor{structure}{fg=Azul}
+  - \setbeamercolor{frametitle}{fg=Texto,bg=white}
+  - \setbeamercolor{title}{fg=Azul}
+  - \setbeamercolor{alerted text}{fg=Azul}
+  - \setbeamersize{text margin left=9mm,text margin right=9mm}
+  - \setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+  - \setbeamerfont{title}{size=\fontsize{27}{31}\selectfont,series=\bfseries}
+  - \setbeamerfont{subtitle}{size=\large}
+  - \setbeamerfont{author}{size=\small}
+  - \setbeamerfont{date}{size=\small}
+  - \setbeamertemplate{navigation symbols}{}
+  - \setbeamertemplate{frametitle}{\vspace{0.12cm}\insertframetitle\par\vspace{0.08cm}}
+  - \setbeamertemplate{footline}{\hfill{\color{Cinza}\fontsize{7}{9}\selectfont\insertframenumber/\inserttotalframenumber}\hspace{9mm}\vspace{3mm}}
+  - \setbeamertemplate{title page}{\vfill{\usebeamerfont{title}\color{Azul}\inserttitle\par}\vspace{0.4cm}{\usebeamerfont{subtitle}\insertsubtitle\par}\vspace{0.8cm}{\usebeamerfont{author}\insertauthor\par}\vspace{0.15cm}{\usebeamerfont{date}\insertdate\par}\vfill}
+  - '\newcommand{\fonte}[1]{\par\vspace{0.4em}{\color{Cinza}\fontsize{8}{10}\selectfont #1\par}}'
+  - '\newcommand{\apoio}[1]{\par\vspace{0.45em}{\small #1\par}}'
+  - \setlength{\abovedisplayskip}{8pt}
+  - \setlength{\belowdisplayskip}{8pt}
+---
+
+```{r setup, include=FALSE}
+here::i_am("projeto_agna/laboratorios/slides_aula_10_inferencia.Rmd")
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.align = "center")
+saida <- here::here("projeto_agna", "output", "aula_10")
+figuras <- file.path(saida, "figuras")
+a <- readRDS(file.path(saida, "resultados_aula_10.rds"))
+f <- function(x, digitos = 3) gsub(",", "{,}", formatC(x, format = "f", digits = digitos,
+                                                   decimal.mark = ","), fixed = TRUE)
+stopifnot(a$n == 2121L, a$p == 28L, a$nu == 2093L)
+```
+
+# Modelo normal de regressão
+
+\[
+\mathbf u\mid\mathbf X\sim N_n(\mathbf0,\sigma^2\mathbf I),
+\qquad
+\mathbf M=(\mathbf X'\mathbf X)^{-1}
+\]
+
+\[
+\widehat\beta_j\mid\mathbf X\sim N(\beta_j,\sigma^2m_{jj})
+\]
+
+\apoio{Média condicional linear, variância comum, posto completo.\\
+$m_{jj}$: elemento $j$ da diagonal de $\mathbf M$.}
+
+# Padronização com variância conhecida
+
+\[
+\operatorname{sd}(\widehat\beta_j\mid\mathbf X)=\sigma\sqrt{m_{jj}}
+\]
+
+\vspace{0.4em}
+\[
+\alert{Z=\frac{\widehat\beta_j-\beta_j}{\sigma\sqrt{m_{jj}}}\sim N(0,1)}
+\]
+
+\apoio{Subtrair o parâmetro. Dividir pelo desvio-padrão verdadeiro.}
+
+# Estimar a variância do erro
+
+\[
+e_i=Y_i-\mathbf x_i'\widehat{\boldsymbol\beta},
+\qquad
+s^2=\frac{\sum_i e_i^2}{n-p}
+\]
+
+\[
+\nu=n-p=2121-28=2093
+\]
+
+\apoio{$p$ inclui o intercepto e todos os demais coeficientes.\\
+Ao substituir $\sigma$ por $s$, o denominador também varia.}
+
+# A qui-quadrado no denominador
+
+\[
+Q=\frac{\sum_i e_i^2}{\sigma^2}
+=\frac{\nu s^2}{\sigma^2}\sim\chi^2_\nu
+\]
+
+\[
+Z\perp Q
+\]
+
+\apoio{Ajuste e resíduo: projeções ortogonais, independentes no modelo gaussiano.\\
+$\nu$ direções residuais. Os resíduos brutos não são independentes.}
+
+# Substituir sigma por s
+
+\[
+\begin{aligned}
+T(\beta_j)
+&=\frac{\widehat\beta_j-\beta_j}{s\sqrt{m_{jj}}}\\[0.4em]
+&=\frac{\widehat\beta_j-\beta_j}{\sigma\sqrt{m_{jj}}}\frac{\sigma}{s}
+=Z\frac{\sigma}{s}
+\end{aligned}
+\]
+
+\[
+\alert{\frac{\sigma}{s}
+=\frac1{\sqrt{s^2/\sigma^2}}
+=\frac1{\sqrt{Q/\nu}}}
+\]
+
+# A razão tem distribuição t
+
+\[
+\alert{T(\beta_j)=\frac{Z}{\sqrt{Q/\nu}}\sim t_\nu}
+\]
+
+\vspace{0.3em}
+\[
+Z\sim N(0,1),\qquad Q\sim\chi^2_\nu,\qquad Z\perp Q
+\]
+
+\apoio{Escala estimada: caudas mais pesadas.\\
+Exatidão sob o modelo normal homocedástico, com EP convencional.}
+
+# Intervalo com sigma conhecido
+
+\apoio{$c=z_{0{,}975}$ e $\sigma$ conhecido.}
+
+\[
+\begin{aligned}
+-c\le&\ \frac{\widehat\beta_j-\beta_j}{\sigma\sqrt{m_{jj}}}\le c\\[0.35em]
+\Longleftrightarrow\quad
+-c\sigma\sqrt{m_{jj}}\le&\ \widehat\beta_j-\beta_j\le c\sigma\sqrt{m_{jj}}\\[0.35em]
+\Longleftrightarrow\quad
+\widehat\beta_j-c\sigma\sqrt{m_{jj}}\le&\ \beta_j\le\widehat\beta_j+c\sigma\sqrt{m_{jj}}
+\end{aligned}
+\]
+
+# Intervalo com variância estimada
+
+\[
+\widehat{\operatorname{EP}}_{conv}(\widehat\beta_j)=s\sqrt{m_{jj}}
+\]
+
+\[
+\alert{IC_{95\%}=\widehat\beta_j
+\pm t_{\nu,0{,}975}\widehat{\operatorname{EP}}_{conv}(\widehat\beta_j)}
+\]
+
+\[
+\nu=2093,\qquad t_{\nu,0{,}975}\approx1{,}9611
+\]
+
+\apoio{Mesma álgebra. Quantil da t e erro-padrão estimado.}
+
+# Intervalo da inclinação
+
+\[
+\widehat\beta_v=`r f(a$coeficiente,6)`,
+\qquad
+\widehat{\operatorname{EP}}_{conv}=`r f(a$ep_conv,7)`
+\]
+
+\[
+IC_{95\%}(\beta_v)\approx
+[`r f(a$ic_beta[1],6)`;\ `r f(a$ic_beta[2],6)`]
+\]
+
+\[
+\beta_0\in IC_{95\%}
+\quad\Longleftrightarrow\quad
+|T(\beta_0)|\le t_{\nu,0{,}975}
+\]
+
+\fonte{T1 + UF, 2.121 zonas de treino de 2022, peso igual por zona. Inclinação em p.p. de T2 por p.p. de T1. Fonte: TSE, cálculos da Aula 10.}
+
+# Cobertura do procedimento
+
+```{r cobertura, out.width="100%"}
+knitr::include_graphics(file.path(figuras, "01_cobertura_t.pdf"))
+```
+
+\fonte{Figura 1. 24 amostras sintéticas com n=40, erros normais e variância estimada. Intervalos t com 38 graus de liberdade. Linha: parâmetro 1. Azul: intervalo que não o contém. Ilustração da regra, sem calibração do modelo eleitoral.}
+
+# Afastamento observado
+
+\[
+H_0:\beta_v=1,\qquad H_1:\beta_v\ne1
+\]
+
+\[
+t_{obs}=\frac{`r f(a$coeficiente,6)`-1}{`r f(a$ep_conv,7)`}
+\approx`r f(a$t_obs,2)`
+\]
+
+\apoio{Referência sob $H_0$: t com 2.093 graus de liberdade.}
+
+# Probabilidade de um ponto
+
+```{r ponto, out.width="93%"}
+knitr::include_graphics(file.path(figuras, "02_resultado_observado.pdf"))
+```
+
+\[
+P(T=t_{obs})=0
+\]
+
+\fonte{Figura 2. Distribuição de referência t com 2.093 graus de liberdade. A altura da curva é densidade. Probabilidade corresponde a área.}
+
+# Resultados tão extremos ou mais
+
+```{r caudas, out.width="100%"}
+knitr::include_graphics(file.path(figuras, "03_caudas_ampliadas.pdf"))
+```
+
+\[
+T_\nu\le-|t_{obs}|\qquad\text{ou}\qquad T_\nu\ge|t_{obs}|
+\]
+
+\fonte{Figura 3. Ampliação das duas caudas da mesma referência t. Os eixos verticais estão ampliados em relação à Figura 2. As probabilidades são calculadas até infinito.}
+
+# Valor-p bilateral
+
+\[
+\begin{aligned}
+p_{val}
+&=P_{H_0}(|T^*|\ge|t_{obs}|)\\[0.3em]
+&=P(T_\nu\le-|t_{obs}|)+P(T_\nu\ge|t_{obs}|)\\[0.3em]
+&=2P(T_\nu\ge|t_{obs}|)\approx0{,}00016
+\end{aligned}
+\]
+
+\apoio{$T^*$: estatística numa repetição sob a nula.\\
+$t_{obs}$: valor observado, fixado.}
+
+# Região de rejeição a 5 por cento
+
+```{r rejeicao, out.width="100%"}
+knitr::include_graphics(file.path(figuras, "04_rejeicao_5pct.pdf"))
+```
+
+\fonte{Figura 4. Duas caudas com probabilidade total de 5\% sob H0. Cortes em aproximadamente -1,961 e 1,961. Referência t com 2.093 graus de liberdade.}
+
+# Por que somar as caudas?
+
+Por que a probabilidade do valor exato não mede o afastamento?
+
+\vspace{0.7em}
+Por que incluir resultados ainda mais distantes da nula?
+
+\vspace{0.7em}
+\apoio{Neste teste, a alternativa admite as duas direções.}
+
+# Coeficientes como somas ponderadas
+
+\[
+\mathbf A=\mathbf M\mathbf X',\qquad
+\widehat{\boldsymbol\beta}=\mathbf A\mathbf Y
+\]
+
+\[
+\widehat\beta_j=\sum_i a_{ji}Y_i,
+\qquad
+\widehat\beta_\ell=\sum_i a_{\ell i}Y_i
+\]
+
+\apoio{Mesmas respostas, pesos distintos.\\
+Uma alteração em $Y_i$ pode mover os dois coeficientes.}
+
+# Covariância entre duas somas
+
+\[
+\operatorname{Cov}(Y_i,Y_k\mid\mathbf X)=0\quad(i\ne k)
+\]
+
+\[
+\begin{aligned}
+\operatorname{Cov}(\widehat\beta_j,\widehat\beta_\ell\mid\mathbf X)
+&=\sum_i\sum_k a_{ji}a_{\ell k}\operatorname{Cov}(Y_i,Y_k\mid\mathbf X)\\[0.5em]
+&=\alert{\sum_i a_{ji}a_{\ell i}\sigma_i^2}
+\end{aligned}
+\]
+
+\apoio{$\sigma_i^2=\operatorname{Var}(u_i\mid\mathbf X)$.\\
+Na diagonal, $j=\ell$: o peso aparece ao quadrado.}
+
+# Covariância convencional
+
+\[
+\sigma_i^2=\sigma^2\quad\text{para todas as observações}
+\]
+
+\[
+\mathbf A\mathbf A'
+=\mathbf M\mathbf X'\mathbf X\mathbf M=\mathbf M
+\]
+
+\[
+\alert{\widehat{\mathbf C}_{conv}=s^2\mathbf M}
+\]
+
+\apoio{Diagonal: variâncias estimadas.\\
+Fora da diagonal: covariâncias estimadas.}
+
+# Covariância com HC3
+
+\[
+\widehat\omega_i=\frac{e_i^2}{(1-h_i)^2},
+\qquad h_i=[\mathbf X\mathbf M\mathbf X']_{ii}
+\]
+
+\[
+\alert{[\widehat{\mathbf C}_{HC3}]_{j\ell}
+=\sum_i a_{ji}a_{\ell i}\widehat\omega_i}
+\]
+
+\[
+\widehat{\mathbf C}_{HC3}
+=\mathbf A\operatorname{diag}(\widehat\omega_1,\ldots,\widehat\omega_n)\mathbf A'
+\]
+
+\apoio{Contribuições distintas por observação. Correção pela alavancagem.}
+
+# Variâncias e covariância de SP e RJ
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.49\textwidth}
+\centering
+Convencional
+\[
+\begin{pmatrix}
+`r f(a$C_conv_SP_RJ[1,1],6)`&\alert{`r f(a$C_conv_SP_RJ[1,2],6)`}\\
+\alert{`r f(a$C_conv_SP_RJ[2,1],6)`}&`r f(a$C_conv_SP_RJ[2,2],6)`
+\end{pmatrix}
+\]
+\end{column}
+\begin{column}{0.49\textwidth}
+\centering
+HC3
+\[
+\begin{pmatrix}
+`r f(a$C_hc3_SP_RJ[1,1],6)`&\alert{`r f(a$C_hc3_SP_RJ[1,2],6)`}\\
+\alert{`r f(a$C_hc3_SP_RJ[2,1],6)`}&`r f(a$C_hc3_SP_RJ[2,2],6)`
+\end{pmatrix}
+\]
+\end{column}
+\end{columns}
+
+\vspace{0.7em}
+\apoio{Ordem das linhas e colunas: SP, RJ.\\
+Variâncias e covariância em p.p. ao quadrado.}
+
+\fonte{TSE, mesmo MQO e mesmo treino de 2022. Cálculos da Aula 10.}
+
+# A covariância em R
+
+```{r codigo_cov, eval=FALSE, echo=TRUE}
+C_conv <- vcov(modelo_uf)
+C_hc3 <- sandwich::vcovHC(modelo_uf, type = "HC3")
+C_hc3["ufSP", "ufRJ"]
+```
+
+\[
+\widehat C^{HC3}_{SP,RJ}\approx`r f(a$C_hc3_SP_RJ[1,2],6)`
+\]
+
+\apoio{Matriz convencional: t exata no modelo clássico normal.\\
+HC3: referência t aproximada. Independência entre zonas segue como hipótese.}
+
+# Igualdade entre SP e RJ
+
+\[
+\widehat\gamma_{SP}\approx`r f(a$coef_SP,3)`,
+\qquad
+\widehat\gamma_{RJ}\approx`r f(a$coef_RJ,3)`
+\]
+
+\[
+\delta=\gamma_{SP}-\gamma_{RJ},
+\qquad
+H_0:\delta=0
+\]
+
+\apoio{Mesmo T1, inclinação comum, níveis previstos em p.p. de T2.\\
+Os dois coeficientes têm AC como referência.}
+
+# Variância da diferença
+
+\apoio{$U=\widehat\gamma_{SP}$ e $V=\widehat\gamma_{RJ}$.}
+
+\[
+\begin{aligned}
+\operatorname{Var}(U-V)
+&=E[((U-E[U])-(V-E[V]))^2]\\[0.2em]
+&=E[(U-E[U])^2]+E[(V-E[V])^2]\\[0.2em]
+&\quad-2E[(U-E[U])(V-E[V])]\\[0.2em]
+&=\operatorname{Var}(U)+\operatorname{Var}(V)
+\alert{-2\operatorname{Cov}(U,V)}.
+\end{aligned}
+\]
+
+# Usar a entrada fora da diagonal
+
+\[
+\widehat{\operatorname{Var}}(\widehat\delta)
+=\widehat C_{SP,SP}+\widehat C_{RJ,RJ}-2\widehat C_{SP,RJ}
+\]
+
+\[
+\approx0{,}069470+0{,}072844-2(\alert{0{,}059113})
+\approx0{,}024088
+\]
+
+\[
+\widehat{\operatorname{EP}}(\widehat\delta)
+=\sqrt{\widehat{\operatorname{Var}}(\widehat\delta)}
+\approx`r f(a$ep_delta,6)`\text{ p.p.}
+\]
+
+# Teste e intervalo da diferença
+
+\[
+T_{obs}=\frac{`r f(a$delta,6)`}{`r f(a$ep_delta,6)`}\approx`r f(a$t_delta,2)`
+\]
+
+\[
+IC_{95\%}^{HC3,t}(\delta)
+\approx[`r f(a$ic_delta[1],4)`;\ `r f(a$ic_delta[2],4)`]\text{ p.p.}
+\]
+
+\apoio{Referência t com 2.093 graus de liberdade: aproximação para HC3.}
+
+\vspace{0.25em}
+\begin{center}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Procedimento & EP da diferença (p.p.)\\
+\midrule
+Convencional & `r formatC(a$ep_delta_conv, digits=3, format="f", decimal.mark=",")`\\
+HC3 & `r formatC(a$ep_delta, digits=3, format="f", decimal.mark=",")`\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+# Qual hipótese responde à comparação?
+
+\[
+\text{Referência RJ:}\qquad
+\widehat\gamma_{SP}^{(ref=RJ)}
+=\widehat\gamma_{SP}-\widehat\gamma_{RJ}
+\]
+
+\apoio{Mesma diferença e mesmo erro-padrão.}
+
+\vspace{0.7em}
+Por que ambos diferirem do Acre não responde se SP e RJ diferem entre si?
+
+# De uma igualdade a uma hipótese conjunta
+
+\[
+H_0:\gamma_{SP}=\gamma_{RJ}
+\]
+
+\apoio{Igualdade entre os dois coeficientes.}
+
+\[
+H_0:\gamma_{SP}=\gamma_{RJ}=0
+\]
+
+\apoio{Duas restrições simultâneas.}
+
+\vspace{0.4em}
+Wald: afastamento conjunto, considerando variâncias e covariâncias.
+
+# Conclusão da comparação
+
+Diferença estimada: \underline{\hspace{1.8cm}}.
+
+Intervalo: \underline{\hspace{2.5cm}}.
+
+Procedimento e condição de validade: \underline{\hspace{1.8cm}}.
+
+\vspace{0.5em}
+\apoio{Laboratório: matrizes convencional e HC3, covariâncias e diferenças.\\
+Próxima aula: somas de coeficientes nas interações.}
+
+# Leitura para consulta
+
+Aronow e Miller (2019)
+
+\textit{Foundations of Agnostic Statistics}
+
+\apoio{3.4.1--3.4.2 e 4.2.1: intervalos e testes.}
+
+\vspace{0.4em}
+\apoio{Apoio em Hansen: 4.13--4.14, covariâncias.\\
+5.8--5.10, t e intervalos. 9.7, valores-p.}
+
+\fonte{Livro principal e complementos do curso. Página de consulta fora da exposição.}
