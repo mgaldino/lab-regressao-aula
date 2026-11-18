@@ -1,0 +1,111 @@
+---
+title: "Aula 11 — Termos de interação"
+subtitle: "Lista de exercícios"
+author: "FLS 6183 - Métodos Quantitativos de Pesquisa II"
+lang: pt-BR
+output:
+  pdf_document:
+    latex_engine: xelatex
+fontsize: 11pt
+geometry: margin=2.2cm
+classoption: a4paper
+header-includes:
+  - \usepackage{amsmath}
+  - \setlength{\parskip}{5pt}
+---
+
+*Tempo sugerido: 45 a 55 minutos. Mostre os cálculos das questões 1 e 2 e apresente o código e os resultados das questões 3 e 4.*
+
+Um estudo didático relaciona a votação de uma candidatura entre o primeiro e
+o segundo turno em zonas eleitorais do Rio de Janeiro e de São Paulo. Seja
+$p$ o percentual de votos válidos da candidatura no primeiro turno em cada
+zona eleitoral. Suponha que a média de $p$ no conjunto das zonas dos dois
+estados seja 40%. Usamos o percentual centrado nessa média, $x = p - 40$,
+medido em pontos percentuais. A variável $Y$ é o percentual de votos válidos
+da candidatura no segundo turno, e $D$ vale 1 em São Paulo e 0 no Rio de
+Janeiro. As estimativas abaixo são fictícias e o modelo foi ajustado por
+mínimos quadrados ordinários (MQO).
+\[
+\widehat{Y} = 49 + 0{,}80x + 5D - 0{,}30xD.
+\]
+
+## 1. Ler as retas ajustadas
+
+a. Escreva a reta de cada estado. Interprete a inclinação de cada reta em
+   pontos percentuais e indique a diferença de inclinações (SP menos RJ).
+
+b. Para uma votação de 50% no primeiro turno, calcule a previsão de cada
+   estado e a diferença (SP menos RJ). A que votação no primeiro turno
+   corresponde a diferença representada pelo coeficiente de $D$?
+
+## 2. Calcular um erro padrão robusto
+
+Chame de $\beta_x$ e $\beta_{xD}$ os coeficientes de $x$ e $xD$.
+O bloco da matriz de variâncias e covariâncias robusta HC3, na ordem
+$(\widehat\beta_x,\widehat\beta_{xD})$, é
+\[
+\begin{pmatrix}
+0{,}0144 & -0{,}0180 \\
+-0{,}0180 & 0{,}0400
+\end{pmatrix}.
+\]
+
+a. Calcule o erro padrão robusto da inclinação em SP. Mostre como usou a
+   covariância.
+
+b. Calcule intervalos de confiança aproximados de 95% para a inclinação
+   em SP e para a diferença de inclinações, usando a estimativa
+   $\pm\,1{,}96$ vezes o erro padrão. O que cada intervalo indica sobre
+   a respectiva hipótese de valor zero?
+
+\newpage
+
+## 3. Estimar as inclinações e seus erros padrão convencionais em R
+
+Nas questões 3 e 4, cada observação é uma seção eleitoral. Simulamos três
+seções por zona e vinte zonas por estado. Os percentuais de votos são agora
+medidos por seção. As estimativas podem diferir das fornecidas nas questões 1 e 2.
+Copie o código abaixo e execute-o no R.
+
+```{r codigo-inicial, echo=FALSE, results='asis'}
+cat("```r\n", paste(readLines("interacao_inicio.R", encoding = "UTF-8"),
+                     collapse = "\n"), "\n```\n", sep = "")
+```
+
+a. Como você escreveria a fórmula de `lm()` para ler diretamente na saída
+   a inclinação do Rio de Janeiro? E a de São Paulo? E a diferença entre
+   elas (SP menos RJ)? Escreva e execute o código. Use o fator `estado` e
+   explore os operadores `*` e `/`. Um mesmo ajuste pode responder a mais
+   de uma pergunta.
+
+b. Apresente uma tabela com três linhas (RJ, SP e SP menos RJ). Para cada
+   linha, reporte a estimativa e o erro padrão convencional obtidos com
+   `coef(summary(...))`. Confira o erro padrão de SP também pela variância
+   da soma dos coeficientes, usando `vcov()` no modelo com RJ como
+   referência e interação especificada com `*`.
+
+## 4. Comparar erros padrão robustos e agrupados por zona em R
+
+a. Para cada ajuste da questão 3, obtenha a matriz robusta com
+   `sandwich::vcovHC(modelo, type = "HC3")`, substituindo `modelo` pelo
+   nome do ajuste. Acrescente à tabela uma coluna com o erro padrão HC3
+   de cada uma das três estimativas. Para SP, confira o resultado repetindo
+   o cálculo da variância da soma com a matriz robusta.
+
+b. Repita para os mesmos modelos usando
+   `sandwich::vcovCL(modelo, cluster = ~ id_zona, type = "HC1")`.
+   Acrescente à tabela os três erros padrão agrupados por zona. O que muda
+   nas estimativas e nos erros padrão? Qual coluna você usaria para fazer
+   inferência, sabendo que as seções da mesma zona compartilham um choque?
+
+c. Faça um gráfico das inclinações de RJ e SP com seus intervalos de confiança
+   de 95% por HC3. Com RJ como referência, qual ponto representa $\hat\beta_x+\hat\beta_{xD}$?
+   Use a tabela do item (a) para interpretar o ponto e a barra de SP.
+
+   ```r
+   modelo <- lm(Y ~ x * estado, data = secoes)
+   marginaleffects::plot_slopes(
+     modelo, variables = "x", condition = "estado",
+     vcov = "HC3", conf_level = 0.95, df = df.residual(modelo)
+   )
+   ```

@@ -1,0 +1,457 @@
+---
+title: "Interações na regressão"
+subtitle: "Aula 11 · Comparações condicionais"
+author: "FLS 6183 · Métodos Quantitativos de Pesquisa II"
+date: "25 de novembro de 2026"
+lang: pt-BR
+section-titles: false
+output:
+  beamer_presentation:
+    latex_engine: xelatex
+    theme: default
+    fonttheme: professionalfonts
+    incremental: false
+    slide_level: 2
+classoption:
+  - aspectratio=169
+  - 12pt
+header-includes:
+  - \usepackage{amsmath,amssymb,booktabs}
+  - \definecolor{Azul}{HTML}{245F85}
+  - \definecolor{Texto}{HTML}{17212B}
+  - \definecolor{Cinza}{HTML}{53616D}
+  - \setbeamercolor{normal text}{fg=Texto,bg=white}
+  - \setbeamercolor{structure}{fg=Azul}
+  - \setbeamercolor{frametitle}{fg=Texto,bg=white}
+  - \setbeamercolor{title}{fg=Azul}
+  - \setbeamercolor{alerted text}{fg=Azul}
+  - \setbeamersize{text margin left=9mm,text margin right=9mm}
+  - \setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+  - \setbeamerfont{title}{size=\fontsize{27}{31}\selectfont,series=\bfseries}
+  - \setbeamerfont{subtitle}{size=\large}
+  - \setbeamerfont{author}{size=\small}
+  - \setbeamerfont{date}{size=\small}
+  - \setbeamertemplate{navigation symbols}{}
+  - \setbeamertemplate{frametitle}{\vspace{0.12cm}\insertframetitle\par\vspace{0.08cm}}
+  - '\setbeamertemplate{footline}{\leavevmode\hbox to\paperwidth{\hspace{9mm}{\color{Cinza}\fontsize{8}{10}\selectfont\insertsectionhead}\hfill{\color{Cinza}\fontsize{8}{10}\selectfont\insertframenumber/\inserttotalframenumber}\hspace{9mm}}\vskip3mm}'
+  - '\setbeamertemplate{title page}{\vfill{\usebeamerfont{title}\color{Azul}\inserttitle\par}\vspace{0.35cm}{\usebeamerfont{subtitle}\insertsubtitle\par}\vspace{0.85cm}{\usebeamerfont{author}\insertauthor\par}\vspace{0.15cm}{\usebeamerfont{date}\insertdate\par}\vfill}'
+  - '\newcommand{\fonte}[1]{\par\vspace{0.35em}{\color{Cinza}\fontsize{8.5}{10.5}\selectfont #1\par}}'
+  - '\newcommand{\apoio}[1]{\par\vspace{0.5em}{\small #1\par}}'
+  - '\newcommand{\pergunta}[1]{\par\vspace{0.75em}{\color{Azul}#1\par}}'
+---
+
+```{r setup, include=FALSE}
+# Roteiro oral e orçamento: ../../../roteiros/aula_11/2026-11-09/roteiro_v1_revisado.md
+# Para reproduzir o PDF, ver o cabeçalho de preparar_figuras_aula_11.R.
+knitr::opts_chunk$set(echo = FALSE, out.width = "100%")
+roteiro <- file.path("..", "..", "..", "roteiros", "aula_11", "2026-11-09")
+a <- readRDS(file.path(roteiro, "exemplo_verificado_v1.rds"))$numeros
+numeros <- a$resultados
+inclinacoes <- subset(numeros, is.na(x_t1))
+delta40 <- subset(numeros, x_t1 == 40)
+delta50 <- subset(numeros, x_t1 == 50)
+f <- function(x, digitos = 3) {
+  gsub(",", "{,}", formatC(x, format = "f", digits = digitos, decimal.mark = ","), fixed = TRUE)
+}
+```
+
+# Retas e dados
+
+## A distância é a mesma em 40% e em 50%?
+
+```{r ajustes}
+knitr::include_graphics("figuras/01_ajustes_aditivo_interativo.pdf")
+```
+
+\fonte{Figura 1. As mesmas 447 zonas de treino nos dois ajustes (132 no RJ, 315 em SP), com peso igual por zona. Votação sobre todos os votos válidos de cada turno. TSE, 2022.}
+
+## A distância vertical em outra escala
+
+```{r distancias}
+knitr::include_graphics("figuras/02_diferencas_nos_dois_ajustes.pdf")
+```
+
+\fonte{Figura 2. Em cada valor de primeiro turno no intervalo comum, subtraímos a previsão do RJ da previsão de SP. TSE, treino de 2022 da Aula 9. p.p. = pontos percentuais.}
+
+# Inclinações e diferenças de nível
+
+## O produto entra na previsão
+
+$X$ e $Y$ são as porcentagens de votos de Lula no primeiro e no segundo turno, respectivamente.
+
+$D$ indica o estado. $D=0$ no RJ e $D=1$ em SP.
+
+\[
+m(x,d)=\beta_0+\beta_1 x+\beta_2 d+\alert{\beta_3 x d}
+\]
+
+\apoio{$m(x,d)$ é a previsão do modelo para $X=x$ e $D=d$. Representa a média condicional se a forma estiver correta. O modelo é linear nos coeficientes e pode ser ajustado por mínimos quadrados.}
+
+## Substituir o indicador dá duas retas
+
+\[
+\begin{aligned}
+\text{RJ}\quad m(x,0)
+&=\beta_0+\beta_1x+\beta_2(0)+\beta_3x(0)\\
+&=\beta_0+\alert{\beta_1}x
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+\text{SP}\quad m(x,1)
+&=\beta_0+\beta_1x+\beta_2(1)+\beta_3x(1)\\
+&=(\beta_0+\beta_2)+\alert{(\beta_1+\beta_3)}x
+\end{aligned}
+\]
+
+\apoio{Os termos em azul são as inclinações, em p.p. do segundo turno por p.p. do primeiro.}
+
+## Diferença entre as inclinações
+
+\[
+s_{SP}-s_{RJ}=(\beta_1+\beta_3)-\beta_1=\alert{\beta_3}
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.20}
+\begin{tabular}{lcc}
+\toprule
+ & Expressão & Ajuste às 447 zonas \\
+\midrule
+Inclinação no RJ & $\beta_1$ & $`r f(inclinacoes$estimativa[1], 5)`$ \\
+Inclinação em SP & $\beta_1+\beta_3$ & $`r f(inclinacoes$estimativa[2], 5)`$ \\
+Diferença SP $-$ RJ & $\beta_3$ & $\alert{`r f(inclinacoes$estimativa[3], 5)`}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\apoio{Nos dois estados, maior votação no primeiro turno está associada a maior votação no segundo. A inclinação estimada é menor em SP.}
+
+## Diferença de níveis no mesmo valor de \(x\)
+
+\[
+\begin{aligned}
+\Delta(x)&=m(x,1)-m(x,0)\\
+&=\big[(\beta_0+\beta_2)+(\beta_1+\beta_3)x\big]
+  -\big[\beta_0+\beta_1x\big]\\
+&=\alert{\beta_2+\beta_3x}
+\end{aligned}
+\]
+
+\[
+\Delta(0)=\beta_2,\qquad
+\Delta(x+1)-\Delta(x)=\beta_3
+\]
+
+\apoio{$\Delta(x)$ mede a distância vertical com sinal, em p.p. do segundo turno. A unidade é a zona eleitoral. As retas descrevem associações entre resultados agregados.}
+
+## Duas expressões para escrever
+
+A partir de \(m(x,d)=\beta_0+\beta_1x+\beta_2d+\beta_3xd\),
+
+1. Qual é a inclinação da reta de São Paulo?
+2. Qual é a diferença prevista SP menos RJ se Lula tem 40% dos votos válidos no primeiro turno?
+
+\apoio{Escrevam as duas respostas em termos dos coeficientes.}
+
+# Centralização e suporte
+
+## Onde há dados dos dois estados?
+
+```{r suporte}
+knitr::include_graphics("figuras/03_distribuicao_primeiro_turno.pdf")
+```
+
+\apoio{O intervalo comum vai de $`r f(a$limites_suporte_comum[1], 1)`\%$ a
+$`r f(a$limites_suporte_comum[2], 1)`\%$. A comparação em $x=0$ exige extrapolação.}
+
+\fonte{Figura 3. Frequências por UF em faixas de 2 p.p. de votação. TSE, treino de 2022 da Aula 9.}
+
+## Mudar a origem de \(X\) para 40%
+
+\[
+x_c=x-40,\qquad x=x_c+40
+\]
+
+\[
+\begin{aligned}
+m(x,d)
+&=\beta_0+\beta_1(x_c+40)+\beta_2d+\beta_3(x_c+40)d\\[0.25em]
+&=\underbrace{(\beta_0+40\beta_1)}_{\alpha_0}+\beta_1x_c
+  +\underbrace{(\beta_2+40\beta_3)}_{\alpha_2}d+\beta_3x_cd\\[0.3em]
+&=\alpha_0+\beta_1x_c+\alpha_2d+\beta_3x_cd
+\end{aligned}
+\]
+
+\[
+\Delta(x)=\alpha_2+(x-40)\beta_3
+\qquad\Longrightarrow\qquad
+\alert{\Delta(40)=\alpha_2=\beta_2+40\beta_3}
+\]
+
+## As mesmas retas com a origem em 40%
+
+\begin{columns}[c,onlytextwidth]
+\column{0.58\textwidth}
+```{r origem}
+knitr::include_graphics("figuras/04_mudanca_de_origem.pdf")
+```
+\column{0.38\textwidth}
+\[
+\begin{aligned}
+\widehat{\Delta}(40)&=\widehat\alpha_2\\
+&\approx `r f(delta40$estimativa)`\\[0.8em]
+\widehat{\Delta}(50)&=\widehat\alpha_2+10\widehat\beta_3\\
+&\approx `r f(delta50$estimativa)`
+\end{aligned}
+\]
+\end{columns}
+
+\fonte{Figura 4. Mesmas previsões, resíduos e inclinações. Diferenças em p.p. do segundo turno.}
+
+# Incerteza das comparações
+
+## A variância da diferença estimada em 50%
+
+\[
+\widehat\Delta(50)
+=\widehat\alpha_2+(50-40)\widehat\beta_3=U+10V
+\]
+
+\(U=\widehat\alpha_2\) estima a diferença SP menos RJ em 40%. \(V=\widehat\beta_3\) estima a mudança nessa diferença por p.p. a mais no primeiro turno. Ambos variam entre amostras.
+
+A variância é a média dos quadrados dos desvios em relação à média.
+\[
+\operatorname{Var}(U+10V)=E\!\left[\big((U+10V)-E[U+10V]\big)^2\right].
+\]
+
+O peso é fixo, então \(E[U+10V]=E[U]+10E[V]\). Subtraindo essa média,
+\[
+\begin{aligned}
+(U+10V)-E[U+10V]&=U+10V-E[U]-10E[V]\\
+&=(U-E[U])+10(V-E[V]).
+\end{aligned}
+\]
+
+## De onde vem a covariância?
+
+No ponto \(x\), trocamos 10 pela distância \(c=x-40\) e elevamos o desvio ao quadrado.
+\[
+\operatorname{Var}(U+cV)
+=E\!\left[\big((U-E[U])+c(V-E[V])\big)^2\right].
+\]
+
+Expandimos o quadrado com \((a+b)^2=a^2+2ab+b^2\) e tomamos a média de cada termo.
+\[
+\begin{aligned}
+\operatorname{Var}(U+cV)
+&=E[(U-E[U])^2]+2c\,E[(U-E[U])(V-E[V])]\\
+&\quad+c^2 E[(V-E[V])^2]\\[0.25em]
+&=\operatorname{Var}(U)+\alert{2c\operatorname{Cov}(U,V)}+c^2\operatorname{Var}(V).
+\end{aligned}
+\]
+
+\apoio{A covariância é a média do produto dos dois desvios.}
+
+## Da matriz HC3 ao erro-padrão
+
+$\widehat C$ é a matriz estimada de variâncias e covariâncias dos coeficientes, calculada por HC3.
+
+\[
+\begin{aligned}
+\widehat{\operatorname{EP}}[\widehat\Delta(x)]
+ &=\sqrt{\widehat C_{\alpha_2,\alpha_2}
+   +c^2\widehat C_{\beta_3,\beta_3}
+   +2c\widehat C_{\alpha_2,\beta_3}}\\[0.6em]
+x=40,\ c=0 \qquad &\Longrightarrow\quad \sqrt{\widehat C_{\alpha_2,\alpha_2}}\\[0.35em]
+x=50,\ c=10 \qquad &\Longrightarrow\quad \sqrt{\widehat C_{\alpha_2,\alpha_2}
+   +100\widehat C_{\beta_3,\beta_3}+20\widehat C_{\alpha_2,\beta_3}}
+\end{aligned}
+\]
+
+\apoio{O peso $c$ entra na variância e na covariância. A raiz é a última operação.}
+
+## Intervalos para as duas diferenças de nível
+
+\[
+IC_{95\%}(x)=\widehat\Delta(x)\ \pm\
+t_{`r a$nu`,0{,}975}\widehat{\operatorname{EP}}[\widehat\Delta(x)]
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.20}
+\begin{tabular}{cccc}
+\toprule
+Primeiro turno & Estimativa SP $-$ RJ & Erro-padrão HC3 & IC de 95\% \\
+\midrule
+$40\%$ & $`r f(delta40$estimativa)`$ & $`r f(delta40$ep_hc3)`$ &
+[$`r f(delta40$inferior)`$ a $`r f(delta40$superior)`$] \\
+$50\%$ & $`r f(delta50$estimativa)`$ & $`r f(delta50$ep_hc3)`$ &
+[$`r f(delta50$inferior)`$ a $`r f(delta50$superior)`$] \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\apoio{Estimativas, erros-padrão e limites em p.p. do segundo turno. ICs pontuais, com referência $t_{443}$ aproximada ($447-4$ graus de liberdade). A inferência pressupõe independência entre zonas.}
+
+## Como varia a incerteza ao longo do eixo?
+
+```{r intervalos}
+knitr::include_graphics("figuras/05_diferenca_e_ic_hc3.pdf")
+```
+
+\fonte{Figura 5. Diferença prevista e ICs pontuais de 95\% por HC3 no intervalo comum observado. As barras destacam as comparações em 40\% e 50\%. TSE, treino de 2022 da Aula 9.}
+
+## Paralelismo e igualdade em um ponto
+
+\begin{columns}[T,onlytextwidth]
+\column{0.475\textwidth}
+\textbf{As inclinações são iguais?}
+\[
+H_0:\beta_3=0
+\]
+Valor-$p$ HC3 $\approx `r f(inclinacoes$valor_p[3])`$.
+
+\column{0.475\textwidth}
+\textbf{Os níveis são iguais em 50\%?}
+\[
+H_0:\alpha_2+10\beta_3=0
+\]
+IC de 95\% [$`r f(delta50$inferior)`$ a $`r f(delta50$superior)`$] p.p.
+\end{columns}
+
+\pergunta{Em duplas, expliquem como as retas podem ter inclinações diferentes e o intervalo da diferença em 50\% incluir zero.}
+
+\apoio{Esse intervalo é compatível com diferença de nível igual a zero em 50\%.}
+
+# Duas variáveis contínuas
+
+## Uma reta em \(X\) para cada valor de \(Z\)
+
+Se \(Z\) também é contínua, fixe \(Z=z\) e agrupe os termos que multiplicam \(x\).
+
+\[
+\begin{aligned}
+m(x,z)&=\beta_0+\beta_1x+\beta_2z+\beta_3xz\\
+&=(\beta_0+\beta_2z)+\alert{(\beta_1+\beta_3z)}x
+\end{aligned}
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{lccc}
+\toprule
+Cortes de \(Z\) & \(z_1\) & \(z_2\) & \(z_3\)\\
+\midrule
+Inclinação em \(X\) & \(\beta_1+\beta_3z_1\) & \(\beta_1+\beta_3z_2\) & \(\beta_1+\beta_3z_3\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+## Uma unidade a mais na outra variável
+
+\[
+\frac{\partial m(x,z)}{\partial x}=\beta_1+\beta_3 z,
+\qquad
+\frac{\partial m(x,z)}{\partial z}=\beta_2+\beta_3 x
+\]
+
+\apoio{A inclinação em $X$ varia linearmente com $Z$. Uma unidade a mais de $Z$ muda essa inclinação em $\beta_3$.}
+
+\apoio{$\beta_3$ é medido em unidades de $Y$ por unidade de $X$ por unidade de $Z$. Use valores de $Z$ substantivamente relevantes e com suporte nos dados.}
+
+# Interação causal e heterogeneidade
+
+## Mensagem e visita, duas intervenções
+
+Imagine um sorteio de duas intervenções de mobilização. \(T=1\) indica mensagem e \(V=1\) indica visita.
+
+\(Y(t,v)\) é o comparecimento sob a combinação \((t,v)\), codificado em 100 para presença e 0 para ausência.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabular}{lcc}
+\toprule
+ & Sem visita ($V=0$) & Com visita ($V=1$) \\
+\midrule
+Sem mensagem ($T=0$) & 50 & 55 \\
+Com mensagem ($T=1$) & 52 & 60 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\fonte{Tabela 1. Médias hipotéticas de \(Y(t,v)\), em porcentagem de comparecimento.}
+
+\pergunta{Quanto muda o comparecimento com a mensagem em cada coluna?}
+
+## A diferença entre dois efeitos da mensagem
+
+\[
+\begin{aligned}
+I
+&=E[Y(1,1)-Y(0,1)]-E[Y(1,0)-Y(0,0)]\\[0.55em]
+&=\underbrace{(60-55)}_{\text{com visita}}
+  -\underbrace{(52-50)}_{\text{sem visita}}\\[0.55em]
+&=5-2=\alert{3\ \text{p.p.}}
+\end{aligned}
+\]
+
+\apoio{No exemplo hipotético, a visita aumenta em 3 p.p. o efeito da mensagem sobre o comparecimento. Essa interação está na escala aditiva.}
+
+## Identificação no sorteio fatorial
+
+- A atribuição conjunta de \(T\) e \(V\) é independente dos resultados potenciais.
+- A probabilidade de cada uma das quatro combinações é positiva.
+- Há consistência, com intervenções bem definidas e ausência de interferência entre pessoas.
+
+\[
+\underbrace{E[Y(t,v)]}_{\text{média potencial}}
+=E[Y(t,v)\mid T=t,V=v]
+=\underbrace{E[Y\mid T=t,V=v]}_{\text{média observada}}
+\]
+
+\apoio{O modelo saturado com $T$, $V$ e $TV$ reproduz as quatro médias observadas. Nessas condições, o coeficiente de $TV$ identifica $I$.}
+
+## Só a mensagem é sorteada
+
+\(Z\) é o interesse político medido antes do sorteio. \(Y(t)\) é o comparecimento sob a condição \(T=t\) da mensagem.
+
+\[
+\begin{aligned}
+\tau(z)&=E[Y(1)-Y(0)\mid Z=z]\\
+       &=E[Y\mid T=1,Z=z]-E[Y\mid T=0,Z=z]
+\end{aligned}
+\]
+
+\apoio{A igualdade requer sorteio válido para cada estrato, tratados e controles em cada estrato e consistência.}
+
+\apoio{$\tau(z)$ descreve o efeito da mensagem para pessoas com $Z=z$. Sua variação entre estratos descreve a heterogeneidade do efeito da mensagem. Para estimar um efeito de mudar $Z$, seria preciso identificar uma intervenção sobre $Z$.}
+
+## O que o desenho permite identificar?
+
+1. Sorteamos mensagem e visita.
+2. Sorteamos mensagem e medimos o interesse político antes.
+3. Observamos os votos das zonas de SP e RJ em 2022.
+
+\pergunta{Em duplas, indiquem o que foi sorteado e qual comparação o desenho sustenta em cada caso.}
+
+# Implementação no R
+
+## Da equação para a fórmula em R
+
+```{r modelo, echo=TRUE, eval=FALSE}
+dados$sp <- as.integer(dados$uf == "SP")
+dados$x_c <- dados$pct_lula_t1 - 40
+modelo <- lm(pct_lula_t2 ~ x_c * sp, data = dados)
+```
+
+Na fórmula, `x_c * sp` equivale a `x_c + sp + x_c:sp`. Os termos individuais permitem uma inclinação para o RJ e níveis distintos entre os estados em $x_c=0$.
+
+## Uma conclusão para a comparação escolhida
+
+Entre zonas com \(40\%\) de votos válidos para Lula no primeiro turno, o modelo prevê \(`r f(delta40$estimativa)`\) p.p. a mais no segundo turno em SP em relação ao RJ (IC pontual HC3 de \(95\%\), de \(`r f(delta40$inferior)`\) a \(`r f(delta40$superior)`\) p.p.).
+
+\apoio{No laboratório, quantifiquem a diferença em $40\%$ e $50\%$, confiram o suporte e reproduzam os intervalos.}
+
+\pergunta{Associação de qual variável, para qual grupo ou valor da outra variável?}

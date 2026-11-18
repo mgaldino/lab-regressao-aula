@@ -1,0 +1,23 @@
+R version 4.6.1 (2026-06-24)
+Platform: aarch64-apple-darwin23
+Running under: macOS Sonoma 14.7.3
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] pt_BR.UTF-8/pt_BR.UTF-8/pt_BR.UTF-8/C/pt_BR.UTF-8/pt_BR.UTF-8
+
+time zone: America/Sao_Paulo
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] here_1.0.2
+
+loaded via a namespace (and not attached):
+[1] zoo_1.9-1       compiler_4.6.1  rprojroot_2.1.1 sandwich_3.1-3 
+[5] grid_4.6.1      jsonlite_2.0.0  lattice_0.22-9 

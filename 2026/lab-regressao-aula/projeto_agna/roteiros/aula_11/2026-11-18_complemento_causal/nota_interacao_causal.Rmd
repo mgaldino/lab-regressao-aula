@@ -1,0 +1,67 @@
+---
+title: "Quando uma interação omitida aparece como efeito do tratamento?"
+subtitle: "Aula 11 · Proposta de complemento para o quadro"
+lang: pt-BR
+output:
+  pdf_document:
+    latex_engine: xelatex
+geometry: margin=2.1cm
+fontsize: 11pt
+classoption: a4paper
+colorlinks: true
+---
+
+```{r conferir, include=FALSE}
+source("conferir_exemplo.R", encoding = "UTF-8", local = TRUE)
+```
+
+O roteiro já distingue a variação do efeito de uma mensagem entre grupos e a interação causal entre mensagem e visita. Para a exposição, eu acrescentaria um exemplo de cinco minutos. Ele recupera o viés de variável omitida da regressão múltipla e mostra por que acrescentar um confundidor em nível pode ser insuficiente ao estimar uma interação.
+
+### Um exemplo para o quadro
+
+Uma campanha escolhe quem recebe uma visita ($T$). O histórico de mobilização do eleitor ($C$) orienta essa escolha. Queremos saber se a visita aumenta mais o comparecimento em municípios competitivos ($M=1$) do que nos demais ($M=0$). Todas as variáveis são binárias e $C$ e $M$ são anteriores à visita. Na população fictícia, cada uma vale 1 para metade dos eleitores e as duas são independentes. Em ambos os tipos de município,
+
+\[
+P(T=1\mid C=1,M)=0{,}75,\qquad P(T=1\mid C=0,M)=0{,}25.
+\]
+
+Por construção, a visita tem efeito causal zero. Para qualquer $t$, a média potencial do comparecimento, em porcentagem, é $E[Y(t)\mid M,C]=50+8C+8MC$. A seleção da visita depende apenas de $C$ e é independente dos resultados potenciais dado $C,M$. O histórico está associado a 8 pontos percentuais a mais de comparecimento nos municípios com $M=0$ e a 16 nos municípios com $M=1$.
+
+Ajustamos `Y ~ T*M + C`. Esse modelo desconta o mesmo valor $\lambda C$ do comparecimento nos dois grupos. Em cada grupo, 75% dos visitados e 25% dos não visitados têm $C=1$. Assim, a diferença na proporção de eleitores mobilizados é $0{,}50$. A diferença visitados menos não visitados, após descontar $\lambda C$, é
+
+\[
+\begin{aligned}
+M=0:\quad &(8-\lambda)\,0{,}50,\\
+M=1:\quad &(16-\lambda)\,0{,}50.
+\end{aligned}
+\]
+
+Ao subtrair a primeira expressão da segunda, $\lambda$ se cancela. A regressão atribui $(16-8)\,0{,}50=4$ p.p. à interação entre visita e competitividade. O termo omitido é $MC$. O ajuste precisava permitir que o histórico tivesse relações diferentes com o comparecimento nos dois grupos. Nas oito células da população, o coeficiente de $TM$ é `r sprintf("%.0f", interacoes["aditivo"])` p.p. no modelo aditivo em $C$, continua em `r sprintf("%.0f", interacoes["com_TC"])` ao acrescentar apenas $TC$ e passa a `r sprintf("%.0f", abs(interacoes["com_MC"]))` ao acrescentar $MC$. Usar HC3 ou agrupar os erros padrão altera a inferência em torno do coeficiente estimado. A especificação da média determina por que ele vale 4.
+
+\newpage
+
+### A identidade de variável omitida
+
+Considere a média condicional correta
+\[
+E[Y\mid T,M,C]=a+bT+gM+hC+\delta TM+\kappa MC.
+\]
+Seja $R$ o resíduo da projeção populacional de $TM$ em $1,T,M,C$. Multiplicando a equação por $R$ e tomando a esperança, desaparecem os termos constantes e aditivos por ortogonalidade. Como $E[R\,TM]=E[R^2]>0$, o coeficiente populacional de $TM$ no modelo que omite $MC$ é
+\[
+\delta_{\mathrm{curto}}
+=\frac{E[RY]}{E[R^2]}
+=\delta+\kappa\,\frac{E[R\,MC]}{E[R^2]}.
+\]
+No exemplo, $\delta=0$, $\kappa=8$ e a razão é $1/2$. Esse viés surge quando o termo omitido contribui para o desfecho e tem associação parcial com o produto incluído. Se houver também um termo omitido $\eta TC$, soma-se $\eta E[R\,TC]/E[R^2]$. Incluir todos os produtos por rotina pode custar precisão. A escolha depende do desenho, da comparação e da forma da média condicional. [Beiser-McGrath e Beiser-McGrath (2020)](https://doi.org/10.1017/psrm.2020.17) e [Blackwell e Olson (2022)](https://doi.org/10.1017/pan.2021.19).
+
+O produto $MC$ deixa o histórico de mobilização ter associações diferentes com o comparecimento conforme a competitividade do município. Já $TC$ permite que o efeito da visita varie com o histórico de mobilização. Se as duas possibilidades forem substantivamente plausíveis, podem-se incluir ambos os produtos. [Keller (2014)](https://pubmed.ncbi.nlm.nih.gov/24135711/).
+
+### Três distinções que cabem na discussão
+
+1. Termos constitutivos. Na parametrização usual, `T*M` inclui `T + M + T:M`. Com indicadores numéricos 0/1, usar apenas `T:M` e o intercepto impõe médias iguais nas três células em que $TM=0$. A parametrização equivalente de McDermott, com `M` como fator e `M / T`, preserva os graus de liberdade das duas retas. [Brambor, Clark e Golder (2006)](https://doi.org/10.1093/pan/mpi014) e [McDermott (2019)](https://grantmcdermott.com/posts/interaction-effects/index.html).
+
+2. Heterogeneidade e composição. Imagine agora que a visita foi sorteada e que seu efeito é $2+4C$ p.p. Se a proporção de eleitores com $C=1$ é 75% num grupo e 25% no outro, seus efeitos médios são 5 e 3 p.p. A heterogeneidade entre os grupos observados é real. Para comparar grupos com a mesma composição em $C$, é preciso explicitar essa nova população-alvo. Um modelo com $TC$ pode representar a variação do efeito com $C$. Atribuir a diferença a uma intervenção sobre $M$ exige desenho ou hipóteses adicionais. [Keele e Stevenson (2021)](https://doi.org/10.1017/psrm.2020.12) e [Bansak (2021)](https://doi.org/10.1111/rssa.12614).
+
+3. Forma funcional e suporte. Com um moderador contínuo, $T M$ impõe que a inclinação de $T$ mude à taxa constante $\delta$. Vale mostrar onde há observações comparáveis e, havendo dados, confrontar a reta com estimativas por faixas ou com ajuste flexível. O roteiro já oferece o gráfico de suporte e a derivada. A checagem por faixas pode ficar para o laboratório. [Hainmueller, Mummolo e Xu (2019)](https://doi.org/10.1017/pan.2018.46).
+
+Se a mensagem funciona melhor entre os eleitores mais interessados, podemos concluir que funcionou por aumentar a atenção à política? Para atribuir essa diferença ao mecanismo da atenção, precisaríamos excluir outros caminhos pelos quais a mensagem também pudesse produzir efeitos diferentes conforme o interesse. [Fu e Slough (2026)](https://doi.org/10.1017/S0003055426101580).

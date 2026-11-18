@@ -1,0 +1,136 @@
+{
+  "data_preparacao": "2026-11-09",
+  "ano_dados_observados": 2022,
+  "origem": "Subconjunto RJ-SP do treino preservado da Aula 9, sem novas zonas de teste",
+  "n": 447,
+  "n_RJ": 132,
+  "n_SP": 315,
+  "p": 4,
+  "nu": 443,
+  "centro": 40,
+  "referencia": "RJ (sp=0)",
+  "peso": "1 por zona",
+  "unidade_x_y": "Porcentagem de todos os votos válidos do respectivo turno",
+  "coeficientes_brutos": {
+    "(Intercept)": -1.475627806866135,
+    "pct_lula_t1": 1.101542742695208,
+    "sp": 2.736374139938078,
+    "pct_lula_t1:sp": -0.05129020379359077
+  },
+  "coeficientes_centrados": {
+    "(Intercept)": 42.586081900942176,
+    "x_c": 1.101542742695208,
+    "sp": 0.6847659881944426,
+    "x_c:sp": -0.05129020379359198
+  },
+  "coeficientes_aditivo_mesma_amostra": {
+    "(Intercept)": 42.615385944306425,
+    "x_c": 1.062475919936197,
+    "sp": 0.6682753640320646
+  },
+  "covariancia_HC3_centrada": [
+    [0.01054552978170589, 0.0004255340393746625, -0.01054552978170594, -0.0004255340393746626],
+    [0.0004255340393746625, 0.0003747286176957733, -0.0004255340393746601, -0.0003747286176957734],
+    [-0.01054552978170593, -0.0004255340393746601, 0.02077932432454294, 0.0006607778573968981],
+    [-0.0004255340393746625, -0.0003747286176957731, 0.0006607778573968981, 0.0004845302584835098]
+  ],
+  "resultados": [
+    {
+      "quantidade": "inclinacao_RJ",
+      "x_t1": null,
+      "estimativa": 1.101542742695208,
+      "ep_hc3": 0.01935790840188509,
+      "inferior": 1.06349799855993,
+      "superior": 1.139587486830486,
+      "t": 56.904016685394545,
+      "valor_p": 8.345387806641339e-206
+    },
+    {
+      "quantidade": "inclinacao_SP",
+      "x_t1": null,
+      "estimativa": 1.050252538901616,
+      "ep_hc3": 0.01047862781034505,
+      "inferior": 1.029658541572103,
+      "superior": 1.070846536231129,
+      "t": 100.22806019169346,
+      "valor_p": 1.502198717183238e-306
+    },
+    {
+      "quantidade": "diferenca_inclinacoes_SP_RJ",
+      "x_t1": null,
+      "estimativa": -0.05129020379359198,
+      "ep_hc3": 0.02201204803019269,
+      "inferior": -0.094551217215919,
+      "superior": -0.008029190371264976,
+      "t": -2.330096850744651,
+      "valor_p": 0.0202493499267812
+    },
+    {
+      "quantidade": "diferenca_niveis_SP_RJ",
+      "x_t1": 40,
+      "estimativa": 0.6847659881944426,
+      "ep_hc3": 0.1441503531891023,
+      "inferior": 0.4014624829688843,
+      "superior": 0.9680694934200009,
+      "t": 4.750359420182193,
+      "valor_p": 2.747539134846442e-06
+    },
+    {
+      "quantidade": "diferenca_niveis_SP_RJ",
+      "x_t1": 50,
+      "estimativa": 0.1718639502585227,
+      "ep_hc3": 0.2871374362928524,
+      "inferior": -0.3924568466286771,
+      "superior": 0.7361847471457226,
+      "t": 0.5985424696877147,
+      "valor_p": 0.5497839381266313
+    }
+  ],
+  "suporte": [
+    {
+      "uf": "RJ",
+      "n": 132,
+      "minimo": 19.3953451171719,
+      "q10": 32.988004295320152,
+      "mediana": 39.6846943419987,
+      "q90": 49.157672092737073,
+      "maximo": 59.715087465206302
+    },
+    {
+      "uf": "SP",
+      "n": 315,
+      "minimo": 25.164468354020201,
+      "q10": 29.806669951876138,
+      "mediana": 37.728268809349899,
+      "q90": 50.182739236175962,
+      "maximo": 62.155200629948197
+    }
+  ],
+  "limites_suporte_comum": [25.164468354020201, 59.715087465206302],
+  "critico_t": 1.965333410275514,
+  "inferencia": "HC3 com referência t_443 aproximada e ICs pontuais; sem ajuste para dependência entre zonas",
+  "exemplo_hipotetico": [
+    {
+      "t": 0,
+      "v": 0,
+      "comparecimento_pct": 50
+    },
+    {
+      "t": 1,
+      "v": 0,
+      "comparecimento_pct": 52
+    },
+    {
+      "t": 0,
+      "v": 1,
+      "comparecimento_pct": 55
+    },
+    {
+      "t": 1,
+      "v": 1,
+      "comparecimento_pct": 60
+    }
+  ],
+  "interacao_hipotetica_pp": 3,
+  "verificacoes": ["Dados comparados ao CSV preservado", "Denominadores conferidos", "Centralização preserva ajustes e resíduos", "Transformação matricial da covariância confere", "Retas conferidas com regressões separadas", "Diferenças e EPs conferidos por mudança de centro", "Pontos 40 e 50 no intervalo de suporte comum", "Exemplo hipotético fatorial confere"]
+}
